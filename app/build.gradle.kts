@@ -35,6 +35,11 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    // 뷰 바인딩 설정 true
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -46,4 +51,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    // GSON 컨버터
+    implementation(libs.converter.gson)
 }

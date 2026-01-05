@@ -2,4 +2,28 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--기본 무채색-->
+    <color name="grey1">#333333</color>
+    <color name="grey2">#4F4F4F</color>
+    <color name="grey3">#828282</color>
+    <color name="grey4">#BDBDBD</color>
+    <color name="grey5">#E0E0E0</color>
+    <color name="grey5.5">#E8E8E8</color>
+    <color name="grey6">#FBFBFB</color>
+    <color name="white_bg">#FEFEFE</color>
+
+    <!--기본 무채색 - 투명도 설정-->
+    <color name="grey5_30">#4DE0E0E0</color>
+
+
+    <!--메인 컬러(초록)-->
+    <color name="main">#78B96A</color>
+    <color name="light_lime">#BDE5CB</color>
+
+    <!--그 외-->
+    <color name="red">#E53E3E</color>
+    <color name="green">#22C55E</color>
+
+
 </resources>

@@ -3,6 +3,10 @@
     <style name="Base.Theme.NudaClient" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <!-- 전체 앱 폰트 설정 -->
+<!--        <item name="android:fontFamily">@font/pretendard_regular</item>-->
+<!--        <item name="fontFamily">@font/pretendard_regular</item>-->
     </style>
 
     <style name="Theme.NudaClient" parent="Base.Theme.NudaClient" />
