@@ -1,4 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+<!--TextView-->
+    <!--툴바 제목-->
+    <style name="TextToolbar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/gray1</item>
+    </style>
+
+    <!--회원가입 제목-->
+    <style name="TextRegisterTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/gray1</item>
+    </style>
+
+    <!--프로필 항목 이름 -->
+    <style name="TextProfileField">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/gray1</item>
+    </style>
+
+    <!--유효성 검사-->
+    <style name="TextIsValid">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">9dp</item>
+        <item name="android:fontFamily">@font/pretendard_light</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray3</item>
+    </style>
+
+    <!--설문 질문 텍스트-->
+    <style name="TextSurveyQuestion">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray1</item>
+        <item name="android:layout_marginTop">-3dp</item>
+        <item name="android:layout_marginLeft">11dp</item>
+        <item name="android:breakStrategy">simple</item>
+        <item name="android:hyphenationFrequency">none</item>
+    </style>
+
+    <!--EditText-->
+    <!--기본 입력창(디폴트)-->
+    <style name="EditTextInput">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginRight">9dp</item>
+        <item name="android:background">@drawable/et_input_default</item>
+        <item name="android:fontFamily">@font/pretendard_light</item>
+        <item name="android:textColor">@color/gray3</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+<!--ImageView(버튼으로 사용)-->
+    <!--이미지뷰 버튼-->
+    <style name="ImageBtn">
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:padding">7dp</item>
+    </style>
+
+    <!--설문 동그라미 circle-->
+    <style name="ImageCircle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/img_circle</item>
+        <item name="android:layout_marginTop">40dp</item>
+    </style>
+
+
+<!--Button-->
+    <!-- Primary 버튼 -->
+    <style name="BtnPrimary">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray6</item>
+        <item name="android:background">@drawable/btn_primary</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+
+    </style>
+
+    <!--유효성 검사(확인) 버튼-->
+    <style name="BtnCheck">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray6</item>
+        <item name="android:background">@drawable/btn_check</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <!-- 다음 페이지 이동 / 회원가입 버튼-->
+    <style name="BtnNextPage">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray6</item>
+        <item name="android:background">@drawable/btn_next_page</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <!-- 이전 페이지 이동 버튼-->
+    <style name="BtnPrevPage">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/btn_prev_page</item>
+        <item name="android:background">@drawable/btn_prev_page</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+
+    <!--설문 응답 버튼(라디오버튼)-->
+    <style name="BtnSurveyAnswer">
+        <item name="android:layout_width">85dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/text_survey_btn</item>
+        <item name="android:background">@drawable/btn_survey_radio</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_marginRight">14dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+<!--RadioGroup-->
+    <!--설문 응답 라디오 그룹-->
+    <style name="RadioSurveyAnswer">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">25dp</item>
+    </style>
+
+
 </resources>

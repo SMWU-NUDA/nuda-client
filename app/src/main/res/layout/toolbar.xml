@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="24dp">
+
+    <!--툴바 뒤로가기 버튼-->
+    <ImageView
+        android:id="@+id/btn_back"
+        style="@style/ImageBtn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/img_back"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toTopOf="@id/tv_toolbar_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_toolbar_title" />
+
+    <!--화면 타이틀-->
+    <TextView
+        android:id="@+id/tv_toolbar_title"
+        style="@style/TextToolbar"
+        android:text="@string/register"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.7" />
+    
+    <!--버튼 컨테이너-->
+    <LinearLayout
+        android:id="@+id/toolbar_btnContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="@id/tv_toolbar_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_toolbar_title"
+        />
+    
+    <!--툴바 가이드라인-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,17 +4,17 @@
     <color name="white">#FFFFFFFF</color>
 
     <!--기본 무채색-->
-    <color name="grey1">#333333</color>
-    <color name="grey2">#4F4F4F</color>
-    <color name="grey3">#828282</color>
-    <color name="grey4">#BDBDBD</color>
-    <color name="grey5">#E0E0E0</color>
-    <color name="grey5.5">#E8E8E8</color>
-    <color name="grey6">#FBFBFB</color>
+    <color name="gray1">#333333</color>
+    <color name="gray2">#4F4F4F</color>
+    <color name="gray3">#828282</color>
+    <color name="gray4">#BDBDBD</color>
+    <color name="gray5">#E0E0E0</color>
+    <color name="gray5.5">#E8E8E8</color>
+    <color name="gray6">#FBFBFB</color>
     <color name="white_bg">#FEFEFE</color>
 
     <!--기본 무채색 - 투명도 설정-->
-    <color name="grey5_30">#4DE0E0E0</color>
+    <color name="gray5_30">#4DE0E0E0</color>
 
 
     <!--메인 컬러(초록)-->

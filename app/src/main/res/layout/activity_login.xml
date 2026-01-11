@@ -12,44 +12,26 @@
         android:id="@+id/img_logo"
         android:layout_width="250dp"
         android:layout_height="70dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/img_logo"
         app:layout_constraintTop_toBottomOf="@id/guideline5"
-        app:layout_constraintStart_toStartOf="@id/guideline2"
-        app:layout_constraintEnd_toEndOf="@id/guideline3"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintEnd_toEndOf="@id/guideline4"
         />
 
     <EditText
         android:id="@+id/et_loginID"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@drawable/et_input_default"
+        style="@style/EditTextInput"
+        android:hint="@string/id"
         android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintEnd_toEndOf="@id/guideline4"
         app:layout_constraintTop_toBottomOf="@id/img_logo"
         />
 
-    <!--이거 대신 에디트텍스트 hint 사용 - 힌트 커스텀?-->
-    <TextView
-        android:id="@+id/tv_loginID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/id"
-        android:textColor="@color/grey3"
-        android:textSize="14sp"
-        android:fontFamily="@font/pretendard_light"
-        android:layout_marginStart="20dp"
-        app:layout_constraintStart_toStartOf="@id/et_loginID"
-        app:layout_constraintTop_toTopOf="@id/et_loginID"
-        app:layout_constraintBottom_toBottomOf="@id/et_loginID"
-        />
-
-
     <EditText
         android:id="@+id/et_loginPW"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@drawable/et_input_default"
+        style="@style/EditTextInput"
+        android:hint="@string/pw"
         android:layout_marginTop="15dp" 
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintEnd_toEndOf="@id/guideline4"
@@ -58,9 +40,8 @@
     
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_login"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@drawable/selector_btn_primary"
+        style="@style/BtnPrimary"
+        android:text="@string/login"
         android:layout_marginTop="35dp"
         app:layout_constraintTop_toBottomOf="@id/et_loginPW"
         app:layout_constraintStart_toStartOf="@id/guideline1"
@@ -72,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_account"
-        android:textColor="@color/grey3"
+        android:textColor="@color/gray3"
         android:textSize="16sp"
         android:fontFamily="@font/pretendard_medium"
         app:layout_constraintBottom_toTopOf="@+id/tv_lgToRg"
@@ -85,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"
-        android:textColor="@color/grey3"
+        android:textColor="@color/gray3"
         android:textSize="15sp"
         android:fontFamily="@font/pretendard_light"
         app:layout_constraintBottom_toTopOf="@id/guideline6"
@@ -102,14 +83,14 @@
         app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
+        android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

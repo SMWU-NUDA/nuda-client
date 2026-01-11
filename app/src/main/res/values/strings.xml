@@ -8,4 +8,70 @@
     <string name="no_account">아직 계정이 없으신가요?</string>
     <string name="register">회원가입</string>
 
+    <!-- 회원가입 제목 -->
+    <string name="regTitle1">기본정보 입력</string>
+    <string name="regTitle2">배송정보 입력</string>
+    <string name="regtitle3">맞춤 추천을 위한 사전 체크</string>
+    <string name="regSubtitle3">나만을 위한 추천을 받을 수 있어요!</string>
+
+    <!-- 회원 정보 -->
+    <string name="nickname">닉네임</string>
+    <string name="pw_check">비밀번호 확인</string>
+    <string name="email">이메일</string>
+    <string name="receiver">수령인</string>
+    <string name="phone">휴대폰번호</string>
+    <string name="address">배송지</string>
+
+    <!-- 유효성 검사 -->
+    <string name="valid_nickname">+ 4자 이상 10자 이하</string>
+    <string name="valid_id">+ 4자 이상 16자 이하</string>
+    <string name="valid_pw1">+ 8자 이상</string>
+    <string name="valid_pw2">+ 영문 대문자, 소문자, 숫자, 특수문자 중 2개 이상</string>
+    <string name="valid_pw_check">비밀번호가 일치하지 않습니다</string>
+    <string name="valid_email">올바른 이메일 형식이 아닙니다</string>
+    <string name="valid_email_certify">인증번호가 일치하지 않습니다</string>
+    <string name="valid_receiver">이름을 입력해주세요</string>
+    <string name="valid_phone">휴대폰 번호를 확인해주세요</string>
+    <string name="valid_address">주소 찾기를 통해 주소를 입력해주세요</string>
+    <string name="valid_address_detail">상세 주소를 입력해주세요</string>
+
+    <!--  입력창 힌트 텍스트  -->
+    <string name="hint_email">example@naver.com</string>
+    <string name="hint_email_certify">인증번호 6자리를 입력해주세요</string>
+    <string name="hint_zip">우편번호</string>
+    <string name="hint_address">주소</string>
+    <string name="hint_address_detail">상세 주소</string>
+
+    <!--회원가입 버튼 텍스트-->
+    <string name="btn_checkDuplicate">중복 확인</string>
+    <string name="btn_send">보내기</string>
+    <string name="btn_confirm">인증하기</string>
+    <string name="btn_findAddress">주소 찾기</string>
+    <string name="btn_next">다음</string>
+    <string name="btn_prev">이전</string>
+    <string name="btn_register">회원가입</string>
+
+    <!--설문 텍스트-->
+    <string name="survey_sensitivity">생리대 사용 시 자극을 느낀 적이 있나요?</string>
+    <string name="survey_sensitivity_low">거의 없음</string>
+    <string name="survey_sensitivity_middle">가끔</string>
+    <string name="survey_sensitivity_high">자주</string>
+    <string name="survey_scent">생리대 향에 대한 선호도는 어떤가요?</string>
+    <string name="survey_scent_low">무향</string>
+    <string name="survey_scent_middle">은은한 향</string>
+    <string name="survey_scent_high">강한 향</string>
+    <string name="survey_flow">월결 기간 중 하루 평균 교체 횟수는?</string>
+    <string name="survey_flow_low">2-3회 이하</string>
+    <string name="survey_flow_middle">4-5회</string>
+    <string name="survey_flow_high">6회 이상</string>
+    <string name="survey_thickness">평소 더 선호하는 생리대 두께는?</string>
+    <string name="survey_thickness_low">얆음</string>
+    <string name="survey_thickness_middle">일반</string>
+    <string name="survey_thickness_high">도톰함</string>
+    <string name="survey_priority">생리대를 고를 때 가장 중요하게 생각하는 요소는?</string>
+    <string name="survey_priority_safety">안전한 성분</string>
+    <string name="survey_priority_absorbency">흡수력</string>
+    <string name="survey_priority_soft">부드러움</string>
+    <string name="survey_add_product">사용 후 만족했던 제품을 입력해주세요</string>
+
 </resources>

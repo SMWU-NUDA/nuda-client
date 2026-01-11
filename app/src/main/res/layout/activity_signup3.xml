@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?><!--회원가입 페이지 3 - 설문-->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignupActivity3">
+
+    <!--툴바-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:elevation="24dp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            style="@style/ImageBtn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/img_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7" />
+
+        <!--툴바 가이드라인-->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--스크롤뷰-->
+
+    <!--툴바 높이 가이드라인-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-100dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--제목 그룹(title)-->
+            <TextView
+                android:id="@+id/tv_Title3_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="@string/register"
+                android:textColor="@color/gray1"
+                android:textSize="24sp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_Title3_2"
+                style="@style/TextRegisterTitle"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="@string/regtitle3"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/tv_Title3_1"
+                app:layout_goneMarginTop="17dp" />
+
+            <TextView
+                android:id="@+id/tv_Title3_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="@string/regSubtitle3"
+                android:textColor="@color/gray2"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/tv_Title3_2" />
+
+            <!--설문 그룹-->
+
+            <!--설문 1 - 민감도(sensitivity)-->
+            <ImageView
+                android:id="@+id/img_circle_sensitivity"
+                style="@style/ImageCircle"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/tv_Title3_3" />
+            
+            <TextView
+                android:id="@+id/tv_survey_sensitivity"
+                style="@style/TextSurveyQuestion"
+                android:text="@string/survey_sensitivity"
+                app:layout_constraintStart_toEndOf="@id/img_circle_sensitivity"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                app:layout_constraintTop_toTopOf="@id/img_circle_sensitivity"
+                />
+            
+            <RadioGroup
+                android:id="@+id/radio_answer_sensitivity"
+                style="@style/RadioSurveyAnswer"
+                app:layout_constraintTop_toBottomOf="@id/tv_survey_sensitivity"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                >
+
+                <RadioButton
+                    android:id="@+id/btn_sensitivity_low"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_sensitivity_low"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_sensitivity_middle"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_sensitivity_middle"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_sensitivity_high"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_sensitivity_high"
+                    android:layout_marginRight="0dp"
+                    />
+
+            </RadioGroup>
+
+            <!--설문 2 - 향(scent)-->
+            <ImageView
+                android:id="@+id/img_circle_scent"
+                style="@style/ImageCircle"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/radio_answer_sensitivity" />
+
+            <TextView
+                android:id="@+id/tv_survey_scent"
+                style="@style/TextSurveyQuestion"
+                android:text="@string/survey_scent"
+                app:layout_constraintStart_toEndOf="@id/img_circle_scent"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                app:layout_constraintTop_toTopOf="@id/img_circle_scent"
+                />
+
+            <RadioGroup
+                android:id="@+id/radio_answer_scent"
+                style="@style/RadioSurveyAnswer"
+                app:layout_constraintTop_toBottomOf="@id/tv_survey_scent"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                >
+
+                <RadioButton
+                    android:id="@+id/btn_scent_low"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_scent_low"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_scent_middle"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_scent_middle"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_scent_high"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_scent_high"
+                    android:layout_marginRight="0dp"
+                    />
+
+            </RadioGroup>
+
+            <!--설문 3 - 양(flow)-->
+            <ImageView
+                android:id="@+id/img_circle_flow"
+                style="@style/ImageCircle"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/radio_answer_scent" />
+
+            <TextView
+                android:id="@+id/tv_survey_flow"
+                style="@style/TextSurveyQuestion"
+                android:text="@string/survey_flow"
+                app:layout_constraintStart_toEndOf="@id/img_circle_flow"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                app:layout_constraintTop_toTopOf="@id/img_circle_flow"
+                />
+
+            <RadioGroup
+                android:id="@+id/radio_answer_flow"
+                style="@style/RadioSurveyAnswer"
+                app:layout_constraintTop_toBottomOf="@id/tv_survey_flow"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                >
+
+                <RadioButton
+                    android:id="@+id/btn_flow_low"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_flow_low"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_flow_middle"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_flow_middle"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_flow_high"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_flow_high"
+                    android:layout_marginRight="0dp"
+                    />
+
+            </RadioGroup>
+
+            <!--설문 4 - 두께(thickness)-->
+            <ImageView
+                android:id="@+id/img_circle_thickness"
+                style="@style/ImageCircle"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/radio_answer_flow" />
+
+            <TextView
+                android:id="@+id/tv_survey_thickness"
+                style="@style/TextSurveyQuestion"
+                android:text="@string/survey_thickness"
+                app:layout_constraintStart_toEndOf="@id/img_circle_thickness"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                app:layout_constraintTop_toTopOf="@id/img_circle_thickness"
+                />
+
+            <RadioGroup
+                android:id="@+id/radio_answer_thickness"
+                style="@style/RadioSurveyAnswer"
+                app:layout_constraintTop_toBottomOf="@id/tv_survey_thickness"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                >
+
+                <RadioButton
+                    android:id="@+id/btn_thickness_low"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_thickness_low"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_thickness_middle"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_thickness_middle"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_thickness_high"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_thickness_high"
+                    android:layout_marginRight="0dp"
+                    />
+
+            </RadioGroup>
+
+
+            <!--설문 5 - 중요도(priority)-->
+            <ImageView
+                android:id="@+id/img_circle_priority"
+                style="@style/ImageCircle"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/radio_answer_thickness" />
+
+            <TextView
+                android:id="@+id/tv_survey_priority"
+                style="@style/TextSurveyQuestion"
+                android:text="@string/survey_priority"
+                android:layout_marginTop="-5dp"
+                app:layout_constraintStart_toEndOf="@id/img_circle_priority"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                app:layout_constraintTop_toTopOf="@id/img_circle_priority"
+                />
+
+            <RadioGroup
+                android:id="@+id/radio_answer_priority"
+                style="@style/RadioSurveyAnswer"
+                app:layout_constraintTop_toBottomOf="@id/tv_survey_priority"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                >
+
+                <RadioButton
+                    android:id="@+id/btn_priority_safety"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_priority_safety"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_priority_absorbency"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_priority_absorbency"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_priority_soft"
+                    style="@style/BtnSurveyAnswer"
+                    android:text="@string/survey_priority_soft"
+                    android:layout_marginRight="0dp"
+                    />
+
+            </RadioGroup>
+
+
+            <!--설문 6 - 만족 제품 추가(add_product)-->
+            <ImageView
+                android:id="@+id/img_circle_addProduct"
+                style="@style/ImageCircle"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/radio_answer_priority" />
+
+            <TextView
+                android:id="@+id/tv_survey_addProduct"
+                style="@style/TextSurveyQuestion"
+                android:text="@string/survey_add_product"
+                app:layout_constraintStart_toEndOf="@id/img_circle_addProduct"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                app:layout_constraintTop_toTopOf="@id/img_circle_addProduct"
+                />
+
+            <ImageView
+                android:id="@+id/img_addProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ImageBtn"
+                android:padding="0dp"
+                android:src="@drawable/img_add_product"
+                android:layout_marginTop="25dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_survey_addProduct"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                />
+
+
+            <!-- 이전 버튼 (회원가입2 페이지로 이동)-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_prevPage"
+                style="@style/BtnPrevPage"
+                android:text="@string/btn_prev"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toBottomOf="@id/img_addProduct"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline3"
+                app:layout_constraintEnd_toStartOf="@id/btn_register"
+                />
+
+            <!-- 회원가입 버튼 (로그인 페이지로 이동)-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_register"
+                style="@style/BtnNextPage"
+                android:text="@string/btn_register"
+                android:layout_marginStart="10dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline4"
+                app:layout_constraintStart_toEndOf="@id/btn_prevPage"
+                app:layout_constraintTop_toBottomOf="@id/img_addProduct"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+
+            <!--스크롤뷰 가이드라인-->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.13" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.87" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
