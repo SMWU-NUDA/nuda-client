@@ -11,7 +11,9 @@ activity = "1.12.2"
 constraintlayout = "2.2.1"
 
 ksp = "2.0.21-1.0.27" # ksp 추가
-retrofit2 = "3.0.0" # retrofit 추가
+retrofit2 = "2.9.0" # retrofit 추가
+okHttp3 = "4.12.0" # okHttp 추가
+logging-interceptor = "4.12.0" # 로깅 인터셉터 추가
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +29,9 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
 
+# OkHttp 라이브러리
+okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okHttp3" }
+logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
 
 
 [plugins]

@@ -12,6 +12,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface AuthService {
 
@@ -37,9 +38,9 @@ interface AuthService {
 
     // GET /auth/search/username : 아이디 중복 검사
     @GET("auth/search/username")
-    fun getUsername(@Header("username") username : String) : Call<BaseResponse>
+    fun getUsername(@Query("username") username : String) : Call<BaseResponse>
 
     // GET /auth/search/nickname : 닉네임 중복 검사
     @GET("auth/search/nickname")
-    fun getNickname(@Header("nickname") nickname : String) : Call<BaseResponse>
+    fun getNickname(@Query("nickname") nickname : String) : Call<BaseResponse>
 }

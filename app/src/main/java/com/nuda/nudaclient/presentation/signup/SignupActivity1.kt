@@ -1,14 +1,15 @@
 package com.nuda.nudaclient.presentation.signup
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -16,14 +17,23 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.remote.api.RetrofitInstance
+import com.nuda.nudaclient.data.remote.dto.common.BaseResponse
 import com.nuda.nudaclient.databinding.ActivitySignup1Binding
 import com.nuda.nudaclient.extensions.setupValidation
 import com.nuda.nudaclient.presentation.login.LoginActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignupActivity1 : AppCompatActivity() {
 
     // 뷰 바인딩 객체 선언
     lateinit var binding : ActivitySignup1Binding
+
+    // API 서비스 객체 선언
+    private val authService = RetrofitInstance.authService
+
 
     // EditText 유효성 상태 저장 (실시간)
     private var isNicknameValid = false
@@ -34,8 +44,8 @@ class SignupActivity1 : AppCompatActivity() {
     private var isEmailCertifyValid = false
 
     // 버튼 클릭 유효성 검사 상태 저장 (서버 통신)
-    private var isNicknameDuplicated = false
-    private var isUsernameDupliicated = false
+    private var isNicknameAvailable = false
+    private var isUsernameAvailable = false
     private var isEamilVerified = false
 
     // 뷰 참조
@@ -128,7 +138,11 @@ class SignupActivity1 : AppCompatActivity() {
         et_nickname.setupValidation(
             tv_validNickname,
             validator = { it.length in 4..10 }, // it : EditText에 입력된 텍스트
-            onValidationChanged = { isValid -> isNicknameValid = isValid } // 받은 isValid를 isNicknameValid에 저장
+            onValidationChanged = { isValid ->
+                isNicknameValid = isValid  // 받은 isValid를 isNicknameValid에 저장
+                isNicknameAvailable = false // 닉네임 중복 확인 후 EditText 수정 시 중복 확인 상태 초기화
+                tv_duplicateNickname.text = "" // 중복 확인 메세지도 초기화
+            }
         )
 
         // 아이디
@@ -282,9 +296,46 @@ class SignupActivity1 : AppCompatActivity() {
             }
 
             // 3. 닉네임 중복 확인 API 호출 (isNicknameValid = true)
+            authService.getNickname(et_nickname.text.toString())
+                .enqueue(object : Callback<BaseResponse> {
+                    // 서버와 통신 성공 
+                    override fun onResponse(
+                        call: Call<BaseResponse?>, // 보냈던 요청 정보
+                        response: Response<BaseResponse?> // 받은 응답
+                    ) { // 응답이 성공적인지 확인
+                        if (response.isSuccessful) { // HTTP 상태(200~299면 true, 성공!)
+                            val body = response.body()
+
+                            if(body?.success == true) { // 서버의 success 필드
+                                // 진짜 성공
+                                tv_duplicateNickname.text = getString(R.string.btnValid_nickname_true)
+                                tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupActivity1,R.color.green))
+                                isNicknameAvailable = true // 중복 확인 상태 저장
+                            } else { // HTTP 200인데 서버에서 실패 응답
+                                // body?.success == false 이거나 null일 수 있음.
+                                tv_duplicateNickname.text = body?.data ?: body?.message ?: getString(R.string.btnValid_nickname_false)
+                                tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupActivity1,R.color.red))
+                                isNicknameAvailable = false
+                            }
+
+                        }else { // 응답 실패 (HTTP 400, 500 등 HTTP 서버 에러 응답)
+                            Toast.makeText(this@SignupActivity1,"서버 오류", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    // 서버와 통신 실패 (네트워크 오류)
+                    override fun onFailure(call: Call<BaseResponse?>, t: Throwable) {
+                        Log.e("API_ERROR", "네트워크 오류 발생", t)
+                        Log.e("API_ERROR", "에러 메시지 : ${t.message}")
+                        Log.e("API_ERROR", "에러 타입 : ${t.javaClass.simpleName}")
+
+                        Toast.makeText(this@SignupActivity1,"네트워크 오류", Toast.LENGTH_LONG).show()
+                    }
+                })
 
         }
     }
+
 
     // 아이디 중복 확인 버튼
     private fun setupUsernameDuplicateCheck() {

@@ -36,9 +36,10 @@ android {
         jvmTarget = "11"
     }
 
-    // 뷰 바인딩 설정 true
+
     buildFeatures {
-        viewBinding = true
+        viewBinding = true // 뷰 바인딩 설정 true
+        buildConfig = true // 빌드 설정 true
     }
 }
 
@@ -56,4 +57,9 @@ dependencies {
     implementation(libs.retrofit)
     // GSON 컨버터
     implementation(libs.converter.gson)
+
+    // OkHttp (한글 인코딩용)
+    implementation(libs.okhttp3)
+    // 로깅 인터셉터
+    implementation(libs.logging.interceptor)
 }
