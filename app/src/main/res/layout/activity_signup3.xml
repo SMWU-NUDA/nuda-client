@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupActivity3">
+    tools:context=".presentation.signup.SignupActivity3">
 
     <!--툴바-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/btn_back"
+            android:id="@+id/iv_back"
             style="@style/ImageBtn"
             android:layout_width="35dp"
             android:layout_height="35dp"

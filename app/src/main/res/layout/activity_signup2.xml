@@ -7,7 +7,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupActivity2">
+    tools:context=".presentation.signup.SignupActivity2">
 
     <!--툴바 배치-->
     <include
@@ -67,13 +67,14 @@
             <TextView
                 android:id="@+id/tv_phone"
                 style="@style/TextProfileField"
-                android:text="@string/id"
+                android:text="@string/phone"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/tv_validReceiver" />
 
             <EditText
                 android:id="@+id/et_phone"
                 style="@style/EditTextInput"
+                android:inputType="phone"
                 android:layout_marginRight="0dp"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintEnd_toEndOf="@id/guideline3"
@@ -82,7 +83,7 @@
             <TextView
                 android:id="@+id/tv_validPhone"
                 style="@style/TextIsValid"
-                android:text="@string/valid_id"
+                android:text="@string/valid_phone"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/et_phone" />
 
@@ -98,6 +99,9 @@
                 android:id="@+id/et_zip"
                 style="@style/EditTextInput"
                 android:hint="@string/hint_zip"
+                android:focusable="false"
+                android:clickable="false"
+                android:cursorVisible="false"
                 app:layout_constraintEnd_toStartOf="@+id/btn_findAddress"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/tv_address" />
@@ -122,6 +126,9 @@
                 android:id="@+id/et_address"
                 style="@style/EditTextInput"
                 android:hint="@string/hint_address"
+                android:focusable="false"
+                android:clickable="false"
+                android:cursorVisible="false"
                 android:layout_marginTop="2dp"
                 android:layout_marginRight="0dp"
                 app:layout_constraintStart_toStartOf="@id/guideline2"

@@ -16,7 +16,6 @@
     <!--기본 무채색 - 투명도 설정-->
     <color name="gray5_30">#4DE0E0E0</color>
 
-
     <!--메인 컬러(초록)-->
     <color name="main">#78B96A</color>
     <color name="light_lime">#BDE5CB</color>

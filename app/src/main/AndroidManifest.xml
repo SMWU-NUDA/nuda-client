@@ -12,7 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NudaClient">
         <activity
-            android:name=".SignupActivity3"
+            android:name=".presentation.signup.SignupActivity3"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".presentation.signup.SignupActivity2"
+            android:exported="false"/>
+        <activity
+            android:name=".presentation.signup.SignupActivity1"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,14 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignupActivity2"
-            android:exported="false"/>
-        <activity
-            android:name=".SignupActivity1"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".LoginActivity"
+            android:name=".presentation.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

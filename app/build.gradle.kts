@@ -38,7 +38,7 @@ android {
 
     // 뷰 바인딩 설정 true
     buildFeatures {
-        buildConfig = true
+        viewBinding = true
     }
 }
 
