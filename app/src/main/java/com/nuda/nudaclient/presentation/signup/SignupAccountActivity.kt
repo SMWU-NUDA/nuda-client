@@ -18,22 +18,24 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.api.RetrofitInstance
+import com.nuda.nudaclient.data.remote.dto.auth.AuthEmailVerificationRequest
+import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailRequest
 import com.nuda.nudaclient.data.remote.dto.common.BaseResponse
-import com.nuda.nudaclient.databinding.ActivitySignup1Binding
+import com.nuda.nudaclient.databinding.ActivitySignupAccountBinding
 import com.nuda.nudaclient.extensions.setupValidation
 import com.nuda.nudaclient.presentation.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SignupActivity1 : AppCompatActivity() {
+class SignupAccountActivity : AppCompatActivity() {
 
     // 뷰 바인딩 객체 선언
-    lateinit var binding : ActivitySignup1Binding
+    lateinit var binding : ActivitySignupAccountBinding
 
     // API 서비스 객체 선언
     private val authService = RetrofitInstance.authService
-
+    private val signupService = RetrofitInstance.signupService
 
     // EditText 유효성 상태 저장 (실시간)
     private var isNicknameValid = false
@@ -43,10 +45,11 @@ class SignupActivity1 : AppCompatActivity() {
     private var isEmailValid = false
     private var isEmailCertifyValid = false
 
-    // 버튼 클릭 유효성 검사 상태 저장 (서버 통신)
+    // 버튼 클릭 서버 통신 상태 저장
     private var isNicknameAvailable = false
     private var isUsernameAvailable = false
-    private var isEamilVerified = false
+    private var isEmailSendSuccess = false
+    private var isEmailVerified = false
 
     // 뷰 참조
     // EditText
@@ -87,7 +90,7 @@ class SignupActivity1 : AppCompatActivity() {
         enableEdgeToEdge()
 
         // 뷰 바인딩 설정
-        binding = ActivitySignup1Binding.inflate(layoutInflater)
+        binding = ActivitySignupAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -149,7 +152,11 @@ class SignupActivity1 : AppCompatActivity() {
         et_username.setupValidation(
             tv_validUsername,
             validator = { it.length in 4..16 },
-            onValidationChanged = { isValid -> isUsernameValid = isValid }
+            onValidationChanged = { isValid ->
+                isUsernameValid = isValid
+                isUsernameAvailable = false
+                tv_duplicateUsername.text = ""
+            }
         )
 
         // 비밀번호
@@ -227,20 +234,22 @@ class SignupActivity1 : AppCompatActivity() {
         et_email.setupValidation(
             tv_validEmail,
             validator = { isValidEmail(it) },
-            onValidationChanged = { isValid -> isEmailValid = isValid },
-            emptyMessage = "",
-            validMessage = "",
-            invalidMessage = ""
+            onValidationChanged = { isValid ->
+                isEmailValid = isValid
+                isEmailSendSuccess = false
+                tv_validEmail.text = ""
+            }
         )
 
         // 이메일 인증번호
         et_emailCertify.setupValidation(
             tv_emailCertify,
             validator = { it.length == 6 },
-            onValidationChanged = { isValid -> isEmailCertifyValid = isValid },
-            emptyMessage = "",
-            validMessage = "",
-            invalidMessage = ""
+            onValidationChanged = { isValid ->
+                isEmailCertifyValid = isValid
+                isEmailVerified = false
+                tv_emailCertify.text = ""
+            }
         )
 
     }
@@ -309,17 +318,17 @@ class SignupActivity1 : AppCompatActivity() {
                             if(body?.success == true) { // 서버의 success 필드
                                 // 진짜 성공
                                 tv_duplicateNickname.text = getString(R.string.btnValid_nickname_true)
-                                tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupActivity1,R.color.green))
+                                tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.green))
                                 isNicknameAvailable = true // 중복 확인 상태 저장
                             } else { // HTTP 200인데 서버에서 실패 응답
                                 // body?.success == false 이거나 null일 수 있음.
                                 tv_duplicateNickname.text = body?.data ?: body?.message ?: getString(R.string.btnValid_nickname_false)
-                                tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupActivity1,R.color.red))
+                                tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
                                 isNicknameAvailable = false
                             }
 
                         }else { // 응답 실패 (HTTP 400, 500 등 HTTP 서버 에러 응답)
-                            Toast.makeText(this@SignupActivity1,"서버 오류", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@SignupAccountActivity,"서버 오류", Toast.LENGTH_LONG).show()
                         }
                     }
 
@@ -329,7 +338,7 @@ class SignupActivity1 : AppCompatActivity() {
                         Log.e("API_ERROR", "에러 메시지 : ${t.message}")
                         Log.e("API_ERROR", "에러 타입 : ${t.javaClass.simpleName}")
 
-                        Toast.makeText(this@SignupActivity1,"네트워크 오류", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@SignupAccountActivity,"네트워크 오류", Toast.LENGTH_LONG).show()
                     }
                 })
 
@@ -348,7 +357,40 @@ class SignupActivity1 : AppCompatActivity() {
             }
 
             // 3. 아이디 중복 확인 API 호출 (isNicknameValid = true)
+            authService.getUsername(et_username.text.toString())
+                .enqueue(object : Callback<BaseResponse> {
+                    override fun onResponse(
+                        call: Call<BaseResponse?>,
+                        response: Response<BaseResponse?>
+                    ) {
+                        if (response.isSuccessful) { // HTTP 상태(200~299면 true, 성공!)
+                            val body = response.body()
 
+                            if(body?.success == true) { // 서버의 success 필드
+                                // 진짜 성공
+                                tv_duplicateUsername.text = getString(R.string.btnValid_id_true)
+                                tv_duplicateUsername.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.green))
+                                isNicknameAvailable = true // 중복 확인 상태 저장
+                            } else { // HTTP 200인데 서버에서 실패 응답
+                                // body?.success == false 이거나 null일 수 있음.
+                                tv_duplicateNickname.text = body?.data ?: body?.message ?: getString(R.string.btnValid_id_false)
+                                tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
+                                isNicknameAvailable = false
+                            }
+
+                        }else { // 응답 실패 (HTTP 400, 500 등 HTTP 서버 에러 응답)
+                            Toast.makeText(this@SignupAccountActivity,"서버 오류", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<BaseResponse?>, t: Throwable) {
+                        Log.e("API_ERROR", "네트워크 오류 발생", t)
+                        Log.e("API_ERROR", "에러 메시지 : ${t.message}")
+                        Log.e("API_ERROR", "에러 타입 : ${t.javaClass.simpleName}")
+
+                        Toast.makeText(this@SignupAccountActivity,"네트워크 오류", Toast.LENGTH_LONG).show()
+                    }
+                })
         }
     }
 
@@ -362,16 +404,54 @@ class SignupActivity1 : AppCompatActivity() {
             }
 
             // 이메일 인증번호 보내기 API 호출 (isEmailValid = true)
-//            // 이메일 인증번호 보내기 성공 시 유효성 검사 텍스트 변경
-//            tv_validEmail.text = getString(R.string.btnValid_email_true)
-//            tv_validEmail.setTextColor(ContextCompat.getColor(this,R.color.green))
+            // 요청 객체 생성
+            val request = AuthEmailVerificationRequest(email = et_email.text.toString())
+            // API 호출
+            authService.requestEmailVerification(request)
+                .enqueue(object : Callback<BaseResponse> {
+                    override fun onResponse(
+                        call: Call<BaseResponse?>,
+                        response: Response<BaseResponse?>
+                    ) {
+                        if (response.isSuccessful) { // HTTP 상태(200~299면 true, 성공!)
+                            val body = response.body()
 
+                            if(body?.success == true) { // 진짜 성공
+                                // 이메일 인증번호 보내기 성공 시 유효성 검사 텍스트 변경
+                                tv_validEmail.text = getString(R.string.btnValid_email_true)
+                                tv_validEmail.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.green))
+                                isEmailSendSuccess = true // 중복 확인 상태 저장
+                            } else { // HTTP 200인데 서버에서 실패 응답
+                                // body?.success == false 이거나 null일 수 있음.
+                                tv_validEmail.text = body?.data ?: body?.message ?: getString(R.string.btnValid_email_fail)
+                                tv_validEmail.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
+                                isEmailSendSuccess = false
+                            }
+                        }else { // 응답 실패 (HTTP 400, 500 등 HTTP 서버 에러 응답)
+                            Toast.makeText(this@SignupAccountActivity,"서버 오류", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<BaseResponse?>, t: Throwable) {
+                        Log.e("API_ERROR", "네트워크 오류 발생", t)
+                        Log.e("API_ERROR", "에러 메시지 : ${t.message}")
+                        Log.e("API_ERROR", "에러 타입 : ${t.javaClass.simpleName}")
+
+                        Toast.makeText(this@SignupAccountActivity,"네트워크 오류", Toast.LENGTH_LONG).show()
+                    }
+                })
         }
     }
 
     // 이메일 인증번호 인증하기 버튼
     private fun setupEmailCertify() {
         btn_certifyEmail.setOnClickListener {
+            // 이메일 입력 및 인증번호 전송 확인
+            if(!isEmailSendSuccess) {
+                tv_validEmail.text = getString(R.string.btnValid_email_certify_noEmail)
+                tv_validEmail.setTextColor(ContextCompat.getColor(this,R.color.red))
+                return@setOnClickListener
+            }
             // 인증번호 유효성 검사(6자리) 실패
             if(!isEmailCertifyValid) {
                 tv_emailCertify.text = getString(R.string.btnValid_email_certify_empty)
@@ -380,7 +460,42 @@ class SignupActivity1 : AppCompatActivity() {
             }
 
             // 이메일 인증번호 인증하기 API 호출 (isEmailCertifyValid = true)
+            val request = AuthVerifyEmailRequest(
+                code = et_emailCertify.text.toString(),
+                email = et_email.text.toString()
+            )
+            authService.verifyEmail(request)
+                .enqueue(object : Callback<BaseResponse> {
+                    override fun onResponse(
+                        call: Call<BaseResponse?>,
+                        response: Response<BaseResponse?>
+                    ) {
+                        if (response.isSuccessful) { // HTTP 상태(200~299면 true, 성공!)
+                            val body = response.body()
 
+                            if(body?.success == true) { // 진짜 성공
+                                tv_emailCertify.text = getString(R.string.btnValid_email_certify_true)
+                                tv_emailCertify.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.green))
+                                isEmailVerified = true // 중복 확인 상태 저장
+                            } else { // HTTP 200인데 서버에서 실패 응답
+                                // body?.success == false 이거나 null일 수 있음.
+                                tv_emailCertify.text = body?.data ?: body?.message ?: getString(R.string.btnValid_email_certify_false)
+                                tv_emailCertify.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
+                                isEmailVerified = false
+                            }
+                        }else { // 응답 실패 (HTTP 400, 500 등 HTTP 서버 에러 응답)
+                            Toast.makeText(this@SignupAccountActivity,"서버 오류", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<BaseResponse?>, t: Throwable) {
+                        Log.e("API_ERROR", "네트워크 오류 발생", t)
+                        Log.e("API_ERROR", "에러 메시지 : ${t.message}")
+                        Log.e("API_ERROR", "에러 타입 : ${t.javaClass.simpleName}")
+
+                        Toast.makeText(this@SignupAccountActivity,"네트워크 오류", Toast.LENGTH_LONG).show()
+                    }
+                })
         }
     }
 
@@ -438,12 +553,21 @@ class SignupActivity1 : AppCompatActivity() {
         }
     }
 
+    // 다음 버튼 클릭 시
+    private fun canProceedToNextPage() : Boolean {
+        return isNicknameAvailable &&
+                isUsernameAvailable &&
+                isPwValid &&
+                isPwCheckValid &&
+                isEmailVerified
+    }
+
     // 페이지 이동 버튼(다음)
     private fun setupNextPage() {
         // 다음 버튼 클릭 이벤트 처리
         btn_nextPage.setOnClickListener {
             // 1. 모든 항목 유효성 검사 통과
-            if (isNicknameValid && isUsernameValid && isPwValid && isPwCheckValid && isEmailValid && isEmailCertifyValid) {
+            if (canProceedToNextPage()) {
                 // 2. 서버 통신 (API 호출)
 
                 // 3. 회원가입 2단계 페이지로 이동 (SignupActivity2)

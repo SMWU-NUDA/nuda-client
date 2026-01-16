@@ -39,7 +39,7 @@ interface SignupService {
     @GET("signup/draft")
     fun getDraft(@Header("Signup-Token") signupToken : String) : Call<SignupDraftResponse>
 
-    // POST /signup/draft : 임시 저장 draft 생성
+    // POST /signup/draft : 임시 저장 draft 생성(1단계)
     @POST("signup/draft")
     fun createDraft() : Call<SignupDraftResponse>
 

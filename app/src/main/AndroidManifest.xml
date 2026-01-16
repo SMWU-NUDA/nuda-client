@@ -23,7 +23,7 @@
             android:name=".presentation.signup.SignupActivity2"
             android:exported="false"/>
         <activity
-            android:name=".presentation.signup.SignupActivity1"
+            android:name=".presentation.signup.SignupAccountActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

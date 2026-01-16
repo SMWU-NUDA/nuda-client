@@ -42,6 +42,8 @@
     <string name="btnValid_id_true">사용 가능한 아이디입니다</string>
     <string name="btnValid_email_false">올바른 이메일 형식이 아닙니다</string>
     <string name="btnValid_email_true">입력하신 이메일로 인증번호를 보냈습니다</string>
+    <string name="btnValid_email_fail">인증번호 전송에 실패했습니다</string>
+    <string name="btnValid_email_certify_noEmail">이메일 입력 후 인증번호를 받아주세요"</string>
     <string name="btnValid_email_certify_empty">인증번호 6자리를 입력해주세요</string>"
     <string name="btnValid_email_certify_false">인증번호가 일치하지 않습니다</string>
     <string name="btnValid_email_certify_true">인증이 완료되었습니다</string>

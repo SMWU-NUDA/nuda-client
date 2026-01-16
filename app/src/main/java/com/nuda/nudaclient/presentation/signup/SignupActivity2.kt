@@ -8,7 +8,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.databinding.ActivitySignup2Binding
-import com.nuda.nudaclient.databinding.ActivitySignup3Binding
 
 class SignupActivity2 : AppCompatActivity() {
 
@@ -43,8 +42,8 @@ class SignupActivity2 : AppCompatActivity() {
     private fun setupButtons() {
         // 이전 버튼 클릭 이벤트 처리
         binding.btnPrevPage.setOnClickListener {
-            // 회원가입 1단계 페이지로 이동 (SignupActivity1)
-            val intent = Intent(this, SignupActivity1::class.java)
+            // 회원가입 1단계 페이지로 이동 (SignupAccountActivity)
+            val intent = Intent(this, SignupAccountActivity::class.java)
             startActivity(intent)
         }
 
