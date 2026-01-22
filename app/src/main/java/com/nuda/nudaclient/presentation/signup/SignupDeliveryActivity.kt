@@ -251,7 +251,7 @@ class SignupDeliveryActivity : AppCompatActivity() {
     // 다음 페이지 이동 버튼
     private fun setupNextPage() {
         binding.btnNextPage.setOnClickListener {
-            if(!validateDelivery()) {
+            if(!validationDelivery()) {
                 highlightInvalidFields()
                 return@setOnClickListener
             }
@@ -308,7 +308,7 @@ class SignupDeliveryActivity : AppCompatActivity() {
     }
 
     // 배송정보 입력 유효성 검사
-    private fun validateDelivery() : Boolean{
+    private fun validationDelivery() : Boolean{
         return isRecipientValid &&
                 isPhoneNumValid &&
                 isAddressFindSuccess &&

@@ -115,12 +115,14 @@
 
                 <RadioButton
                     android:id="@+id/btn_sensitivity_low"
+                    android:tag="LOW"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_sensitivity_low"
                     />
 
                 <RadioButton
                     android:id="@+id/btn_sensitivity_middle"
+                    android:tag="MIDDLE"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_sensitivity_middle"
 
@@ -128,6 +130,7 @@
 
                 <RadioButton
                     android:id="@+id/btn_sensitivity_high"
+                    android:tag="HIGH"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_sensitivity_high"
                     android:layout_marginRight="0dp"
@@ -161,18 +164,21 @@
 
                 <RadioButton
                     android:id="@+id/btn_scent_low"
+                    android:tag="LOW"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_scent_low"
                     />
 
                 <RadioButton
                     android:id="@+id/btn_scent_middle"
+                    android:tag="MIDDLE"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_scent_middle"
                     />
 
                 <RadioButton
                     android:id="@+id/btn_scent_high"
+                    android:tag="HIGH"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_scent_high"
                     android:layout_marginRight="0dp"
@@ -206,18 +212,21 @@
 
                 <RadioButton
                     android:id="@+id/btn_flow_low"
+                    android:tag="LOW"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_flow_low"
                     />
 
                 <RadioButton
                     android:id="@+id/btn_flow_middle"
+                    android:tag="MIDDLE"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_flow_middle"
                     />
 
                 <RadioButton
                     android:id="@+id/btn_flow_high"
+                    android:tag="HIGH"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_flow_high"
                     android:layout_marginRight="0dp"
@@ -251,18 +260,21 @@
 
                 <RadioButton
                     android:id="@+id/btn_thickness_low"
+                    android:tag="LOW"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_thickness_low"
                     />
 
                 <RadioButton
                     android:id="@+id/btn_thickness_middle"
+                    android:tag="MIDDLE"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_thickness_middle"
                     />
 
                 <RadioButton
                     android:id="@+id/btn_thickness_high"
+                    android:tag="HIGH"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_thickness_high"
                     android:layout_marginRight="0dp"
@@ -298,18 +310,21 @@
 
                 <RadioButton
                     android:id="@+id/btn_priority_safety"
+                    android:tag="LOW"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_priority_safety"
                     />
 
                 <RadioButton
                     android:id="@+id/btn_priority_absorbency"
+                    android:tag="MIDDLE"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_priority_absorbency"
                     />
 
                 <RadioButton
                     android:id="@+id/btn_priority_soft"
+                    android:tag="HIGH"
                     style="@style/BtnSurveyAnswer"
                     android:text="@string/survey_priority_soft"
                     android:layout_marginRight="0dp"

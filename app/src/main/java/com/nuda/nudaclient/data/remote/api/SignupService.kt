@@ -1,7 +1,6 @@
 package com.nuda.nudaclient.data.remote.api
 
 import com.nuda.nudaclient.data.remote.dto.signup.SignupAccountRequest
-import com.nuda.nudaclient.data.remote.dto.signup.SignupCommitResponse
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDeliveryRequest
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDraftResponse
 import com.nuda.nudaclient.data.remote.dto.signup.SignupSurveyRequest
@@ -45,5 +44,5 @@ interface SignupService {
 
     // POST /signup/commit : 회원가입 완료(5단계)
     @POST("signup/commit")
-    fun createSignup(@Header("Signup-Token") signupToken: String?): Call<SignupCommitResponse>
+    fun createSignup(@Header("Signup-Token") signupToken: String?): Call<BaseResponse>
 }
