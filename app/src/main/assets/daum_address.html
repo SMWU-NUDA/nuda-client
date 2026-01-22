@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>주소 검색</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="layer"></div>
+
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    window.addEventListener('load', function() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var zonecode = data.zonecode;
+                var address = data.roadAddress || data.jibunAddress;
+                var buildingName = data.buildingName || '';
+
+                // Android Interface 호출
+                if (window.Android && typeof window.Android.onAddressSelected === 'function') {
+                    window.Android.onAddressSelected(zonecode, address, buildingName);
+                }
+            },
+            width: '100%',
+            height: '100%'
+        }).embed(document.getElementById('layer')); // open() 대신 embed() 사용
+    });
+</script>
+</body>
+</html>

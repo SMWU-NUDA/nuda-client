@@ -12,7 +12,7 @@ fun EditText.setupValidation(
     validator : (String) -> Boolean,
     onValidationChanged : (Boolean) -> Unit, // 유효성 검사 상태 콜백 추가 (유효성 검사 결과 변경 시 호출)
 
-    // 동적 메시지 파라미터 추가
+    // 동적 메시지 파라미터 추가 (임시)
     emptyMessage : String? = null, // 입력창 비어있을 때 메세지
     validMessage : String? = null, // 유효할 때 메세지
     invalidMessage : String? = null // 유효하지 않을 때 메세지
@@ -24,7 +24,7 @@ fun EditText.setupValidation(
     this.doAfterTextChanged { text -> // text : EditText에 입력된 텍스트
         // 3. 입력 텍스트 String으로 변환
         val input = text.toString() // text는 Editable? 타입이므로 문자열로 변환해줘야 함
-
+        this.setBackgroundResource(R.drawable.et_input_default)
         // 4. EditText 입력 상태에 따라 텍스트 색상 변경 및 유효성 상태 변경 (콜백 호출)
         when{
             // 입력이 없을 때
@@ -45,5 +45,11 @@ fun EditText.setupValidation(
                 onValidationChanged(false)
             }
         }
+    }
+}
+
+fun EditText.highlightInvalidField(isValid: Boolean) {
+    if (!isValid) {
+        this.setBackgroundResource(R.drawable.et_input_empty)
     }
 }

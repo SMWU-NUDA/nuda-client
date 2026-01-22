@@ -7,13 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.nuda.nudaclient.R
-import com.nuda.nudaclient.databinding.ActivitySignup3Binding
+import com.nuda.nudaclient.databinding.ActivitySignupSurveyBinding
 import com.nuda.nudaclient.presentation.login.LoginActivity
 
-class SignupActivity3 : AppCompatActivity() {
+class SignupSurveyActivity : AppCompatActivity() {
 
     // 뷰 바인딩 객체 선언
-    lateinit var binding : ActivitySignup3Binding
+    lateinit var binding : ActivitySignupSurveyBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +22,7 @@ class SignupActivity3 : AppCompatActivity() {
         enableEdgeToEdge()
 
         // 뷰 바인딩 설정
-        binding = ActivitySignup3Binding.inflate(layoutInflater)
+        binding = ActivitySignupSurveyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -38,8 +38,8 @@ class SignupActivity3 : AppCompatActivity() {
     private fun setupButtons() {
         // 이전 버튼 클릭 이벤트 처리
         binding.btnPrevPage.setOnClickListener {
-            // 회원가입 2단계 페이지로 이동 (SignupActivity2)
-            val intent = Intent(this, SignupActivity2::class.java)
+            // 회원가입 2단계 페이지로 이동 (SignupDeliveryActivity)
+            val intent = Intent(this, SignupDeliveryActivity::class.java)
             startActivity(intent)
         }
 

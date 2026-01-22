@@ -7,7 +7,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.signup.SignupActivity2">
+    tools:context=".presentation.signup.SignupDeliveryActivity">
 
     <!--툴바 배치-->
     <include
@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_Title2" />
 
             <EditText
-                android:id="@+id/et_receiver"
+                android:id="@+id/et_recipient"
                 style="@style/EditTextInput"
                 android:layout_marginRight="0dp"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
@@ -61,7 +61,7 @@
                 style="@style/TextIsValid"
                 android:text="@string/valid_receiver"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
-                app:layout_constraintTop_toBottomOf="@id/et_receiver" />
+                app:layout_constraintTop_toBottomOf="@id/et_recipient" />
 
             <!--휴대폰번호 섹션-->
             <TextView
@@ -117,7 +117,6 @@
             <TextView
                 android:id="@+id/tv_validZip"
                 style="@style/TextIsValid"
-                android:text="@string/valid_address"
                 android:layout_marginTop="2dp"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/et_zip" />
@@ -138,7 +137,6 @@
             <TextView
                 android:id="@+id/tv_validAddress"
                 style="@style/TextIsValid"
-                android:text="@string/valid_address"
                 android:layout_marginTop="2dp"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/et_address" />
@@ -155,7 +153,6 @@
             <TextView
                 android:id="@+id/tv_validAddressDetail"
                 style="@style/TextIsValid"
-                android:text="@string/valid_address_detail"
                 android:layout_marginTop="2dp"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/et_addressDetail" />

@@ -6,6 +6,7 @@ import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginResponse
 import com.nuda.nudaclient.data.remote.dto.auth.AuthReissueRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthReissueResponse
 import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailRequest
+import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailResponse
 import com.nuda.nudaclient.data.remote.dto.common.BaseResponse
 import retrofit2.Call
 import retrofit2.http.Body
@@ -30,7 +31,7 @@ interface AuthService {
 
     // POST /auth/emails/verifications : 이메일 인증번호 검증
     @POST("auth/emails/verifications")
-    fun verifyEmail(@Body request: AuthVerifyEmailRequest) : Call<BaseResponse>
+    fun verifyEmail(@Body request: AuthVerifyEmailRequest) : Call<AuthVerifyEmailResponse>
 
     // POST /auth/emails/verification-requests : 이메일 인증번호 요청
     @POST("auth/emails/verification-requests")
