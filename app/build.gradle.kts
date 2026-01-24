@@ -64,5 +64,8 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     // 주소 찾기 webview
-    implementation("androidx.webkit:webkit:1.12.1")
+    implementation(libs.webview)
+
+    // gson
+    implementation(libs.gson)
 }

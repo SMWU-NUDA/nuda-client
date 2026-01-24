@@ -14,8 +14,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.local.SignupDataManager
 import com.nuda.nudaclient.data.local.TokenManager
 import com.nuda.nudaclient.data.remote.api.RetrofitInstance
+import com.nuda.nudaclient.data.remote.api.RetrofitInstance.signupService
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDeliveryRequest
 import com.nuda.nudaclient.databinding.ActivitySignupDeliveryBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
@@ -27,9 +29,9 @@ class SignupDeliveryActivity : AppCompatActivity() {
     // 뷰 바인딩 객체 선언
     lateinit var binding : ActivitySignupDeliveryBinding
 
-    // API 서비스 객체 선언
-    private val signupService = RetrofitInstance.signupService
-
+    // 회원가입 토큰 관리
+    private var signupToken : String? = null
+    
     // EditText 유효성 상태 저장 (실시간)
     private var isRecipientValid = false
     private var isPhoneNumValid = false
@@ -40,6 +42,9 @@ class SignupDeliveryActivity : AppCompatActivity() {
 
     // 휴대폰번호 포맷팅 상태 저장
     private var isFormatting = false
+
+    // 복원 모드 플래그 (TextWatcher가 초기화하는 것을 방지)
+    private var isRestoringData = false
 
     // 뷰 참조
     // EditText
@@ -106,6 +111,8 @@ class SignupDeliveryActivity : AppCompatActivity() {
             insets
         }
 
+        signupToken = TokenManager.getSignupToken(this)
+
         // 뷰 참조 초기화
         et_recipient = binding.etRecipient
         et_phoneNum = binding.etPhone
@@ -121,6 +128,10 @@ class SignupDeliveryActivity : AppCompatActivity() {
 
         iv_back = binding.toolBar.ivBack
 
+        // Draft 데이터 복원
+        SignupDataManager.loadPrefData(this)
+        setupProcess()
+
         // EditText TextWatcher 설정
         setupTextWatchers()
 
@@ -129,10 +140,46 @@ class SignupDeliveryActivity : AppCompatActivity() {
 
     }
 
+    // 진행 상황 복원
+    private fun setupProcess() {
+        isRestoringData = true
+
+        // 상태 복원
+        isRecipientValid = SignupDataManager.isRecipientValid
+        isPhoneNumValid = SignupDataManager.isPhoneNumValid
+        isAddress2Valid = SignupDataManager.isAddress2Valid
+        isAddressFindSuccess = SignupDataManager.isAddressFindSuccess
+
+        // 텍스트 복원
+        et_recipient.setText(SignupDataManager.recipient ?: "")
+        et_phoneNum.setText(SignupDataManager.phoneNum ?: "")
+        et_postalCode.setText(SignupDataManager.postalCode ?: "")
+        et_address1.setText(SignupDataManager.address1 ?: "")
+        et_address2.setText(SignupDataManager.address2 ?: "")
+
+        // UI 복원
+        // 수령인
+        if (isRecipientValid) {
+            tv_validRecipient.text = ""
+        }
+        // 휴대폰번호
+        if (isPhoneNumValid) {
+            tv_validPhoneNum.text = ""
+        }
+
+        isRestoringData = false
+
+    }
+
+
     // TextWatcher 설정 (EditText 실시간 검사)
     private fun setupTextWatchers() {
         // 수령인
         et_recipient.doAfterTextChanged { text ->
+            if (isRestoringData) return@doAfterTextChanged
+            // 입력창 클릭 시 기본 배경 설정
+            et_recipient.setBackgroundResource(R.drawable.et_input_default)
+
             val input = text.toString()
             when {
                 input.isEmpty() -> {
@@ -142,7 +189,6 @@ class SignupDeliveryActivity : AppCompatActivity() {
                 }
                 else -> {
                     tv_validRecipient.text = ""
-                    tv_validRecipient.setTextColor(ContextCompat.getColor(this, R.color.green))
                     isRecipientValid = true
                 }
             }
@@ -150,6 +196,10 @@ class SignupDeliveryActivity : AppCompatActivity() {
 
         // 휴대폰번호
         et_phoneNum.doAfterTextChanged { text ->
+            if (isRestoringData) return@doAfterTextChanged
+            // 입력창 클릭 시 기본 배경 설정
+            et_phoneNum.setBackgroundResource(R.drawable.et_input_default)
+
             // 무한루프 방지
             if(isFormatting) return@doAfterTextChanged
             isFormatting = true
@@ -175,6 +225,9 @@ class SignupDeliveryActivity : AppCompatActivity() {
 
         // 배송지
         et_address2.doAfterTextChanged { text ->
+            if (isRestoringData) return@doAfterTextChanged
+            et_address2.setBackgroundResource(R.drawable.et_input_default)
+
             val input = text.toString()
             if(!isAddressFindSuccess) { // 주소 찾기 하지 않은 경우
                 setAddressValidationText(tv_validPostalCode, R.string.valid_address)
@@ -209,7 +262,6 @@ class SignupDeliveryActivity : AppCompatActivity() {
 
         if(phone.matches(pattern.toRegex())) {
             textView.text = ""
-            textView.setTextColor(ContextCompat.getColor(this, R.color.green))
             isPhoneNumValid = true
         } else {
             textView.text = getString(R.string.valid_phone)
@@ -231,6 +283,10 @@ class SignupDeliveryActivity : AppCompatActivity() {
         binding.btnFindAddress.setOnClickListener {
             isAddressFindSuccess = false
 
+            // 버튼 클릭 시 입력창 기본 배경 설정
+            et_postalCode.setBackgroundResource(R.drawable.et_input_default)
+            et_address1.setBackgroundResource(R.drawable.et_input_default)
+
             val intent = Intent(this, AddressSearchActivity::class.java)
             // 다음 우편번호 서비스 적용
             addressSearchLauncher.launch(intent)
@@ -240,11 +296,16 @@ class SignupDeliveryActivity : AppCompatActivity() {
     // 이전 페이지 이동 버튼
     private fun setupPrevPage() {
         binding.btnPrevPage.setOnClickListener {
-            // draft 데이터 get API 추가 시 수정
+            // 현재 작성 중인 데이터 pref에 백업
+            SignupDataManager.recipient = et_recipient.text.toString().trim()
+            SignupDataManager.phoneNum = et_phoneNum.text.toString().trim()
+            SignupDataManager.postalCode = et_postalCode.text.toString().trim()
+            SignupDataManager.address1 = et_address1.text.toString().trim()
+            SignupDataManager.address2 = et_address2.text.toString().trim()
 
-            // 회원가입 1단계 페이지로 이동 (SignupAccountActivity)
-            val intent = Intent(this, SignupAccountActivity::class.java)
-            startActivity(intent)
+            SignupDataManager.backupPrefData(this)
+
+            finish() // 현재 액티비티 종료
         }
     }
 
@@ -269,10 +330,27 @@ class SignupDeliveryActivity : AppCompatActivity() {
         }
     }
 
+
+    // 배송정보 입력 유효성 검사
+    private fun validationDelivery() : Boolean{
+        return isRecipientValid &&
+                isPhoneNumValid &&
+                isAddressFindSuccess &&
+                isAddress2Valid
+    }
+
+    // 배송 정보 입력 유효성 검사 실패 시 입력창 배경 변경
+    private fun highlightInvalidFields() {
+        et_recipient.highlightInvalidField(isRecipientValid)
+        et_phoneNum.highlightInvalidField(isPhoneNumValid)
+        et_postalCode.highlightInvalidField(isAddressFindSuccess)
+        et_address1.highlightInvalidField(isAddressFindSuccess)
+        et_address2.highlightInvalidField(isAddress2Valid)
+    }
+
     // 유효성 검사 통과 시 배송정보 데이터 업데이트
     private fun updateDeliveryData() {
         // 서버 통신 API 호출
-        val signupToken = TokenManager.getSignupToken(this)
         val signupDeliveryRequest = SignupDeliveryRequest(
             address1 = et_address1.text.toString().trim(),
             address2 = et_address2.text.toString().trim(),
@@ -287,6 +365,8 @@ class SignupDeliveryActivity : AppCompatActivity() {
                     if(body.success == true) {
                         // 임시 토스트 메세지
                         Toast.makeText(this, body.data, Toast.LENGTH_LONG).show()
+                        // 최신 draft 조회 및 pref 백업
+                        backupDelivery()
                         // 회원가입 3단계 페이지로 이동 (SignupSurveyActivity)
                         val intent = Intent(this, SignupSurveyActivity::class.java)
                         startActivity(intent)
@@ -298,23 +378,35 @@ class SignupDeliveryActivity : AppCompatActivity() {
             )
     }
 
-    // 배송 정보 입력 유효성 검사 실패 시 입력창 배경 변경
-    private fun highlightInvalidFields() {
-        et_recipient.highlightInvalidField(isRecipientValid)
-        et_phoneNum.highlightInvalidField(isPhoneNumValid)
-        et_postalCode.highlightInvalidField(isAddressFindSuccess)
-        et_address1.highlightInvalidField(isAddressFindSuccess)
-        et_address2.highlightInvalidField(isAddress2Valid)
+
+    // 최신 draft 조회 및 pref 백업
+    private fun backupDelivery() {
+        // 업데이트 된 최신 draft 조회
+        signupService.getDraft(signupToken)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if(body.success == true) {
+                        // 조회한 draft 데이터 싱글턴 변수에 저장
+                        SignupDataManager.saveDraftToPref(body.data)
+
+                        // 배송 정보 상태 백업
+                        saveDeliveryStates()
+
+                        // pref에 전체 백업
+                        SignupDataManager.backupPrefData(this)
+                    }
+                }
+            )
     }
 
-    // 배송정보 입력 유효성 검사
-    private fun validationDelivery() : Boolean{
-        return isRecipientValid &&
-                isPhoneNumValid &&
-                isAddressFindSuccess &&
-                isAddress2Valid
+    // 유효성 검사 상태 pref 백업
+    private fun saveDeliveryStates() {
+        SignupDataManager.isRecipientValid = isRecipientValid
+        SignupDataManager.isPhoneNumValid = isPhoneNumValid
+        SignupDataManager.isAddress2Valid = isAddress2Valid
+        SignupDataManager.isAddressFindSuccess = isAddressFindSuccess
     }
-
 
 
 

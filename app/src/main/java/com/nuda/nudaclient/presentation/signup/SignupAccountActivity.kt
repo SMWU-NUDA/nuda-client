@@ -17,8 +17,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.local.SignupDataManager
 import com.nuda.nudaclient.data.local.TokenManager
-import com.nuda.nudaclient.data.remote.api.RetrofitInstance
+import com.nuda.nudaclient.data.remote.api.RetrofitInstance.authService
+import com.nuda.nudaclient.data.remote.api.RetrofitInstance.signupService
 import com.nuda.nudaclient.data.remote.dto.auth.AuthEmailVerificationRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailRequest
 import com.nuda.nudaclient.data.remote.dto.signup.SignupAccountRequest
@@ -33,9 +35,8 @@ class SignupAccountActivity : AppCompatActivity() {
     // 뷰 바인딩 객체 선언
     lateinit var binding : ActivitySignupAccountBinding
 
-    // API 서비스 객체 선언
-    private val authService = RetrofitInstance.authService
-    private val signupService = RetrofitInstance.signupService
+    // 회원가입 토큰 저장
+    private var signupToken : String? = null
 
     // EditText 유효성 상태 저장 (실시간)
     private var isNicknameValid = false
@@ -51,6 +52,8 @@ class SignupAccountActivity : AppCompatActivity() {
     private var isEmailSendSuccess = false
     private var isEmailVerified = false
 
+    // 복원 모드 플래그 (TextWatcher가 초기화하는 것을 방지)
+    private var isRestoringData = false
     // 뷰 참조
     // EditText
     private lateinit var et_nickname : EditText
@@ -99,6 +102,9 @@ class SignupAccountActivity : AppCompatActivity() {
             insets
         }
 
+        // 토큰 초기화
+        signupToken = TokenManager.getSignupToken(this)
+
         // 뷰 참조 초기화
         et_nickname = binding.etNickname
         et_username = binding.etUsername
@@ -127,12 +133,83 @@ class SignupAccountActivity : AppCompatActivity() {
         iv_pwVisible = binding.ivVisiblePw
         iv_pwCheckVisible = binding.ivVisiblePwCheck
 
+        // Draft 데이터 복원
+        SignupDataManager.loadPrefData(this)
+        setupProcess()
+
         // TextWatcher 설정
         setupTextWatchers()
 
         // 버튼 클릭 이벤트
         setButtons()
     }
+
+    // 진행상황 복원
+    private fun setupProcess() {
+        isRestoringData = true // 복원 시작
+
+        // 상태 복원
+        isNicknameValid = SignupDataManager.isNicknameValid
+        isUsernameValid = SignupDataManager.isUsernameValid
+        isPwValid = SignupDataManager.isPwValid
+        isPwCheckValid = SignupDataManager.isPwCheckValid
+        isEmailValid = SignupDataManager.isEmailValid
+        isEmailCertifyValid = SignupDataManager.isEmailCertifyValid
+        isNicknameAvailable = SignupDataManager.isNicknameAvailable
+        isUsernameAvailable = SignupDataManager.isUsernameAvailable
+        isEmailSendSuccess = SignupDataManager.isEmailSendSuccess
+        isEmailVerified = SignupDataManager.isEmailVerified
+
+        // 텍스트 복원
+        et_nickname.setText(SignupDataManager.nickname ?: "")
+        et_username.setText(SignupDataManager.username ?: "")
+        et_pw.setText(SignupDataManager.password ?: "")
+        et_pwCheck.setText(SignupDataManager.passwordCheck ?: "")
+        et_email.setText(SignupDataManager.email ?: "")
+
+        // UI 복원
+        // 닉네임
+        if (isNicknameValid) {
+            tv_validNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
+        }
+        // 닉네임 중복 확인
+        if (isNicknameAvailable) {
+            tv_duplicateNickname.text = getString(R.string.btnValid_nickname_true)
+            tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
+        }
+        // 아이디
+        if (isUsernameValid) {
+            tv_validUsername.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
+        }
+        // 아이디 중복 확인
+        if (isUsernameAvailable) {
+            tv_duplicateUsername.text = getString(R.string.btnValid_id_true)
+            tv_duplicateUsername.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
+        }
+        // 비밀번호
+        if (isPwValid) {
+            setPasswordValidationColor(R.color.green, R.color.green)
+        }
+        // 비밀번호 확인
+        if (isPwCheckValid) {
+            tv_validPwCheck.text = getString(R.string.valid_pw_check_true)
+            tv_validPwCheck.setTextColor(ContextCompat.getColor(this, R.color.green))
+        }
+        // 이메일 코드 전송 완료
+        if (isEmailSendSuccess) {
+            tv_validEmail.text = getString(R.string.btnValid_email_true)
+            tv_validEmail.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
+        }
+        // 이메일 인증 완료
+        if (isEmailVerified) {
+            tv_emailCertify.text = getString(R.string.btnValid_email_certify_true)
+            tv_emailCertify.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.green))
+        }
+
+        isRestoringData = false // 복원 종료
+
+    }
+
 
     // TextWatcher 설정 (EditText 실시간 검사)
     private fun setupTextWatchers() {
@@ -142,8 +219,10 @@ class SignupAccountActivity : AppCompatActivity() {
             validator = { it.length in 4..10 }, // it : EditText에 입력된 텍스트
             onValidationChanged = { isValid ->
                 isNicknameValid = isValid  // 받은 isValid를 isNicknameValid에 저장
-                isNicknameAvailable = false // 닉네임 중복 확인 후 EditText 수정 시 중복 확인 상태 초기화
-                tv_duplicateNickname.text = "" // 중복 확인 메세지도 초기화
+                if (!isRestoringData) { // 복원 모드가 아닐 때만 초기화
+                    isNicknameAvailable = false // 닉네임 중복 확인 후 EditText 수정 시 중복 확인 상태 초기화
+                    tv_duplicateNickname.text = "" // 중복 확인 메세지도 초기화
+                }
             }
         )
 
@@ -153,13 +232,16 @@ class SignupAccountActivity : AppCompatActivity() {
             validator = { it.length in 4..16 },
             onValidationChanged = { isValid ->
                 isUsernameValid = isValid
-                isUsernameAvailable = false
-                tv_duplicateUsername.text = ""
+                if (!isRestoringData) {
+                    isUsernameAvailable = false
+                    tv_duplicateUsername.text = ""
+                }
             }
         )
 
         // 비밀번호
         et_pw.doAfterTextChanged { text ->
+            if (isRestoringData) return@doAfterTextChanged
             val input = text.toString()
             et_pw.setBackgroundResource(R.drawable.et_input_default)
             when {
@@ -197,6 +279,7 @@ class SignupAccountActivity : AppCompatActivity() {
 
         // 비밀번호 확인
         et_pwCheck.doAfterTextChanged { text ->
+            if (isRestoringData) return@doAfterTextChanged
             val input = text.toString()
             val password = et_pw.text.toString() // 비밀번호 입력 x -> 빈 문자열 반환
 
@@ -233,8 +316,10 @@ class SignupAccountActivity : AppCompatActivity() {
             validator = { isValidEmail(it) },
             onValidationChanged = { isValid ->
                 isEmailValid = isValid
-                isEmailSendSuccess = false
-                tv_validEmail.text = ""
+                if (!isRestoringData) {
+                    isEmailSendSuccess = false
+                    tv_validEmail.text = ""
+                }
             }
         )
 
@@ -244,8 +329,10 @@ class SignupAccountActivity : AppCompatActivity() {
             validator = { it.length == 6 },
             onValidationChanged = { isValid ->
                 isEmailCertifyValid = isValid
-                isEmailVerified = false
-                tv_emailCertify.text = ""
+                if (!isRestoringData) {
+                    isEmailVerified = false
+                    tv_emailCertify.text = ""
+                }
             }
         )
 
@@ -312,12 +399,11 @@ class SignupAccountActivity : AppCompatActivity() {
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->
-                        if (body?.success == true) { // 서버의 success 필드
+                        if (body.success == true) { // 서버의 success 필드
                             tv_duplicateNickname.text = getString(R.string.btnValid_nickname_true)
                             tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
                             isNicknameAvailable = true // 중복 확인 상태 저장
                         } else { // HTTP 200인데 서버에서 실패 응답
-                            // body?.success == false 이거나 null일 수 있음.
                             tv_duplicateNickname.text = body?.data ?: body?.message
                                     ?: getString(R.string.btnValid_nickname_false)
                             tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.red))
@@ -346,12 +432,7 @@ class SignupAccountActivity : AppCompatActivity() {
                         if (body.success == true) { // 서버의 success 필드
                             // 진짜 성공
                             tv_duplicateUsername.text = getString(R.string.btnValid_id_true)
-                            tv_duplicateUsername.setTextColor(
-                                ContextCompat.getColor(
-                                    this@SignupAccountActivity,
-                                    R.color.green
-                                )
-                            )
+                            tv_duplicateUsername.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
                             isUsernameAvailable = true // 중복 확인 상태 저장
                         } else { // HTTP 200인데 서버에서 실패 응답
                             // body?.success == false 이거나 null일 수 있음.
@@ -509,6 +590,7 @@ class SignupAccountActivity : AppCompatActivity() {
                 highlightInvalidFields()
                 return@setOnClickListener
             }
+            // 계정 정보 draft에 업데이트
             updateAccountData()
         }
     }
@@ -544,8 +626,6 @@ class SignupAccountActivity : AppCompatActivity() {
     // 유효성 검사 통과 시 계정정보 데이터 업데이트
     private fun updateAccountData() {
         // 서버 통신 (API 호출)
-        // 회원가입 토큰 저장
-        val signupToken = TokenManager.getSignupToken(this)
         val signupAccountRequest = SignupAccountRequest(
             email = et_email.text.toString().trim(),
             nickname = et_nickname.text.toString().trim(),
@@ -559,6 +639,10 @@ class SignupAccountActivity : AppCompatActivity() {
                     if(body.success == true) {
                         // 임시 토스트 메세지
                         Toast.makeText(this, body.data, Toast.LENGTH_LONG).show()
+
+                        // 최신 draft 조회 및 pref 백업
+                        backupAccount()
+
                         // 회원가입 2단계 페이지로 이동 (SignupDeliveryActivity)
                         val intent = Intent(this, SignupDeliveryActivity::class.java)
                         startActivity(intent)
@@ -568,5 +652,42 @@ class SignupAccountActivity : AppCompatActivity() {
                     }
                 }
             )
+    }
+
+    // 최신 draft 조회 및 pref 백업
+    private fun backupAccount() {
+        // 업데이트 된 최신 draft 조회
+        signupService.getDraft(signupToken)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if(body.success == true) {
+                        // 조회한 draft + 비밀번호, 비밀번호 확인 데이터 싱글턴 변수에 저장
+                        SignupDataManager.saveDraftToPref(body.data)
+                        SignupDataManager.password = et_pw.text.toString().trim()
+                        SignupDataManager.passwordCheck = et_pwCheck.text.toString().trim()
+
+                        // 계정 정보 상태 백업
+                        saveAccountStates()
+
+                        // pref에 전체 백업
+                        SignupDataManager.backupPrefData(this)
+                    }
+                }
+            )
+    }
+
+    // 유효성 검사 상태 pref 백업
+    private fun saveAccountStates() {
+        SignupDataManager.isNicknameValid = isNicknameValid
+        SignupDataManager.isUsernameValid = isUsernameValid
+        SignupDataManager.isPwValid = isPwValid
+        SignupDataManager.isPwCheckValid = isPwCheckValid
+        SignupDataManager.isEmailValid = isEmailValid
+        SignupDataManager.isEmailCertifyValid = isEmailCertifyValid
+        SignupDataManager.isNicknameAvailable = isNicknameAvailable
+        SignupDataManager.isUsernameAvailable = isUsernameAvailable
+        SignupDataManager.isEmailSendSuccess = isEmailSendSuccess
+        SignupDataManager.isEmailVerified = isEmailVerified
     }
 }

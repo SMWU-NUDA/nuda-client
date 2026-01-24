@@ -10,8 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.local.SignupDataManager
 import com.nuda.nudaclient.data.local.TokenManager
 import com.nuda.nudaclient.data.remote.api.RetrofitInstance
+import com.nuda.nudaclient.data.remote.api.RetrofitInstance.signupService
 import com.nuda.nudaclient.data.remote.dto.signup.SignupSurveyRequest
 import com.nuda.nudaclient.databinding.ActivitySignupSurveyBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
@@ -23,7 +25,10 @@ class SignupSurveyActivity : AppCompatActivity() {
     // 뷰 바인딩 객체 선언
     lateinit var binding : ActivitySignupSurveyBinding
 
-    private val signupService = RetrofitInstance.signupService
+    var signupToken : String? = null
+
+    // 복원 모드 플래그 (TextWatcher가 초기화하는 것을 방지)
+    private var isRestoringData = false
 
     // 변수 선언
     private lateinit var answerIrritationLevel : String
@@ -59,6 +64,8 @@ class SignupSurveyActivity : AppCompatActivity() {
             insets
         }
 
+        signupToken = TokenManager.getSignupToken(this)
+
         // 뷰 참조 초기화
         rg_sensitivity = binding.radioAnswerSensitivity
         rg_scent = binding.radioAnswerScent
@@ -68,14 +75,111 @@ class SignupSurveyActivity : AppCompatActivity() {
 
         iv_back = binding.ivBack
 
+        // Draft 데이터 복원
+        SignupDataManager.loadPrefData(this)
+        setupProcess()
+
         // 버튼 클릭 이벤트 설정
         setupButtons()
         
     }
 
-    // 설문 응답 값 서버 전달 문자열에 저장
-    private fun getSurveyResults() {
+    // 진행 상황 복원
+    private fun setupProcess() {
+        isRestoringData = true
 
+        // 설문 조사 상태 복원
+        answerIrritationLevel = SignupDataManager.irritationLevel ?: "NULL"
+        answerScent = SignupDataManager.scent ?: "NULL"
+        answerChangeFrequency = SignupDataManager.changeFrequency ?: "NULL"
+        answerThickness = SignupDataManager.thickness ?: "NULL"
+        answerPriority = SignupDataManager.priority ?: "NULL"
+        productIds = SignupDataManager.productIds
+
+        // UI 복원
+        if(answerIrritationLevel != "NULL") {
+            val tagValue = convertIrritationLevel(answerIrritationLevel)
+            selectedRadioButtonByTag(rg_sensitivity, tagValue)
+        }
+        if(answerScent != "NULL") {
+            val tagValue = convertScent(answerScent)
+            selectedRadioButtonByTag(rg_scent, tagValue)
+        }
+        if(answerChangeFrequency != "NULL") {
+            val tagValue = convertChangeFrequency(answerChangeFrequency)
+            selectedRadioButtonByTag(rg_flow, tagValue)
+        }
+        if(answerThickness != "NULL") {
+            val tagValue = convertThickness(answerThickness)
+            selectedRadioButtonByTag(rg_thickness, tagValue)
+        }
+        if(answerPriority != "NULL") {
+            val tagValue = convertPriority(answerPriority)
+            selectedRadioButtonByTag(rg_priority, tagValue)
+        }
+
+        isRestoringData = false
+    }
+
+    // 태그로 라디오버튼 선택
+    private fun selectedRadioButtonByTag(radioGroup: RadioGroup, tagValue: String) {
+        for (i in 0 until radioGroup.childCount) {
+            val radioButton = radioGroup.getChildAt(i) as RadioButton
+            if (radioButton.tag == tagValue) {
+                radioButton.isChecked = true
+                return
+            }
+        }
+    }
+
+    // 서버 값 -> 태그 값 변환 함수들
+    private fun convertIrritationLevel(serverValue: String) : String {
+        return when (serverValue) {
+            "NONE" -> "LOW"
+            "SOMETIMES" -> "MIDDLE"
+            "OFTEN" -> "HIGH"
+            else -> "NULL"
+        }
+    }
+
+    private fun convertScent(serverValue: String) : String {
+        return when (serverValue) {
+            "NONE" -> "LOW"
+            "MILD" -> "MIDDLE"
+            "STRONG" -> "HIGH"
+            else -> "NULL"
+        }
+    }
+
+    private fun convertChangeFrequency(serverValue: String) : String {
+        return when (serverValue) {
+            "LOW" -> "LOW"
+            "MEDIUM" -> "MIDDLE"
+            "HIGH" -> "HIGH"
+            else -> "NULL"
+        }
+    }
+
+    private fun convertThickness(serverValue: String) : String {
+        return when (serverValue) {
+            "THIN" -> "LOW"
+            "NORMAL" -> "MIDDLE"
+            "THICK" -> "HIGH"
+            else -> "NULL"
+        }
+    }
+
+    private fun convertPriority(serverValue: String) : String {
+        return when (serverValue) {
+            "SAFETY" -> "LOW"
+            "ABSORPTION" -> "MIDDLE"
+            "SOFTNESS" -> "HIGH"
+            else -> "NULL"
+        }
+    }
+
+    // 설문 응답 값을 서버에 전달힐 문자열에 저장
+    private fun getSurveyResults() {
         // 민감도
         answerIrritationLevel = when (getSurveyAnswer(rg_sensitivity)) {
             "LOW" -> "NONE"
@@ -121,7 +225,6 @@ class SignupSurveyActivity : AppCompatActivity() {
     private fun getSurveyAnswer(
         radioGroup: RadioGroup) : String {
         val selectedBtnId = radioGroup.checkedRadioButtonId
-        val selectedBtnTag : String
 
         // 선택된 버튼이 없을 때
         if(selectedBtnId == -1) return "NULL"
@@ -140,9 +243,19 @@ class SignupSurveyActivity : AppCompatActivity() {
     // 이전 페이지 이동 버튼
     private fun setupPrevPage() {
         binding.btnPrevPage.setOnClickListener {
-            // 회원가입 2단계 페이지로 이동 (SignupDeliveryActivity)
-            val intent = Intent(this, SignupDeliveryActivity::class.java)
-            startActivity(intent)
+            getSurveyResults()
+
+            // 현재 작성 중인 데이터 pref에 백업
+            SignupDataManager.irritationLevel = answerIrritationLevel
+            SignupDataManager.scent = answerScent
+            SignupDataManager.changeFrequency = answerChangeFrequency
+            SignupDataManager.thickness = answerThickness
+            SignupDataManager.priority = answerPriority
+            SignupDataManager.productIds = productIds
+
+            SignupDataManager.backupPrefData(this)
+
+            finish() // 현재 액티비티 종료
         }
     }
 
@@ -157,15 +270,8 @@ class SignupSurveyActivity : AppCompatActivity() {
                 CustomToast.show(binding.root, "모든 항목에 응답해 주세요")
                 return@setOnClickListener
             }
-            // draft에 데이터 업데이트
+            // draft에 데이터 업데이트 및 회원가입 진행
             updateSurveyData()
-
-            // 회원가입 API 호출
-            signupCommit()
-
-            // 로그인 페이지로 이동 (LoginActivity)
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
         }
     }
 
@@ -191,7 +297,6 @@ class SignupSurveyActivity : AppCompatActivity() {
 
     // 유효성 검사 통과 시 설문 결과 데이터 업데이트
     private fun updateSurveyData() {
-        val signupToken = TokenManager.getSignupToken(this)
         val SignupSurveyRequest = SignupSurveyRequest(
             changeFrequency = answerChangeFrequency,
             irritationLevel = answerIrritationLevel,
@@ -209,6 +314,10 @@ class SignupSurveyActivity : AppCompatActivity() {
                     if (body.success == true) {
                         // 임시 토스트 메세지
                         CustomToast.show(binding.root, body.data)
+                        // 최신 draft 조회 및 pref 백업
+                        backupSurvey()
+                        // 회원가입 API 호출
+                        signupCommit()
                     } else {
                         CustomToast.show(binding.root, body.message)
                     }
@@ -219,14 +328,16 @@ class SignupSurveyActivity : AppCompatActivity() {
 
     // 회원가입 완료
     private fun signupCommit() {
-        val signupToken = TokenManager.getSignupToken(this)
-
         signupService.createSignup(signupToken)
             .executeWithHandler(
                 context = this,
                 onSuccess = { body ->
                     if(body.success == true) {
                         CustomToast.show(binding.root, body.data)
+                        // 로그인 페이지로 이동 (LoginActivity)
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        // 모든 회원가입 액티비티 종료
                     } else {
                         CustomToast.show(binding.root, body.message)
                     }
@@ -234,5 +345,21 @@ class SignupSurveyActivity : AppCompatActivity() {
             )
     }
 
+    // 최신 draft 조회 및 pref 백업
+    private fun backupSurvey() {
+        // 업데이트 된 최신 draft 조회
+        signupService.getDraft(signupToken)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if(body.success == true) {
+                        // 조회한 draft 데이터 싱글턴 변수에 저장
+                        SignupDataManager.saveDraftToPref(body.data)
+                        // pref 백업
+                        SignupDataManager.backupPrefData(this)
+                    }
+                }
+            )
+    }
 }
 

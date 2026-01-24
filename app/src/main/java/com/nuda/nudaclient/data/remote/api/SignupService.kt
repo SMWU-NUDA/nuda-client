@@ -5,6 +5,7 @@ import com.nuda.nudaclient.data.remote.dto.signup.SignupDeliveryRequest
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDraftResponse
 import com.nuda.nudaclient.data.remote.dto.signup.SignupSurveyRequest
 import com.nuda.nudaclient.data.remote.dto.common.BaseResponse
+import com.nuda.nudaclient.data.remote.dto.signup.SignupGetDraftResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -36,7 +37,7 @@ interface SignupService {
 
     // GET /signup/draft : 회원가입 임시 저장 조회
     @GET("signup/draft")
-    fun getDraft(@Header("Signup-Token") signupToken : String?) : Call<SignupDraftResponse>
+    fun getDraft(@Header("Signup-Token") signupToken : String?) : Call<SignupGetDraftResponse>
 
     // POST /signup/draft : 임시 저장 draft 생성(1단계)
     @POST("signup/draft")
