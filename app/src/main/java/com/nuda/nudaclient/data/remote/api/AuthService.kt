@@ -5,6 +5,7 @@ import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginResponse
 import com.nuda.nudaclient.data.remote.dto.auth.AuthReissueRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthReissueResponse
+import com.nuda.nudaclient.data.remote.dto.auth.AuthValidateAccessToken
 import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailResponse
 import com.nuda.nudaclient.data.remote.dto.common.BaseResponse
@@ -44,4 +45,8 @@ interface AuthService {
     // GET /auth/search/nickname : 닉네임 중복 검사
     @GET("auth/search/nickname")
     fun getNickname(@Query("nickname") nickname : String) : Call<BaseResponse>
+
+    // GET /auth/me : access 토큰 검증
+    @GET("auth/me")
+    fun validateAccessToken() : Call<AuthValidateAccessToken>
 }

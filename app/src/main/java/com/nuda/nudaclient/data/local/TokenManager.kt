@@ -26,6 +26,12 @@ object TokenManager {
             .getString(KEY_SIGNUP_TOKEN, null)
     }
 
+    // 회원가입 토큰 만료 시 삭제
+    fun clearSignupToken(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .edit { remove(KEY_SIGNUP_TOKEN) }
+    }
+
     // 로그인 시 access 토큰 및 refresh 토큰 저장
     fun saveTokens(context: Context, accessToken: String?, refreshToken: String?) {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -47,7 +53,7 @@ object TokenManager {
             .getString(KEY_REFRESH_TOKEN, null)
     }
 
-    // 모든 토큰 삭제 (로그아웃 시)
+    // 모든 토큰 삭제 (로그아웃 시) -> 수정 필요
     fun clearAllTokens(context: Context) {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
             .edit {

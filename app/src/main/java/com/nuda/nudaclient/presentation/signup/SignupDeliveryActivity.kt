@@ -16,8 +16,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.local.SignupDataManager
 import com.nuda.nudaclient.data.local.TokenManager
-import com.nuda.nudaclient.data.remote.api.RetrofitInstance
-import com.nuda.nudaclient.data.remote.api.RetrofitInstance.signupService
+import com.nuda.nudaclient.data.remote.RetrofitClient.signupService
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDeliveryRequest
 import com.nuda.nudaclient.databinding.ActivitySignupDeliveryBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
@@ -128,6 +127,9 @@ class SignupDeliveryActivity : AppCompatActivity() {
 
         iv_back = binding.toolBar.ivBack
 
+        // draft 만료 체크
+        SignupDataManager.clearExpiredData(this)
+
         // Draft 데이터 복원
         SignupDataManager.loadPrefData(this)
         setupProcess()
@@ -138,6 +140,13 @@ class SignupDeliveryActivity : AppCompatActivity() {
         // 버튼 클릭 이벤트
         setupButtons()
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        saveDeliveryData()
+        SignupDataManager.backupPrefData(this)
     }
 
     // 진행 상황 복원
@@ -297,12 +306,7 @@ class SignupDeliveryActivity : AppCompatActivity() {
     private fun setupPrevPage() {
         binding.btnPrevPage.setOnClickListener {
             // 현재 작성 중인 데이터 pref에 백업
-            SignupDataManager.recipient = et_recipient.text.toString().trim()
-            SignupDataManager.phoneNum = et_phoneNum.text.toString().trim()
-            SignupDataManager.postalCode = et_postalCode.text.toString().trim()
-            SignupDataManager.address1 = et_address1.text.toString().trim()
-            SignupDataManager.address2 = et_address2.text.toString().trim()
-
+            saveDeliveryData()
             SignupDataManager.backupPrefData(this)
 
             finish() // 현재 액티비티 종료
@@ -324,6 +328,10 @@ class SignupDeliveryActivity : AppCompatActivity() {
     // 뒤로가기 버튼
     private fun setupBack() {
         iv_back.setOnClickListener {
+            // 작성 배송 정보 및 상태 데이터 저장
+            saveDeliveryData()
+            SignupDataManager.backupPrefData(this)
+
             // 로그인 화면으로 이동
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -387,12 +395,10 @@ class SignupDeliveryActivity : AppCompatActivity() {
                 context = this,
                 onSuccess = { body ->
                     if(body.success == true) {
-                        // 조회한 draft 데이터 싱글턴 변수에 저장
-                        SignupDataManager.saveDraftToPref(body.data)
-
-                        // 배송 정보 상태 백업
-                        saveDeliveryStates()
-
+                        // 갱신된 draft 유효기간 저장
+                        SignupDataManager.expiresAt =  body.data.expiresAt
+                        // 배송 정보 및 유효성 상태 데이터 싱글턴 변수에 저장
+                        saveDeliveryData()
                         // pref에 전체 백업
                         SignupDataManager.backupPrefData(this)
                     }
@@ -400,8 +406,16 @@ class SignupDeliveryActivity : AppCompatActivity() {
             )
     }
 
-    // 유효성 검사 상태 pref 백업
-    private fun saveDeliveryStates() {
+    // 배송 정보 및 유효성 검사 상태 데이터 저장
+    private fun saveDeliveryData() {
+        // 입력한 배송 정보
+        SignupDataManager.recipient = et_recipient.text.toString().trim()
+        SignupDataManager.phoneNum = et_phoneNum.text.toString().trim()
+        SignupDataManager.postalCode = et_postalCode.text.toString().trim()
+        SignupDataManager.address1 = et_address1.text.toString().trim()
+        SignupDataManager.address2 = et_address2.text.toString().trim()
+
+        // 유효성 검사 상태
         SignupDataManager.isRecipientValid = isRecipientValid
         SignupDataManager.isPhoneNumValid = isPhoneNumValid
         SignupDataManager.isAddress2Valid = isAddress2Valid

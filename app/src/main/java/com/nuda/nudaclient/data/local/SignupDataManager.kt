@@ -5,6 +5,9 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.nuda.nudaclient.data.remote.dto.signup.SignupGetDraftResponse
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object SignupDataManager {
     private const val PREF_NAME = "signup_data"
@@ -44,7 +47,6 @@ object SignupDataManager {
     private const val KEY_IS_PHONE_NUM_VALID = "is_phone_num_valid"
     private const val KEY_IS_ADDRESS2_VALID = "is_address2_valid"
     private const val KEY_IS_ADDRESS_FIND_SUCCESS = "is_address_find_success"
-    private const val KEY_IS_FORMATTING = "is_formatting"
 
 
     private val gson = Gson()
@@ -89,34 +91,6 @@ object SignupDataManager {
     var isPhoneNumValid = false
     var isAddress2Valid = false
     var isAddressFindSuccess = false
-
-    // 조회한 draft 데이터를 object 변수에 저장
-    fun saveDraftToPref(data: SignupGetDraftResponse.Data) {
-        if (data.accountInfo.nickname != null) {
-            expiresAt = data.expiresAt
-            nickname = data.accountInfo.nickname
-            username = data.accountInfo.username
-            email = data.accountInfo.email
-        }
-
-        if (data.deliveryInfo.recipient != null) {
-            recipient = data.deliveryInfo.recipient
-            phoneNum = data.deliveryInfo.phoneNum
-            postalCode = data.deliveryInfo.postalCode
-            address1 = data.deliveryInfo.address1
-            address2 = data.deliveryInfo.address2
-        }
-
-        // 설문 데이터는 서버에 있을 때만 업데이트
-        if (data.surveyInfo.irritationLevel != null) {
-            irritationLevel = data.surveyInfo.irritationLevel
-            changeFrequency = data.surveyInfo.changeFrequency
-            thickness = data.surveyInfo.thickness
-            scent = data.surveyInfo.scent
-            priority = data.surveyInfo.priority
-            productIds = data.surveyInfo.productIds
-        }
-    }
 
     // 전체 Draft 데이터 저장 및 백업
     fun backupPrefData(context: Context) {
@@ -213,6 +187,81 @@ object SignupDataManager {
         isAddressFindSuccess = pref.getBoolean(KEY_IS_ADDRESS_FIND_SUCCESS, false)
     }
 
-    // draft 만료 시 삭제
+    // draft 만료 여부 확인
+    fun isDraftExpired() : Boolean { // true는 만료, false는 유효
+        // expiresAt 형식 : "2026.01.24 (토) 17:42"
 
+        val expiresAtStr = expiresAt ?: return true // null인 경우 만료
+
+        try {
+            // 날짜 문자열 파싱
+            val dateOnly = expiresAtStr.substringBefore(" (")
+            val timePart = expiresAtStr.substringAfterLast(") ")
+            val dateTimeStr = "$dateOnly $timePart"
+
+            // 문자열 Date 객체로 파싱
+            val format = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.KOREA)
+            val expiresAtDate = format.parse(dateTimeStr)
+
+            return expiresAtDate?.before(Date()) ?: true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return true // 파싱 실패 시 만료로 간주
+        }
+    }
+
+    // draft 만료 시 전체 데이터 삭제
+    fun clearExpiredData(context: Context) {
+        if (isDraftExpired()) {
+            clearAllData(context)
+        }
+    }
+
+    // 전체 데이터 초기화
+    fun clearAllData(context: Context) {
+        // Pref 삭제
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .edit { clear() }
+
+        // 회원가입 토큰 삭제
+        TokenManager.clearSignupToken(context)
+
+        // Object 변수 초기화
+        expiresAt = null
+
+        nickname = null
+        username = null
+        email = null
+        password = null
+        passwordCheck = null
+
+        recipient = null
+        phoneNum = null
+        postalCode = null
+        address1 = null
+        address2 = null
+
+        irritationLevel = null
+        changeFrequency = null
+        thickness = null
+        scent = null
+        priority = null
+        productIds = emptyList()
+
+        isNicknameValid = false
+        isUsernameValid = false
+        isPwValid = false
+        isPwCheckValid = false
+        isEmailValid = false
+        isEmailCertifyValid = false
+        isNicknameAvailable = false
+        isUsernameAvailable = false
+        isEmailSendSuccess = false
+        isEmailVerified = false
+
+        isRecipientValid = false
+        isPhoneNumValid = false
+        isAddress2Valid = false
+        isAddressFindSuccess = false
+    }
 }

@@ -19,8 +19,8 @@ import androidx.core.widget.doAfterTextChanged
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.local.SignupDataManager
 import com.nuda.nudaclient.data.local.TokenManager
-import com.nuda.nudaclient.data.remote.api.RetrofitInstance.authService
-import com.nuda.nudaclient.data.remote.api.RetrofitInstance.signupService
+import com.nuda.nudaclient.data.remote.RetrofitClient.authService
+import com.nuda.nudaclient.data.remote.RetrofitClient.signupService
 import com.nuda.nudaclient.data.remote.dto.auth.AuthEmailVerificationRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailRequest
 import com.nuda.nudaclient.data.remote.dto.signup.SignupAccountRequest
@@ -86,8 +86,6 @@ class SignupAccountActivity : AppCompatActivity() {
     private lateinit var iv_pwVisible : ImageView
     private lateinit var iv_pwCheckVisible : ImageView
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -133,6 +131,9 @@ class SignupAccountActivity : AppCompatActivity() {
         iv_pwVisible = binding.ivVisiblePw
         iv_pwCheckVisible = binding.ivVisiblePwCheck
 
+        // draft 만료 체크
+        SignupDataManager.clearExpiredData(this)
+
         // Draft 데이터 복원
         SignupDataManager.loadPrefData(this)
         setupProcess()
@@ -142,6 +143,13 @@ class SignupAccountActivity : AppCompatActivity() {
 
         // 버튼 클릭 이벤트
         setButtons()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        saveAccountData()
+        SignupDataManager.backupPrefData(this)
     }
 
     // 진행상황 복원
@@ -598,6 +606,10 @@ class SignupAccountActivity : AppCompatActivity() {
     // 뒤로가기 버튼
     private fun setupBack() {
         iv_back.setOnClickListener {
+            // 작성 계정 정보 및 상태 데이터 저장
+            saveAccountData()
+            SignupDataManager.backupPrefData(this)
+            
             // 로그인 화면으로 이동
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -662,14 +674,10 @@ class SignupAccountActivity : AppCompatActivity() {
                 context = this,
                 onSuccess = { body ->
                     if(body.success == true) {
-                        // 조회한 draft + 비밀번호, 비밀번호 확인 데이터 싱글턴 변수에 저장
-                        SignupDataManager.saveDraftToPref(body.data)
-                        SignupDataManager.password = et_pw.text.toString().trim()
-                        SignupDataManager.passwordCheck = et_pwCheck.text.toString().trim()
-
-                        // 계정 정보 상태 백업
-                        saveAccountStates()
-
+                        // 갱신된 draft 유효기간 저장
+                        SignupDataManager.expiresAt =  body.data.expiresAt
+                        // 입력한 계정 정보, 유효성 검사 상태 데이터 싱글턴 변수 저장
+                        saveAccountData()
                         // pref에 전체 백업
                         SignupDataManager.backupPrefData(this)
                     }
@@ -677,8 +685,16 @@ class SignupAccountActivity : AppCompatActivity() {
             )
     }
 
-    // 유효성 검사 상태 pref 백업
-    private fun saveAccountStates() {
+    // 계정 정보 및 유효성 검사 상태 데이터 저장
+    private fun saveAccountData() {
+        // 입력한 계정 정보
+        SignupDataManager.nickname = et_nickname.text.toString().trim()
+        SignupDataManager.username = et_username.text.toString().trim()
+        SignupDataManager.password = et_pw.text.toString().trim()
+        SignupDataManager.passwordCheck = et_pwCheck.text.toString().trim()
+        SignupDataManager.email = et_email.text.toString().trim()
+
+        // 유효성 검사 상태
         SignupDataManager.isNicknameValid = isNicknameValid
         SignupDataManager.isUsernameValid = isUsernameValid
         SignupDataManager.isPwValid = isPwValid

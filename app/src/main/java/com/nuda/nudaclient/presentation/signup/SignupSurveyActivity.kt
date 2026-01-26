@@ -12,8 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.local.SignupDataManager
 import com.nuda.nudaclient.data.local.TokenManager
-import com.nuda.nudaclient.data.remote.api.RetrofitInstance
-import com.nuda.nudaclient.data.remote.api.RetrofitInstance.signupService
+import com.nuda.nudaclient.data.remote.RetrofitClient.signupService
 import com.nuda.nudaclient.data.remote.dto.signup.SignupSurveyRequest
 import com.nuda.nudaclient.databinding.ActivitySignupSurveyBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
@@ -31,11 +30,11 @@ class SignupSurveyActivity : AppCompatActivity() {
     private var isRestoringData = false
 
     // 변수 선언
-    private lateinit var answerIrritationLevel : String
-    private lateinit var answerScent : String
-    private lateinit var answerChangeFrequency : String
-    private lateinit var answerThickness : String
-    private lateinit var answerPriority : String
+    private var answerIrritationLevel = "NULL"
+    private var answerScent = "NULL"
+    private var answerChangeFrequency = "NULL"
+    private var answerThickness = "NULL"
+    private var answerPriority = "NULL"
     private var productIds : List<Int> = emptyList()
 
     // 뷰 참조 선언
@@ -75,6 +74,9 @@ class SignupSurveyActivity : AppCompatActivity() {
 
         iv_back = binding.ivBack
 
+        // draft 만료 체크
+        SignupDataManager.clearExpiredData(this)
+
         // Draft 데이터 복원
         SignupDataManager.loadPrefData(this)
         setupProcess()
@@ -82,6 +84,14 @@ class SignupSurveyActivity : AppCompatActivity() {
         // 버튼 클릭 이벤트 설정
         setupButtons()
         
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        getSurveyResults()
+        saveSurveyData()
+        SignupDataManager.backupPrefData(this)
     }
 
     // 진행 상황 복원
@@ -245,13 +255,7 @@ class SignupSurveyActivity : AppCompatActivity() {
         binding.btnPrevPage.setOnClickListener {
             getSurveyResults()
 
-            // 현재 작성 중인 데이터 pref에 백업
-            SignupDataManager.irritationLevel = answerIrritationLevel
-            SignupDataManager.scent = answerScent
-            SignupDataManager.changeFrequency = answerChangeFrequency
-            SignupDataManager.thickness = answerThickness
-            SignupDataManager.priority = answerPriority
-            SignupDataManager.productIds = productIds
+            saveSurveyData()
 
             SignupDataManager.backupPrefData(this)
 
@@ -278,6 +282,10 @@ class SignupSurveyActivity : AppCompatActivity() {
     // 뒤로가기 버튼
     private fun setupBack() {
         iv_back.setOnClickListener {
+            getSurveyResults()
+            saveSurveyData()
+            SignupDataManager.backupPrefData(this)
+
             // 로그인 화면으로 이동
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -334,6 +342,9 @@ class SignupSurveyActivity : AppCompatActivity() {
                 onSuccess = { body ->
                     if(body.success == true) {
                         CustomToast.show(binding.root, body.data)
+
+                        // 회원가입 pref 삭제 clear
+
                         // 로그인 페이지로 이동 (LoginActivity)
                         val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
@@ -353,13 +364,25 @@ class SignupSurveyActivity : AppCompatActivity() {
                 context = this,
                 onSuccess = { body ->
                     if(body.success == true) {
-                        // 조회한 draft 데이터 싱글턴 변수에 저장
-                        SignupDataManager.saveDraftToPref(body.data)
+                        // 갱신된 draft 유효기간 저장
+                        SignupDataManager.expiresAt =  body.data.expiresAt
+                        // 입력한 설문 정보, 유효성 검사 상태 데이터 싱글턴 변수 저장
+                        saveSurveyData()
                         // pref 백업
                         SignupDataManager.backupPrefData(this)
                     }
                 }
             )
+    }
+
+    private fun saveSurveyData() {
+        // 입력한 설문 정보
+        SignupDataManager.irritationLevel = answerIrritationLevel
+        SignupDataManager.scent = answerScent
+        SignupDataManager.changeFrequency = answerChangeFrequency
+        SignupDataManager.thickness = answerThickness
+        SignupDataManager.priority = answerPriority
+        SignupDataManager.productIds = productIds
     }
 }
 
