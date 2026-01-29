@@ -19,6 +19,7 @@ import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginRequest
 import com.nuda.nudaclient.databinding.ActivityLoginBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.highlightInvalidField
+import com.nuda.nudaclient.extensions.setupPasswordVisible
 import com.nuda.nudaclient.presentation.signup.SignupAccountActivity
 import com.nuda.nudaclient.utils.CustomToast
 
@@ -56,20 +57,16 @@ class LoginActivity : AppCompatActivity() {
         et_username = binding.etLoginID
         et_password = binding.etLoginPW
 
-        // 로그인 버튼 클릭
-        setLoginButton()
-
-        // 회원가입 버튼 클릭 시 draft 임시 저장 생성
-        binding.tvRegister.setOnClickListener {
-            val signupToken = TokenManager.getSignupToken(this)
-            if(signupToken.isNullOrEmpty()) {
-                createDraft()
-            } else {
-                getDraft()
-            }
-        }
+        // 버튼 설정
+        setupButtons()
     }
 
+    // 버튼 설정
+    private fun setupButtons() {
+        setLoginButton()
+        setSignupButton()
+        setPasswordVisible()
+    }
 
     // 로그인 버튼
     private fun setLoginButton() {
@@ -85,6 +82,28 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // 회원가입 버튼
+    private fun setSignupButton() {
+        // 회원가입 버튼 클릭 시 draft 임시 저장 생성
+        binding.tvRegister.setOnClickListener {
+            val signupToken = TokenManager.getSignupToken(this)
+            if(signupToken.isNullOrEmpty()) {
+                createDraft()
+            } else {
+                getDraft()
+            }
+        }
+    }
+
+    // 비밀번호 보기 이미지 버튼
+    private fun setPasswordVisible() {
+        binding.ivVisiblePw.setupPasswordVisible(
+            context = this,
+            editText = et_password
+        )
+    }
+
+
     // 로그인 입력 유효성 검사
     private fun validationLogin() : Boolean {
         if (et_username.text.isEmpty()) isIdValid = false
@@ -95,7 +114,6 @@ class LoginActivity : AppCompatActivity() {
 
         return isIdValid && isPwValid
     }
-
 
     // 로그인 API 호출
     private fun login() {

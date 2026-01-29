@@ -32,11 +32,23 @@
         android:id="@+id/et_loginPW"
         style="@style/EditTextInput"
         android:hint="@string/pw"
-        android:layout_marginTop="15dp" 
+        android:layout_marginTop="15dp"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintEnd_toEndOf="@id/guideline4"
         app:layout_constraintTop_toBottomOf="@id/et_loginID"
         />
+
+    <ImageView
+        android:id="@+id/iv_visiblePw"
+        style="@style/ImageBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/img_visible"
+        app:layout_constraintBottom_toBottomOf="@id/et_loginPW"
+        app:layout_constraintEnd_toEndOf="@id/et_loginPW"
+        app:layout_constraintTop_toTopOf="@id/et_loginPW" />
     
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_login"

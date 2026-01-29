@@ -9,13 +9,19 @@
     tools:context=".presentation.signup.SignupSurveyActivity">
 
     <!--툴바-->
+
+    <!--스크롤뷰-->
+
+    <!--툴바 높이 가이드라인-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:elevation="24dp"
         app:layout_constraintBottom_toBottomOf="@id/guideline2"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="-61dp">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -38,9 +44,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--스크롤뷰-->
-
-    <!--툴바 높이 가이드라인-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"

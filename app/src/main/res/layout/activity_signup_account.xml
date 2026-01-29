@@ -245,6 +245,15 @@
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/et_emailCertify" />
 
+            <TextView
+                android:id="@+id/tv_timer"
+                style="@style/TextIsValid"
+                android:textColor="@color/green"
+                android:layout_marginRight="5dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline3"
+                app:layout_constraintTop_toBottomOf="@id/btn_certifyEmail"
+                />
+
             <!-- 다음 버튼 (회원가입2 페이지로 이동)-->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_nextPage"

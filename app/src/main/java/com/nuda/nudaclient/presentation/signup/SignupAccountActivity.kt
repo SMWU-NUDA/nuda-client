@@ -2,6 +2,7 @@ package com.nuda.nudaclient.presentation.signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
@@ -27,6 +28,7 @@ import com.nuda.nudaclient.data.remote.dto.signup.SignupAccountRequest
 import com.nuda.nudaclient.databinding.ActivitySignupAccountBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.highlightInvalidField
+import com.nuda.nudaclient.extensions.setupPasswordVisible
 import com.nuda.nudaclient.extensions.setupValidation
 import com.nuda.nudaclient.presentation.login.LoginActivity
 
@@ -54,6 +56,11 @@ class SignupAccountActivity : AppCompatActivity() {
 
     // 복원 모드 플래그 (TextWatcher가 초기화하는 것을 방지)
     private var isRestoringData = false
+
+    // 타이머 관련 변수
+    private var countDownTimer: CountDownTimer? = null
+    private val TIMER_DURATION = 5 * 60 * 1000L // 5분 (밀리초)
+
     // 뷰 참조
     // EditText
     private lateinit var et_nickname : EditText
@@ -73,6 +80,7 @@ class SignupAccountActivity : AppCompatActivity() {
     private lateinit var tv_validPwCheck : TextView
     private lateinit var tv_validEmail : TextView
     private lateinit var tv_emailCertify : TextView
+    private lateinit var tv_timer : TextView
 
     // Button
     private lateinit var btn_checkNickname : Button
@@ -120,6 +128,7 @@ class SignupAccountActivity : AppCompatActivity() {
         tv_validPwCheck = binding.tvValidPwCheck
         tv_validEmail = binding.tvValidEmail
         tv_emailCertify = binding.tvValidEmailCertify
+        tv_timer = binding.tvTimer
 
         btn_checkNickname = binding.btnCheckNickname
         btn_checkUsername = binding.btnCheckId
@@ -150,6 +159,11 @@ class SignupAccountActivity : AppCompatActivity() {
 
         saveAccountData()
         SignupDataManager.backupPrefData(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer?.cancel() // 타이머 정리
     }
 
     // 진행상황 복원
@@ -481,9 +495,11 @@ class SignupAccountActivity : AppCompatActivity() {
                             tv_validEmail.text = getString(R.string.btnValid_email_true)
                             tv_validEmail.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.green))
                             isEmailSendSuccess = true // 중복 확인 상태 저장
+                            
+                            // 이메일 인증번호 타이머 시작
+                            startEmailTimer()
                         } else { // HTTP 200인데 서버에서 실패 응답
-                            // body?.success == false
-                            tv_validEmail.text = body?.data ?: body?.message ?: getString(R.string.btnValid_email_fail)
+                            tv_validEmail.text = body.data ?: body.message ?: getString(R.string.btnValid_email_fail)
                             tv_validEmail.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
                             isEmailSendSuccess = false
                         }
@@ -538,56 +554,14 @@ class SignupAccountActivity : AppCompatActivity() {
 
     // 비밀번호, 비밀번호 확인 버튼
     private fun setupPwVisible() {
-        var isPwVisible = false
-        var isPwCheckVisible = false
-
-        // 비밀번호
-        iv_pwVisible.setOnClickListener {
-            isPwVisible = !isPwVisible
-
-            if(isPwVisible) { // true
-                // 비밀번호 보이기
-                et_pw.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                // 아이콘 색 변경
-                iv_pwVisible.setColorFilter(
-                    ContextCompat.getColor(this, R.color.gray2)
-                )
-            } else { // false
-                // 비밀번호 숨기기
-                et_pw.transformationMethod = PasswordTransformationMethod.getInstance()
-                // 아이콘 색 변경 (원래대로)
-                iv_pwVisible.setColorFilter(
-                    ContextCompat.getColor(this,R.color.gray4)
-                )
-            }
-
-            // 입력창 커서 맨 뒤로
-            et_pw.setSelection(et_pw.text?.length ?: 0) // setSelection은 Int를 필요로 함
-        }
-
-        // 비밀번호 확인
-        iv_pwCheckVisible.setOnClickListener {
-            isPwCheckVisible = !isPwCheckVisible
-
-            if(isPwCheckVisible) { // true
-                // 비밀번호 확인 보이기
-                et_pwCheck.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                // 아이콘 색 변경
-                iv_pwCheckVisible.setColorFilter(
-                    ContextCompat.getColor(this, R.color.gray2)
-                )
-            } else { // false
-                // 비밀번호 확인 숨기기
-                et_pwCheck.transformationMethod = PasswordTransformationMethod.getInstance()
-                // 아이콘 색 변경 (원래대로)
-                iv_pwCheckVisible.setColorFilter(
-                    ContextCompat.getColor(this,R.color.gray4)
-                )
-            }
-
-            // 입력창 커서 맨 뒤로
-            et_pwCheck.setSelection(et_pwCheck.text?.length ?: 0)
-        }
+        iv_pwVisible.setupPasswordVisible(
+            context = this,
+            editText = et_pw
+        )
+        iv_pwCheckVisible.setupPasswordVisible(
+            context = this,
+            editText = et_pwCheck
+        )
     }
 
     // 다음 페이지 이동 버튼
@@ -615,6 +589,28 @@ class SignupAccountActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    // 이메일 인증번호 타이머
+    private fun startEmailTimer() {
+        // 기존 타이머가 있으면 취소
+        countDownTimer?.cancel()
+
+        countDownTimer = object : CountDownTimer(TIMER_DURATION, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val minutes = millisUntilFinished / 1000 / 60
+                val seconds = (millisUntilFinished / 1000) % 60
+                tv_timer.text = String.format("%02d:%02d", minutes, seconds)
+            }
+
+            override fun onFinish() {
+                tv_timer.text = "00:00"
+                tv_timer.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
+                isEmailSendSuccess = false // 인증번호 재전송 필요
+            }
+        }.start()
+    }
+
+
 
     // 다음 버튼 클릭 시 유효성 검사 확인
     private fun validationAccount() : Boolean {
@@ -706,4 +702,6 @@ class SignupAccountActivity : AppCompatActivity() {
         SignupDataManager.isEmailSendSuccess = isEmailSendSuccess
         SignupDataManager.isEmailVerified = isEmailVerified
     }
+
+
 }

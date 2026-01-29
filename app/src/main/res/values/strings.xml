@@ -87,4 +87,17 @@
     <string name="survey_priority_soft">부드러움</string>
     <string name="survey_add_product">사용 후 만족했던 제품을 입력해주세요</string>
 
+    <!--상품 카드-->
+    <string name="product_brand">쏘피</string>
+    <string name="product_name">유기농 100% 순면 생리대</string>
+    <string name="product_ingredient_list">순면섬유(표지), 폴리에틸렌(표지), 펄프(흡수체) ...</string>
+    <string name="product_star">4.2</string>
+    <string name="product_review">(417)</string>
+    <string name="product_price">6,500원</string>
+    <string name="product_rank">1</string>
+
+    <!--검색-->
+    <string name="searchbar">제품을 검색하세요</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

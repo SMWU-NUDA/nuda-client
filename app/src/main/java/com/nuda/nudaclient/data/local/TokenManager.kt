@@ -47,13 +47,19 @@ object TokenManager {
             .getString(KEY_ACCESS_TOKEN, null)
     }
 
+    // access 토큰 만료 시 삭제
+    fun clearAccessToken(context: Context) {
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .edit { remove(KEY_ACCESS_TOKEN) }
+    }
+
     // refresh 토큰 받아오기
     fun getRefreshToken(context: Context) : String? {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
             .getString(KEY_REFRESH_TOKEN, null)
     }
 
-    // 모든 토큰 삭제 (로그아웃 시) -> 수정 필요
+    // 모든 토큰 삭제 (로그아웃 시)
     fun clearAllTokens(context: Context) {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
             .edit {

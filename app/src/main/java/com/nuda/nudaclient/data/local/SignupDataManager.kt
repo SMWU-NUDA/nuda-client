@@ -188,7 +188,7 @@ object SignupDataManager {
     }
 
     // draft 만료 여부 확인
-    fun isDraftExpired() : Boolean { // true는 만료, false는 유효
+    fun isDraftExpired() : Boolean { // true는 만료
         // expiresAt 형식 : "2026.01.24 (토) 17:42"
 
         val expiresAtStr = expiresAt ?: return true // null인 경우 만료
