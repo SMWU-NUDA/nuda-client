@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.mypage.MyPageFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <!--Title-->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mypage"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="24sp"
+            android:textColor="@color/gray1"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <!--본문-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+
+            <!--프로필 섹션-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/img_product_round"
+                    android:src="@drawable/image23"
+                    android:clipToOutline="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <!--닉네임-->
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="songSong"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textSize="20sp"
+                    android:textColor="@color/gray1"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="15dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_profile"
+                    />
+
+                <!--아이디-->
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID : noonsong123"
+                    android:fontFamily="@font/pretendard_extralight"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray1"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+                    app:layout_constraintStart_toStartOf="@id/tv_nickname"
+                    />
+
+                <!--회원 탈퇴-->
+                <TextView
+                    android:id="@+id/delete_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/accountDeletion"
+                    android:fontFamily="@font/pretendard_light"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray3"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--수정 버튼-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                >
+                <!--프로필 수정-->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_editAccount"
+                    style="@style/BtnEditProfile"
+                    android:text="@string/edit_account"
+                    android:layout_marginRight="20dp"
+                    />
+                <!--배송정보 관리-->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_editDelivery"
+                    style="@style/BtnEditProfile"
+                    android:text="@string/edit_delivery"
+                    />
+            </LinearLayout>
+
+            <!-- 선 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/gray5"/>
+
+            <!-- 내 맞춤 추천 랭킹 화면으로 이동 버튼 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_btn_recommend"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/go_to_recommend"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray1"
+                    android:layout_gravity ="center"
+                    />
+            </FrameLayout>
+
+            <!-- 키워드 관리 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                >
+
+                <TextView
+                    android:id="@+id/tv_manageKeyword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/manage_keyword"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="민감도 높음, 향 약함, 안전성 중시 ..."
+                    android:fontFamily="@font/pretendard_extralight"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray3"
+                    android:layout_marginTop="7dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_manageKeyword"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+                <ImageView
+                    android:layout_width="7dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/img_right_arrow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 결제 -->
+            <TextView
+                style="@style/TextMypageSubtitle"
+                android:text="@string/payment"
+                />
+
+            <!-- 주문 내역 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:layout_marginTop="18dp"
+                android:paddingVertical="7dp"
+                >
+                <TextView
+                    style="@style/TextMypageBasic"
+                    android:text="@string/order_history"
+                    android:layout_weight="1"
+                    />
+                <ImageView
+                    android:layout_width="7dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/img_right_arrow"
+                    android:layout_gravity="center_vertical"
+                    />
+            </LinearLayout>
+
+            <!-- 리뷰 -->
+            <TextView
+                style="@style/TextMypageSubtitle"
+                android:text="@string/review"
+                />
+
+            <!-- 새 리뷰 작성 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:layout_marginTop="18dp"
+                android:paddingVertical="7dp"
+                >
+                <TextView
+                    style="@style/TextMypageBasic"
+                    android:text="@string/create_new_review"
+                    android:layout_weight="1"
+                    />
+                <ImageView
+                    android:layout_width="7dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/img_right_arrow"
+                    android:layout_gravity="center_vertical"
+                    />
+            </LinearLayout>
+
+            <!-- 내 리뷰 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="7dp"
+                >
+                <TextView
+                    style="@style/TextMypageBasic"
+                    android:text="@string/my_reviews"
+                    android:layout_weight="1"
+                    />
+                <ImageView
+                    android:layout_width="7dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/img_right_arrow"
+                    android:layout_gravity="center_vertical"
+                    />
+            </LinearLayout>
+
+            <!-- 회원 탈퇴 -->
+            <TextView
+                style="@style/TextMypageSubtitle"
+                android:text="@string/review"
+                />
+
+            <!-- 새 리뷰 작성 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:layout_marginTop="18dp"
+                android:paddingVertical="7dp"
+                >
+                <TextView
+                    style="@style/TextMypageBasic"
+                    android:text="@string/create_new_review"
+                    android:layout_weight="1"
+                    />
+                <ImageView
+                    android:layout_width="7dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/img_right_arrow"
+                    android:layout_gravity="center_vertical"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--가이드라인-->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.08"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

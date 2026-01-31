@@ -98,9 +98,37 @@
         <item name="android:textColor">@color/gray2</item>
     </style>
 
+    <!--네비게이션 메뉴 텍스트-->
+    <style name="TextNavText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_extralight</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/bottom_nav_color</item>
+        <item name="android:duplicateParentState">true</item>
+    </style>
+
+    <!-- 마이페이지 소제목 텍스트 -->
+    <style name="TextMypageSubtitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/gray1</item>
+        <item name="android:layout_marginTop">40dp</item>
+    </style>
+
+    <!-- 마이페이지 기본 텍스트 -->
+    <style name="TextMypageBasic">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray1</item>
+    </style>
 
 
-    <!--EditText-->
+<!--EditText-->
     <!--기본 입력창(디폴트)-->
     <style name="EditTextInput">
         <item name="android:layout_width">0dp</item>
@@ -149,6 +177,14 @@
         <item name="android:layout_width">90dp</item>
         <item name="android:layout_height">90dp</item>
         <item name="android:background">@drawable/img_product</item>
+    </style>
+
+    <!--네비게이션 메뉴 아이콘-->
+    <style name="ImageNavIcon">
+        <item name="android:layout_width">22dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="android:tint">@color/bottom_nav_color</item>
     </style>
 
 <!--Button-->
@@ -226,6 +262,20 @@
         <item name="android:elevation">0dp</item>
     </style>
 
+    <!--프로필 수정 버튼(계정정보 수정, 배송정보 수정)-->
+    <style name="BtnEditProfile">
+        <item name="android:layout_width">85dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/gray3</item>
+        <item name="android:background">@drawable/btn_edit_profile</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
 <!--RadioGroup-->
     <!--설문 응답 라디오 그룹-->
     <style name="RadioSurveyAnswer">
@@ -235,5 +285,17 @@
         <item name="android:layout_marginTop">25dp</item>
     </style>
 
+<!--레이아웃-->
+<!--LinearLayout-->
+    <!--네비게이션 메뉴 그룹-->
+    <style name="linearNavMenu">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
 
 </resources>
