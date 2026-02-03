@@ -16,6 +16,7 @@
 
     <!-- 회원 정보 -->
     <string name="nickname">닉네임</string>
+    <string name="pw_now">현재 비밀번호</string>
     <string name="pw_check">비밀번호 확인</string>
     <string name="email">이메일</string>
     <string name="receiver">수령인</string>
@@ -57,12 +58,14 @@
 
     <!--회원가입 버튼 텍스트-->
     <string name="btn_checkDuplicate">중복 확인</string>
+    <string name="btn_check">확인</string>
     <string name="btn_send">보내기</string>
     <string name="btn_confirm">인증하기</string>
     <string name="btn_findAddress">주소 찾기</string>
     <string name="btn_next">다음</string>
     <string name="btn_prev">이전</string>
     <string name="btn_register">회원가입</string>
+    <string name="btn_save">저장</string>
 
     <!--설문 텍스트-->
     <string name="survey_sensitivity">생리대 사용 시 자극을 느낀 적이 있나요?</string>
@@ -107,7 +110,7 @@
 
     <!--마이페이지-->
     <string name="mypage">마이페이지</string>
-    <string name="accountDeletion"><u>회원 탈퇴</u></string>
+    <string name="accountDeletion">회원 탈퇴</string>
     <string name="edit_account">프로필 수정</string>
     <string name="edit_delivery">배송정보 관리</string>
     <string name="go_to_recommend">내 맞춤 제품 랭킹 보러가기</string>
@@ -118,5 +121,22 @@
     <string name="create_new_review">새 리뷰 작성</string>
     <string name="my_reviews">내 리뷰</string>
     <string name="logout">로그아웃</string>
+
+    <!--키워드-->
+    <string name="keyword_title">님의 키워드</string>
+    <string name="keyword_setting">키워드 설정</string>
+    <string name="keyword_irritationLevel">민감도</string>
+    <string name="keyword_scent">향</string>
+    <string name="keyword_flow">흡수력</string>
+    <string name="keyword_safety">안전성</string>
+    <string name="keyword_low">낮음</string>
+    <string name="keyword_normal">보통</string>
+    <string name="keyword_high">높음</string>
+    <string name="keyword_noScent">무향</string>
+    <string name="keyword_light">약함</string>
+    <string name="keyword_strong">강함</string>
+    <string name="keyword_notImportant">무관</string>
+    <string name="keyword_important">중시</string>
+
 
 </resources>

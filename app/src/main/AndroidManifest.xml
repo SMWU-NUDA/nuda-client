@@ -16,6 +16,18 @@
         android:theme="@style/Theme.NudaClient"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.mypage.MypageMyreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.mypage.MypageManageKeywordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.mypage.MypageEditDeliveryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.mypage.MypageEditAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.common.activity.NavigationActivity"
             android:exported="false" />
         <activity
@@ -46,7 +58,7 @@
         </activity>
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

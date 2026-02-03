@@ -8,7 +8,7 @@
         android:id="@+id/iv_product"
         style="@style/ImageProduct"
         android:clipToOutline="true"
-        android:src="@drawable/image23"
+        android:src="@drawable/image_product"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
@@ -41,7 +41,7 @@
         android:id="@+id/iv_star"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/img_star"
+        android:src="@drawable/img_star_12"
         android:layout_marginTop="9dp"
         app:layout_constraintBottom_toBottomOf="@id/iv_product"
         app:layout_constraintStart_toStartOf="@id/tv_productBrand"

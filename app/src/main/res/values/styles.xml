@@ -127,8 +127,65 @@
         <item name="android:textColor">@color/gray1</item>
     </style>
 
+    <!--Secondary_green 텍스트-->
+    <style name="TextSecondaryGreen">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_green</item>
+        <item name="android:background">@drawable/btn_secondary_green</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+    </style>
 
-<!--EditText-->
+    <!--키워드 설정 - 키워드 이름 텍스트(Secondary_default 텍스트)-->
+    <style name="TextSecondaryDefault">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray2</item>
+        <item name="android:background">@drawable/btn_secondary_default</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginRight">15dp</item>
+    </style>
+
+    <!--Secondary_block 텍스트-->
+    <style name="TextSecondaryblock">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray4</item>
+        <item name="android:background">@drawable/btn_secondary_block</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginRight">15dp</item>
+    </style>
+
+    <!--키워드 설정 텍스트(회색)-->
+    <style name="keyword_setting_gray">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_extralight</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray3</item>
+        <item name="android:layout_marginRight">18dp</item>
+    </style>
+
+   <!--키워드 설정 텍스트(그린)-->
+    <style name="keyword_setting_green">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/main</item>
+    </style>
+
+
+    <!--EditText-->
     <!--기본 입력창(디폴트)-->
     <style name="EditTextInput">
         <item name="android:layout_width">0dp</item>
@@ -298,4 +355,19 @@
         <item name="android:focusable">true</item>
     </style>
 
+
+<!--기타-->
+    <!--12dp 별점-->
+    <style name="CustomRatingBar12dp" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_rating_bar_12</item>
+        <item name="android:minHeight">12dp</item>
+        <item name="android:maxHeight">12dp</item>
+    </style>
+
+    <!--24dp 별점-->
+    <style name="CustomRatingBar24dp" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_rating_bar_24</item>
+        <item name="android:minHeight">24dp</item>
+        <item name="android:maxHeight">24dp</item>
+    </style>
 </resources>

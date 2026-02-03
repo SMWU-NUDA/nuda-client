@@ -68,4 +68,7 @@ dependencies {
 
     // gson
     implementation(libs.gson)
+
+    // flexbox
+    implementation(libs.flexbox)
 }

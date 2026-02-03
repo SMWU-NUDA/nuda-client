@@ -21,6 +21,7 @@ class MyPageFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    // 프래그먼트 초기화 코드 (프래그먼트 최초 생성 시점에 호출되는 콜백)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -29,10 +30,11 @@ class MyPageFragment : Fragment() {
         }
     }
 
+    // 레이아웃 지정 및 뷰 생성
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_page, container, false)
+        return inflater.inflate(R.layout.fragment_mypage, container, false)
     }
 
     companion object {

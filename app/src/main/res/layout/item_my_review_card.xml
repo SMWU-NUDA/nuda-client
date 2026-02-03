@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_my_review_card"
+    android:padding="16dp">
+
+    <!--별점-->
+    <RatingBar
+        android:id="@+id/rating_bar"
+        style="@style/CustomRatingBar12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:rating="2.5"
+        android:isIndicator="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    
+    <!--날짜-->
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25.08.13"
+        android:fontFamily="@font/pretendard_regular"
+        android:textSize="12sp"
+        android:textColor="@color/gray2"
+        android:layout_marginLeft="6dp"
+        app:layout_constraintStart_toEndOf="@id/rating_bar"
+        app:layout_constraintTop_toTopOf="@id/rating_bar"
+        app:layout_constraintBottom_toBottomOf="@id/rating_bar"
+        />
+    
+    <!--리뷰 삭제 버튼-->
+    <ImageView
+        android:id="@+id/btn_deleteReview"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/img_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!--상품 이미지-->
+    <ImageView
+        android:id="@+id/img_productImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/img_product"
+        android:clipToOutline="true"
+        android:src="@drawable/image_product"
+        android:layout_marginTop="11dp"
+        app:layout_constraintTop_toBottomOf="@id/rating_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <!--상품 브랜드-->
+    <TextView
+        android:id="@+id/tv_Brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="좋은느낌"
+        android:fontFamily="@font/pretendard_light"
+        android:textSize="12sp"
+        android:textColor="@color/gray3"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintStart_toEndOf="@id/img_productImage"
+        app:layout_constraintTop_toTopOf="@id/img_productImage"
+        />
+
+    <!--상품 이름-->
+    <TextView
+        android:id="@+id/tv_productName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="유기농 100% 순면 생리대 소형 4P"
+        android:fontFamily="@font/pretendard_medium"
+        android:textSize="15sp"
+        android:textColor="@color/gray1"
+        android:layout_marginTop="3dp"
+        app:layout_constraintStart_toStartOf="@id/tv_Brand"
+        app:layout_constraintTop_toBottomOf="@id/tv_Brand"
+        />
+
+    <!--상품 리뷰-->
+    <TextView
+        android:id="@+id/tv_reviewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="그동안 탐폰을 사용하면 쓰레기로 나오는 어플리케이터가 너무 크고 많이 나와서 조금씩 죄책감이 들었는데 디지털 탐폰은 쓰레기도 정말 적게 나오고 휴대할때 부피도 작아서 너무 편해요"
+        android:fontFamily="@font/pretendard_light"
+        android:textSize="13sp"
+        android:textColor="@color/gray2"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_productImage"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
