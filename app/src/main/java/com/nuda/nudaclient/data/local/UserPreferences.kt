@@ -3,6 +3,7 @@ package com.nuda.nudaclient.data.local
 import android.content.Context
 import androidx.core.content.edit
 import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginResponse
+import com.nuda.nudaclient.data.remote.dto.common.Me
 
 object UserPreferences {
     private const val PREF_NAME = "user_preferences"
@@ -13,7 +14,7 @@ object UserPreferences {
     private const val KEY_EMAIL = "email"
 
     // 로그인 시 회원 정보 저장
-    fun saveUserInfo(context: Context, user: AuthLoginResponse.Data.MeResponse) {
+    fun saveUserInfo(context: Context, user: Me) {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
             .edit {
                 putInt(KEY_USER_ID, user.id)

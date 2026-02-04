@@ -34,7 +34,7 @@ class NavigationActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             // 초기 화면 설정 (나중에 홈화면으로 변경)
-            replaceFragment(MyPageFragment())
+            replaceFragment(MyPageFragment(), "MYPAGE")
             selectMenu(menuMypage)
         }
 
@@ -51,28 +51,28 @@ class NavigationActivity : AppCompatActivity() {
 
 
     private fun setNavigation() {
-        // 홈 메뉴 클릭
-        menuHome.setOnClickListener {
-            replaceFragment()
-            selectMenu(menuHome)
-        }
-
-        // 맞춤 추천 메뉴 클릭
-        menuRecommend.setOnClickListener {
-            replaceFragment()
-            selectMenu(menuRecommend)
-        }
-
-
-        // 관심 메뉴 클릭
-        menuWishlist.setOnClickListener {
-            replaceFragment()
-            selectMenu(menuWishlist)
-        }
+//        // 홈 메뉴 클릭
+//        menuHome.setOnClickListener {
+//            replaceFragment()
+//            selectMenu(menuHome)
+//        }
+//
+//        // 맞춤 추천 메뉴 클릭
+//        menuRecommend.setOnClickListener {
+//            replaceFragment()
+//            selectMenu(menuRecommend)
+//        }
+//
+//
+//        // 관심 메뉴 클릭
+//        menuWishlist.setOnClickListener {
+//            replaceFragment()
+//            selectMenu(menuWishlist)
+//        }
 
         // 마이페이지 메뉴 클릭
         menuMypage.setOnClickListener {
-            replaceFragment(MyPageFragment())
+            replaceFragment(MyPageFragment(), "MYPAGE")
             selectMenu(menuMypage)
         }
     }
@@ -90,9 +90,14 @@ class NavigationActivity : AppCompatActivity() {
     }
 
     // 프래그먼트 변경
-    private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment, tag: String) {
+        // 같은 프래그먼트가 이미 있으면 교체하지 않음
+        if (supportFragmentManager.findFragmentByTag(tag) != null) {
+            return
+        }
+
         supportFragmentManager.beginTransaction()
-        .replace(R.id.fragment_container, fragment)
+        .replace(R.id.fragment_container, fragment, tag)
         .commit()
     }
 }

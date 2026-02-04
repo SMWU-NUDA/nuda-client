@@ -12,7 +12,7 @@ object TokenManager {
 
 
     // 회원가입 토큰 저장
-    fun saveSignupToken(context: Context, token : String) {
+    fun saveSignupToken(context: Context, token : String?) {
         // SharedPreferences 파일을 가져오거나 생성 (MODE_PRIVATE : 해당 앱에서만 접근 가능)
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
             .edit { // 수정 모드로 전환 (읽기 -> 쓰기)

@@ -1,5 +1,6 @@
 package com.nuda.nudaclient.data.remote.api
 
+import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
 import com.nuda.nudaclient.data.remote.dto.signup.SignupAccountRequest
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDeliveryRequest
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDraftResponse
@@ -16,11 +17,11 @@ import retrofit2.http.PUT
 interface SignupService {
     // GET /signup/draft : 회원가입 임시 저장 조회
     @GET("signup/draft")
-    fun getDraft(@Header("Signup-Token") signupToken : String?) : Call<SignupGetDraftResponse>
+    fun getDraft(@Header("Signup-Token") signupToken : String?) : Call<ApiResponse<SignupGetDraftResponse>>
 
     // POST /signup/draft : 임시 저장 draft 생성(1단계)
     @POST("signup/draft")
-    fun createDraft() : Call<SignupDraftResponse>
+    fun createDraft() : Call<ApiResponse<SignupDraftResponse>>
 
     // PUT /signup/draft/account : 계정 정보(2단계)
     @PUT("signup/draft/account")

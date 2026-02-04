@@ -5,10 +5,11 @@ import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginResponse
 import com.nuda.nudaclient.data.remote.dto.auth.AuthReissueRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthReissueResponse
-import com.nuda.nudaclient.data.remote.dto.auth.AuthValidateAccessToken
 import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailResponse
+import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
 import com.nuda.nudaclient.data.remote.dto.common.BaseResponse
+import com.nuda.nudaclient.data.remote.dto.common.Me
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,7 +21,7 @@ interface AuthService {
 
     // POST /auth/reissue : 토큰 재발급
     @POST("auth/reissue")
-    fun reissue(@Body request : AuthReissueRequest) : Call<AuthReissueResponse>
+    fun reissue(@Body request : AuthReissueRequest) : Call<ApiResponse<AuthReissueResponse>>
 
     // POST /auth/logout : 로그아웃
     @POST("auth/logout")
@@ -28,7 +29,7 @@ interface AuthService {
 
     // POST /auth/login : 로그인
     @POST("auth/login")
-    fun login(@Body request : AuthLoginRequest) : Call<AuthLoginResponse>
+    fun login(@Body request : AuthLoginRequest) : Call<ApiResponse<AuthLoginResponse>>
 
     // POST /auth/emails/verifications : 이메일 인증번호 검증
     @POST("auth/emails/verifications")
@@ -48,5 +49,5 @@ interface AuthService {
 
     // GET /auth/me : access 토큰 검증
     @GET("auth/me")
-    fun validateAccessToken() : Call<AuthValidateAccessToken>
+    fun validateAccessToken() : Call<ApiResponse<Me>>
 }

@@ -2,6 +2,8 @@ package com.nuda.nudaclient.data.remote
 
 import android.content.Context
 import com.nuda.nudaclient.data.remote.api.AuthService
+import com.nuda.nudaclient.data.remote.api.MembersService
+import com.nuda.nudaclient.data.remote.api.ReviewsService
 import com.nuda.nudaclient.data.remote.api.SignupService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -54,5 +56,14 @@ object RetrofitClient {
         retrofit.create(SignupService::class.java)
     }
 
+    // 회원
+    val membersService : MembersService by lazy {
+        retrofit.create(MembersService::class.java)
+    }
+
+    // 리뷰
+    val reviewsService : ReviewsService by lazy {
+        retrofit.create(ReviewsService::class.java)
+    }
 
 }

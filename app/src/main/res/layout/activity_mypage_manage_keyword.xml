@@ -129,10 +129,6 @@
                     />
                 <TextView
                     style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_light"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
                     android:text="@string/keyword_normal"
                     />
                 <TextView

@@ -1,8 +1,8 @@
 package com.nuda.nudaclient.data.remote.dto.common
 
-data class BaseResponse(
+data class ApiResponse<T>(
     val success: Boolean,
     val code: String,
     val message: String,
-    val data: String
+    val data: T?
 )

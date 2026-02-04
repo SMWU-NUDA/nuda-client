@@ -368,7 +368,7 @@ class SignupSurveyActivity : AppCompatActivity() {
                 onSuccess = { body ->
                     if(body.success == true) {
                         // 갱신된 draft 유효기간 저장
-                        SignupDataManager.expiresAt =  body.data.expiresAt
+                        SignupDataManager.expiresAt =  body.data?.expiresAt
                         // 입력한 설문 정보, 유효성 검사 상태 데이터 싱글턴 변수 저장
                         saveSurveyData()
                         // pref 백업

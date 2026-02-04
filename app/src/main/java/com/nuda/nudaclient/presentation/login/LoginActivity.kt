@@ -153,11 +153,11 @@ class LoginActivity : AppCompatActivity() {
                     // 현재 draft 조회 성공 (signupToken 유효)
                     if(body.success == true) {
                         // 유효 기간 pref 저장
-                        SignupDataManager.expiresAt = body.data.expiresAt
+                        SignupDataManager.expiresAt = body.data?.expiresAt
                         SignupDataManager.backupPrefData(this)
 
                         // 회원가입 화면 이동
-                        when(body.data.currentStep) {
+                        when(body.data?.currentStep) {
                             "COMPLETED" -> Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show()
                             else -> navigateToAccount() // 무조건 첫 번째 계정정보 페이지로 이동
                         }
@@ -167,9 +167,9 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "응답 성공 / 서버 fail - Draft 조회 실패", Toast.LENGTH_LONG).show()
                     }
                 },
-                onError = { errorMessage ->
+                onError = { _ ->
                     createDraft()
-                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "서버 오류", Toast.LENGTH_LONG).show()
                 }
             )
     }
@@ -182,7 +182,7 @@ class LoginActivity : AppCompatActivity() {
                 onSuccess = { body ->
                     if(body.success == true) {
                         // 회원가입 토큰 저장
-                        TokenManager.saveSignupToken(this, body.data.signupToken)
+                        TokenManager.saveSignupToken(this, body.data?.signupToken)
                         
                         // 생성된 draft 유효기간 pref에 저장 및 회원가입 화면 이동
                         getDraft()

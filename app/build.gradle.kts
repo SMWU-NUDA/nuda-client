@@ -71,4 +71,11 @@ dependencies {
 
     // flexbox
     implementation(libs.flexbox)
+
+    // glide
+    implementation(libs.glide)
+
+    // Jetpack navigation
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
 }

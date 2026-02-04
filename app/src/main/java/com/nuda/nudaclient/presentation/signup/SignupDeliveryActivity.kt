@@ -396,7 +396,7 @@ class SignupDeliveryActivity : AppCompatActivity() {
                 onSuccess = { body ->
                     if(body.success == true) {
                         // 갱신된 draft 유효기간 저장
-                        SignupDataManager.expiresAt =  body.data.expiresAt
+                        SignupDataManager.expiresAt =  body.data?.expiresAt
                         // 배송 정보 및 유효성 상태 데이터 싱글턴 변수에 저장
                         saveDeliveryData()
                         // pref에 전체 백업

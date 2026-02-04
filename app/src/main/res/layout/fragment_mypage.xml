@@ -139,6 +139,7 @@
 
             <!-- 키워드 관리 -->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/group_manageKeyword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -158,6 +159,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     />
                 <TextView
+                    android:id="@+id/tv_keywords"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="민감도 높음, 향 약함, 안전성 중시 ..."
@@ -186,6 +188,7 @@
 
             <!-- 주문 내역 -->
             <LinearLayout
+                android:id="@+id/group_orderHistory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -215,6 +218,7 @@
 
             <!-- 새 리뷰 작성 -->
             <LinearLayout
+                android:id="@+id/group_createNewReview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -238,6 +242,7 @@
 
             <!-- 내 리뷰 -->
             <LinearLayout
+                android:id="@+id/group_myReviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
