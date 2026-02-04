@@ -3,6 +3,7 @@ package com.nuda.nudaclient.presentation
 import android.content.Intent
 import android.media.session.MediaSession
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,8 +14,10 @@ import com.nuda.nudaclient.data.local.UserPreferences
 import com.nuda.nudaclient.data.remote.RetrofitClient.authService
 import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginResponse
 import com.nuda.nudaclient.data.remote.dto.auth.AuthReissueRequest
+import com.nuda.nudaclient.data.remote.dto.common.Me
 import com.nuda.nudaclient.databinding.ActivityMainBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
+import com.nuda.nudaclient.presentation.common.activity.NavigationActivity
 import com.nuda.nudaclient.presentation.login.LoginActivity
 import com.nuda.nudaclient.utils.CustomToast
 
@@ -44,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // access 토큰 검증
     private fun checkAccessToken() {
         authService.validateAccessToken()
             .executeWithHandler(
@@ -51,35 +55,49 @@ class MainActivity : AppCompatActivity() {
                 onSuccess = { body ->
                     if (body.success == true) { // access 토큰 존재 -> 홈화면 이동
                         // 응답 데이터 저장
-                        val meResponse = AuthLoginResponse.Data.MeResponse (
-                            id = body.data.id,
-                            username = body.data.username,
-                            nickname = body.data.nickname,
-                            profileImg = body.data.profileImg,
-                            email = body.data.email
+                        val meResponse = Me(
+                            id = body.data?.id ?: -1,
+                            username = body.data?.username ?: "null",
+                            nickname = body.data?.nickname ?: "null",
+                            profileImg = body.data?.profileImg?: "null",
+                            email = body.data?.email ?: "null"
                         )
                         UserPreferences.saveUserInfo(this, meResponse)
 
-                        // 홈 화면으로 이동
-//                        startActivity(Intent(this, HomeActivity::class.java))
+                        // 홈 화면으로 이동 (임시로 마이페이지 이동, 이후 수정)
+                        startActivity(Intent(this, NavigationActivity::class.java))
+                        Log.d("API_DEBUG", "access토큰 인증 완료, 홈화면으로 이동")
                     } else {
-                        when (body.code) {
+                        Log.e("API_ERROR", "응답 성공, 서버 fail ")
+                    }
+                },
+                onError = { errorResponse -> // access 토큰 만료 등의 에러
+                    if (errorResponse != null) {
+                        when (errorResponse?.code) {
                             "AUTH_REQUIRED" -> { // access 토큰 없음 -> 로그인 필요
-                                CustomToast.show(binding.root, body.message)
+                                CustomToast.show(binding.root, errorResponse.message)
                                 startActivity(Intent(this, LoginActivity::class.java))
+                                Log.d("API_DEBUG", "access 토큰 없음, 로그인 화면으로 이동")
                             }
                             "AUTH_EXPIRED_TOKEN" -> { // access 토큰 만료 -> 재발급
-                                CustomToast.show(binding.root, body.message)
+                                CustomToast.show(binding.root, errorResponse.message)
                                 // access 토큰 재발급 API 호출
                                 reissueAccessToken()
-                                // 토큰 재확인
-                                validateAccessToken()
+                                Log.d("API_DEBUG", "access 토큰 만료, 재발급 API 호출")
                             }
                             "AUTH_INVALID_ACCESS_TOKEN" -> { // 유효하지 않은 access 토큰 -> 로그인 필요
-                                CustomToast.show(binding.root, body.message)
+                                CustomToast.show(binding.root, errorResponse.message)
                                 startActivity(Intent(this, LoginActivity::class.java))
+                                Log.d("API_DEBUG", "유효하지 않은 access 토큰, 로그인 화면으로 이동")
+                            }
+                            else -> {
+                                // 그 외 서버 에러
+                                CustomToast.show(binding.root, errorResponse.message)
                             }
                         }
+                    } else {
+                        // errorResponse가 null인 경우 (파싱 실패)
+                        CustomToast.show(binding.root, "서버 오류가 발생했습니다")
                     }
                 }
             )
@@ -91,18 +109,23 @@ class MainActivity : AppCompatActivity() {
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
-                        TokenManager.saveTokens(this, body.data.accessToken, body.data.refreshToken)
+                        TokenManager.saveTokens(this, body.data?.accessToken, body.data?.refreshToken)
                         CustomToast.show(binding.root, "토큰 재발급 성공")
+                        Log.d("API_DEBUG", "토큰 재발급 성공, access 토큰 재검증")
+                        // 토큰 재확인
+                        checkAccessToken()
                     } else {
                         CustomToast.show(binding.root, "토큰 재발급 실패")
+                        // 로그인 화면으로 이동
+                        startActivity(Intent(this, LoginActivity::class.java))
                     }
                 }
             )
 
     }
 
-    private fun validateAccessToken() {
-        authService.validateAccessToken()
-    }
+//    private fun validateAccessToken() {
+//        authService.validateAccessToken()
+//    }
 
 }
