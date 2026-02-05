@@ -9,6 +9,9 @@ import com.nuda.nudaclient.R
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 
 class MypageEditDeliveryActivity : BaseActivity() {
+
+    // TODO: feat(members): (mypage) 배송정보 관리 기능 구현 (회원가입 참고, API 호출 + 데이터 바인딩)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

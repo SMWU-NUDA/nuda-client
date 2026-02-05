@@ -10,6 +10,9 @@ import java.util.Date
 import java.util.Locale
 
 object SignupDataManager {
+
+    // TODO: clearExpiredData(), isDraftExpired() 사용되는 액티비티에서 expiredAt 유효기간이 잘 전달되었는지 흐름 확인하기
+
     private const val PREF_NAME = "signup_data"
     private const val KEY_EXPIRES_AT = "expires_at"
 

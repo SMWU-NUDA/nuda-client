@@ -1,7 +1,6 @@
-package com.nuda.nudaclient.presentation
+package com.nuda.nudaclient.presentation.common.activity
 
 import android.content.Intent
-import android.media.session.MediaSession
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -11,13 +10,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.local.TokenManager
 import com.nuda.nudaclient.data.local.UserPreferences
-import com.nuda.nudaclient.data.remote.RetrofitClient.authService
-import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginResponse
+import com.nuda.nudaclient.data.remote.RetrofitClient
 import com.nuda.nudaclient.data.remote.dto.auth.AuthReissueRequest
 import com.nuda.nudaclient.data.remote.dto.common.Me
 import com.nuda.nudaclient.databinding.ActivityMainBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
-import com.nuda.nudaclient.presentation.common.activity.NavigationActivity
 import com.nuda.nudaclient.presentation.login.LoginActivity
 import com.nuda.nudaclient.utils.CustomToast
 
@@ -49,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     // access 토큰 검증
     private fun checkAccessToken() {
-        authService.validateAccessToken()
+        RetrofitClient.authService.validateAccessToken()
             .executeWithHandler(
                 context = this,
                 onSuccess = { body ->
@@ -59,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                             id = body.data?.id ?: -1,
                             username = body.data?.username ?: "null",
                             nickname = body.data?.nickname ?: "null",
-                            profileImg = body.data?.profileImg?: "null",
+                            profileImg = body.data?.profileImg ?: "null",
                             email = body.data?.email ?: "null"
                         )
                         UserPreferences.saveUserInfo(this, meResponse)
@@ -104,7 +101,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun reissueAccessToken() {
-        authService.reissue(AuthReissueRequest(TokenManager.getRefreshToken(this)))
+        RetrofitClient.authService.reissue(AuthReissueRequest(TokenManager.getRefreshToken(this)))
             .executeWithHandler(
                 context = this,
                 onSuccess = { body ->

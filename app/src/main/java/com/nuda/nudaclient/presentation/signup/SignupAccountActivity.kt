@@ -34,6 +34,8 @@ import com.nuda.nudaclient.presentation.login.LoginActivity
 
 class SignupAccountActivity : AppCompatActivity() {
 
+    // TODO: security(auth): (signup) SharedPreferences에서 비밀번호 저장 제거 (회원가입 시 비밀번호는 서버 전송 후 즉시 폐기)
+
     // 뷰 바인딩 객체 선언
     lateinit var binding : ActivitySignupAccountBinding
 

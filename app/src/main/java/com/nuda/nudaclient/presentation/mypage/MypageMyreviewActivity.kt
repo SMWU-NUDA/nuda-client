@@ -9,6 +9,11 @@ import com.nuda.nudaclient.R
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 
 class MypageMyreviewActivity : BaseActivity() {
+
+    // TODO: feat(reviews): (mypage) 내 리뷰 프래그먼트 & 어댑터 생성 및 설정 - common에
+    // TODO: feat(reviews): (mypage) 내 리뷰 리사이클러뷰 연결
+    // TODO: feat(reviews): (mypage) 내 리뷰 기능 구현 및 API 호출
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

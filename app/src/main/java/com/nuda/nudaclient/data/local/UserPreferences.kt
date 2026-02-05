@@ -6,6 +6,8 @@ import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginResponse
 import com.nuda.nudaclient.data.remote.dto.common.Me
 
 object UserPreferences {
+    // TODO: remove(auth): 회원 정보 삭제? 필요한지 보고 필요 없으면 삭제하기
+
     private const val PREF_NAME = "user_preferences"
     private const val KEY_USER_ID = "user_id"
     private const val KEY_USERNAME = "username"

@@ -8,7 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.nuda.nudaclient.presentation.MainActivity
+import com.nuda.nudaclient.presentation.common.activity.MainActivity
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.local.SignupDataManager
 import com.nuda.nudaclient.data.local.TokenManager

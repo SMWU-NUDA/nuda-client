@@ -8,14 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.local.TokenManager
+import com.nuda.nudaclient.data.local.UserPreferences
+import com.nuda.nudaclient.data.remote.RetrofitClient.authService
 import com.nuda.nudaclient.data.remote.RetrofitClient.membersService
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
 import com.nuda.nudaclient.data.remote.dto.members.MembersUserInfoResponse
 import com.nuda.nudaclient.databinding.FragmentMypageBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
+import com.nuda.nudaclient.presentation.login.LoginActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MyPageFragment : Fragment() {
+
+    // TODO: feat(auth): (mypage) 로그아웃 기능 구현 및 API 호출
+    // TODO: feat(members): (mypage) 회원 탈퇴 기능 구현
+
+    // TODO: feat: (home) 홈 UI 구성
+
 
     // 프래그먼트 생명 주기의 onDestroyView() 콜백에서 뷰는 삭제되지만 프래그먼트는 유지
     private var _binding: FragmentMypageBinding? = null // nullabel, 뷰가 없을 때는 null로 초기화
@@ -164,22 +174,39 @@ class MyPageFragment : Fragment() {
     // 로그아웃
     private fun setupLogout() {
         binding.logout.setOnClickListener {
-            /** 로그아웃 팝업창 띄우기
-             * 확인 시 로그아웃 API 호출
-             * 로그인 시 제공되는 로컬 회원 정보 삭제 pref
+            /** 로그아웃 API 호출
+             * 로그인 시 제공되는 로컬 회원 정보 및 토큰 삭제 (pref)
              * 로그인 화면으로 이동
              */
+
+            authService.logout()
+                .executeWithHandler(
+                    context = requireContext(),
+                    onSuccess = { body ->
+                        // 토큰 전체 삭제
+                        TokenManager.clearAllTokens(requireContext())
+                        // 회원 정보 pref 삭제
+                        UserPreferences.clearUserInfo(requireContext())
+                        // 로그인 화면으로 이동
+                        val intent = Intent(requireContext(), LoginActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish() // 프래그먼트가 속한 액티비티 종료
+                    }
+                )
         }
     }
 
     // 회원 탈퇴
     private fun setupDeleteAccount() {
         binding.deleteAccount.setOnClickListener {
-            /** 회원 탈퇴 팝업창 띄우기
-             * 확인 시 회원 탈퇴 API 호출
+            /** 회원 탈퇴 API 호출
              * pref 및 로컬에 저장된 토큰과 회원 정보 삭제
              * 로그인 화면으로 이동
              */
+
+
+
+
         }
     }
 

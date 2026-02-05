@@ -346,7 +346,7 @@ class SignupSurveyActivity : AppCompatActivity() {
                 onSuccess = { body ->
                     if(body.success == true) {
                         CustomToast.show(binding.root, body.data)
-                        // 회원가입 pref 삭제 clear
+                        // 회원가입 데이터 pref 삭제 clear
                         SignupDataManager.clearAllData(this)
                         // 로그인 페이지로 이동 (LoginActivity)
                         val intent = Intent(this, LoginActivity::class.java)
