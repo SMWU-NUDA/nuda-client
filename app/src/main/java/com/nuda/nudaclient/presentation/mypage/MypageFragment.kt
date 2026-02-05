@@ -182,14 +182,16 @@ class MyPageFragment : Fragment() {
                 .executeWithHandler(
                     context = requireContext(),
                     onSuccess = { body ->
-                        // 토큰 전체 삭제
-                        TokenManager.clearAllTokens(requireContext())
-                        // 회원 정보 pref 삭제
-                        UserPreferences.clearUserInfo(requireContext())
-                        // 로그인 화면으로 이동
-                        val intent = Intent(requireContext(), LoginActivity::class.java)
-                        startActivity(intent)
-                        requireActivity().finish() // 프래그먼트가 속한 액티비티 종료
+                        if (body.success == true) {
+                            // 토큰 전체 삭제
+                            TokenManager.clearAllTokens(requireContext())
+                            // 회원 정보 pref 삭제
+                            UserPreferences.clearUserInfo(requireContext())
+                            // 로그인 화면으로 이동
+                            val intent = Intent(requireContext(), LoginActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish() // 프래그먼트가 속한 액티비티 종료
+                        }
                     }
                 )
         }

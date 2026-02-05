@@ -23,6 +23,10 @@ interface AuthService {
     @POST("auth/reissue")
     fun reissue(@Body request : AuthReissueRequest) : Call<ApiResponse<AuthReissueResponse>>
 
+    // POST /auth/password/verifications : 기존 비밀번호 확인
+    @POST("auth/password/verifications")
+    fun verifyPassword(@Body request : Map<String, String>) : Call<BaseResponse>
+
     // POST /auth/logout : 로그아웃
     @POST("auth/logout")
     fun logout() : Call<BaseResponse>

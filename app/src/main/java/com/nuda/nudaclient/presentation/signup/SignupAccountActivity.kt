@@ -460,9 +460,9 @@ class SignupAccountActivity : AppCompatActivity() {
                             isUsernameAvailable = true // 중복 확인 상태 저장
                         } else { // HTTP 200인데 서버에서 실패 응답
                             // body?.success == false 이거나 null일 수 있음.
-                            tv_duplicateNickname.text =
+                            tv_duplicateUsername.text =
                                 body?.data ?: body?.message ?: getString(R.string.btnValid_id_false)
-                            tv_duplicateNickname.setTextColor(
+                            tv_duplicateUsername.setTextColor(
                                 ContextCompat.getColor(
                                     this@SignupAccountActivity,
                                     R.color.red

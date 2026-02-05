@@ -20,13 +20,16 @@
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.MypageManageKeywordActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".presentation.mypage.MypageEditDeliveryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".presentation.mypage.MypageEditAccountActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".presentation.common.activity.NavigationActivity"
             android:exported="false" />

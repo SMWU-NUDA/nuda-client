@@ -116,9 +116,21 @@
             <EditText
                 android:id="@+id/et_pwNow"
                 style="@style/EditTextInput"
+                android:inputType="textPassword"
                 app:layout_constraintEnd_toStartOf="@+id/btn_checkPw"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/tv_pwNow" />
+
+            <ImageView
+                android:id="@+id/iv_visiblePwNow"
+                style="@style/ImageBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/img_visible"
+                app:layout_constraintBottom_toBottomOf="@id/et_pwNow"
+                app:layout_constraintEnd_toEndOf="@id/et_pwNow"
+                app:layout_constraintTop_toTopOf="@id/et_pwNow" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_checkPw"
@@ -131,7 +143,6 @@
             <TextView
                 android:id="@+id/tv_checkedPwNow"
                 style="@style/TextIsValid"
-                android:layout_marginTop="2dp"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/et_pwNow" />
 
