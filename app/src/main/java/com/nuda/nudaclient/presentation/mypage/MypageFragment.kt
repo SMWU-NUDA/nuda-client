@@ -21,7 +21,6 @@ import com.nuda.nudaclient.utils.CustomToast
 
 class MyPageFragment : Fragment() {
 
-    // TODO: feat(auth): (mypage) 로그아웃 기능 구현 및 API 호출
     // TODO: feat(members): (mypage) 회원 탈퇴 기능 구현
 
     // TODO: feat: (home) 홈 UI 구성

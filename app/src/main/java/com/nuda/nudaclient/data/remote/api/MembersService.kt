@@ -3,7 +3,6 @@ package com.nuda.nudaclient.data.remote.api
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
 import com.nuda.nudaclient.data.remote.dto.common.Me
 import com.nuda.nudaclient.data.remote.dto.members.MembersDeliveryInfoResponse
-import com.nuda.nudaclient.data.remote.dto.members.MembersUpdateProfileRequest
 import com.nuda.nudaclient.data.remote.dto.members.MembersUserInfoResponse
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDeliveryRequest
 import retrofit2.Call
@@ -20,7 +19,7 @@ interface MembersService {
 
     // PATCH /members/me : 프로필 수정
     @PATCH("members/me")
-    fun updateProfile(@Body request: MembersUpdateProfileRequest) : Call<ApiResponse<Me>>
+    fun updateProfile(@Body request: Map<String, String>) : Call<ApiResponse<Me>>
 
     // GET /members/me/delivery : 배송정보 조회
     @GET("members/me/delivery")

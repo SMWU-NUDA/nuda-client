@@ -293,6 +293,7 @@ class SignupSurveyActivity : AppCompatActivity() {
             // 로그인 화면으로 이동
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
