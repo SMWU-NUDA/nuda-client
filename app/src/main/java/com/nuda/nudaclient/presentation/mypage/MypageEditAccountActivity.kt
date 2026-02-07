@@ -29,10 +29,6 @@ import kotlin.math.PI
 
 class MypageEditAccountActivity : BaseActivity() {
 
-    // TODO: feat(members): (mypage) 프로필 수정 유효성 검사 추가 (회원가입 참고 / 닉네임, 아이디, 비밀번호, 이메일)
-    // TODO: feat(members): (mypage) 프로필 수정 - 비밀번호 검증 기능 구현 및 API 호출
-    // TODO: feat(members): (mypage) 프로필 수정 구현 및 테스트 완료 (프로필 수정 시 마이페이지 저장)
-
     private lateinit var binding: ActivityMypageEditAccountBinding
 
     // 기존 회원 정보
@@ -83,6 +79,7 @@ class MypageEditAccountActivity : BaseActivity() {
         // 툴바 뒤로가기 설정
         setBackButton()
 
+
         // 회원 정보 로드
         loadUserInfo()
 
@@ -131,7 +128,7 @@ class MypageEditAccountActivity : BaseActivity() {
         binding.etEmail.setText(originalEmail)
     }
 
-    // 기존 유효성 검사 UI 복원
+    // 기존 진행 상황 복원
     private fun setupProcess() {
         isRestoringData = true // 복원 시작
 
