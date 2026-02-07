@@ -25,7 +25,7 @@
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="25.08.13"
+        android:text="2025.08.13"
         android:fontFamily="@font/pretendard_regular"
         android:textSize="12sp"
         android:textColor="@color/gray2"
@@ -47,7 +47,7 @@
 
     <!--상품 이미지-->
     <ImageView
-        android:id="@+id/img_productImage"
+        android:id="@+id/iv_productImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/img_product"
@@ -68,8 +68,8 @@
         android:textSize="12sp"
         android:textColor="@color/gray3"
         android:layout_marginLeft="12dp"
-        app:layout_constraintStart_toEndOf="@id/img_productImage"
-        app:layout_constraintTop_toTopOf="@id/img_productImage"
+        app:layout_constraintStart_toEndOf="@id/iv_productImage"
+        app:layout_constraintTop_toTopOf="@id/iv_productImage"
         />
 
     <!--상품 이름-->
@@ -97,7 +97,7 @@
         android:textColor="@color/gray2"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_productImage"
+        app:layout_constraintTop_toBottomOf="@id/iv_productImage"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

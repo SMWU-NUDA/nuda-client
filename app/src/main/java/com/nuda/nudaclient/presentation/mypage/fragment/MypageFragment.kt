@@ -1,4 +1,4 @@
-package com.nuda.nudaclient.presentation.mypage
+package com.nuda.nudaclient.presentation.mypage.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +17,10 @@ import com.nuda.nudaclient.data.remote.dto.members.MembersUserInfoResponse
 import com.nuda.nudaclient.databinding.FragmentMypageBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.login.LoginActivity
+import com.nuda.nudaclient.presentation.mypage.activity.MypageEditAccountActivity
+import com.nuda.nudaclient.presentation.mypage.activity.MypageEditDeliveryActivity
+import com.nuda.nudaclient.presentation.mypage.activity.MypageManageKeywordActivity
+import com.nuda.nudaclient.presentation.mypage.activity.MypageMyReviewActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MyPageFragment : Fragment() {
@@ -89,7 +93,7 @@ class MyPageFragment : Fragment() {
     // UI 업데이트 함수
     private fun updateUserInfo(body: ApiResponse<MembersUserInfoResponse>){
         binding.tvNickname.text = body.data?.me?.nickname
-        binding.tvUsername.text = body.data?.me?.username
+        binding.tvUsername.text = "ID : ${body.data?.me?.username}"
 
         // 프로필 이미지
         // URL 문자열 이미지로 로드 및 업데이트
@@ -165,7 +169,7 @@ class MyPageFragment : Fragment() {
     private fun setupMyReviews() {
         binding.groupMyReviews.setOnClickListener {
             // 내 리뷰 액티비티로 이동
-            val intent = Intent(requireContext(), MypageMyreviewActivity::class.java)
+            val intent = Intent(requireContext(), MypageMyReviewActivity::class.java)
             startActivity(intent)
         }
     }

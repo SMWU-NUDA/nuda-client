@@ -1,4 +1,4 @@
-package com.nuda.nudaclient.presentation.mypage
+package com.nuda.nudaclient.presentation.mypage.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,14 +6,12 @@ import android.util.Log
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import com.nuda.nudaclient.R
-import com.nuda.nudaclient.data.local.SignupDataManager
-import com.nuda.nudaclient.data.remote.RetrofitClient.membersService
+import com.nuda.nudaclient.data.remote.RetrofitClient
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
 import com.nuda.nudaclient.data.remote.dto.members.MembersDeliveryInfoResponse
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDeliveryRequest
@@ -24,9 +22,6 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.signup.AddressSearchActivity
 
 class MypageEditDeliveryActivity : BaseActivity() {
-
-    // TODO: feat(members): (mypage) 배송정보 관리 유효성 검사 설정 (회원가입 참고 및 진행 상황 복원)
-    // TODO: feat(members): (mypage) 배송정보 관리 기능 구현 완료 및 테스트
 
     private lateinit var binding: ActivityMypageEditDeliveryBinding
 
@@ -90,7 +85,7 @@ class MypageEditDeliveryActivity : BaseActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
+
         // 툴바 타이틀 변경
         setToolbarTitle("배송정보 관리")
         // 툴바 뒤로가기 설정
@@ -111,7 +106,7 @@ class MypageEditDeliveryActivity : BaseActivity() {
 
     // 배송 정보 로드
     private fun loadDeliveryInfo() {
-        membersService.getDeliveryInfo()
+        RetrofitClient.membersService.getDeliveryInfo()
             .executeWithHandler(
                 context = this,
                 onSuccess = { body ->
@@ -291,13 +286,15 @@ class MypageEditDeliveryActivity : BaseActivity() {
                 return@setOnClickListener
             }
             // 배송 정보 수정 API 호출
-            membersService.updateDeliveryInfo(SignupDeliveryRequest(
-                address1 = binding.etAddress.text.toString().trim(),
-                address2 = binding.etAddressDetail.text.toString().trim(),
-                phoneNum = binding.etPhone.text.toString().trim(),
-                postalCode = binding.etZip.text.toString().trim(),
-                recipient = binding.etRecipient.text.toString().trim()
-            )).executeWithHandler(
+            RetrofitClient.membersService.updateDeliveryInfo(
+                SignupDeliveryRequest(
+                    address1 = binding.etAddress.text.toString().trim(),
+                    address2 = binding.etAddressDetail.text.toString().trim(),
+                    phoneNum = binding.etPhone.text.toString().trim(),
+                    postalCode = binding.etZip.text.toString().trim(),
+                    recipient = binding.etRecipient.text.toString().trim()
+                )
+            ).executeWithHandler(
                 context = this,
                 onSuccess = { body ->
                     if(body.success == true) {

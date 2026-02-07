@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.mypage.MypageEditDeliveryActivity">
+    tools:context=".presentation.mypage.activity.MypageEditDeliveryActivity">
 
 
     <!--툴바 배치-->

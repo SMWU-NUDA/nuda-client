@@ -16,18 +16,18 @@
         android:theme="@style/Theme.NudaClient"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".presentation.mypage.MypageMyreviewActivity"
+            android:name=".presentation.mypage.activity.MypageMyReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.mypage.MypageManageKeywordActivity"
+            android:name=".presentation.mypage.activity.MypageManageKeywordActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".presentation.mypage.MypageEditDeliveryActivity"
+            android:name=".presentation.mypage.activity.MypageEditDeliveryActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".presentation.mypage.MypageEditAccountActivity"
+            android:name=".presentation.mypage.activity.MypageEditAccountActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
         <activity

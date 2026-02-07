@@ -6,13 +6,13 @@ data class ReviewsGetMyReviewsResponse(
     val nextCursor: Int
 ) {
     data class Content(
-        val brandName: String,
-        val content: String,
-        val createdAt: String,
         val productId: Int,
-        val productName: String,
         val productThumbnail: String,
+        val productName: String,
+        val brandName: String,
+        val reviewId: Int,
         val rating: Int,
-        val reviewId: Int
+        val content: String,
+        val createdAt: String
     )
 }

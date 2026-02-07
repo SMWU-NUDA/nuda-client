@@ -1,19 +1,16 @@
-package com.nuda.nudaclient.presentation.mypage
+package com.nuda.nudaclient.presentation.mypage.activity
 
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.util.Patterns
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import com.nuda.nudaclient.R
-import com.nuda.nudaclient.data.local.SignupDataManager
-import com.nuda.nudaclient.data.remote.RetrofitClient.authService
-import com.nuda.nudaclient.data.remote.RetrofitClient.membersService
+import com.nuda.nudaclient.data.remote.RetrofitClient
 import com.nuda.nudaclient.data.remote.dto.auth.AuthEmailVerificationRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailRequest
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
@@ -25,7 +22,6 @@ import com.nuda.nudaclient.extensions.setupPasswordVisible
 import com.nuda.nudaclient.extensions.setupValidation
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.utils.CustomToast
-import kotlin.math.PI
 
 class MypageEditAccountActivity : BaseActivity() {
 
@@ -98,7 +94,7 @@ class MypageEditAccountActivity : BaseActivity() {
     // 회원 정보 로드
     private fun loadUserInfo() {
         // 회원 정보 로드 API 호출
-        membersService.getUserInfo()
+        RetrofitClient.membersService.getUserInfo()
             .executeWithHandler(
                 context = this,
                 onSuccess = { body ->
@@ -165,7 +161,9 @@ class MypageEditAccountActivity : BaseActivity() {
 
         // 이메일 인증 완료
         binding.tvValidEmailCertify.text = getString(R.string.btnValid_email_certify_true)
-        binding.tvValidEmailCertify.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.green))
+        binding.tvValidEmailCertify.setTextColor(
+            ContextCompat.getColor(this@MypageEditAccountActivity,
+                R.color.green))
 
         isRestoringData = false // 복원 종료
     }
@@ -367,12 +365,12 @@ class MypageEditAccountActivity : BaseActivity() {
             // 1. 닉네임 입력값 유효성 검사
             if(!isNicknameValid) {
                 // 2. 텍스트 색 변경 후 리스너 종료
-                binding.tvValidNickname.setTextColor(ContextCompat.getColor(this,R.color.red))
+                binding.tvValidNickname.setTextColor(ContextCompat.getColor(this, R.color.red))
                 return@setOnClickListener
             }
 
             // 3. 닉네임 중복 확인 API 호출 (isNicknameValid = true)
-            authService.getNickname(binding.etNickname.text.toString())
+            RetrofitClient.authService.getNickname(binding.etNickname.text.toString())
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->
@@ -397,12 +395,12 @@ class MypageEditAccountActivity : BaseActivity() {
             // 1. 아이디 입력값 유효성 검사
             if(!isUsernameValid) {
                 // 2. 텍스트 색 변경 후 리스너 종료
-                binding.tvValidId.setTextColor(ContextCompat.getColor(this,R.color.red))
+                binding.tvValidId.setTextColor(ContextCompat.getColor(this, R.color.red))
                 return@setOnClickListener
             }
 
             // 3. 아이디 중복 확인 API 호출 (isNicknameValid = true)
-            authService.getUsername(binding.etUsername.text.toString())
+            RetrofitClient.authService.getUsername(binding.etUsername.text.toString())
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->
@@ -433,7 +431,7 @@ class MypageEditAccountActivity : BaseActivity() {
         binding.btnSendEmail.setOnClickListener {
             if(!isEmailValid) { // 이메일 유효성 검사 실패
                 binding.tvValidEmail.text = getString(R.string.btnValid_email_false)
-                binding.tvValidEmail.setTextColor(ContextCompat.getColor(this,R.color.red))
+                binding.tvValidEmail.setTextColor(ContextCompat.getColor(this, R.color.red))
                 return@setOnClickListener
             }
 
@@ -441,21 +439,25 @@ class MypageEditAccountActivity : BaseActivity() {
             // 요청 객체 생성
             val request = AuthEmailVerificationRequest(email = binding.etEmail.text.toString())
             // API 호출
-            authService.requestEmailVerification(request)
+            RetrofitClient.authService.requestEmailVerification(request)
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->
                         if(body.success == true) { // 진짜 성공
                             // 이메일 인증번호 보내기 성공 시 유효성 검사 텍스트 변경
                             binding.tvValidEmail.text = getString(R.string.btnValid_email_true)
-                            binding.tvValidEmail.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.green))
+                            binding.tvValidEmail.setTextColor(
+                                ContextCompat.getColor(this@MypageEditAccountActivity,
+                                    R.color.green))
                             isEmailSendSuccess = true // 중복 확인 상태 저장
 
                             // 이메일 인증번호 타이머 시작
                             startEmailTimer()
                         } else { // HTTP 200인데 서버에서 실패 응답
                             binding.tvValidEmail.text = body.data ?: body.message ?: getString(R.string.btnValid_email_fail)
-                            binding.tvValidEmail.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.red))
+                            binding.tvValidEmail.setTextColor(
+                                ContextCompat.getColor(this@MypageEditAccountActivity,
+                                    R.color.red))
                             isEmailSendSuccess = false
                         }
                     }
@@ -469,13 +471,13 @@ class MypageEditAccountActivity : BaseActivity() {
             // 이메일 입력 및 인증번호 전송 확인
             if(!isEmailSendSuccess) {
                 binding.tvValidEmail.text = getString(R.string.btnValid_email_certify_noEmail)
-                binding.tvValidEmail.setTextColor(ContextCompat.getColor(this,R.color.red))
+                binding.tvValidEmail.setTextColor(ContextCompat.getColor(this, R.color.red))
                 return@setOnClickListener
             }
             // 인증번호 유효성 검사(6자리) 실패
             if(!isEmailCertifyValid) {
                 binding.tvValidEmailCertify.text = getString(R.string.btnValid_email_certify_empty)
-                binding.tvValidEmailCertify.setTextColor(ContextCompat.getColor(this,R.color.red))
+                binding.tvValidEmailCertify.setTextColor(ContextCompat.getColor(this, R.color.red))
                 return@setOnClickListener
             }
 
@@ -484,23 +486,29 @@ class MypageEditAccountActivity : BaseActivity() {
                 code = binding.etEmailCertify.text.toString(),
                 email = binding.etEmail.text.toString()
             )
-            authService.verifyEmail(request)
+            RetrofitClient.authService.verifyEmail(request)
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->
                         if(body.success == true) { // 진짜 성공
                             binding.tvValidEmailCertify.text = getString(R.string.btnValid_email_certify_true)
-                            binding.tvValidEmailCertify.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.green))
+                            binding.tvValidEmailCertify.setTextColor(
+                                ContextCompat.getColor(this@MypageEditAccountActivity,
+                                    R.color.green))
                             isEmailVerified = true // 중복 확인 상태 저장
                         } else { // HTTP 200인데 서버에서 실패 응답
                             // body?.success == false 이거나 null일 수 있음.
-                            binding.tvValidEmailCertify.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.red))
+                            binding.tvValidEmailCertify.setTextColor(
+                                ContextCompat.getColor(this@MypageEditAccountActivity,
+                                    R.color.red))
                             isEmailVerified = false
                         }
                     },
                     onError = { _ ->
                         binding.tvValidEmailCertify.text = getString(R.string.btnValid_email_certify_false)
-                        binding.tvValidEmailCertify.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.red))
+                        binding.tvValidEmailCertify.setTextColor(
+                            ContextCompat.getColor(this@MypageEditAccountActivity,
+                                R.color.red))
                         isEmailVerified = false
                     }
                 )
@@ -517,7 +525,7 @@ class MypageEditAccountActivity : BaseActivity() {
                 return@setOnClickListener
             }
             // 2. 현재 비밀번호 검증 API 호출
-            authService.verifyPassword(
+            RetrofitClient.authService.verifyPassword(
                 mapOf("password" to binding.etPwNow.text.toString().trim()) // "password" = String 으로 요청 전달
             ).executeWithHandler(
                 context = this,
@@ -582,7 +590,9 @@ class MypageEditAccountActivity : BaseActivity() {
 
             override fun onFinish() {
                 binding.tvTimer.text = "00:00"
-                binding.tvTimer.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.red))
+                binding.tvTimer.setTextColor(
+                    ContextCompat.getColor(this@MypageEditAccountActivity,
+                        R.color.red))
                 isEmailSendSuccess = false // 인증번호 재전송 필요
             }
         }.start()
@@ -600,7 +610,7 @@ class MypageEditAccountActivity : BaseActivity() {
             val request = createUpdateProfileRequest()
 
             // 프로필 수정 업데이트 API 호출
-            membersService.updateProfile(request)
+            RetrofitClient.membersService.updateProfile(request)
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->

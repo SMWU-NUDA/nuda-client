@@ -8,8 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.nuda.nudaclient.R
-import com.nuda.nudaclient.presentation.mypage.MyPageFragment
-import kotlinx.coroutines.selects.select
+import com.nuda.nudaclient.presentation.mypage.fragment.MyPageFragment
 
 class NavigationActivity : AppCompatActivity() {
 

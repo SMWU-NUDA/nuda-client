@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.mypage.MyPageFragment">
+    tools:context=".presentation.mypage.fragment.MyPageFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                     android:id="@+id/tv_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="songSong"
+                    android:text="예시닉네임"
                     android:fontFamily="@font/pretendard_medium"
                     android:textSize="20sp"
                     android:textColor="@color/gray1"
@@ -73,7 +73,7 @@
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID : noonsong123"
+                    android:text="ID : 예시아이디"
                     android:fontFamily="@font/pretendard_extralight"
                     android:textSize="14sp"
                     android:textColor="@color/gray1"
@@ -162,7 +162,7 @@
                     android:id="@+id/tv_keywords"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="민감도 높음, 향 약함, 안전성 중시 ..."
+                    android:text="(예시)민감도 높음, 향 약함, 안전성 중시 ..."
                     android:fontFamily="@font/pretendard_extralight"
                     android:textSize="12sp"
                     android:textColor="@color/gray3"
