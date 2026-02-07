@@ -90,6 +90,9 @@ class SignupDeliveryActivity : AppCompatActivity() {
                 tv_validPostalCode.text = ""
                 tv_validAddress1.text = ""
 
+                // 상세 주소 초기화
+                binding.etAddressDetail.setText("")
+
                 // 상세주소 입력란에 포커스
                 et_address2.requestFocus()
             }

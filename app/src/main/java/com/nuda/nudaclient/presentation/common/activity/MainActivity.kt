@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
 
                         // 홈 화면으로 이동 (임시로 마이페이지 이동, 이후 수정)
                         startActivity(Intent(this, NavigationActivity::class.java))
+                        finish()
                         Log.d("API_DEBUG", "access토큰 인증 완료, 홈화면으로 이동")
                     } else {
                         Log.e("API_ERROR", "응답 성공, 서버 fail ")
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                             "AUTH_REQUIRED" -> { // access 토큰 없음 -> 로그인 필요
                                 CustomToast.show(binding.root, errorResponse.message)
                                 startActivity(Intent(this, LoginActivity::class.java))
+                                finish()
                                 Log.d("API_DEBUG", "access 토큰 없음, 로그인 화면으로 이동")
                             }
                             "AUTH_EXPIRED_TOKEN" -> { // access 토큰 만료 -> 재발급
@@ -85,6 +87,7 @@ class MainActivity : AppCompatActivity() {
                             "AUTH_INVALID_ACCESS_TOKEN" -> { // 유효하지 않은 access 토큰 -> 로그인 필요
                                 CustomToast.show(binding.root, errorResponse.message)
                                 startActivity(Intent(this, LoginActivity::class.java))
+                                finish()
                                 Log.d("API_DEBUG", "유효하지 않은 access 토큰, 로그인 화면으로 이동")
                             }
                             else -> {
@@ -115,6 +118,16 @@ class MainActivity : AppCompatActivity() {
                         CustomToast.show(binding.root, "토큰 재발급 실패")
                         // 로그인 화면으로 이동
                         startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                        Log.d("API_DEBUG", "토큰 재발급 실패")
+                    }
+                },
+                onError = { errorResponse ->
+                    if (errorResponse?.code == "AUTH_INVALID_REFRESH_TOKEN") {
+                        CustomToast.show(binding.root, errorResponse.message)
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                        Log.d("API_DEBUG", "유효하지 않은 refresh 토큰, 로그인 화면으로 이동")
                     }
                 }
             )

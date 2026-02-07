@@ -50,6 +50,7 @@ class MypageEditAccountActivity : BaseActivity() {
     private var isEmailValid = false
     private var isEmailCertifyValid = false
 
+    // 비밀번호는 조회로 데이터를 가져오지 않기 때문에 기본 true설정으로 부분 수정 가능하도록 함
     private var isPwNowValid = true
     private var isPwValid = true
     private var isPwCheckValid = true
