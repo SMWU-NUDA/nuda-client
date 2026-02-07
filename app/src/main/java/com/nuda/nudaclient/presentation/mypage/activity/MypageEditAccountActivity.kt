@@ -362,6 +362,8 @@ class MypageEditAccountActivity : BaseActivity() {
     // 닉네임 중복 확인 버튼
     private fun setupNicknameDuplicateCheck() {
         binding.btnCheckNickname.setOnClickListener {
+            binding.etNickname.setBackgroundResource(R.drawable.et_input_default)
+
             // 1. 닉네임 입력값 유효성 검사
             if(!isNicknameValid) {
                 // 2. 텍스트 색 변경 후 리스너 종료
@@ -392,6 +394,8 @@ class MypageEditAccountActivity : BaseActivity() {
     // 아이디 중복 확인 버튼
     private fun setupUsernameDuplicateCheck() {
         binding.btnCheckId.setOnClickListener {
+            binding.etUsername.setBackgroundResource(R.drawable.et_input_default)
+
             // 1. 아이디 입력값 유효성 검사
             if(!isUsernameValid) {
                 // 2. 텍스트 색 변경 후 리스너 종료
@@ -429,6 +433,9 @@ class MypageEditAccountActivity : BaseActivity() {
     // 이메일 인증번호 보내기 버튼
     private fun setupEmailSend() {
         binding.btnSendEmail.setOnClickListener {
+            binding.etEmail.setBackgroundResource(R.drawable.et_input_default)
+            binding.etEmailCertify.setBackgroundResource(R.drawable.et_input_default)
+
             if(!isEmailValid) { // 이메일 유효성 검사 실패
                 binding.tvValidEmail.text = getString(R.string.btnValid_email_false)
                 binding.tvValidEmail.setTextColor(ContextCompat.getColor(this, R.color.red))
@@ -468,6 +475,9 @@ class MypageEditAccountActivity : BaseActivity() {
     // 이메일 인증번호 인증하기 버튼
     private fun setupEmailCertify() {
         binding.btnCertifyEmail.setOnClickListener {
+            binding.etEmail.setBackgroundResource(R.drawable.et_input_default)
+            binding.etEmailCertify.setBackgroundResource(R.drawable.et_input_default)
+
             // 이메일 입력 및 인증번호 전송 확인
             if(!isEmailSendSuccess) {
                 binding.tvValidEmail.text = getString(R.string.btnValid_email_certify_noEmail)
@@ -518,6 +528,11 @@ class MypageEditAccountActivity : BaseActivity() {
     // 현재 비밀번호 확인 버튼
     private fun setupCurrentPasswordCheck() {
         binding.btnCheckPw.setOnClickListener {
+            binding.etPwNow.setBackgroundResource(R.drawable.et_input_default)
+            binding.etPw.setBackgroundResource(R.drawable.et_input_default)
+            binding.etPwCheck.setBackgroundResource(R.drawable.et_input_default)
+
+
             // 1. 현재 비밀번호 입력 확인
             if (binding.etPwNow.text.isNullOrEmpty()) { // 입력이 없는 경우
                 binding.tvCheckedPwNow.text = getString(R.string.valid_pw_check_noPW)

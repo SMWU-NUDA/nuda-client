@@ -265,6 +265,9 @@ class MypageEditDeliveryActivity : BaseActivity() {
     // 주소 찾기 버튼 설정
     private fun setupAddressFind() {
         binding.btnFindAddress.setOnClickListener {
+            binding.etZip.setBackgroundResource(R.drawable.et_input_default)
+            binding.etAddress.setBackgroundResource(R.drawable.et_input_default)
+
             isAddressFindSuccess = false
 
             // 버튼 클릭 시 입력창 기본 배경 설정

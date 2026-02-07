@@ -11,6 +11,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ReviewsService {
@@ -27,11 +28,11 @@ interface ReviewsService {
 
     // DELETE /reviews/{reviewId} : 나의 리뷰 삭제
     @DELETE("reviews/{reviewId}")
-    fun deleteMyReview(@Query("reviewId") reviewId: Int) : Call<BaseResponse>
+    fun deleteMyReview(@Path("reviewId") reviewId: Int) : Call<BaseResponse>
 
     // POST /reviews/{reviewId}/likes : 리뷰 좋아요
     @POST("reviews/{reviewId}/likes")
-    fun likeReview(@Query("reviewId") reviewId: Int) : Call<ApiResponse<ReviewsLikeReviewResponse>>
+    fun likeReview(@Path("reviewId") reviewId: Int) : Call<ApiResponse<ReviewsLikeReviewResponse>>
 
     // GET /reviews/me : 나의 리뷰 조회
     @GET("reviews/me")

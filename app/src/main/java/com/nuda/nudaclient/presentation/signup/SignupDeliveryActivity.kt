@@ -293,6 +293,9 @@ class SignupDeliveryActivity : AppCompatActivity() {
     // 주소 찾기 버튼
     private fun setupAddressFind() {
         binding.btnFindAddress.setOnClickListener {
+            et_postalCode.setBackgroundResource(R.drawable.et_input_default)
+            et_address1.setBackgroundResource(R.drawable.et_input_default)
+
             isAddressFindSuccess = false
 
             // 버튼 클릭 시 입력창 기본 배경 설정

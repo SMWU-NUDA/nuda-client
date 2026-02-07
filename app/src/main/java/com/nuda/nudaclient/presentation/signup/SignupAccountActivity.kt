@@ -411,6 +411,8 @@ class SignupAccountActivity : AppCompatActivity() {
     // 닉네임 중복 확인 버튼
     private fun setupNicknameDuplicateCheck() {
         btn_checkNickname.setOnClickListener {
+            et_nickname.setBackgroundResource(R.drawable.et_input_default)
+
             // 1. 닉네임 입력값 유효성 검사
             if(!isNicknameValid) {
                 // 2. 텍스트 색 변경 후 리스너 종료
@@ -441,6 +443,8 @@ class SignupAccountActivity : AppCompatActivity() {
     // 아이디 중복 확인 버튼
     private fun setupUsernameDuplicateCheck() {
         btn_checkUsername.setOnClickListener {
+            et_username.setBackgroundResource(R.drawable.et_input_default)
+
             // 1. 아이디 입력값 유효성 검사
             if(!isUsernameValid) {
                 // 2. 텍스트 색 변경 후 리스너 종료
@@ -478,6 +482,9 @@ class SignupAccountActivity : AppCompatActivity() {
     // 이메일 인증번호 보내기 버튼
     private fun setupEmailSend() {
         btn_sendEmail.setOnClickListener {
+            et_email.setBackgroundResource(R.drawable.et_input_default)
+            et_emailCertify.setBackgroundResource(R.drawable.et_input_default)
+
             if(!isEmailValid) { // 이메일 유효성 검사 실패
                 tv_validEmail.text = getString(R.string.btnValid_email_false)
                 tv_validEmail.setTextColor(ContextCompat.getColor(this,R.color.red))
@@ -513,6 +520,9 @@ class SignupAccountActivity : AppCompatActivity() {
     // 이메일 인증번호 인증하기 버튼
     private fun setupEmailCertify() {
         btn_certifyEmail.setOnClickListener {
+            et_email.setBackgroundResource(R.drawable.et_input_default)
+            et_emailCertify.setBackgroundResource(R.drawable.et_input_default)
+
             // 이메일 입력 및 인증번호 전송 확인
             if(!isEmailSendSuccess) {
                 tv_validEmail.text = getString(R.string.btnValid_email_certify_noEmail)
