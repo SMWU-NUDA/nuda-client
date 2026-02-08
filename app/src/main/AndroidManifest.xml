@@ -16,20 +16,29 @@
         android:theme="@style/Theme.NudaClient"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.product.ProductDetailActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".presentation.mypage.activity.MypageMyReviewActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.activity.MypageManageKeywordActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.mypage.activity.MypageEditDeliveryActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.mypage.activity.MypageEditAccountActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.common.activity.NavigationActivity"
             android:exported="false" />
@@ -52,15 +61,10 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.login.LoginActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".presentation.common.activity.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
     </application>
 

@@ -27,4 +27,5 @@ open class BaseActivity : AppCompatActivity() {
     protected open fun onBackButtonClicked() {
         finish() // 기본 동작
     }
+
 }

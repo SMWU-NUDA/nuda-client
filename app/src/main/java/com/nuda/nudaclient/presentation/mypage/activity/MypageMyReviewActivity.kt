@@ -18,10 +18,6 @@ import com.nuda.nudaclient.utils.CustomToast
 
 class MypageMyReviewActivity : BaseActivity() {
 
-    // TODO: feat(reviews): (mypage) 내 리뷰 리사이클러뷰 연결
-    // TODO: feat(reviews): (mypage) 내 리뷰 조회 구현 및 API 호출
-    // TODO: feat(reviews): (mypage) 내 리뷰 삭제 구현 및 API 호출
-
     private lateinit var binding: ActivityMypageMyreviewBinding
 
     private var currenCursor: Int? = null // 다음 페이지 요청에 쓸 커서
