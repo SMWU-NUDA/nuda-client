@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--배경 (회색)-->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="5dp"/>
+            <solid android:color="@color/gray5"/>
+        </shape>
+    </item>
+
+    <!--진행 바 (초록색)-->
+    <item android:id="@android:id/progress">
+        <scale android:scaleWidth="100%">
+            <shape>
+                <corners
+                    android:topLeftRadius="5dp"
+                    android:bottomLeftRadius="5dp"
+                    android:topRightRadius="0dp"
+                    android:bottomRightRadius="0dp"
+                    />
+                <solid android:color="@color/main"/>
+            </shape>
+        </scale>
+    </item>
+
+
+</layer-list>

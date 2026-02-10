@@ -184,6 +184,51 @@
         <item name="android:textColor">@color/main</item>
     </style>
 
+    <!--성분-->
+    <!--성분 위험도-->
+    <style name="TextIngredient_riskLevel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_light</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:layout_marginRight">18dp</item>
+    </style>
+
+    <!--성분 구성요소-->
+    <style name="TextIngredient_componentName">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray1</item>
+    </style>
+
+    <!--성분 구성요소 개수-->
+    <style name="TextIngredient_componentCount">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/pretendard_extralight</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray3</item>
+    </style>
+
+    <!--성분 분류-->
+    <style name="TextIngredient_classification">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_light</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray1</item>
+        <item name="android:layout_marginTop">6dp</item>
+    </style>
+
+
+
 
     <!--EditText-->
     <!--기본 입력창(디폴트)-->
@@ -355,6 +400,23 @@
         <item name="android:focusable">true</item>
     </style>
 
+    <!--성분 막대그래프-->
+    <style name="linear_ingredientGraph">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/ingredient_component_graph</item>
+        <item name="android:layout_marginHorizontal">6dp</item>
+    </style>
+
+<!--TabLayout-->
+    <!--상품 상세페이지 상품 탭-->
+    <style name="TabProductDetail">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+    </style>
+
 
 <!--기타-->
     <!--12dp 별점-->
@@ -370,4 +432,20 @@
         <item name="android:minHeight">24dp</item>
         <item name="android:maxHeight">24dp</item>
     </style>
+
+    <!--얇은 구분선-->
+    <style name="divider_thick">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">4dp</item>
+        <item name="android:background">@color/gray5</item>
+    </style>
+
+    <!--두꺼운 구분선-->
+    <style name="divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/gray5</item>
+    </style>
+
+
 </resources>

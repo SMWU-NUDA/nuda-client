@@ -37,6 +37,7 @@ class ProductDetailActivity : BaseActivity() {
     private fun setToolbar() {
         setToolbarTitle("") // 타이틀
         setBackButton() // 뒤로가기 버튼
+        binding.toolBar.toolbarShadow.visibility = View.GONE // 그림자 뷰 숨기기
 
         // 버튼 컨테이너 설정
         binding.toolBar.toolbarBtnContainer.visibility = View.VISIBLE // 컨테이너 보이도록 설정

@@ -23,6 +23,11 @@
     <color name="secondary_light_lime_20">#33C0E89D</color>
     <color name="text_green">#4ACA79</color>
 
+    <!--위험도 색상-->
+    <color name="riskLevel_mint">#00C8B3</color>
+    <color name="riskLevel_yellow">#FFCC00</color>
+    <color name="riskLevel_red">#FF383C</color>
+
     <!--그 외-->
     <color name="red">#E53E3E</color>
     <color name="green">#22C55E</color>

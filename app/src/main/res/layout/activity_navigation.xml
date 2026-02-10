@@ -39,7 +39,7 @@
             style="@style/linearNavMenu">
             <ImageView
                 style="@style/ImageNavIcon"
-                android:src="@drawable/ic_home"
+                android:src="@drawable/img_home"
                 android:contentDescription="@string/home" />
             <TextView
                 style="@style/TextNavText"
@@ -53,7 +53,7 @@
             >
             <ImageView
                 style="@style/ImageNavIcon"
-                android:src="@drawable/ic_recommend"
+                android:src="@drawable/img_recommend"
                 android:contentDescription="@string/recommend" />
             <TextView
                 style="@style/TextNavText"
@@ -67,7 +67,7 @@
             >
             <ImageView
                 style="@style/ImageNavIcon"
-                android:src="@drawable/ic_heart"
+                android:src="@drawable/img_heart"
                 android:contentDescription="@string/wishlist" />
             <TextView
                 style="@style/TextNavText"
@@ -81,7 +81,7 @@
             >
             <ImageView
                 style="@style/ImageNavIcon"
-                android:src="@drawable/ic_mypage"
+                android:src="@drawable/img_mypage"
                 android:contentDescription="@string/mypage" />
             <TextView
                 style="@style/TextNavText"

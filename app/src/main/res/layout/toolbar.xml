@@ -41,7 +41,9 @@
         app:layout_constraintBottom_toBottomOf="@id/tv_toolbar_title"
         />
 
+    <!--툴바 하단 그림자-->
     <View
+        android:id="@+id/toolbar_shadow"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         app:layout_constraintBottom_toBottomOf="parent"

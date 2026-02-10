@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <!--불릿 포인트-->
+    <ImageView
+        android:layout_width="4dp"
+        android:layout_height="4dp"
+        android:src="@drawable/img_circle"
+        app:tint="@color/gray1" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="물류 및 배송 카테고리에서 40% 언급 발생"
+        android:textSize="16sp"
+        android:textColor="@color/gray2"
+        android:layout_marginLeft="10dp"/>
+
+</LinearLayout>
