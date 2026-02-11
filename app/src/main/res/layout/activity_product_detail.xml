@@ -658,132 +658,156 @@
                     android:layout_height="17dp"
                     app:layout_constraintTop_toBottomOf="@id/tv_review_analysis"/>
 
-                <!--긍정/부정 섹션-->
-                <LinearLayout
-                    android:id="@+id/ll_review_analysis"
+                <!--리뷰 없을 경우 (없을 때만 표시)-->
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="2"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="0dp"
-                    app:layout_constraintTop_toBottomOf="@id/space">
+                    android:text="@string/no_analysis"
+                    android:fontFamily="@font/pretendard_light"
+                    android:textSize="15sp"
+                    android:textColor="@color/gray4"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:background="@drawable/bg_my_review_card"
+                    app:layout_constraintTop_toBottomOf="@id/space"
+                    android:visibility="gone"
+                    />
 
-                    <!--긍정 섹션-->
+                <!--리뷰 AI 분석 그룹 (리뷰 없을 경우 gone 처리)-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/space"
+                android:visibility="visible">
+
+                    <!--긍정/부정 섹션-->
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:id="@+id/ll_review_analysis"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="0dp"
+                        app:layout_constraintTop_toTopOf="parent"
                         >
-                        <TextView
-                            style="@style/TextProfileField"
-                            android:text="@string/positive"
-                            android:drawableEnd="@drawable/img_positive"
-                            android:drawablePadding="4dp"
-                            android:layout_marginTop="0dp"/>
 
-                        <!--리뷰 분석 키워드 항목들 (동적 추가)-->
+                        <!--긍정 섹션-->
                         <LinearLayout
-                            android:id="@+id/ll_positive_items"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="vertical"
+                            >
+                            <TextView
+                                style="@style/TextProfileField"
+                                android:text="@string/positive"
+                                android:drawableEnd="@drawable/img_positive"
+                                android:drawablePadding="4dp"
+                                android:layout_marginTop="0dp"/>
+
+                            <!--리뷰 분석 키워드 항목들 (동적 추가)-->
+                            <LinearLayout
+                                android:id="@+id/ll_positive_items"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                />
+                        </LinearLayout>
+
+                        <!--세로 구분선-->
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/gray5"
                             />
+
+                        <!--부정 섹션-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="20dp"
+                            >
+                            <TextView
+                                style="@style/TextProfileField"
+                                android:text="@string/negative"
+                                android:drawableEnd="@drawable/img_negative"
+                                android:drawablePadding="4dp"
+                                android:layout_marginTop="0dp"/>
+
+                            <!--리뷰 분석 키워드 항목들 (동적 추가)-->
+                            <LinearLayout
+                                android:id="@+id/ll_negative_items"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                />
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <!--세로 구분선-->
+                    <!--구분선-->
                     <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"
+                        android:id="@+id/line6"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
                         android:background="@color/gray5"
-                        />
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintTop_toBottomOf="@id/ll_review_analysis"/>
 
-                    <!--부정 섹션-->
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <!--사용자 만족도 텍스트(동적 변경)-->
+                    <TextView
+                        android:id="@+id/tv_user_satisfying"
+                        style="@style/TextProfileField"
+                        android:text="사용자 만족도 82%"
+                        android:layout_marginTop="21dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/line6"/>
+
+                    <!--만족도 진행바-->
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:progress="82"
+                        android:max="100"
+                        android:progressDrawable="@drawable/progress_satisfaction"
+                        android:layout_marginTop="13dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_user_satisfying"/>
+
+                    <!--구분선-->
+                    <View
+                        android:id="@+id/line7"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/gray5"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintTop_toBottomOf="@id/progressBar"/>
+
+                    <!--지금 이 제품의 트렌드는-->
+                    <TextView
+                        android:id="@+id/tv_now_trend"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:text="@string/now_trend"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:textSize="20sp"
+                        android:textColor="@color/gray1"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/line7"/>
+
+                    <!--트렌드 리스트(동적 추가)-->
+                    <LinearLayout
+                        android:id="@+id/ll_trends_items"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:layout_marginTop="13dp"
                         android:layout_marginLeft="20dp"
-                        >
-                        <TextView
-                            style="@style/TextProfileField"
-                            android:text="@string/negative"
-                            android:drawableEnd="@drawable/img_negative"
-                            android:drawablePadding="4dp"
-                            android:layout_marginTop="0dp"/>
-
-                        <!--리뷰 분석 키워드 항목들 (동적 추가)-->
-                        <LinearLayout
-                            android:id="@+id/ll_negative_items"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!--구분선-->
-                <View
-                    android:id="@+id/line6"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/gray5"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintTop_toBottomOf="@id/ll_review_analysis"/>
-
-                <!--사용자 만족도 텍스트(동적 변경)-->
-                <TextView
-                    android:id="@+id/tv_user_satisfying"
-                    style="@style/TextProfileField"
-                    android:text="사용자 만족도 82%"
-                    android:layout_marginTop="21dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/line6"/>
-
-                <!--만족도 진행바-->
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:progress="82"
-                    android:max="100"
-                    android:progressDrawable="@drawable/progress_satisfaction"
-                    android:layout_marginTop="13dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_user_satisfying"/>
-
-                <!--구분선-->
-                <View
-                    android:id="@+id/line7"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/gray5"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@id/progressBar"/>
-
-                <!--지금 이 제품의 트렌드는-->
-                <TextView
-                    android:id="@+id/tv_now_trend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/now_trend"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textSize="20sp"
-                    android:textColor="@color/gray1"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/line7"/>
-
-                <!--트렌드 리스트(동적 추가)-->
-                <LinearLayout
-                    android:id="@+id/ll_trends_items"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginLeft="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_now_trend" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_now_trend" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -859,9 +883,9 @@
                 app:layout_constraintGuide_percent="0.92"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 
+    <!--하단 결제 바-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_bottomBar"
         android:layout_width="match_parent"
@@ -922,13 +946,37 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--상품 탭 고정용 (툴바 아래 고정)-->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_sticky"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TabProductDetail"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:tabIndicatorColor="@color/gray1"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/gray1"
+        app:tabTextColor="@color/gray2"
+        android:visibility="gone"
+        >
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_info" />
 
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredient" />
 
-    <!--&lt;!&ndash;상품 탭 고정용&ndash;&gt;-->
-    <!--<com.google.android.material.tabs.TabLayout-->
-    <!--    android:layout_width=""-->
-    <!--    android:layout_height=""-->
-    <!--    />-->
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/review" />
+    </com.google.android.material.tabs.TabLayout>
+
 
     <!--가이드라인-->
     <androidx.constraintlayout.widget.Guideline

@@ -413,7 +413,7 @@
 <!--TabLayout-->
     <!--상품 상세페이지 상품 탭-->
     <style name="TabProductDetail">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
 

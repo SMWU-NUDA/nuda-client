@@ -167,7 +167,7 @@
     <string name="negative">부정</string>
     <string name="now_trend">지금 이 제품의 트렌드는</string>
     <string name="write_review">리뷰 쓰기</string>
-    <string name="no_analtsis">리뷰 10개 이상부터 AI 분석이 제공됩니다</string>
+    <string name="no_analysis">리뷰 10개 이상부터 AI 분석이 제공됩니다</string>
     <string name="no_reviews">작성된 리뷰가 없습니다</string>
 
     <!--장바구니, 결제-->
