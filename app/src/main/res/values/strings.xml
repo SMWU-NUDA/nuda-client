@@ -108,6 +108,11 @@
     <string name="wishlist">관심</string>
     <string name="my">마이</string>
 
+    <!--홈-->
+    <string name="go_to_ranking_page">전체 제품 랭킹 보러가기</string>
+    <string name="popular_to">에게 인기 있는 제품</string>
+    <string name="product">제품</string>
+
     <!--마이페이지-->
     <string name="mypage">마이페이지</string>
     <string name="accountDeletion">회원 탈퇴</string>
@@ -177,9 +182,10 @@
     <string name="wish_ingredient">즐겨찾는 성분</string>
 
 
-
     <!--장바구니, 결제-->
     <string name="shoppingCart">장바구니</string>
     <string name="instantPurchase">바로 구매</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
