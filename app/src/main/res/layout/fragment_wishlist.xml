@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.wishlist.WishlistFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--Title-->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_wishlist"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="24sp"
+            android:textColor="@color/gray1"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <!--버튼들-->
+        <!--검색 버튼-->
+        <ImageView
+            android:id="@+id/iv_btn_search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/img_toolbar_search"
+            app:layout_constraintEnd_toStartOf="@id/iv_btn_cart"
+            app:layout_constraintTop_toTopOf="@id/tv_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_title"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="3.5dp"
+            />
+        <!--장바구니 버튼-->
+        <ImageView
+            android:id="@+id/iv_btn_cart"
+            android:layout_width="20dp"
+            android:layout_height="22dp"
+            android:src="@drawable/img_toolbar_basket"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintTop_toTopOf="@id/tv_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_title"
+            />
+
+        <!--본문-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+
+            <!-- 찜한 상품 -->
+            <TextView
+                style="@style/TextMypageSubtitle"
+                android:text="@string/wish_prouduct"
+                android:layout_marginTop="0dp"
+                />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginTop="20dp">
+                <!--찜한 상품 아이템 리스트 (동적 추가)-->
+                <LinearLayout
+                    android:id="@+id/ll_wish_products"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!--테스트용-->
+                    <include
+                        layout="@layout/item_wish_product"/>
+                    <include
+                        layout="@layout/item_wish_product"/>
+                    <include
+                        layout="@layout/item_wish_product"/>
+                    <include
+                        layout="@layout/item_wish_product"/>
+                    <include
+                        layout="@layout/item_wish_product"/>
+                    <include
+                        layout="@layout/item_wish_product"/>
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+
+            <!-- 즐겨찾는 브랜드 -->
+            <TextView
+                style="@style/TextMypageSubtitle"
+                android:text="@string/wish_brand"
+                />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginTop="20dp">
+                <!--즐겨찾는 브랜드 아이템 리스트 (동적 추가)-->
+                <LinearLayout
+                    android:id="@+id/ll_wish_brands"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!--테스트용-->
+                    <include
+                        layout="@layout/item_wish_brand"/>
+                    <include
+                        layout="@layout/item_wish_brand"/>
+                    <include
+                        layout="@layout/item_wish_brand"/>
+                    <include
+                        layout="@layout/item_wish_brand"/>
+                    <include
+                        layout="@layout/item_wish_brand"/>
+                    <include
+                        layout="@layout/item_wish_brand"/>
+                    <include
+                        layout="@layout/item_wish_brand"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- 즐겨찾는 성분 -->
+            <TextView
+                style="@style/TextMypageSubtitle"
+                android:text="@string/wish_ingredient"
+                />
+            <!--관심 성분-->
+            <TextView
+                style="@style/TextMypageBasic"
+                android:text="@string/ingredients_highlight"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginTop="13dp">
+                <!--관심 성분 아이템 리스트 (동적 추가)-->
+                <LinearLayout
+                    android:id="@+id/ll_highlight_ingredients"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!--테스트용-->
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!--피할 성분-->
+            <TextView
+                style="@style/TextMypageBasic"
+                android:text="@string/ingredients_avoid"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginTop="13dp">
+                <!--관심 성분 아이템 리스트 (동적 추가)-->
+                <LinearLayout
+                    android:id="@+id/ll_avoid_ingredients"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!--테스트용-->
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+                    <include
+                        layout="@layout/item_wish_ingredient"/>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
+
+
+
+        </LinearLayout>
+
+
+        <!--가이드라인-->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.08"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

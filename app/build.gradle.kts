@@ -78,4 +78,6 @@ dependencies {
     // Jetpack navigation
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
+
+    implementation(libs.cardview)
 }

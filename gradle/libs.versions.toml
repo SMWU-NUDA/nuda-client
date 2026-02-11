@@ -20,6 +20,7 @@ flexbox = "3.0.0" # flexbox 추가
 glide = "4.16.0" #Glide 추가
 navigation-fragment-ktx = "2.7.5"
 navigation-ui-ktx = "2.7.5"
+cardview = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +55,9 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 # Navigation Component
 navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation-fragment-ktx" }
 navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation-ui-ktx" }
+
+cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

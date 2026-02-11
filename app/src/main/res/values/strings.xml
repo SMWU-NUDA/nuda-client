@@ -94,7 +94,7 @@
     <string name="product_brand">쏘피</string>
     <string name="product_name">유기농 100% 순면 생리대</string>
     <string name="product_ingredient_list">순면섬유(표지), 폴리에틸렌(표지), 펄프(흡수체) ...</string>
-    <string name="product_star">4.2</string>
+    <string name="product_star">4.2(417)</string>
     <string name="product_review">(417)</string>
     <string name="product_price">6,500원</string>
     <string name="product_rank">1</string>
@@ -142,7 +142,7 @@
     <string name="ingredient">성분</string>
     <string name="product_info">상품 정보</string>
     <string name="see_more_info">상품 정보 더보기</string>
-    
+
     <!--성분-->
     <string name="ingredient_component">성분 구성</string>
     <string name="riskLevel_safe">안전</string>
@@ -170,7 +170,16 @@
     <string name="no_analysis">리뷰 10개 이상부터 AI 분석이 제공됩니다</string>
     <string name="no_reviews">작성된 리뷰가 없습니다</string>
 
+    <!--나의 관심-->
+    <string name="my_wishlist">나의 관심</string>
+    <string name="wish_prouduct">찜한 상품</string>
+    <string name="wish_brand">즐겨찾는 브랜드</string>
+    <string name="wish_ingredient">즐겨찾는 성분</string>
+
+
+
     <!--장바구니, 결제-->
     <string name="shoppingCart">장바구니</string>
     <string name="instantPurchase">바로 구매</string>
+
 </resources>
