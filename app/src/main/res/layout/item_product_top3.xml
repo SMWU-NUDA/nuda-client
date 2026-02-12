@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dp"
+    android:layout_height="185dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="17dp"
+    app:cardBackgroundColor="@color/gray6">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--상품 이미지-->
+        <ImageView
+            android:id="@+id/iv_product"
+            android:layout_width="match_parent"
+            android:layout_height="117dp"
+            android:src="@drawable/image_product2"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <!--랭킹 순위 이미지-->
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="46dp"
+            android:src="@drawable/img_number_1"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <!--브랜드명-->
+        <TextView
+            android:id="@+id/tv_brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="좋은느낌"
+            android:fontFamily="@font/pretendard_regular"
+            android:textSize="10sp"
+            android:textColor="@color/gray3"
+            android:layout_marginTop="11dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintTop_toBottomOf="@id/iv_product"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <!--상품명-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="유기농 100% 순면 생리대"
+            android:fontFamily="@font/pretendard_medium"
+            android:textSize="13sp"
+            android:textColor="@color/gray1"
+            android:maxLines="3"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeStepGranularity="1sp"
+            android:ellipsize="none"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_brand"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

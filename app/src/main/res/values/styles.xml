@@ -137,6 +137,7 @@
         <item name="android:background">@drawable/btn_secondary_green</item>
         <item name="android:padding">8dp</item>
         <item name="android:layout_marginRight">12dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 
     <!--키워드 설정 - 키워드 이름 텍스트(Secondary_default 텍스트)-->
@@ -226,9 +227,6 @@
         <item name="android:textColor">@color/gray1</item>
         <item name="android:layout_marginTop">6dp</item>
     </style>
-
-
-
 
     <!--EditText-->
     <!--기본 입력창(디폴트)-->
@@ -378,7 +376,20 @@
         <item name="android:elevation">0dp</item>
     </style>
 
-<!--RadioGroup-->
+    <!--제품 랭킹 필터링 라디오 버튼-->
+    <style name="RadioBtn_Filter">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray1</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_marginBottom">15dp</item>
+    </style>
+
+
+
+    <!--RadioGroup-->
     <!--설문 응답 라디오 그룹-->
     <style name="RadioSurveyAnswer">
         <item name="android:layout_width">0dp</item>

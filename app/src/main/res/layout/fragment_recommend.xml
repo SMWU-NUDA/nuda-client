@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.navigation.RecommendFragment"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!--툴바 배치-->
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <!--본문-->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            >
+
+            <!--TOP3 섹션-->
+            <!--닉네임-->
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="클리나"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="22sp"
+                android:textColor="@color/gray1"
+                android:layout_marginTop="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recommend_to"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="20sp"
+                android:textColor="@color/gray1"
+                app:layout_constraintStart_toEndOf="@id/tv_nickname"
+                app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
+                />
+
+            <!--필터링 버튼-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/keyword_filter_all"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="14sp"
+                android:textColor="@color/gray2"
+                android:paddingStart="20dp"
+                android:paddingEnd="26dp"
+                android:paddingVertical="8dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:background="@drawable/btn_filter"
+                android:drawableStart="@drawable/img_filter"
+                android:drawablePadding="5dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+                />
+
+            <!--TOP 3-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_top3"
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:layout_marginTop="42dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_constraintTop_toBottomOf="@id/btn_filter"
+                >
+                <!--2위 제품-->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="125dp"
+                    android:layout_height="185dp"
+                    app:cardCornerRadius="17dp"
+                    android:layout_gravity="center_horizontal"
+                    app:cardBackgroundColor="@color/gray6"
+                    app:cardElevation="6dp"
+                    android:layout_marginTop="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!--상품 이미지-->
+                        <ImageView
+                            android:id="@+id/iv_product_rank2"
+                            android:layout_width="match_parent"
+                            android:layout_height="117dp"
+                            android:src="@drawable/image_product"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+
+                        <!--랭킹 순위 이미지-->
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="46dp"
+                            android:src="@drawable/img_number_2"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+
+                        <!--브랜드명-->
+                        <TextView
+                            android:id="@+id/tv_brand_rank2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="좋은느낌"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:textSize="10sp"
+                            android:textColor="@color/gray3"
+                            android:layout_marginTop="11dp"
+                            android:layout_marginHorizontal="10dp"
+                            app:layout_constraintTop_toBottomOf="@id/iv_product_rank2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            />
+
+                        <!--상품명-->
+                        <TextView
+                            android:id="@+id/tv_productName_rank2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:text="유기농 100% 순면 생리대"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:textSize="13sp"
+                            android:textColor="@color/gray1"
+                            android:maxLines="3"
+                            android:autoSizeTextType="uniform"
+                            android:autoSizeMinTextSize="10sp"
+                            android:autoSizeMaxTextSize="13sp"
+                            android:autoSizeStepGranularity="1sp"
+                            android:ellipsize="none"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintTop_toBottomOf="@id/tv_brand_rank2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+                <!--3위 제품-->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="125dp"
+                    android:layout_height="185dp"
+                    app:cardCornerRadius="17dp"
+                    android:layout_gravity="center_horizontal"
+                    app:cardBackgroundColor="@color/gray6"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!--상품 이미지-->
+                        <ImageView
+                            android:id="@+id/iv_product_rank3"
+                            android:layout_width="match_parent"
+                            android:layout_height="117dp"
+                            android:src="@drawable/image_brand"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+
+                        <!--랭킹 순위 이미지-->
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="46dp"
+                            android:src="@drawable/img_number_3"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+
+                        <!--브랜드명-->
+                        <TextView
+                            android:id="@+id/tv_brand_rank3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="좋은느낌"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:textSize="10sp"
+                            android:textColor="@color/gray3"
+                            android:layout_marginTop="11dp"
+                            android:layout_marginHorizontal="10dp"
+                            app:layout_constraintTop_toBottomOf="@id/iv_product_rank3"
+                            app:layout_constraintStart_toStartOf="parent"
+                            />
+
+                        <!--상품명-->
+                        <TextView
+                            android:id="@+id/tv_productName_rank3"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:text="유기농 100% 순면 생리대"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:textSize="13sp"
+                            android:textColor="@color/gray1"
+                            android:maxLines="3"
+                            android:autoSizeTextType="uniform"
+                            android:autoSizeMinTextSize="10sp"
+                            android:autoSizeMaxTextSize="13sp"
+                            android:autoSizeStepGranularity="1sp"
+                            android:ellipsize="none"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintTop_toBottomOf="@id/tv_brand_rank3"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+                <!--1위 제품-->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="125dp"
+                    android:layout_height="185dp"
+                    app:cardCornerRadius="17dp"
+                    android:layout_gravity="center_horizontal"
+                    app:cardBackgroundColor="@color/gray6"
+                    app:cardElevation="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!--상품 이미지-->
+                        <ImageView
+                            android:id="@+id/iv_product_rank1"
+                            android:layout_width="match_parent"
+                            android:layout_height="117dp"
+                            android:src="@drawable/image_product2"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+
+                        <!--랭킹 순위 이미지-->
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="46dp"
+                            android:src="@drawable/img_number_1"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+
+                        <!--브랜드명-->
+                        <TextView
+                            android:id="@+id/tv_brand_rank1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="좋은느낌"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:textSize="10sp"
+                            android:textColor="@color/gray3"
+                            android:layout_marginTop="11dp"
+                            android:layout_marginHorizontal="10dp"
+                            app:layout_constraintTop_toBottomOf="@id/iv_product_rank1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            />
+
+                        <!--상품명-->
+                        <TextView
+                            android:id="@+id/tv_productName_rank1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:autoSizeMaxTextSize="13sp"
+                            android:autoSizeMinTextSize="10sp"
+                            android:autoSizeStepGranularity="1sp"
+                            android:autoSizeTextType="uniform"
+                            android:ellipsize="none"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:maxLines="3"
+                            android:text="유기농 100% 순면 생리대"
+                            android:textColor="@color/gray1"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_brand_rank1"
+                            app:layout_constraintVertical_bias="0.0"
+                            tools:layout_editor_absoluteX="-8dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--설명 텍스트-->
+            <TextView
+                android:id="@+id/tv_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recommend_info"
+                android:fontFamily="@font/pretendard_light"
+                android:textSize="12sp"
+                android:textColor="@color/gray4"
+                android:background="@drawable/bg_my_review_card"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                app:layout_constraintTop_toBottomOf="@id/cl_top3"
+                />
+
+            <!--키워드 섹션-->
+            <!--닉네임-->
+            <TextView
+                android:id="@+id/tv_nickname2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="클리나"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="22sp"
+                android:textColor="@color/gray1"
+                android:layout_marginTop="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_info"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/keyword_title"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="20sp"
+                android:textColor="@color/gray1"
+                app:layout_constraintStart_toEndOf="@id/tv_nickname2"
+                app:layout_constraintBottom_toBottomOf="@id/tv_nickname2"
+                />
+
+            <!--동적으로 키워드 목록이 추가될 컨테이너-->
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/flexbox_keywords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start"
+                app:alignItems="flex_start"
+                app:alignContent="flex_start"
+                app:layout_constraintTop_toBottomOf="@id/tv_nickname2"
+                >
+
+                <!--더미 키워드-->
+                <include layout="@layout/item_keyword"/>
+                <include layout="@layout/item_keyword"/>
+                <include layout="@layout/item_keyword"/>
+                <include layout="@layout/item_keyword"/>
+                <include layout="@layout/item_keyword"/>
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <!--구분선-->
+            <View
+                android:id="@id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="26dp"
+                android:background="@color/gray5"
+                app:layout_constraintTop_toBottomOf="@id/flexbox_keywords"
+                />
+
+            <!--추천 랭킹-->
+            <TextView
+                android:id="@+id/tv_recommend_ranking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recommend_ranking"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="20sp"
+                android:textColor="@color/gray1"
+                android:layout_marginTop="40dp"
+                app:layout_constraintTop_toBottomOf="@+id/line1"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <!--추천 랭킹 리사이클러뷰-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_recommend_ranking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_marginBottom="30dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_ranking"
+                tools:listitem="@layout/item_product_card"
+                tools:itemCount="5"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <!--가이드라인-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

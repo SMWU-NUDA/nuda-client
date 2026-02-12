@@ -16,6 +16,7 @@ import com.nuda.nudaclient.data.remote.dto.common.Me
 import com.nuda.nudaclient.databinding.ActivityMainBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.login.LoginActivity
+import com.nuda.nudaclient.presentation.navigation.NavigationActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MainActivity : AppCompatActivity() {

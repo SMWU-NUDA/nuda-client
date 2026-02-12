@@ -60,8 +60,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:flexWrap="wrap"
+                app:justifyContent="flex_start"
                 app:alignItems="flex_start"
-                app:alignContent="flex_start" />
+                app:alignContent="flex_start"
+                />
 
             <!--키워드 설정-->
             <TextView

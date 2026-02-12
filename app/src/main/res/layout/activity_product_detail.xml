@@ -513,7 +513,7 @@
                 <TextView
                     android:id="@+id/tv_ingredientsAllergy"
                     style="@style/TextIngredient_classification"
-                    android:text="@string/ingredients_allergy"
+                    android:text="@string/ingredients_danger"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_ingredientsCaution"/>
                 <TextView

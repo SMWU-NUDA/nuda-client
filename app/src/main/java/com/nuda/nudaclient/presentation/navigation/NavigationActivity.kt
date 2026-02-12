@@ -1,4 +1,4 @@
-package com.nuda.nudaclient.presentation.common.activity
+package com.nuda.nudaclient.presentation.navigation
 
 import android.os.Bundle
 import android.widget.LinearLayout
@@ -8,7 +8,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.nuda.nudaclient.R
-import com.nuda.nudaclient.presentation.navigation.MyPageFragment
 
 class NavigationActivity : AppCompatActivity() {
 
@@ -33,8 +32,8 @@ class NavigationActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             // 초기 화면 설정 (나중에 홈화면으로 변경)
-            replaceFragment(MyPageFragment(), "MYPAGE")
-            selectMenu(menuMypage)
+            replaceFragment(RecommendFragment(), "RECOMMEND")
+            selectMenu(menuRecommend)
         }
 
         // 네비게이션 메뉴 설정

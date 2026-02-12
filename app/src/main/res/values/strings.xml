@@ -139,6 +139,7 @@
     <string name="keyword_scent">향</string>
     <string name="keyword_flow">흡수력</string>
     <string name="keyword_safety">안전성</string>
+    <string name="keyword_adhesion">접착력</string>
     <string name="keyword_low">낮음</string>
     <string name="keyword_normal">보통</string>
     <string name="keyword_high">높음</string>
@@ -152,6 +153,20 @@
     <string name="ingredient">성분</string>
     <string name="product_info">상품 정보</string>
     <string name="see_more_info">상품 정보 더보기</string>
+    <string name="product_ranking_instruction">제품별 성분 위험도 점수에 따라 순위가 측정됩니다</string>
+    <string name="product_filter_default">기본순</string>
+    <string name="product_filter_review">리뷰 많은 순</string>
+    <string name="product_filter_high_rating">별점 높은 순</string>
+    <string name="product_filter_low_rating">별점 낮은 순</string>
+    <string name="product_filter_wish">찜 많은 순</string>
+    <string name="sort">정렬</string>
+    <string name="recommend_to">님에게 최적화된 제품은</string>
+    <string name="keyword_filter_all">전체</string>
+    <string name="recommend_info">리뷰, 관심 등의 데이터가 반영되어 추천 랭킹이 업데이트 됩니다</string>
+    <string name="recommend_ranking">추천 랭킹</string>
+    <string name="filtering">필터링</string>
+
+
 
     <!--성분-->
     <string name="ingredient_component">성분 구성</string>
@@ -167,7 +182,7 @@
     <string name="component_additionalParts">기타</string>
     <string name="ingredients_all">전체 성분</string>
     <string name="ingredients_caution">주의 성분</string>
-    <string name="ingredients_allergy">알레르기 주의 성분</string>
+    <string name="ingredients_danger">위험 성분</string>
     <string name="ingredients_highlight">관심 성분</string>
     <string name="ingredients_avoid">피할 성분</string>
 
