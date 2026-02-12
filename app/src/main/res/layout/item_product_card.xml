@@ -4,13 +4,36 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/tv_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/product_rank"
+        android:fontFamily="@font/pretendard_bold"
+        android:textSize="20sp"
+        android:textColor="@color/gray1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible"
+        />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="16dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/tv_rank"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"
+        />
+
     <ImageView
         android:id="@+id/iv_product"
         style="@style/ImageProduct"
         android:clipToOutline="true"
         android:src="@drawable/image_product"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/space"
         />
 
     <TextView

@@ -1,4 +1,4 @@
-package com.nuda.nudaclient.presentation.home
+package com.nuda.nudaclient.presentation.navigation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

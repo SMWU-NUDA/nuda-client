@@ -1,4 +1,4 @@
-package com.nuda.nudaclient.presentation.mypage.fragment
+package com.nuda.nudaclient.presentation.navigation
 
 import android.content.Intent
 import android.os.Bundle

@@ -99,14 +99,19 @@
     <string name="product_price">6,500원</string>
     <string name="product_rank">1</string>
 
-    <!--검색-->
-    <string name="searchbar">제품을 검색하세요</string>
-
     <!--네비게이션 메뉴-->
     <string name="home">홈</string>
     <string name="recommend">맞춤추천</string>
     <string name="wishlist">관심</string>
     <string name="my">마이</string>
+
+    <!--검색-->
+    <string name="searchbar">제품을 검색하세요</string>
+    <string name="search_product">제품검색</string>
+    <string name="search_ingredient">성분검색</string>
+    <string name="popular_searchKeywords">인기 검색어</string>
+    <string name="category">성분 카테고리</string>
+    <string name="used_to">에 사용되는 성분</string>
 
     <!--홈-->
     <string name="go_to_ranking_page">전체 제품 랭킹 보러가기</string>
