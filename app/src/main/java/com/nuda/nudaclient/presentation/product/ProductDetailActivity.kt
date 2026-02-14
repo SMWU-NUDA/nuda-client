@@ -115,11 +115,15 @@ class ProductDetailActivity : BaseActivity() {
 
                             // 찜하기
                             if (data.likedByMe) { // 상품 찜하기 여부
-                                binding.ivProductLike.setBackgroundResource(R.drawable.img_btn_heart_selected)
+                                binding.ivProductLike.setImageResource(R.drawable.img_btn_heart_selected)
+                            } else {
+                                binding.ivProductLike.setImageResource(R.drawable.img_btn_heart_unselected)
                             }
 
 //                            if (data.) { // 브랜드 찜하기 여부
-//                                binding.ivBrandLike.setBackgroundResource(R.drawable.img_heart2_selected)
+//                                binding.ivBrandLike.setImageResource(R.drawable.img_heart2_selected)
+//                            } else {
+//                                binding.ivBrandLike.setImageResource(R.drawable.img_heart2_unselected)
 //                            }
                         }
                     }

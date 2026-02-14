@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
@@ -24,7 +22,6 @@ import com.nuda.nudaclient.databinding.ItemWishIngredientBinding
 import com.nuda.nudaclient.databinding.ItemWishProductBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.product.ProductDetailActivity
-import kotlin.io.path.Path
 
 class WishlistFragment : Fragment() {
 
@@ -67,17 +64,18 @@ class WishlistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 테스트용 include 제거
-        clearTestData()
-        // 초기 데이터 로드
-        loadInitialData()
         // 무한 스크롤 설정 (4개 모두 설정)
         setupInfiniteScrolls()
     }
 
-    // 화면이 보일 때마다 실행 (탭 전환, 다른 앱 다녀 오기)
+    // 화면이 보일 때마다 실행 (탭 전환, 다른 앱 다녀 오기), 최초 생성 시 onViewCreated() 후 호출됨
     override fun onResume() {
         super.onResume()
+        // 상태 초기화
+        resetState()
+
+        // 기존 뷰 제거
+        clearData()
 
         // 데이터 로드
         loadInitialData()
@@ -89,8 +87,31 @@ class WishlistFragment : Fragment() {
         _binding = null
     }
 
+    // 상태 초기화
+    private fun resetState() {
+        // 찜한 상품 상태 초기화
+        productCursor = null
+        IsLoadingProduct = false
+        hasNextProduct = false
+
+        // 찜한 브랜드 상태 초기화
+        brandCursor = null
+        IsLoadingBrand = false
+        hasNextBrand = false
+
+        // 즐겨찾는 성분 상태 초기화
+        highlightCursor = null
+        IsLoadinghighlight = false
+        hasNexthighlight = false
+
+        // 피할 성분 상태 초기화
+        avoidCursor = null
+        IsLoadingAvoid = false
+        hasNextAvoid = false
+    }
+
     // 테스트용 include 제거
-    private fun clearTestData() {
+    private fun clearData() {
         binding.llWishProducts.removeAllViews()
         binding.llWishBrands.removeAllViews()
         binding.llHighlightIngredients.removeAllViews()
