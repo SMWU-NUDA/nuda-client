@@ -49,6 +49,9 @@ class ProductDetailActivity : BaseActivity() {
             insets
         }
 
+        // Intent에서 productId 받기
+        productId = intent.getIntExtra("PRODUCT_ID", -1)
+
         // ViewPager 객체 초기화
         viewPagerProductImages = binding.viewPagerProductImages
 
@@ -78,18 +81,19 @@ class ProductDetailActivity : BaseActivity() {
     // 상품 상세페이지 정보 로드
     private fun loadProductDetail() {
         loadProductInfo()
+        loadIngredientInfo()
+        loadReviewInfo()
     }
 
     // 상품 정보 로드
     private fun loadProductInfo() {
-        productsService.getProductInfo(1) // 묵업 데이터 입력 (productId = 1)
+        productsService.getProductInfo(productId) // 묵업 데이터 입력 (productId = 1)
             .executeWithHandler(
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) { // data non-null로 보장
                         body.data?.let { data ->
-                            // 상품 아이디, 브랜드 아이디 값 저장
-                            productId = data.productId
+                            // 브랜드 아이디 값 저장
 //                            brandId = data.brandId
 
                             // 뷰에 데이터 바인딩
@@ -121,6 +125,17 @@ class ProductDetailActivity : BaseActivity() {
                     }
                 }
             )
+    }
+
+    // 성분 정보 로드
+    private fun loadIngredientInfo() {
+
+    }
+
+
+    // 리뷰 정보 로드
+    private fun loadReviewInfo() {
+
     }
 
     // 상품 이미지 리스트 ViewPager 설정

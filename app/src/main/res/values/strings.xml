@@ -177,8 +177,7 @@
     <string name="component_coverLayer">표지</string>
     <string name="component_absorbentCore">흡수체</string>
     <string name="component_waterproofLayer">방수층</string>
-    <string name="component_adhesiveStrip">고정용</string>
-    <string name="component_structuralLayer">구조용</string>
+    <string name="component_adhesive">접착제</string>
     <string name="component_additionalParts">기타</string>
     <string name="ingredients_all">전체 성분</string>
     <string name="ingredients_caution">주의 성분</string>

@@ -125,18 +125,9 @@ class MypageMyReviewActivity : BaseActivity() {
                 onSuccess = { body ->
                     if (body.success == true) {
                         val data = body.data
-                        Log.d("API_DEBUG", "현재 currentCursor: $currenCursor")
                         if (data != null) { // 리뷰 데이터가 null이 아닐 때
-
-                            Log.d("API_DEBUG", "==== 데이터 확인 ====")
-                            Log.d("API_DEBUG", "받은 리뷰 개수: ${data.content.size}")
-                            Log.d("API_DEBUG", "첫 번째 리뷰: ${data.content.firstOrNull()?.productName}")
-
                             // 어댑터에 새 데이터 추가
                             myreviewAdapter.addItems(data.content)
-
-                            Log.d("API_DEBUG", "어댑터 총 아이템 개수: ${myreviewAdapter.itemCount}")
-                            Log.d("API_DEBUG", "====================")
 
                             // 다음 커서 업데이트
                             currenCursor = if (data.hasNext) { // 다음 페이지 있으면 커서 저장
@@ -144,18 +135,12 @@ class MypageMyReviewActivity : BaseActivity() {
                             } else { // 마지막 페이지면 null
                                 null
                             }
-                            Log.d("API_DEBUG", "내 리뷰 조회 성공, 업데이트된 currentCursor: $currenCursor")
-                        }else {
-                            Log.d("API_DEBUG", "내 리뷰 조회 성공, data = null")
                         }
-                    } else {
-                        Log.d("API_DEBUG", "내 리뷰 조회 실패")
                     }
                     // 로딩 종료
                     isLoading = false
                 },
                 onError = {
-                    Log.d("API_DEBUG", "내 리뷰 조회 네트워크 오류")
                     isLoading = false
                 }
             )

@@ -11,8 +11,6 @@ import com.nuda.nudaclient.R
 
 class NavigationActivity : AppCompatActivity() {
 
-    // TODO 홈, 나의 관심 fragment 연결 및 디폴트 홈 설정 / 테스트 완료
-
     private lateinit var menuHome : LinearLayout
     private lateinit var menuRecommend : LinearLayout
     private lateinit var menuWishlist : LinearLayout

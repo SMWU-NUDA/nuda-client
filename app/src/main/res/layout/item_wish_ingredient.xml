@@ -11,7 +11,7 @@
     >
 
     <ImageView
-        android:id="@+id/iv_circle"
+        android:id="@+id/iv_riskLevel"
         android:layout_width="11dp"
         android:layout_height="11dp"
         android:src="@drawable/img_circle"
@@ -22,6 +22,7 @@
 
 
     <TextView
+        android:id="@+id/tv_ingredientName"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:text="아크릴산중합체나트륨염"
@@ -35,7 +36,7 @@
         android:autoSizeStepGranularity="1sp"
         android:ellipsize="none"
         android:layout_marginLeft="11dp"
-        app:layout_constraintStart_toEndOf="@id/iv_circle"
+        app:layout_constraintStart_toEndOf="@id/iv_riskLevel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -54,6 +55,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <ImageView
+        android:id="@+id/iv_moveToIngredientDetail"
         android:layout_width="7dp"
         android:layout_height="13dp"
         android:src="@drawable/img_right_arrow"

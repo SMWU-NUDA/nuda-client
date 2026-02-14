@@ -11,7 +11,7 @@ data class ProductsGetProductWishlist(
         val thumbnailImg: String,
         val brandName: String,
         val productName: String,
-        val averageRating: Int,
+        val averageRating: Double,
         val reviewCount: Int
     )
 }

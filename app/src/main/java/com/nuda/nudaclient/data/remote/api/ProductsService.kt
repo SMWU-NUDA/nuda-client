@@ -13,10 +13,6 @@ import retrofit2.http.Query
 
 interface ProductsService {
 
-    // POST /admin/products : 상품 등록
-//    @POST("admin/products")
-//    fun createProduct()
-
     // GET /products/{productId} : 상품 상세 조회
     @GET("products/{productId}")
     fun getProductInfo(@Path("productId") productId: Int) : Call<ApiResponse<ProductsInfoResponse>>
@@ -29,7 +25,7 @@ interface ProductsService {
 
     // GET /products/likes : 찜한 상품 조회
     @GET("products/likes")
-    fun getProductWishlist(@Query("cursor") cursor: Int, @Query("size") size: Int) : Call<ApiResponse<ProductsGetProductWishlist>>
+    fun getProductWishlist(@Query("cursor") cursor: Int?, @Query("size") size: Int = 20) : Call<ApiResponse<ProductsGetProductWishlist>>
 
     // POST /brands/{brandId}/likes : 브랜드 찜하기
     @POST("brands/{brandId}/likes")
@@ -37,7 +33,7 @@ interface ProductsService {
 
     // GET /brands/likes : 찜한 브랜드 조회
     @GET("brands/likes")
-    fun getBrandWishlist(@Query("cursor") cursor: Int, @Query("size") size: Int) : Call<ApiResponse<ProductsGetBrandWishlist>>
+    fun getBrandWishlist(@Query("cursor") cursor: Int?, @Query("size") size: Int = 20) : Call<ApiResponse<ProductsGetBrandWishlist>>
 
     // GET /products/rankings?sort={sort} : 상품 랭킹 조회
 

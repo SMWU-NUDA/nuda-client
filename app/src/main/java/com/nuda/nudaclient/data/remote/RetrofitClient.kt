@@ -2,6 +2,7 @@ package com.nuda.nudaclient.data.remote
 
 import android.content.Context
 import com.nuda.nudaclient.data.remote.api.AuthService
+import com.nuda.nudaclient.data.remote.api.IngredientsService
 import com.nuda.nudaclient.data.remote.api.MembersService
 import com.nuda.nudaclient.data.remote.api.ProductsService
 import com.nuda.nudaclient.data.remote.api.ReviewsService
@@ -72,4 +73,8 @@ object RetrofitClient {
         retrofit.create(ProductsService::class.java)
     }
 
+    // 성분
+    val ingredientsService : IngredientsService by lazy {
+        retrofit.create(IngredientsService::class.java)
+    }
 }
