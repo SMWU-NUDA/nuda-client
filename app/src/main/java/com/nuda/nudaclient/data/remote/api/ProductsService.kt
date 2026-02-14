@@ -25,7 +25,7 @@ interface ProductsService {
 
     // POST /products/{productId}/likes : 상품 찜하기
     @POST("products/{productId}/likes")
-    fun createProductWish(@Path("productId") productId: Int) : Call<ApiResponse<ProductsCreateWish>>
+    fun createProductLike(@Path("productId") productId: Int) : Call<ApiResponse<ProductsCreateWish>>
 
     // GET /products/likes : 찜한 상품 조회
     @GET("products/likes")
@@ -33,7 +33,7 @@ interface ProductsService {
 
     // POST /brands/{brandId}/likes : 브랜드 찜하기
     @POST("brands/{brandId}/likes")
-    fun createBrandWish(@Path("brandId") brandId : Int) : Call<ApiResponse<ProductsCreateWish>>
+    fun createBrandLike(@Path("brandId") brandId : Int) : Call<ApiResponse<ProductsCreateWish>>
 
     // GET /brands/likes : 찜한 브랜드 조회
     @GET("brands/likes")

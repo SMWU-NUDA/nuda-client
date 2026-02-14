@@ -17,6 +17,7 @@ import com.nuda.nudaclient.databinding.ActivityMainBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.login.LoginActivity
 import com.nuda.nudaclient.presentation.navigation.NavigationActivity
+import com.nuda.nudaclient.presentation.product.ProductDetailActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MainActivity : AppCompatActivity() {
@@ -62,8 +63,11 @@ class MainActivity : AppCompatActivity() {
                         )
                         UserPreferences.saveUserInfo(this, meResponse)
 
-                        // 홈 화면으로 이동 (임시로 마이페이지 이동, 이후 수정)
-                        startActivity(Intent(this, NavigationActivity::class.java))
+                        // 홈 화면으로 이동
+//                        startActivity(Intent(this, NavigationActivity::class.java))
+                        // 테스트 이동
+                        startActivity(Intent(this, ProductDetailActivity::class.java))
+
                         finish()
                         Log.d("API_DEBUG", "access토큰 인증 완료, 홈화면으로 이동")
                     } else {

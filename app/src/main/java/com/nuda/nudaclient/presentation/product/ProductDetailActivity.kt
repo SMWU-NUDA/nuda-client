@@ -3,6 +3,7 @@ package com.nuda.nudaclient.presentation.product
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -21,16 +22,21 @@ import com.nuda.nudaclient.presentation.product.adapter.ProductImagesAdapter
 
 class ProductDetailActivity : BaseActivity() {
 
-    // TODO 상품 정보 조회 API 연동 및 데이터 바인딩
+    // TODO 상품 찜하기 API 연동 및 기능 구현
+    // TODO 브랜드 찜하기 API 연동 및 기능 구현
     // TODO 성분 성분 구성 요약 API 연동 및 데이터 바인딩
     // TODO 리뷰 요약 조회 API 연동 및 데이터 바인딩
     // TODO 리뷰 좋아요 API 연동 및 기능 구현
+
 
     private lateinit var binding: ActivityProductDetailBinding
 
     private lateinit var viewPagerProductImages: ViewPager2
     private lateinit var layoutIndicator: LinearLayout
     private lateinit var imageAdapter: ProductImagesAdapter
+
+    private var productId: Int = -1
+    private var brandId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +90,10 @@ class ProductDetailActivity : BaseActivity() {
                 onSuccess = { body ->
                     if (body.success == true) { // data non-null로 보장
                         body.data?.let { data ->
+                            // 상품 아이디, 브랜드 아이디 값 저장
+                            productId = data.productId
+//                            brandId = data.brandId
+
                             // 뷰에 데이터 바인딩
                             binding.tvBrand.text = data.brandName
                             binding.tvProductName.text = data.name
@@ -168,6 +178,7 @@ class ProductDetailActivity : BaseActivity() {
 
     private fun setButtons() {
         setMoveToReviewPage()
+        setLikeButtons()
     }
 
     // 전체 리뷰 화면으로 이동
@@ -175,6 +186,50 @@ class ProductDetailActivity : BaseActivity() {
         binding.llMoveToReviewPage.setOnClickListener {
             // 전체 리뷰 화면으로 이동
 //            startActivity(Intent(this, ReviewActivity::class.java))
+        }
+    }
+
+    // 찜하기 버튼 설정
+    private fun setLikeButtons() {
+        // 브랜드 찜하기 설정
+        val btnBrandLike = binding.ivBrandLike
+        btnBrandLike.setOnClickListener {
+            productsService.createBrandLike(1) // brandId 임시 데이터. 이후 수정
+                .executeWithHandler(
+                    context = this,
+                    onSuccess = { body ->
+                        if (body.success == true) {
+                            body.data?.let { data ->
+                                if (data.liked) { // true : 좋아요
+                                    btnBrandLike.setImageResource(R.drawable.img_heart2_selected)
+                                } else { // false : 취소
+                                    btnBrandLike.setImageResource(R.drawable.img_heart2_unselected)
+                                }
+                            }
+
+                        }
+                    }
+                )
+        }
+        // 상품 찜하기 설정
+        val btnProductLike = binding.ivProductLike
+        btnProductLike.setOnClickListener {
+            productsService.createProductLike(productId) // brandId 임시 데이터. 이후 수정
+                .executeWithHandler(
+                    context = this,
+                    onSuccess = { body ->
+                        if (body.success == true) {
+                            body.data?.let { data ->
+                                if (data.liked) { // true : 좋아요
+                                    btnProductLike.setImageResource(R.drawable.img_btn_heart_selected)
+                                } else { // false : 취소
+                                    btnProductLike.setImageResource(R.drawable.img_btn_heart_unselected)
+                                }
+                            }
+
+                        }
+                    }
+                )
         }
     }
 
