@@ -3,6 +3,7 @@ package com.nuda.nudaclient.data.remote
 import android.content.Context
 import com.nuda.nudaclient.data.remote.api.AuthService
 import com.nuda.nudaclient.data.remote.api.MembersService
+import com.nuda.nudaclient.data.remote.api.ProductsService
 import com.nuda.nudaclient.data.remote.api.ReviewsService
 import com.nuda.nudaclient.data.remote.api.SignupService
 import okhttp3.OkHttpClient
@@ -64,6 +65,11 @@ object RetrofitClient {
     // 리뷰
     val reviewsService : ReviewsService by lazy {
         retrofit.create(ReviewsService::class.java)
+    }
+
+    // 상품
+    val productsService : ProductsService by lazy {
+        retrofit.create(ProductsService::class.java)
     }
 
 }
