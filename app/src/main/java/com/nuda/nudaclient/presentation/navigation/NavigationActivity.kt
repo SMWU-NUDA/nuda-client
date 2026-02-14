@@ -11,6 +11,8 @@ import com.nuda.nudaclient.R
 
 class NavigationActivity : AppCompatActivity() {
 
+    // TODO 홈, 나의 관심 fragment 연결 및 디폴트 홈 설정 / 테스트 완료
+
     private lateinit var menuHome : LinearLayout
     private lateinit var menuRecommend : LinearLayout
     private lateinit var menuWishlist : LinearLayout
@@ -32,8 +34,8 @@ class NavigationActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             // 초기 화면 설정 (나중에 홈화면으로 변경)
-            replaceFragment(RecommendFragment(), "RECOMMEND")
-            selectMenu(menuRecommend)
+            replaceFragment(HomeFragment(), "HOME")
+            selectMenu(menuHome)
         }
 
         // 네비게이션 메뉴 설정
@@ -49,24 +51,24 @@ class NavigationActivity : AppCompatActivity() {
 
 
     private fun setNavigation() {
-//        // 홈 메뉴 클릭
-//        menuHome.setOnClickListener {
-//            replaceFragment()
-//            selectMenu(menuHome)
-//        }
-//
-//        // 맞춤 추천 메뉴 클릭
-//        menuRecommend.setOnClickListener {
-//            replaceFragment()
-//            selectMenu(menuRecommend)
-//        }
-//
-//
-//        // 관심 메뉴 클릭
-//        menuWishlist.setOnClickListener {
-//            replaceFragment()
-//            selectMenu(menuWishlist)
-//        }
+        // 홈 메뉴 클릭
+        menuHome.setOnClickListener {
+            replaceFragment(HomeFragment(), "HOME")
+            selectMenu(menuHome)
+        }
+
+        // 맞춤 추천 메뉴 클릭
+        menuRecommend.setOnClickListener {
+            replaceFragment(RecommendFragment(), "RECOMMEND")
+            selectMenu(menuRecommend)
+        }
+
+
+        // 관심 메뉴 클릭
+        menuWishlist.setOnClickListener {
+            replaceFragment(WishlistFragment(), "WISHLIST")
+            selectMenu(menuWishlist)
+        }
 
         // 마이페이지 메뉴 클릭
         menuMypage.setOnClickListener {

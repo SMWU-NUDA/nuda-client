@@ -17,7 +17,6 @@ class ProductRankingActivity : BaseActivity() {
     // TODO feat(products): 필터링 버튼 클릭 후 BottomSheetDialog 띄우기
     // TODO feat(products): 필터링 항목 클릭 시 폰트 변경 및 체크 아이콘 추가
 
-
     private lateinit var binding: ActivityProductRankingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

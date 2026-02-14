@@ -64,9 +64,9 @@ class MainActivity : AppCompatActivity() {
                         UserPreferences.saveUserInfo(this, meResponse)
 
                         // 홈 화면으로 이동
-//                        startActivity(Intent(this, NavigationActivity::class.java))
+                        startActivity(Intent(this, NavigationActivity::class.java))
                         // 테스트 이동
-                        startActivity(Intent(this, ProductDetailActivity::class.java))
+//                        startActivity(Intent(this, ProductDetailActivity::class.java))
 
                         finish()
                         Log.d("API_DEBUG", "access토큰 인증 완료, 홈화면으로 이동")

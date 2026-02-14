@@ -22,8 +22,6 @@ import com.nuda.nudaclient.presentation.product.adapter.ProductImagesAdapter
 
 class ProductDetailActivity : BaseActivity() {
 
-    // TODO 상품 찜하기 API 연동 및 기능 구현
-    // TODO 브랜드 찜하기 API 연동 및 기능 구현
     // TODO 성분 성분 구성 요약 API 연동 및 데이터 바인딩
     // TODO 리뷰 요약 조회 API 연동 및 데이터 바인딩
     // TODO 리뷰 좋아요 API 연동 및 기능 구현
