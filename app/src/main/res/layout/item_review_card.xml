@@ -87,7 +87,7 @@
             android:id="@+id/iv_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_like_default"
+            android:src="@drawable/img_like_unselected"
             android:layout_marginTop="0.7dp"
             android:layout_marginLeft="4dp"/>
     </LinearLayout>

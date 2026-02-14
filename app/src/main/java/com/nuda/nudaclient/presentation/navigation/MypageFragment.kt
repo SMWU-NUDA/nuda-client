@@ -27,8 +27,6 @@ class MyPageFragment : Fragment() {
 
     // TODO: feat(members): (mypage) 회원 탈퇴 기능 구현
 
-    // TODO: feat: (home) 홈 UI 구성
-
 
     // 프래그먼트 생명 주기의 onDestroyView() 콜백에서 뷰는 삭제되지만 프래그먼트는 유지
     private var _binding: FragmentMypageBinding? = null // nullabel, 뷰가 없을 때는 null로 초기화
@@ -103,7 +101,7 @@ class MyPageFragment : Fragment() {
             .into(binding.ivProfile)
 
         // 키워드 업데이트 (최대 3개)
-        val keywords = body.data?.survey?.keywords // List<String>
+        val keywords = body.data?.keywords // List<String>
         binding.tvKeywords.text = when {
             keywords.isNullOrEmpty() -> "키워드 없음"
             keywords.size <= 3 -> keywords.joinToString(", ")

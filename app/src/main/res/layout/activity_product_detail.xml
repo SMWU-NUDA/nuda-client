@@ -33,16 +33,46 @@
             android:orientation="vertical"
             >
 
-            <!--상품 이미지-->
-            <ImageView
-                android:id="@id/iv_productImage"
+            <!--상품 이미지 영역-->
+            <FrameLayout
+                android:id="@+id/fl_productImageContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:src="@drawable/image_product2"
                 app:layout_constraintDimensionRatio="1:1"
-                android:scaleType="centerCrop"
                 app:layout_constraintTop_toTopOf="parent"
-                />
+                >
+
+                <!--ViewPager2 : 이미지 가로 스크롤-->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager_productImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+                <!--인디케이터: 하단 점 표시-->
+                <LinearLayout
+                    android:id="@+id/ll_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_indicator"
+                    />
+            </FrameLayout>
+
+
+            <!--&lt;!&ndash;상품 이미지&ndash;&gt;-->
+            <!--<ImageView-->
+            <!--    android:id="@id/iv_productImage"-->
+            <!--    android:layout_width="match_parent"-->
+            <!--    android:layout_height="0dp"-->
+            <!--    android:src="@drawable/image_product2"-->
+            <!--    app:layout_constraintDimensionRatio="1:1"-->
+            <!--    android:scaleType="centerCrop"-->
+            <!--    app:layout_constraintTop_toTopOf="parent"-->
+            <!--    />-->
 
             <!--브랜드명-->
             <TextView
@@ -54,7 +84,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/gray3"
                 android:layout_marginTop="17dp"
-                app:layout_constraintTop_toBottomOf="@id/iv_productImage"
+                app:layout_constraintTop_toBottomOf="@id/fl_productImageContainer"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 />
 
@@ -63,7 +93,7 @@
                 android:id="@+id/iv_brandLike"
                 android:layout_width="23dp"
                 android:layout_height="20dp"
-                android:src="@drawable/img_heart2"
+                android:src="@drawable/img_heart2_unselected"
                 app:layout_constraintTop_toTopOf="@id/tv_brand"
                 app:layout_constraintBottom_toBottomOf="@id/tv_brand"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -119,25 +149,30 @@
                         android:textSize="18sp"
                         android:text="4.2"
                         />
-                    <!--리뷰(밑줄 추가 필요)-->
-                    <TextView
-                        android:id="@+id/tv_review"
-                        style="@style/TextProductStarandReview"
-                        android:textSize="18sp"
-                        android:text="리뷰 417개"
-                        android:layout_marginLeft="5dp"
-                        />
-                    <!--전체 리뷰로 이동 버튼-->
-                    <ImageView
-                        android:id="@+id/btn_moveToAllReviews_top"
-                        android:layout_width="7dp"
-                        android:layout_height="13dp"
-                        android:src="@drawable/img_right_arrow"
-                        android:layout_marginTop="0.5dp"
-                        android:layout_marginLeft="8dp"
-                        app:tint="@color/gray3"
-                        android:minWidth="50dp"
-                        android:minHeight="50dp"/>
+                    <LinearLayout
+                        android:id="@+id/ll_moveToReviewPage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <!--리뷰(밑줄 추가 필요)-->
+                        <TextView
+                            android:id="@+id/tv_review"
+                            style="@style/TextProductStarandReview"
+                            android:textSize="18sp"
+                            android:text="리뷰 417개"
+                            android:layout_marginLeft="5dp"
+                            />
+                        <!--전체 리뷰로 이동 버튼-->
+                        <ImageView
+                            android:id="@+id/btn_moveToAllReviews_top"
+                            android:layout_width="7dp"
+                            android:layout_height="13dp"
+                            android:src="@drawable/img_right_arrow"
+                            android:layout_marginTop="0.5dp"
+                            android:layout_marginLeft="8dp"
+                            app:tint="@color/gray3"
+                            android:minWidth="50dp"
+                            android:minHeight="50dp"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!--상품 가격-->
@@ -916,7 +951,7 @@
 
             <!--상품 찜하기-->
             <ImageView
-                android:id="@+id/iv_btn_ProductLike"
+                android:id="@+id/iv_ProductLike"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginRight="10dp"

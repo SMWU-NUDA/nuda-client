@@ -19,8 +19,8 @@ class MypageMyReviewAdapter
         var onDeleteClickListner: ((reviewId: Int, position: Int) -> Unit)? = null
 
 
-        // inner 클래스로 뷰 홀더 정의. ViewHolder는 리뷰 카드 1개를 표시하는 틀 
-        inner class MyReviewViewholder(binding: ItemMyReviewCardBinding) :
+        // 중첩 클래스로 뷰 홀더 정의. ViewHolder는 리뷰 카드 1개를 표시하는 틀
+        class MyReviewViewholder(binding: ItemMyReviewCardBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
             // 리뷰 카드 아이템 뷰를 변수에 저장
