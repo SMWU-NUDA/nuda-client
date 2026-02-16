@@ -12,8 +12,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.remote.RetrofitClient.ingredientsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
+import com.nuda.nudaclient.data.remote.api.IngredientsService
 import com.nuda.nudaclient.databinding.ActivityProductDetailBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.toFormattedPrice
@@ -21,6 +23,9 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.product.adapter.ProductImagesAdapter
 
 class ProductDetailActivity : BaseActivity() {
+
+    // 상품 상세페이지로 이동할 때 Intent에 productId 담아서 전달 필요 !!!
+
 
     // TODO 성분 성분 구성 요약 API 연동 및 데이터 바인딩
     // TODO 리뷰 요약 조회 API 연동 및 데이터 바인딩
@@ -94,7 +99,7 @@ class ProductDetailActivity : BaseActivity() {
                     if (body.success == true) { // data non-null로 보장
                         body.data?.let { data ->
                             // 브랜드 아이디 값 저장
-//                            brandId = data.brandId
+                            brandId = data.brandId
 
                             // 뷰에 데이터 바인딩
                             binding.tvBrand.text = data.brandName
@@ -114,17 +119,17 @@ class ProductDetailActivity : BaseActivity() {
 //                            data.content
 
                             // 찜하기
-                            if (data.likedByMe) { // 상품 찜하기 여부
+                            if (data.productLikedByMe) { // 상품 찜하기 여부
                                 binding.ivProductLike.setImageResource(R.drawable.img_btn_heart_selected)
                             } else {
                                 binding.ivProductLike.setImageResource(R.drawable.img_btn_heart_unselected)
                             }
 
-//                            if (data.) { // 브랜드 찜하기 여부
-//                                binding.ivBrandLike.setImageResource(R.drawable.img_heart2_selected)
-//                            } else {
-//                                binding.ivBrandLike.setImageResource(R.drawable.img_heart2_unselected)
-//                            }
+                            if (data.brandLikedByMe) { // 브랜드 찜하기 여부
+                                binding.ivBrandLike.setImageResource(R.drawable.img_heart2_selected)
+                            } else {
+                                binding.ivBrandLike.setImageResource(R.drawable.img_heart2_unselected)
+                            }
                         }
                     }
                 }
@@ -133,7 +138,7 @@ class ProductDetailActivity : BaseActivity() {
 
     // 성분 정보 로드
     private fun loadIngredientInfo() {
-
+        ingredientsService.getIngredientSummary(productId)
     }
 
 
