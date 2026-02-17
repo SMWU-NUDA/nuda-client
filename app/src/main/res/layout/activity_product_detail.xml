@@ -434,28 +434,28 @@
                     app:layout_constraintTop_toBottomOf="@id/linear_labelTexts">
                     <!--표지 막대그래프-->
                     <LinearLayout
-                        android:id="@+id/linearGraph_coverLayer"
+                        android:id="@+id/ll_topSheet"
                         style="@style/linear_ingredientGraph">
                     <!--이 사이에 뷰 추가-->
                     </LinearLayout>
                     <!--흡수체 막대그래프-->
                     <LinearLayout
-                        android:id="@+id/linearGraph_absorbentCore"
+                        android:id="@+id/ll_absorber"
                         style="@style/linear_ingredientGraph">
                     </LinearLayout>
                     <!--방수층 막대그래프-->
                     <LinearLayout
-                        android:id="@+id/linearGraph_waterproofLayer"
+                        android:id="@+id/ll_backSheet"
                         style="@style/linear_ingredientGraph">
                     </LinearLayout>
                     <!--접착제 막대그래프-->
                     <LinearLayout
-                        android:id="@+id/linearGraph_adhesive"
+                        android:id="@+id/ll_adhesive"
                         style="@style/linear_ingredientGraph">
                     </LinearLayout>
                     <!--기타 막대그래프-->
                     <LinearLayout
-                        android:id="@+id/linearGraph_additionalParts"
+                        android:id="@+id/ll_additive"
                         style="@style/linear_ingredientGraph">
                     </LinearLayout>
                 </LinearLayout>
@@ -469,26 +469,31 @@
                     app:layout_constraintTop_toBottomOf="@id/linear_graphs">
                     <!--표지-->
                     <TextView
+                        android:id="@+id/tv_topSheet_count"
                         style="@style/TextIngredient_componentCount"
                         android:text="2개"
                         />
                     <!--흡수체-->
                     <TextView
+                        android:id="@+id/tv_absorber_count"
                         style="@style/TextIngredient_componentCount"
                         android:text="3개"
                         />
                     <!--방수층-->
                     <TextView
+                        android:id="@+id/tv_backSheet_count"
                         style="@style/TextIngredient_componentCount"
                         android:text="1개"
                         />
                     <!--접착제-->
                     <TextView
+                        android:id="@+id/tv_adhesive_count"
                         style="@style/TextIngredient_componentCount"
                         android:text="1개"
                         />
                     <!--기타-->
                     <TextView
+                        android:id="@+id/tv_additive_count"
                         style="@style/TextIngredient_componentCount"
                         android:text="1개"
                         />
@@ -533,17 +538,17 @@
 
                 <!--알레르기 주의 성분-->
                 <TextView
-                    android:id="@+id/tv_ingredientsAllergy"
+                    android:id="@+id/tv_ingredientsDanger"
                     style="@style/TextIngredient_classification"
                     android:text="@string/ingredients_danger"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_ingredientsCaution"/>
                 <TextView
-                    android:id="@+id/tv_ingredientsAllergy_count"
+                    android:id="@+id/tv_ingredientsDanger_count"
                     style="@style/TextIngredient_classification"
                     android:text="0개"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBaseline_toBaselineOf="@id/tv_ingredientsAllergy"/>
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_ingredientsDanger"/>
 
                 <!--관심 성분-->
                 <TextView
@@ -551,7 +556,7 @@
                     style="@style/TextIngredient_classification"
                     android:text="@string/ingredients_highlight"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_ingredientsAllergy"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_ingredientsDanger"/>
                 <TextView
                     android:id="@+id/tv_ingredientsHighlight_count"
                     style="@style/TextIngredient_classification"

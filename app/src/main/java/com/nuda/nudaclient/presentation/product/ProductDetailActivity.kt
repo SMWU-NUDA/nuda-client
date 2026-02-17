@@ -16,11 +16,13 @@ import com.nuda.nudaclient.data.remote.RetrofitClient.ingredientsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
 import com.nuda.nudaclient.data.remote.api.IngredientsService
+import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetSummaryResponse
 import com.nuda.nudaclient.databinding.ActivityProductDetailBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.toFormattedPrice
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.product.adapter.ProductImagesAdapter
+import com.nuda.nudaclient.utils.setupBarGraph
 
 class ProductDetailActivity : BaseActivity() {
 
@@ -139,6 +141,54 @@ class ProductDetailActivity : BaseActivity() {
     // 성분 정보 로드
     private fun loadIngredientInfo() {
         ingredientsService.getIngredientSummary(productId)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        updateIngredientUI(body.data)
+                    }
+                }
+            )
+    }
+
+    // 성분 정보 UI 업데이트
+    private fun updateIngredientUI(data: IngredientsGetSummaryResponse?) {
+        data?.let { data ->
+            // 막대그래프 구성
+            setupBarGraph( // 표지
+                binding.llTopSheet,
+                data.ingredientCounts.topSheet.count,
+                data.ingredientCounts.topSheet.riskCounts)
+            setupBarGraph( // 흡수체
+                binding.llAbsorber,
+                data.ingredientCounts.absorber.count,
+                data.ingredientCounts.absorber.riskCounts)
+            setupBarGraph( // 방수층
+                binding.llBackSheet,
+                data.ingredientCounts.backSheet.count,
+                data.ingredientCounts.backSheet.riskCounts)
+            setupBarGraph( // 접착제
+                binding.llAdhesive,
+                data.ingredientCounts.adhesive.count,
+                data.ingredientCounts.adhesive.riskCounts)
+            setupBarGraph( // 기타
+                binding.llAdditive,
+                data.ingredientCounts.additive.count,
+                data.ingredientCounts.additive.riskCounts)
+
+            // 구성요소 별 성분 개수 텍스트
+            binding.tvTopSheetCount.text = "${data.ingredientCounts.topSheet.count}개"
+            binding.tvAbsorberCount.text = "${data.ingredientCounts.absorber.count}개"
+            binding.tvBackSheetCount.text = "${data.ingredientCounts.backSheet.count}개"
+            binding.tvAdhesiveCount.text = "${data.ingredientCounts.adhesive.count}개"
+            binding.tvAdditiveCount.text = "${data.ingredientCounts.additive.count}개"
+
+            // 항목 별 개수 텍스트
+            binding.tvIngredientsAllCount.text = "${data.totalCount}개"
+            binding.tvIngredientsCautionCount.text = "${data.globalRiskCounts.warn}개"
+            binding.tvIngredientsDangerCount.text = "${data.globalRiskCounts.danger}개"
+            binding.tvIngredientsHighlightCount.text = "${data.myIngredientCounts.prefer}개"
+        }
     }
 
 
