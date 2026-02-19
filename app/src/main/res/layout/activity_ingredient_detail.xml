@@ -70,6 +70,7 @@
                 >
                 <!--관심 버튼-->
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_highlight"
                     android:layout_width="85dp"
                     android:layout_height="40dp"
                     android:text="@string/highlight"
@@ -78,6 +79,7 @@
                     />
                 <!--피하기 버튼-->
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_avoid"
                     android:layout_width="85dp"
                     android:layout_height="40dp"
                     android:text="@string/avoid"

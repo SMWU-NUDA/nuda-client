@@ -12,6 +12,7 @@ import com.nuda.nudaclient.databinding.ActivityIngredientComponentBinding
 import com.nuda.nudaclient.databinding.ActivityReviewAllBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
+import com.nuda.nudaclient.presentation.ingredient.adapter.IngredientItemAdapter
 import com.nuda.nudaclient.utils.setupBarGraph
 
 class IngredientComponentActivity : BaseActivity() {
@@ -19,13 +20,14 @@ class IngredientComponentActivity : BaseActivity() {
     // 상품 구성 성분 화면으로 이동할 때 Intent에 productId 담아서 전달 필요 !!!
 
     // TODO 상품 성분 구성 요약 정보 로드
-    // TODO 성분 아이템 목록 어댑터 설정
     // TODO 성분 아이템 클릭 이벤트 로직 추가 : 어댑터 설정에 추가 (ingredientId Intent에 함께 전달)
     // TODO BottomSheetDialog 추가 (다른 화면거 복붙해도 ㄱㅊ)
 
     private lateinit var binding: ActivityIngredientComponentBinding
 
     private var productId: Int = -1
+
+    private lateinit var ingredientAdapter: IngredientItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +48,6 @@ class IngredientComponentActivity : BaseActivity() {
         setToolbar() // 툴바 설정
 
         loadIngredientInfo() // 구성 성분 정보 로드
-
         loadIngredientItems() // 성분 아이템 목록 로드
 
     }
