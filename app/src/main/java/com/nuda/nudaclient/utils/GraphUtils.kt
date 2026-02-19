@@ -19,7 +19,6 @@ fun setupBarGraph(
 
     val total = totalCount
     if (total == 0) {
-        Log.d("API_DEBUG", "막대그래프 생성 실패")
         return // 데이터 없으면 리턴
     }
 
@@ -41,8 +40,6 @@ fun setupBarGraph(
     if (riskCounts.unknown > 0) {
         addColorBar(container,riskCounts.unknown, ContextCompat.getColor(context, R.color.gray4))
     }
-
-    Log.d("API_DEBUG", "막대그래프 생성 성공")
 }
 
 // 위험도 별 막대그래프 생성
@@ -57,6 +54,4 @@ fun addColorBar(container: LinearLayout, count: Int, color: Int) {
     view.layoutParams = params
     view.setBackgroundColor(color) // 배경색 설정
     container.addView(view) // 컨테이너에 뷰 추가
-
-    Log.d("API_DEBUG", "위험도 별 막대그래프 생성 성공")
 }

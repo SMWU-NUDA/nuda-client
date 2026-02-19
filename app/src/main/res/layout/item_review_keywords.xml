@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:layout_marginBottom="8dp">
 
     <TextView
         android:id="@+id/tv_rank"
@@ -25,17 +26,4 @@
         android:textColor="@color/gray2"
         android:layout_marginLeft="5dp"
         />
-
-    <TextView
-        android:id="@+id/tv_reviewCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="(2132)"
-        android:fontFamily="@font/pretendard_regular"
-        android:textSize="14sp"
-        android:textColor="@color/gray2"
-        android:layout_marginLeft="3dp"
-        />
-
-
 </LinearLayout>

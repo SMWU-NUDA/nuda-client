@@ -167,7 +167,6 @@
     <string name="filtering">필터링</string>
 
 
-
     <!--성분-->
     <string name="ingredient_component">성분 구성</string>
     <string name="riskLevel_safe">안전</string>
@@ -193,6 +192,14 @@
     <string name="write_review">리뷰 쓰기</string>
     <string name="no_analysis">리뷰 10개 이상부터 AI 분석이 제공됩니다</string>
     <string name="no_reviews">작성된 리뷰가 없습니다</string>
+    <string name="how_about_this_product">이 제품 어떠셨나요?</string>
+    <string name="input_rating">별점을 입력해주세요 (필수)</string>
+    <string name="detail_review">상세 리뷰를 남겨주세요</string>
+    <string name="detail_review2">(필수)</string>
+    <string name="input_photo">사진 첨부</string>
+    <string name="input_photo2">(선택)</string>
+    <string name="create_review">리뷰 등록</string>
+    <string name="search_review">리뷰를 작성할 제품을 검색해주세요</string>
 
     <!--나의 관심-->
     <string name="my_wishlist">나의 관심</string>

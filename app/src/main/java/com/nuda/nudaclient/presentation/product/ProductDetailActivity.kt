@@ -28,10 +28,10 @@ class ProductDetailActivity : BaseActivity() {
 
     // 상품 상세페이지로 이동할 때 Intent에 productId 담아서 전달 필요 !!!
 
-
-    // TODO 성분 성분 구성 요약 API 연동 및 데이터 바인딩
     // TODO 리뷰 요약 조회 API 연동 및 데이터 바인딩
     // TODO 리뷰 좋아요 API 연동 및 기능 구현
+    // TODO 탭 설정 추가 (상품 정보, 성분, 리뷰)
+
 
 
     private lateinit var binding: ActivityProductDetailBinding

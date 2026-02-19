@@ -30,6 +30,12 @@ open class BaseActivity : AppCompatActivity() {
         finish() // 기본 동작
     }
 
+    // 툴바 그림자 표시/숨김 설정
+    fun setToolbarShadow(isVisible: Boolean) {
+        findViewById<View>(R.id.toolbar_shadow).visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+
     // 장바구니, 검색 버튼 설정
     fun setToolbarButtons() {
         // 버튼 컨테이너 설정

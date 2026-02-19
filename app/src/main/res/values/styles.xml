@@ -127,6 +127,7 @@
         <item name="android:textColor">@color/gray1</item>
     </style>
 
+
     <!--Secondary_green 텍스트-->
     <style name="TextSecondaryGreen">
         <item name="android:layout_width">wrap_content</item>
@@ -176,7 +177,7 @@
         <item name="android:layout_marginRight">18dp</item>
     </style>
 
-   <!--키워드 설정 텍스트(그린)-->
+    <!--키워드 설정 텍스트(그린)-->
     <style name="keyword_setting_green">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -256,7 +257,7 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-<!--ImageView-->
+    <!--ImageView-->
     <!--이미지뷰 버튼-->
     <style name="ImageBtn">
         <item name="android:focusable">true</item>
@@ -287,7 +288,7 @@
         <item name="android:tint">@color/bottom_nav_color</item>
     </style>
 
-<!--Button-->
+    <!--Button-->
     <!-- Primary 버튼 -->
     <style name="BtnPrimary">
         <item name="android:layout_width">0dp</item>
@@ -298,7 +299,21 @@
         <item name="android:background">@drawable/btn_primary</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="android:elevation">0dp</item>
+    </style>
 
+    <!--Secondary 버튼-->
+    <style name="BtnSecondary">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/btn_secondary</item>
+        <item name="android:background">@drawable/btn_secondary</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:paddingHorizontal">20dp</item>
+        <item name="android:layout_marginRight">8dp</item>
     </style>
 
     <!--유효성 검사(확인) 버튼-->
@@ -441,8 +456,8 @@
     <!--24dp 별점-->
     <style name="CustomRatingBar24dp" parent="Widget.AppCompat.RatingBar">
         <item name="android:progressDrawable">@drawable/custom_rating_bar_24</item>
-        <item name="android:minHeight">24dp</item>
-        <item name="android:maxHeight">24dp</item>
+        <item name="android:minHeight">45dp</item>
+        <item name="android:maxHeight">45dp</item>
     </style>
 
     <!--얇은 구분선-->

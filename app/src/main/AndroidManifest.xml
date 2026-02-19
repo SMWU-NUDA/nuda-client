@@ -16,6 +16,12 @@
         android:theme="@style/Theme.NudaClient"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.review.ReviewAllActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.review.ReviewCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.product.ProductRankingActivity"
             android:exported="false" />
         <activity
@@ -23,8 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.product.ProductDetailActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".presentation.mypage.activity.MypageMyReviewActivity"
             android:exported="false" />
@@ -42,8 +47,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.navigation.NavigationActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".presentation.search.SearchProductResultActivity"
             android:exported="false" />
@@ -66,7 +70,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.common.activity.MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
