@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="20dp"
+    android:layout_marginBottom="10dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/bg_my_review_card">
+
+    <!--위험도 색으로 표시-->
+    <ImageView
+        android:id="@+id/iv_riskLevel"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:src="@drawable/img_circle"
+        app:tint="@color/riskLevel_mint"
+        />
+
+    <!--성분 이름-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="폴리에틸렌"
+        android:fontFamily="@font/pretendard_regular"
+        android:textSize="16sp"
+        android:textColor="@color/gray1"
+        android:layout_marginLeft="14dp"
+        />
+
+    <!--구성요소-->
+    <TextView
+        android:id="@+id/tv_component"
+        android:layout_width="50dp"
+        android:layout_height="22dp"
+        android:text="@string/component_adhesive"
+        android:fontFamily="@font/pretendard_light"
+        android:textSize="11sp"
+        android:textColor="@color/gray2"
+        android:gravity="center"
+        android:background="@drawable/bg_mini_component"
+        android:layout_marginLeft="14dp"
+        />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        />
+
+    <ImageView
+        android:id="@+id/iv_moveToIngredientDetail"
+        android:layout_width="7dp"
+        android:layout_height="13dp"
+        android:src="@drawable/img_right_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/gray3" />
+
+</LinearLayout>

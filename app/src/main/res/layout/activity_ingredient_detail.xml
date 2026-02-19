@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ingredient.IngredientDetailActivity">
+
+    <!--툴바 배치-->
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar"
+        android:layout_width ="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <!--성분 이름-->
+            <TextView
+                android:id="@+id/tv_ingredientName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="순면섬유"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="22sp"
+                android:textColor="@color/gray1"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="27dp"
+                />
+
+            <!--구성요소-->
+            <TextView
+                android:id="@+id/tv_component"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="표지"
+                android:fontFamily="@font/pretendard_light"
+                android:textSize="20sp"
+                android:textColor="@color/gray3"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="11dp"
+                />
+
+            <!--성분 즐겨찾기 버튼들-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                >
+                <!--관심 버튼-->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="85dp"
+                    android:layout_height="40dp"
+                    android:text="@string/highlight"
+                    style="@style/BtnSecondary"
+                    android:layout_marginRight="14dp"
+                    />
+                <!--피하기 버튼-->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="85dp"
+                    android:layout_height="40dp"
+                    android:text="@string/avoid"
+                    style="@style/BtnSecondary"
+                    android:layout_marginRight="0dp"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray5"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="43dp"
+                />
+
+            <!--H코드-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="38dp"
+                >
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/img_circle"
+                    app:tint="@color/gray5"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="16dp"
+                    >
+                    <TextView
+                        style="@style/TextIngredient_detail_title"
+                        android:text="@string/Hcode"
+                        android:layout_marginBottom="12dp"
+                        />
+                    <!--H코드-->
+                    <TextView
+                        android:id="@+id/tv_Hcode"
+                        style="@style/TextIngredient_detail_info"
+                        android:text="H351(위험)"
+                        android:textColor="@color/riskLevel_red"
+                        />
+                    <!--H코드 설명-->
+                    <TextView
+                        android:id="@+id/tv_Hcode_info"
+                        style="@style/TextIngredient_detail_info"
+                        android:text="발암 의심 물질 (Suspected of causing cancer)"
+                        android:layout_marginTop="8dp"
+                        android:visibility="visible"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--성분 설명-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="38dp"
+                >
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/img_circle"
+                    app:tint="@color/gray5"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="16dp"
+                    >
+                    <TextView
+                        style="@style/TextIngredient_detail_title"
+                        android:text="@string/ingredient_info"
+                        android:layout_marginBottom="12dp"
+                        />
+                    <!--성분 설명-->
+                    <TextView
+                        android:id="@+id/tv_ingredient_info"
+                        style="@style/TextIngredient_detail_info"
+                        android:text="목화 섬유를 주재료로 하여, 직조 없이 시트 형태로 만든 소재. 천연 재료의 장점과 부직포의 가공 용이성을 결합한 것"
+                        android:visibility="visible"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--주의 사항-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="38dp"
+                android:visibility="visible"
+                >
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/img_circle"
+                    app:tint="@color/gray5"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="16dp"
+                    >
+                    <TextView
+                        style="@style/TextIngredient_detail_title"
+                        android:text="@string/caution"
+                        android:layout_marginBottom="12dp"
+                        />
+                    <!--주의 사항-->
+                    <TextView
+                        android:id="@+id/tv_caution_info"
+                        style="@style/TextIngredient_detail_info"
+                        android:text="발암 가능성이 의심되는 성분이 포함되어 있습니다. 장기간·반복 사용 시 건강에 위험을 줄 수 있어 주의가 필요합니다."
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--구성 요소-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="18dp"
+                >
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/img_circle"
+                    app:tint="@color/gray5"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="16dp"
+                    >
+                    <TextView
+                        style="@style/TextIngredient_detail_title"
+                        android:text="@string/component"
+                        android:layout_marginBottom="12dp"
+                        />
+                    <!--구성요소-->
+                    <TextView
+                        android:id="@+id/tv_component2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/component_coverLayer"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:textSize="18sp"
+                        android:textColor="@color/gray3"
+                        />
+                    <!--구성요소 설명-->
+                    <TextView
+                        android:id="@+id/tv_component_info"
+                        style="@style/TextIngredient_detail_info"
+                        android:text="피부에 직접 닿는 가장 윗부분으로, 생리혈을 빠르게 흡수체로 통과시키고 피부에는 부드러움과 건조함을 제공하는 역할"
+                        android:visibility="visible"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="30dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!--가이드라인-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

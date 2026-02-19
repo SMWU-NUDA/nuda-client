@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ingredient.IngredientComponentActivity">
+
+    <!--툴바 배치-->
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar"
+        android:layout_width ="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_ingredient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="parent">
+
+            <!--성분 구성 부제목-->
+            <TextView
+                android:id="@+id/tv_ingredientComponent"
+                style="@style/TextProfileField"
+                android:text="@string/ingredient_component"
+                android:textSize="20sp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <!--성분 위험도 기준-->
+            <LinearLayout
+                android:id="@+id/linear_riskLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredientComponent"
+                app:layout_constraintStart_toStartOf="parent">
+                <!--안전-->
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/img_circle"
+                    app:tint="@color/riskLevel_mint" />
+                <TextView
+                    style="@style/TextIngredient_riskLevel"
+                    android:text="@string/riskLevel_safe"
+                    android:textColor="@color/riskLevel_mint"/>
+                <!--주의-->
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/img_circle"
+                    app:tint="@color/riskLevel_yellow" />
+                <TextView
+                    style="@style/TextIngredient_riskLevel"
+                    android:text="@string/riskLevel_caution"
+                    android:textColor="@color/riskLevel_yellow"/>
+                <!--위험-->
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/img_circle"
+                    app:tint="@color/riskLevel_red" />
+                <TextView
+                    style="@style/TextIngredient_riskLevel"
+                    android:text="@string/riskLevel_danger"
+                    android:textColor="@color/riskLevel_red"/>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"/>
+                <!--위험도 설명-->
+                <TextView
+                    style="@style/TextIngredient_riskLevel"
+                    android:text="@string/riskLevel_instruction"
+                    android:textColor="@color/gray3"
+                    android:layout_marginRight="0dp"/>
+            </LinearLayout>
+
+            <!--성분 막대그래프-->
+            <!--구성요소 라벨 텍스트-->
+            <LinearLayout
+                android:id="@+id/linear_labelTexts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="37dp"
+                app:layout_constraintTop_toBottomOf="@id/linear_riskLevel">
+                <!--표지-->
+                <TextView
+                    style="@style/TextIngredient_componentName"
+                    android:text="@string/component_coverLayer"
+                    />
+                <!--흡수체-->
+                <TextView
+                    style="@style/TextIngredient_componentName"
+                    android:text="@string/component_absorbentCore"
+                    />
+                <!--방수층-->
+                <TextView
+                    style="@style/TextIngredient_componentName"
+                    android:text="@string/component_waterproofLayer"
+                    />
+                <!--접착제-->
+                <TextView
+                    style="@style/TextIngredient_componentName"
+                    android:text="@string/component_adhesive"
+                    />
+                <!--기타-->
+                <TextView
+                    style="@style/TextIngredient_componentName"
+                    android:text="@string/component_additionalParts"
+                    />
+            </LinearLayout>
+            <!--구성요소 그래프 컨테이너-->
+            <LinearLayout
+                android:id="@+id/linear_graphs"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:weightSum="5"
+                android:layout_marginTop="11dp"
+                app:layout_constraintTop_toBottomOf="@id/linear_labelTexts">
+                <!--표지 막대그래프-->
+                <LinearLayout
+                    android:id="@+id/ll_topSheet"
+                    style="@style/linear_ingredientGraph">
+                    <!--이 사이에 뷰 추가-->
+                </LinearLayout>
+                <!--흡수체 막대그래프-->
+                <LinearLayout
+                    android:id="@+id/ll_absorber"
+                    style="@style/linear_ingredientGraph">
+                </LinearLayout>
+                <!--방수층 막대그래프-->
+                <LinearLayout
+                    android:id="@+id/ll_backSheet"
+                    style="@style/linear_ingredientGraph">
+                </LinearLayout>
+                <!--접착제 막대그래프-->
+                <LinearLayout
+                    android:id="@+id/ll_adhesive"
+                    style="@style/linear_ingredientGraph">
+                </LinearLayout>
+                <!--기타 막대그래프-->
+                <LinearLayout
+                    android:id="@+id/ll_additive"
+                    style="@style/linear_ingredientGraph">
+                </LinearLayout>
+            </LinearLayout>
+            <!--구성요소 라벨 텍스트-->
+            <LinearLayout
+                android:id="@+id/linear_counts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/linear_graphs">
+                <!--표지-->
+                <TextView
+                    android:id="@+id/tv_topSheet_count"
+                    style="@style/TextIngredient_componentCount"
+                    android:text="2개"
+                    />
+                <!--흡수체-->
+                <TextView
+                    android:id="@+id/tv_absorber_count"
+                    style="@style/TextIngredient_componentCount"
+                    android:text="3개"
+                    />
+                <!--방수층-->
+                <TextView
+                    android:id="@+id/tv_backSheet_count"
+                    style="@style/TextIngredient_componentCount"
+                    android:text="1개"
+                    />
+                <!--접착제-->
+                <TextView
+                    android:id="@+id/tv_adhesive_count"
+                    style="@style/TextIngredient_componentCount"
+                    android:text="1개"
+                    />
+                <!--기타-->
+                <TextView
+                    android:id="@+id/tv_additive_count"
+                    style="@style/TextIngredient_componentCount"
+                    android:text="1개"
+                    />
+            </LinearLayout>
+
+            <!--전체 성분-->
+            <TextView
+                android:id="@+id/tv_ingredientsAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ingredients_all"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="18sp"
+                android:textColor="@color/gray1"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/linear_counts"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/tv_ingredientsAll_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9개"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="18sp"
+                android:textColor="@color/gray1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_ingredientsAll"
+                />
+            <!--주의 성분-->
+            <TextView
+                android:id="@+id/tv_ingredientsCaution"
+                style="@style/TextIngredient_classification"
+                android:text="@string/ingredients_caution"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredientsAll"/>
+            <TextView
+                android:id="@+id/tv_ingredientsCaution_count"
+                style="@style/TextIngredient_classification"
+                android:text="2개"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_ingredientsCaution"/>
+
+            <!--알레르기 주의 성분-->
+            <TextView
+                android:id="@+id/tv_ingredientsDanger"
+                style="@style/TextIngredient_classification"
+                android:text="@string/ingredients_danger"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredientsCaution"/>
+            <TextView
+                android:id="@+id/tv_ingredientsDanger_count"
+                style="@style/TextIngredient_classification"
+                android:text="0개"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_ingredientsDanger"/>
+
+            <!--관심 성분-->
+            <TextView
+                android:id="@+id/tv_ingredientsHighlight"
+                style="@style/TextIngredient_classification"
+                android:text="@string/ingredients_highlight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredientsDanger"/>
+            <TextView
+                android:id="@+id/tv_ingredientsHighlight_count"
+                style="@style/TextIngredient_classification"
+                android:text="3개"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_ingredientsHighlight"/>
+
+            <!--주의 성분-->
+            <TextView
+                android:id="@+id/tv_ingredientsAvoid"
+                style="@style/TextIngredient_classification"
+                android:text="@string/ingredients_avoid"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredientsHighlight"/>
+            <TextView
+                android:id="@+id/tv_ingredientsAvoid_count"
+                style="@style/TextIngredient_classification"
+                android:text="0개"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_ingredientsAvoid"/>
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray5"
+                android:layout_marginTop="26dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredientsAvoid"
+                />
+
+            <TextView
+                android:id="@+id/tv_ingredientsAll2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ingredients_all2"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="20sp"
+                android:textColor="@color/gray1"
+                android:layout_marginTop="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line"
+                />
+
+            <!--전성분 개수-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9개"
+                android:fontFamily="@font/pretendard_light"
+                android:textSize="20sp"
+                android:textColor="@color/gray1"
+                android:layout_marginLeft="4dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_ingredientsAll2"
+                app:layout_constraintStart_toEndOf="@id/tv_ingredientsAll2"
+                />
+
+            <!--필터링 버튼-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ingredients_all2"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="14sp"
+                android:textColor="@color/gray2"
+                android:paddingStart="20dp"
+                android:paddingEnd="26dp"
+                android:paddingVertical="8dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:background="@drawable/btn_filter"
+                android:drawableStart="@drawable/img_filter"
+                android:drawablePadding="5dp"
+                android:layout_marginTop="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredientsAll2"
+                />
+
+            <!--성분 아이템 카드 목록-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_ingredient_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_ingredient_card"
+                tools:itemCount="9"
+                android:layout_marginTop="17dp"
+                app:layout_constraintTop_toBottomOf="@id/btn_filter"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+
+    <!--가이드라인-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

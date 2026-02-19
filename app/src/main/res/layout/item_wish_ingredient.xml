@@ -10,6 +10,7 @@
     android:layout_marginRight="13dp"
     >
 
+    <!--위험도 색으로 표시-->
     <ImageView
         android:id="@+id/iv_riskLevel"
         android:layout_width="11dp"
@@ -21,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
 
+    <!--성분 이름-->
     <TextView
         android:id="@+id/tv_ingredientName"
         android:layout_width="0dp"
@@ -41,6 +43,7 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <!--구성요소-->
     <TextView
         android:id="@+id/tv_component"
         android:layout_width="35dp"

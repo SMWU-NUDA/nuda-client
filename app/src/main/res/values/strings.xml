@@ -183,6 +183,13 @@
     <string name="ingredients_danger">위험 성분</string>
     <string name="ingredients_highlight">관심 성분</string>
     <string name="ingredients_avoid">피할 성분</string>
+    <string name="ingredients_all2">전성분</string>
+    <string name="highlight">관심</string>
+    <string name="avoid">피하기</string>
+    <string name="Hcode">H코드</string>
+    <string name="ingredient_info">성분 설명</string>
+    <string name="caution">주의 사항</string>
+    <string name="component">구성 요소</string>
 
     <!--리뷰-->
     <string name="review_analysis">리뷰 AI 분석</string>

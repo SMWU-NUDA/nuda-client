@@ -16,6 +16,12 @@
         android:theme="@style/Theme.NudaClient"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.ingredient.IngredientDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ingredient.IngredientComponentActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.review.ReviewAllActivity"
             android:exported="false" />
         <activity

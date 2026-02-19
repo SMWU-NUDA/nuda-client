@@ -229,6 +229,27 @@
         <item name="android:layout_marginTop">6dp</item>
     </style>
 
+    <!--성분 상세페이지 타이틀-->
+    <style name="TextIngredient_detail_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/gray1</item>
+    </style>
+
+    <!--성분 상세페이지 설명-->
+    <style name="TextIngredient_detail_info">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray2</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+    </style>
+
+
     <!--EditText-->
     <!--기본 입력창(디폴트)-->
     <style name="EditTextInput">
@@ -305,7 +326,7 @@
     <style name="BtnSecondary">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/btn_secondary</item>
         <item name="android:background">@drawable/btn_secondary</item>

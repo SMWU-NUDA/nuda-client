@@ -186,17 +186,37 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-            <!--고정이면 아이템 삭제하고 고정으로 추가하기-->
-            <include
-                layout="@layout/item_review_all_keyword"/>
-            <include
-                layout="@layout/item_review_all_keyword"/>
-            <include
-                layout="@layout/item_review_all_keyword"/>
-            <include
-                layout="@layout/item_review_all_keyword"/>
-            <include
-                layout="@layout/item_review_all_keyword"/>
+            <!--필터링 조건 고정-->
+            <TextView
+                android:id="@+id/tv_filiter_all"
+                style="@style/BtnSecondary"
+                android:text="@string/keyword_filter_all"
+                />
+            <TextView
+                android:id="@+id/tv_filiter_irritationLevel"
+                style="@style/BtnSecondary"
+                android:text="@string/keyword_irritationLevel"
+                />
+            <TextView
+                android:id="@+id/tv_filiter_flow"
+                style="@style/BtnSecondary"
+                android:text="@string/keyword_flow"
+                />
+            <TextView
+                android:id="@+id/tv_filiter_safety"
+                style="@style/BtnSecondary"
+                android:text="@string/keyword_safety"
+                />
+            <TextView
+                android:id="@+id/tv_filiter_adhesion"
+                style="@style/BtnSecondary"
+                android:text="@string/keyword_adhesion"
+                />
+            <TextView
+                android:id="@+id/tv_filiter_scent"
+                style="@style/BtnSecondary"
+                android:text="@string/keyword_scent"
+                />
         </LinearLayout>
     </HorizontalScrollView>
 
