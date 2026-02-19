@@ -21,7 +21,9 @@ import com.nuda.nudaclient.databinding.ActivityProductDetailBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.toFormattedPrice
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
+import com.nuda.nudaclient.presentation.ingredient.IngredientComponentActivity
 import com.nuda.nudaclient.presentation.product.adapter.ProductImagesAdapter
+import com.nuda.nudaclient.presentation.review.ReviewAllActivity
 import com.nuda.nudaclient.utils.setupBarGraph
 
 class ProductDetailActivity : BaseActivity() {
@@ -249,17 +251,34 @@ class ProductDetailActivity : BaseActivity() {
     }
 
     private fun setButtons() {
+        setMoveToIngredientPage()
         setMoveToReviewPage()
         setLikeButtons()
     }
 
-    // 전체 리뷰 화면으로 이동
-    private fun setMoveToReviewPage() {
-        binding.llMoveToReviewPage.setOnClickListener {
-            // 전체 리뷰 화면으로 이동
-//            startActivity(Intent(this, ReviewActivity::class.java))
+    // 상품 구성 성분 화면으로 이동
+    private fun setMoveToIngredientPage() {
+        binding.subtitleAndButton.setOnClickListener {
+            val intent = Intent(this, IngredientComponentActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
         }
     }
+
+    // 전체 리뷰 화면으로 이동
+    private fun setMoveToReviewPage() {
+        binding.btnMoveToAllReviewsTop.setOnClickListener {
+            val intent = Intent(this, ReviewAllActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
+        binding.btnMoveToAllReviewsBottom.setOnClickListener {
+            val intent = Intent(this, ReviewAllActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
+    }
+
 
     // 찜하기 버튼 설정
     private fun setLikeButtons() {

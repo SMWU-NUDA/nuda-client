@@ -10,9 +10,12 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 
 class ReviewCreateActivity : BaseActivity() {
 
-    // TODO 아이템 카드의 순위 삭제
-    // TODO 필수 사항 유효성 검사
     // TODO 액티비티 중복 사용 설정 (하단 참고)
+    // TODO 아이템 카드의 순위 삭제
+    // TODO 필수 사항 유효성 검사 : (필수)별점, 상세 리뷰 (선택) 사진 첨부
+    // TODO 별점 설정
+    // TODO 사진 첨부 설정 (갤러리 열기, S3 Presigned URL API 호출)
+    // TODO 리뷰 작성 API 호출
 
     /**
      * [ 액티비티 중복 사용 설정 ]

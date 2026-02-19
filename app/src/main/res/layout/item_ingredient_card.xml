@@ -21,6 +21,7 @@
 
     <!--성분 이름-->
     <TextView
+        android:id="@+id/tv_ingredientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="폴리에틸렌"
