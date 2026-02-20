@@ -21,6 +21,7 @@
 
     <!--본문 전체 스크롤뷰-->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolBar"
@@ -61,18 +62,6 @@
                     android:background="@drawable/bg_indicator"
                     />
             </FrameLayout>
-
-
-            <!--&lt;!&ndash;상품 이미지&ndash;&gt;-->
-            <!--<ImageView-->
-            <!--    android:id="@id/iv_productImage"-->
-            <!--    android:layout_width="match_parent"-->
-            <!--    android:layout_height="0dp"-->
-            <!--    android:src="@drawable/image_product2"-->
-            <!--    app:layout_constraintDimensionRatio="1:1"-->
-            <!--    android:scaleType="centerCrop"-->
-            <!--    app:layout_constraintTop_toTopOf="parent"-->
-            <!--    />-->
 
             <!--브랜드명-->
             <TextView
@@ -229,52 +218,77 @@
             </com.google.android.material.tabs.TabLayout>
 
             <!--상품 정보 섹션-->
-            <!--축약된 이미지-->
-            <ImageView
-                android:id="@+id/iv_product_detail_preview"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:src="@drawable/image_product_info"
-                android:scaleType="centerCrop"
-                android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@id/tab_original"
-                />
-            <!--그라데이션 뷰-->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@drawable/shadow_gradient_white"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@id/iv_product_detail_preview" />
-            <!--상품 정보 더보기 버튼-->
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:text="@string/see_more_info"
-                android:fontFamily="@font/pretendard_medium"
-                android:textSize="16sp"
-                android:textColor="@color/gray2"
-                android:background="@drawable/btn_more_info"
-                android:layout_marginBottom="20dp"
-                android:visibility="visible"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintBottom_toBottomOf="@id/iv_product_detail_preview"
-                android:elevation="0dp"
-                android:stateListAnimator="@null"
-                />
-
-            <!--전체 상품 정보 이미지(기본값 gone)-->
-            <ImageView
-                android:id="@+id/iv_product_detail_full"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_productInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/image_product_info"
-                android:adjustViewBounds="true"
-                android:scaleType="fitStart"
                 app:layout_constraintTop_toBottomOf="@id/tab_original"
-                android:visibility="gone"
-                />
+                >
+                <!--축약된 이미지-->
+                <ImageView
+                    android:id="@+id/iv_product_detail_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:src="@drawable/image_product_info"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+                <!--그라데이션 뷰-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/shadow_gradient_white"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_product_detail_preview" />
+
+                <!--상품 정보 더보기 버튼-->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_productInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:text="@string/see_more_info"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray2"
+                    android:background="@drawable/btn_more_info"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start2"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end2"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_product_detail_preview"
+                    android:elevation="0dp"
+                    android:stateListAnimator="@null"
+                    />
+
+                <!--전체 상품 정보 이미지(기본값 gone)-->
+                <ImageView
+                    android:id="@+id/iv_product_detail_full"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/image_product_info"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitStart"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"
+                    />
+                <!--본문 가이드라인-->
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.08"
+                    />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.92"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--두꺼운 구분선-->
             <View
@@ -282,7 +296,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:background="@color/gray5"
-                app:layout_constraintTop_toBottomOf="@id/iv_product_detail_preview"
+                app:layout_constraintTop_toBottomOf="@id/constraint_productInfo"
                 />
 
             <!--성분 섹션-->
@@ -586,6 +600,7 @@
                 android:layout_height="4dp"
                 android:background="@color/gray5"
                 android:layout_marginTop="25dp"
+                android:layout_marginBottom="30dp"
                 app:layout_constraintTop_toBottomOf="@id/constraint_ingredient"
                 />
 
@@ -737,7 +752,19 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                />
+                                android:layout_marginTop="15dp"
+                                >
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                            </LinearLayout>
                         </LinearLayout>
 
                         <!--세로 구분선-->
@@ -768,7 +795,19 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                />
+                                android:layout_marginTop="15dp"
+                                >
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                                <include
+                                    layout="@layout/item_review_keywords"/>
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -832,7 +871,15 @@
                         android:orientation="vertical"
                         android:layout_marginTop="13dp"
                         android:layout_marginLeft="20dp"
-                        app:layout_constraintTop_toBottomOf="@id/tv_now_trend" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_now_trend"
+                        >
+                            <include
+                                layout="@layout/item_trend"/>
+                            <include
+                                layout="@layout/item_trend"/>
+                            <include
+                                layout="@layout/item_trend"/>
+                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -858,6 +905,17 @@
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintTop_toBottomOf="@id/line8"
                 >
+
+                <include
+                    layout="@layout/item_review_card"/>
+                <include
+                    layout="@layout/item_review_card"/>
+                <include
+                    layout="@layout/item_review_card"/>
+                <include
+                    layout="@layout/item_review_card"/>
+                <include
+                    layout="@layout/item_review_card"/>
 
                 <!--리뷰 없을 경우 (없을 때만 표시)-->
                 <TextView

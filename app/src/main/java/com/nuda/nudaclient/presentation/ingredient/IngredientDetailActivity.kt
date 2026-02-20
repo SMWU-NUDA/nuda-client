@@ -39,8 +39,7 @@ class IngredientDetailActivity : BaseActivity() {
         ingredientId = intent.getIntExtra("INGREDIENT_ID", -1)
 
         setToolbar()
-
-        setIngredientWishButtons()
+        setIngredientWishButtons() // 성분 즐겨찾기 버튼 설정
 
     }
 
@@ -56,6 +55,7 @@ class IngredientDetailActivity : BaseActivity() {
         val btnHighlight = binding.btnHighlight
         val btnAvoid = binding.btnAvoid
 
+        // 버튼 클릭 시 변경할 폰트 저장
         val typefaceUnclicked = ResourcesCompat.getFont(this, R.font.pretendard_medium)
         val typefaceClicked = ResourcesCompat.getFont(this, R.font.pretendard_bold)
 
