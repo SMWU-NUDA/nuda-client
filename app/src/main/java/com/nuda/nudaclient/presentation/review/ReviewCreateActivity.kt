@@ -1,13 +1,18 @@
 package com.nuda.nudaclient.presentation.review
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
+import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsCreateReviewRequest
 import com.nuda.nudaclient.databinding.ActivityReviewCreateBinding
+import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
+import com.nuda.nudaclient.utils.CustomToast
 
 class ReviewCreateActivity : BaseActivity() {
     // 리뷰 작성 화면으로 이동할 때 Intent에 상태 변수 담아서 전달 필요 !!! (state : product / mypage)
@@ -29,6 +34,9 @@ class ReviewCreateActivity : BaseActivity() {
     // 액티비티 중복 사용을 위한 상태 변수
     private lateinit var state: String // product, mypage
 
+    private var productId: Int = -1 // 상품 ID
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,15 +50,22 @@ class ReviewCreateActivity : BaseActivity() {
             insets
         }
 
-        // Intent에서 상태 변수 값 받기
-        state = intent.getStringExtra("STATE") ?: ""
+        // Intent에서 값 받기
+        state = intent.getStringExtra("STATE") ?: "" // 상태 변수 값
+        productId = intent.getIntExtra("PRODUCT_ID", -1) // 상품 아이디(state = product로 진입 시에만)
 
+
+        // 초기 별점 설정
+        binding.ratingBar.rating = 0f // 초기 기본값 0
 
         // 툴바 설정
         setToolbar()
 
         // 상태 변수에 따른 화면 로드
         loadScreen()
+
+        // 리뷰 등록 버튼
+        setSaveReview()
     }
 
     // 툴바 설정
@@ -70,5 +85,50 @@ class ReviewCreateActivity : BaseActivity() {
             binding.viewOverlay.visibility = View.VISIBLE // 오버레이 설정
         }
     }
+
+    // 리뷰 등록 버튼 설정
+    private fun setSaveReview() {
+        binding.btnSaveReview.setOnClickListener {
+            val rating = binding.ratingBar.rating.toDouble() // 별점
+            val reviewText = binding.etReviewDetail.text.toString() // 상세 리뷰
+            val imageUrls = if (uploadedImageUrls.isEmpty()) {
+                emptyList()
+            } else {
+                uploadedImageUrls
+            }
+
+            // 유효성 검사
+            if (rating == 0.0) { // 별점 입력이 없을 때
+                CustomToast.show(binding.root, "별점을 입력해주세요")
+                return@setOnClickListener
+            }
+
+            if (reviewText.isBlank()) { // 상세 리뷰 입력이 없을 때
+                CustomToast.show(binding.root, "상세 리뷰를 입력해주세요")
+                return@setOnClickListener
+            }
+
+            // 리뷰 작성 API 호출
+            reviewsService.createReview(
+                ReviewsCreateReviewRequest(
+                    productId = productId,
+                    rating = rating,
+                    content = reviewText,
+                    imageUrls = imageUrls
+                )
+            ).executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        Log.d("API_DEBUG", "리뷰가 등록되었습니다")
+                        CustomToast.show(binding.root, "리뷰가 등록되었습니다")
+                        finish() // 액티비티 종료, 이전 화면으로 이동
+                    }
+                }
+            )
+        }
+
+    }
+
 
 }
