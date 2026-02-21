@@ -1,5 +1,6 @@
 package com.nuda.nudaclient.presentation.review
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 class ReviewAllActivity : BaseActivity() {
 
     private lateinit var binding: ActivityReviewAllBinding
+    private var productId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +28,12 @@ class ReviewAllActivity : BaseActivity() {
             insets
         }
 
+        // Intent에 담긴 productId 저장
+        productId = intent.getIntExtra("PRODUCT_ID", -1)
+
         setToolbar()
+
+        setCreateReviewBtn()
 
     }
 
@@ -35,5 +42,15 @@ class ReviewAllActivity : BaseActivity() {
         setToolbarTitle("전체 리뷰") // 타이틀
         setBackButton() // 뒤로가기 버튼
         setToolbarShadow(false) // 그림자 숨김
+    }
+
+    // 리뷰 쓰기 버튼 클릭 설정
+    private fun setCreateReviewBtn() {
+        binding.btnWriteReview.setOnClickListener {
+            val intent = Intent(this, ReviewCreateActivity::class.java)
+            intent.putExtra("STATE", "product")
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
     }
 }

@@ -6,7 +6,7 @@ data class ReviewsCreateReviewResponse(
     val reviewId: Int,
     val productId: Int,
     val me: Me,
-    val rating: Int,
+    val rating: Double,
     val likeCount: Int,
     val likedByMe: Boolean,
     val content: String,

@@ -665,7 +665,7 @@
                     />
                 <!--전체 리뷰로 이동 버튼-->
                 <ImageView
-                    android:id="@+id/btn_moveToAllReviews_bottom"
+                    android:id="@+id/btn_moveToAllReviews_medium"
                     android:layout_width="7dp"
                     android:layout_height="13dp"
                     android:src="@drawable/img_right_arrow"
@@ -949,6 +949,7 @@
 
             <!--리뷰 전체 보기 버튼-->
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_moveToAllReviews_bottom"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:text="417개 리뷰 전체보기"

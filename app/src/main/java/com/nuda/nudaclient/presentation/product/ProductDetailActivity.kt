@@ -28,6 +28,7 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.ingredient.IngredientComponentActivity
 import com.nuda.nudaclient.presentation.product.adapter.ProductImagesAdapter
 import com.nuda.nudaclient.presentation.review.ReviewAllActivity
+import com.nuda.nudaclient.presentation.review.ReviewCreateActivity
 import com.nuda.nudaclient.utils.setupBarGraph
 
 class ProductDetailActivity : BaseActivity() {
@@ -370,7 +371,8 @@ class ProductDetailActivity : BaseActivity() {
 
     private fun setButtons() {
         setMoveToIngredientPage()
-        setMoveToReviewPage()
+        setMoveToReviewAllPage()
+        setMoveToReviewCreatePage()
         setLikeButtons()
     }
 
@@ -384,14 +386,29 @@ class ProductDetailActivity : BaseActivity() {
     }
 
     // 전체 리뷰 화면으로 이동
-    private fun setMoveToReviewPage() {
+    private fun setMoveToReviewAllPage() {
         binding.btnMoveToAllReviewsTop.setOnClickListener {
+            val intent = Intent(this, ReviewAllActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
+        binding.btnMoveToAllReviewsMedium.setOnClickListener {
             val intent = Intent(this, ReviewAllActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
         }
         binding.btnMoveToAllReviewsBottom.setOnClickListener {
             val intent = Intent(this, ReviewAllActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
+    }
+
+    // 리뷰 작성 화면으로 이동
+    private fun setMoveToReviewCreatePage() {
+        binding.btnWriteReview.setOnClickListener {
+            val intent = Intent(this, ReviewCreateActivity::class.java)
+            intent.putExtra("STATE", "product")
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
         }

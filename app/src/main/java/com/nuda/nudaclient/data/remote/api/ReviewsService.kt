@@ -6,6 +6,8 @@ import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsCreateReviewRequest
 import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsCreateReviewResponse
 import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsGetMyReviewsResponse
 import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsLikeReviewResponse
+import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsUploadImageRequest
+import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsUploadImagesResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -38,4 +40,10 @@ interface ReviewsService {
     @GET("reviews/me")
     fun getMyReviews(@Query("cursor") cursor: Int? = null, @Query("size") size: Int = 20)
     : Call<ApiResponse<ReviewsGetMyReviewsResponse>>
+
+    // POST /uploads/presigned-urls : S3 Presigned URL 발급
+    @POST("uploads/presigned-urls")
+    fun uploadReviewImages(@Body request: ReviewsUploadImageRequest): Call<ApiResponse<List<ReviewsUploadImagesResponse>>>
+
+
 }
