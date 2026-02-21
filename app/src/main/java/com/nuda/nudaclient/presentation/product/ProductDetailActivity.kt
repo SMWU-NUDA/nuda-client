@@ -31,7 +31,6 @@ import com.nuda.nudaclient.presentation.review.ReviewAllActivity
 import com.nuda.nudaclient.utils.setupBarGraph
 
 class ProductDetailActivity : BaseActivity() {
-
     // 상품 상세페이지로 이동할 때 Intent에 productId 담아서 전달 필요 !!!
 
     // TODO 리뷰 요약 조회 API 연동 및 데이터 바인딩

@@ -21,79 +21,80 @@
 
 
     <ScrollView
-    android:layout_width="0dp"
+    android:layout_width="match_parent"
     android:layout_height="0dp"
     app:layout_constraintTop_toBottomOf="@id/toolBar"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="@id/guideline_start"
-    app:layout_constraintEnd_toEndOf="@id/guideline_end">
+    app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         >
-            <!--검색바 섹션-->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                >
-                <TextView
-                    android:id="@+id/tv_search_product"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search_review"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textSize="18sp"
-                    android:textColor="@color/gray1"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    />
-
-                <!--검색바-->
-                <EditText
-                    android:id="@+id/et_searchbar"
-                    android:layout_width="match_parent"
-                    style="@style/EditTextSearchbar"
-                    android:text="@string/searchbar"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="0dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_search_product"
-                    />
-
-                <!--검색 아이콘-->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/ImageBtn"
-                    android:src="@drawable/img_search"
-                    android:layout_marginRight="12dp"
-                    app:layout_constraintEnd_toEndOf="@id/et_searchbar"
-                    app:layout_constraintTop_toTopOf="@id/et_searchbar"
-                    app:layout_constraintBottom_toBottomOf="@id/et_searchbar"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--아이템 카드-->
-            <include
-                android:id="@+id/item_product_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/item_product_card"
-                android:layout_marginTop="28dp"
-                android:visibility="visible"
-                />
-
-            <!--리뷰 입력 영역-->
+            <!--검색 및 상품 아이템 영역-->
             <LinearLayout
-                android:id="@+id/ll_review_input_area"
-                android:layout_width="match_parent"
+                android:id="@+id/ll_productItem_area"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                >
+
+                <!--검색바 섹션-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    >
+                    <TextView
+                        android:id="@+id/tv_search_product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/search_review"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:textSize="18sp"
+                        android:textColor="@color/gray1"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+
+                    <!--검색바-->
+                    <EditText
+                        android:id="@+id/et_searchbar"
+                        android:layout_width="match_parent"
+                        style="@style/EditTextSearchbar"
+                        android:text="@string/searchbar"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginLeft="0dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_search_product"
+                        />
+
+                    <!--검색 아이콘-->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/ImageBtn"
+                        android:src="@drawable/img_search"
+                        android:layout_marginRight="12dp"
+                        app:layout_constraintEnd_toEndOf="@id/et_searchbar"
+                        app:layout_constraintTop_toTopOf="@id/et_searchbar"
+                        app:layout_constraintBottom_toBottomOf="@id/et_searchbar"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--아이템 카드-->
+                <include
+                    android:id="@+id/item_product_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/item_product_card"
+                    android:layout_marginTop="28dp"
+                    android:visibility="visible"
+                    />
 
                 <View
                     android:layout_width="match_parent"
@@ -101,6 +102,17 @@
                     android:background="@color/gray5"
                     android:layout_marginTop="26dp"
                     />
+            </LinearLayout>
+
+            <!--리뷰 입력 영역-->
+            <LinearLayout
+                android:id="@+id/ll_review_input_area"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/ll_productItem_area"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -236,7 +248,35 @@
                     />
 
             </LinearLayout>
-        </LinearLayout>
+
+            <!--오버레이: 터치 막기 + 회색 반투명-->
+            <View
+                android:id="@+id/view_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/ll_review_input_area"
+                app:layout_constraintBottom_toBottomOf="@id/ll_review_input_area"
+                android:background="#80CCCCCC"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.1"
+                />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.9"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <!--가이드라인-->
@@ -247,23 +287,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.11"
         />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1"
-        />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9"
-        />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
