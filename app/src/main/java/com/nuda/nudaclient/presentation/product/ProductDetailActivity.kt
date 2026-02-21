@@ -140,11 +140,6 @@ class ProductDetailActivity : BaseActivity() {
                 // 제거 안 하면 화면 회전, 키보드 등장 등 매 변경마다 불필요하게 재호출됨
                 binding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
-//                // gone이면 height = 0이라서 invisible로 잠깐 바꿔서 높이 저장
-//                binding.tabSticky.visibility = View.INVISIBLE
-//                stickyTabHeight = binding.tabSticky.height
-//                binding.tabSticky.visibility = View.GONE
-
                 stickyTabHeight = binding.tabOriginal.height
 
                 productInfoSectionTop = getRelativeTop(binding.constraintProductInfo, binding.nestedScrollView)
