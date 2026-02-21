@@ -19,7 +19,7 @@
         android:textSize="16sp"
         android:textColor="@color/gray1"
         android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="25dp"
         />
 
     <!--라디오 버튼 코드에서 동적 추가-->

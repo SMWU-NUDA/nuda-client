@@ -12,6 +12,7 @@ import com.nuda.nudaclient.databinding.ActivityIngredientComponentBinding
 import com.nuda.nudaclient.databinding.ActivityReviewAllBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
+import com.nuda.nudaclient.presentation.common.fragment.SortBottomSheet
 import com.nuda.nudaclient.presentation.ingredient.adapter.IngredientItemAdapter
 import com.nuda.nudaclient.utils.setupBarGraph
 
@@ -26,6 +27,7 @@ class IngredientComponentActivity : BaseActivity() {
     private lateinit var binding: ActivityIngredientComponentBinding
 
     private var productId: Int = -1
+    private var selectedSortTypeIdx = 0
 
     private lateinit var ingredientAdapter: IngredientItemAdapter
 
@@ -48,7 +50,9 @@ class IngredientComponentActivity : BaseActivity() {
         setToolbar() // 툴바 설정
 
         loadIngredientInfo() // 구성 성분 정보 로드
-        loadIngredientItems() // 성분 아이템 목록 로드
+        setFilterButton() // 필터링 버튼 설정
+        
+//        loadIngredientItems() // 성분 아이템 목록 로드
 
     }
 
@@ -113,8 +117,48 @@ class IngredientComponentActivity : BaseActivity() {
     }
 
     // 성분 아이템 목록 로드
-    private fun loadIngredientItems() {
+    private fun loadIngredientItems(sortType: String) {
+        // 어댑터 연결 및 API 연동
+    }
 
+    // 필터링 버튼 클릭 이벤트 -> BottomSheetDialog 프래그먼트 호출
+    private fun setFilterButton() {
+        val BtnFilter = binding.btnFilter
+
+        BtnFilter.setOnClickListener {
+            SortBottomSheet.newInstance(
+                options = listOf("전성분", "주의 성분", "위험 성분", "관심 성분", "피할 성분"),
+                sortTypes = listOf("DEFAULT", "WARN", "DANGER", "HIGHLIGHT", "AVOID"),
+                selectedIndex = selectedSortTypeIdx
+            ){ sortType ->
+                when (sortType) {
+                    "DEFAULT" -> {
+                        selectedSortTypeIdx = 0
+                        BtnFilter.text = "전성분"
+                        loadIngredientItems("default")
+                    }
+                    "WARN" -> {
+                        selectedSortTypeIdx = 1
+                        BtnFilter.text = "주의 성분"
+                        loadIngredientItems("warn") }
+                    "DANGER" -> {
+                        selectedSortTypeIdx = 2
+                        BtnFilter.text = "위험 성분"
+                        loadIngredientItems("danger") }
+                    "HIGHLIGHT" -> {
+                        selectedSortTypeIdx = 3
+                        BtnFilter.text = "관심 성분"
+                        loadIngredientItems("highlight")
+                    }
+                    "AVOID" -> {
+                        selectedSortTypeIdx = 4
+                        BtnFilter.text = "피할 성분"
+                        loadIngredientItems("avoid")
+                    }
+                }
+            }.show(supportFragmentManager, "SortBottomSheet")
+
+        }
     }
 
 

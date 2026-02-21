@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.marginBottom
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.databinding.FragmentBottomSheetBinding
@@ -19,17 +20,20 @@ class SortBottomSheet : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     private var options: List<String> = emptyList()
+    private var sortTypes: List<String> = emptyList()
     private var selectedIndex: Int = 0
-    private var onSelected: ((Int) -> Unit)? = null
+    private var onSelected: ((String) -> Unit)? = null
 
     companion object {
         fun newInstance(
             options: List<String>,
+            sortTypes: List<String>,
             selectedIndex: Int = 0,
-            onSelected: (Int) -> Unit
+            onSelected: (String) -> Unit
         ): SortBottomSheet {
             return SortBottomSheet().apply {
                 this.options = options
+                this.sortTypes = sortTypes
                 this.selectedIndex = selectedIndex
                 this.onSelected = onSelected
             }
@@ -52,6 +56,7 @@ class SortBottomSheet : BottomSheetDialogFragment() {
 
         val radioGroup = binding.rgSort
 
+        // 정렬 리스트 항목을 라디오버튼으로 만들기
         options.forEachIndexed { index, text ->
             val rb = RadioButton(requireContext()).apply {
                 id = View.generateViewId()
@@ -63,7 +68,10 @@ class SortBottomSheet : BottomSheetDialogFragment() {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
-                )
+                ).apply {
+                    val dp35 = (35 * resources.displayMetrics.density).toInt()
+                    bottomMargin = dp35
+                }
             }
             radioGroup.addView(rb) // 라디오그룹에 라디오버튼 추가
 
@@ -81,7 +89,7 @@ class SortBottomSheet : BottomSheetDialogFragment() {
             }
         }
 
-        //
+        // 라디오그룹에서 선택된 버튼이 바뀔 때마다 동작
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             // 모든 라디오버튼 스타일 초기화
             for (i in 0 until group.childCount) {
@@ -106,7 +114,7 @@ class SortBottomSheet : BottomSheetDialogFragment() {
             val selectedIdx = (0 until group.childCount)
                 .first { group.getChildAt(it).id == checkedId} // 선택된 ID와 일치하는 첫 번째 인덱스 찾아서 저장
 
-            onSelected?.invoke(selectedIdx) // 선택된 인덱스를 onSelected에 넘김
+            onSelected?.invoke(sortTypes[selectedIdx]) // 선택된 인덱스를 onSelected에 넘김
             dismiss() // BottomSheetDialogFragment 닫기
         }
     }

@@ -110,26 +110,31 @@
                 <TextView
                     style="@style/TextIngredient_componentName"
                     android:text="@string/component_coverLayer"
+                    android:layout_marginEnd="6dp"
                     />
                 <!--흡수체-->
                 <TextView
                     style="@style/TextIngredient_componentName"
                     android:text="@string/component_absorbentCore"
+                    android:layout_marginHorizontal="6dp"
                     />
                 <!--방수층-->
                 <TextView
                     style="@style/TextIngredient_componentName"
                     android:text="@string/component_waterproofLayer"
+                    android:layout_marginHorizontal="6dp"
                     />
                 <!--접착제-->
                 <TextView
                     style="@style/TextIngredient_componentName"
                     android:text="@string/component_adhesive"
+                    android:layout_marginHorizontal="6dp"
                     />
                 <!--기타-->
                 <TextView
                     style="@style/TextIngredient_componentName"
                     android:text="@string/component_additionalParts"
+                    android:layout_marginStart="6dp"
                     />
             </LinearLayout>
             <!--구성요소 그래프 컨테이너-->
@@ -144,28 +149,33 @@
                 <!--표지 막대그래프-->
                 <LinearLayout
                     android:id="@+id/ll_topSheet"
-                    style="@style/linear_ingredientGraph">
+                    style="@style/linear_ingredientGraph"
+                    android:layout_marginEnd="6dp">
                     <!--이 사이에 뷰 추가-->
                 </LinearLayout>
                 <!--흡수체 막대그래프-->
                 <LinearLayout
                     android:id="@+id/ll_absorber"
-                    style="@style/linear_ingredientGraph">
+                    style="@style/linear_ingredientGraph"
+                    android:layout_marginHorizontal="6dp">
                 </LinearLayout>
                 <!--방수층 막대그래프-->
                 <LinearLayout
                     android:id="@+id/ll_backSheet"
-                    style="@style/linear_ingredientGraph">
+                    style="@style/linear_ingredientGraph"
+                    android:layout_marginHorizontal="6dp">
                 </LinearLayout>
                 <!--접착제 막대그래프-->
                 <LinearLayout
                     android:id="@+id/ll_adhesive"
-                    style="@style/linear_ingredientGraph">
+                    style="@style/linear_ingredientGraph"
+                    android:layout_marginHorizontal="6dp">
                 </LinearLayout>
                 <!--기타 막대그래프-->
                 <LinearLayout
                     android:id="@+id/ll_additive"
-                    style="@style/linear_ingredientGraph">
+                    style="@style/linear_ingredientGraph"
+                    android:layout_marginStart="6dp">
                 </LinearLayout>
             </LinearLayout>
             <!--구성요소 라벨 텍스트-->
@@ -181,30 +191,35 @@
                     android:id="@+id/tv_topSheet_count"
                     style="@style/TextIngredient_componentCount"
                     android:text="2개"
+                    android:layout_marginEnd="6dp"
                     />
                 <!--흡수체-->
                 <TextView
                     android:id="@+id/tv_absorber_count"
                     style="@style/TextIngredient_componentCount"
                     android:text="3개"
+                    android:layout_marginHorizontal="6dp"
                     />
                 <!--방수층-->
                 <TextView
                     android:id="@+id/tv_backSheet_count"
                     style="@style/TextIngredient_componentCount"
                     android:text="1개"
+                    android:layout_marginHorizontal="6dp"
                     />
                 <!--접착제-->
                 <TextView
                     android:id="@+id/tv_adhesive_count"
                     style="@style/TextIngredient_componentCount"
                     android:text="1개"
+                    android:layout_marginHorizontal="6dp"
                     />
                 <!--기타-->
                 <TextView
                     android:id="@+id/tv_additive_count"
                     style="@style/TextIngredient_componentCount"
                     android:text="1개"
+                    android:layout_marginStart="6dp"
                     />
             </LinearLayout>
 
