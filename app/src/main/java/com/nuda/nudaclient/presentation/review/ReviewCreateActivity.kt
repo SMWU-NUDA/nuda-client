@@ -31,18 +31,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class ReviewCreateActivity : BaseActivity() {
     // 리뷰 작성 화면으로 이동할 때 Intent에 상태 변수 담아서 전달 필요 !!! (state : product / mypage)
 
-    // TODO 필수 사항 유효성 검사 : (필수)별점, 상세 리뷰 (선택) 사진 첨부
-    // TODO 별점 설정
-    // TODO 사진 첨부 설정 (갤러리 열기, S3 Presigned URL API 호출)
-    // TODO 리뷰 작성 API 호출
-
-    /**
-     * [ 액티비티 중복 사용 설정 ]
-     * 마이페이지-내 리뷰 쓰기 / 상품 상세페이지-새 리뷰 쓰기 중복
-     * 마이페이지일 경우와 상품 상세페이지일 경우 intent에 플래그나 상태 변수 담아서 전달(state = product / mypage 등)
-     * 각 플래그에 따라 검색바 설정 및 리뷰 영역 작성 불가 처리
-     */
-
     private lateinit var binding: ActivityReviewCreateBinding
 
     // 액티비티 중복 사용을 위한 상태 변수
