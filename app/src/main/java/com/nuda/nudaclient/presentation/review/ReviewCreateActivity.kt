@@ -31,6 +31,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class ReviewCreateActivity : BaseActivity() {
     // 리뷰 작성 화면으로 이동할 때 Intent에 상태 변수 담아서 전달 필요 !!! (state : product / mypage)
 
+    // TODO 검색바 클릭 후? 입력 후? 엔터 혹은 검색 아이콘 클릭 시 검색 목록으로 이동
+
     private lateinit var binding: ActivityReviewCreateBinding
 
     // 액티비티 중복 사용을 위한 상태 변수
@@ -78,17 +80,13 @@ class ReviewCreateActivity : BaseActivity() {
         // 상품 아이템 카드 아래의 구분선 삭제
         binding.itemProductCard.line.visibility = View.GONE
 
-        // 툴바 설정
-        setToolbar()
+        setToolbar() // 툴바 설정
 
-        // 상태 변수에 따른 화면 로드
-        loadScreen()
+        loadScreen() // 상태 변수에 따른 화면 로드
 
-        // 사진 등록 버튼
-        setAddImages()
+        setAddImages() // 사진 등록 버튼
 
-        // 리뷰 등록 버튼
-        setSaveReview()
+        setSaveReview() // 리뷰 등록 버튼
     }
 
     // 툴바 설정
@@ -97,7 +95,7 @@ class ReviewCreateActivity : BaseActivity() {
         setBackButton() // 뒤로가기 버튼
     }
 
-    // 상태 변수에 따른 화면 로드
+    // 상태 변수에 따른 화면 로드9
     private fun loadScreen() {
         binding.itemProductCard.tvRank.visibility = View.GONE // 상품 아이템 카드의 순위 제거
 

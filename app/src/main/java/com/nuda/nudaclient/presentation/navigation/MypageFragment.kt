@@ -21,6 +21,7 @@ import com.nuda.nudaclient.presentation.mypage.activity.MypageEditAccountActivit
 import com.nuda.nudaclient.presentation.mypage.activity.MypageEditDeliveryActivity
 import com.nuda.nudaclient.presentation.mypage.activity.MypageManageKeywordActivity
 import com.nuda.nudaclient.presentation.mypage.activity.MypageMyReviewActivity
+import com.nuda.nudaclient.presentation.review.ReviewCreateActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MyPageFragment : Fragment() {
@@ -31,13 +32,6 @@ class MyPageFragment : Fragment() {
     // 프래그먼트 생명 주기의 onDestroyView() 콜백에서 뷰는 삭제되지만 프래그먼트는 유지
     private var _binding: FragmentMypageBinding? = null // nullabel, 뷰가 없을 때는 null로 초기화
     private val binding get() = _binding!! // non-null, 뷰가 있는 시점(onViewCreate~onDestoryView)에만 사용
-
-
-//    // 프래그먼트 초기화 코드 (프래그먼트 최초 생성 시점에 호출되는 콜백)
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//    }
 
     // 레이아웃 지정 및 뷰 생성 (뷰에 데이터 설정은 못함)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -160,6 +154,9 @@ class MyPageFragment : Fragment() {
     private fun setupCreateNewReview() {
         binding.groupCreateNewReview.setOnClickListener {
             // 새 리뷰 작성 액티비티로 이동
+            val intent = Intent(requireContext(), ReviewCreateActivity::class.java)
+            intent.putExtra("STATE", "mypage")
+            startActivity(intent)
         }
     }
 

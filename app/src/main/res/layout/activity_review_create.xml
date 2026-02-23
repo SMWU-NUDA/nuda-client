@@ -52,7 +52,7 @@
                         android:id="@+id/tv_search_product"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/search_review"
+                        android:hint="@string/search_review"
                         android:fontFamily="@font/pretendard_medium"
                         android:textSize="18sp"
                         android:textColor="@color/gray1"

@@ -21,8 +21,6 @@ import org.w3c.dom.Text
 class IngredientDetailActivity : BaseActivity() {
     // 성분 상세페이지 진입 시 intent에 ingredientId 함께 전달 필요!!
 
-    // TODO 성분 위험도 추가 필요
-
     private lateinit var binding: ActivityIngredientDetailBinding
 
     private var ingredientId: Int = -1
@@ -78,10 +76,25 @@ class IngredientDetailActivity : BaseActivity() {
                             binding.tvIngredientInfo.text = data.description
                             binding.tvComponent2.text = data.layerType
 
-//                            // 위험도 텍스트랑 텍스트 색 변경
-//                            when (data.) {
-//
-//                            }
+                            // 위험도 텍스트랑 텍스트 색 변경
+                            when (data.riskLevel) {
+                                "SAFE" -> {
+                                    binding.tvRiskLevel.text = "안전"
+                                    binding.tvRiskLevel.setTextColor(ContextCompat.getColor(this, R.color.riskLevel_mint))
+                                }
+                                "WARN" -> {
+                                    binding.tvRiskLevel.text = "주의"
+                                    binding.tvRiskLevel.setTextColor(ContextCompat.getColor(this, R.color.riskLevel_yellow))
+                                }
+                                "DANGER" -> {
+                                    binding.tvRiskLevel.text = "위험"
+                                    binding.tvRiskLevel.setTextColor(ContextCompat.getColor(this, R.color.riskLevel_red))
+                                }
+                                else -> {
+                                    binding.tvRiskLevel.text = "UNKNOWN"
+                                    binding.tvRiskLevel.setTextColor(ContextCompat.getColor(this, R.color.gray4))
+                                }
+                            }
 
 
                             // 구성요소
