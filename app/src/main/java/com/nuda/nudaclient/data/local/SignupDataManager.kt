@@ -32,7 +32,7 @@ object SignupDataManager {
     private const val KEY_CHANGE_FREQUENCY = "change_frequency"
     private const val KEY_THICKNESS = "thickness"
     private const val KEY_SCENT = "scent"
-    private const val KEY_PRIORITY = "priority"
+    private const val KEY_ADHESION = "adhesion"
     private const val KEY_PRODUCT_IDS = "product_ids"
 
     private const val KEY_IS_NICKNAME_VALID = "is_nickname_valid"
@@ -74,7 +74,7 @@ object SignupDataManager {
     var changeFrequency: String? = null
     var thickness: String? = null
     var scent: String? = null
-    var priority: String? = null
+    var adhesion: String? = null
     var productIds: List<Int> = emptyList()
 
     // 유효성 검사 상태 데이터
@@ -121,7 +121,7 @@ object SignupDataManager {
                 putString(KEY_CHANGE_FREQUENCY, changeFrequency)
                 putString(KEY_THICKNESS, thickness)
                 putString(KEY_SCENT, scent)
-                putString(KEY_PRIORITY, priority)
+                putString(KEY_ADHESION, adhesion)
                 putString(KEY_PRODUCT_IDS, productIdsJson)
 
                 //계정 정보 상태 저장
@@ -163,7 +163,7 @@ object SignupDataManager {
         changeFrequency = pref.getString(KEY_CHANGE_FREQUENCY, null)
         thickness = pref.getString(KEY_THICKNESS, null)
         scent = pref.getString(KEY_SCENT, null)
-        priority = pref.getString(KEY_PRIORITY, null)
+        adhesion = pref.getString(KEY_ADHESION, null)
 
         // productIds 복원 (json -> kotlin)
         val productIdsJson = pref.getString(KEY_PRODUCT_IDS, null)
@@ -248,7 +248,7 @@ object SignupDataManager {
         changeFrequency = null
         thickness = null
         scent = null
-        priority = null
+        adhesion = null
         productIds = emptyList()
 
         isNicknameValid = false

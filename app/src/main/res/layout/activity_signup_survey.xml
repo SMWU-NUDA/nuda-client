@@ -286,50 +286,50 @@
             </RadioGroup>
 
 
-            <!--설문 5 - 중요도(priority)-->
+            <!--설문 5 - 접착력(adhesion)-->
             <ImageView
-                android:id="@+id/img_circle_priority"
+                android:id="@+id/img_circle_adhesion"
                 style="@style/ImageCircle"
                 app:layout_constraintStart_toStartOf="@id/guideline3"
                 app:layout_constraintTop_toBottomOf="@id/radio_answer_thickness" />
 
             <TextView
-                android:id="@+id/tv_survey_priority"
+                android:id="@+id/tv_survey_adhesion"
                 style="@style/TextSurveyQuestion"
-                android:text="@string/survey_priority"
+                android:text="@string/survey_adhesion"
                 android:layout_marginTop="-5dp"
-                app:layout_constraintStart_toEndOf="@id/img_circle_priority"
+                app:layout_constraintStart_toEndOf="@id/img_circle_adhesion"
                 app:layout_constraintEnd_toEndOf="@id/guideline4"
-                app:layout_constraintTop_toTopOf="@id/img_circle_priority"
+                app:layout_constraintTop_toTopOf="@id/img_circle_adhesion"
                 />
 
             <RadioGroup
-                android:id="@+id/radio_answer_priority"
+                android:id="@+id/radio_answer_adhesion"
                 style="@style/RadioSurveyAnswer"
-                app:layout_constraintTop_toBottomOf="@id/tv_survey_priority"
+                app:layout_constraintTop_toBottomOf="@id/tv_survey_adhesion"
                 app:layout_constraintStart_toStartOf="@id/guideline3"
                 app:layout_constraintEnd_toEndOf="@id/guideline4"
                 >
 
                 <RadioButton
-                    android:id="@+id/btn_priority_safety"
+                    android:id="@+id/btn_adhesion_notImportant"
                     android:tag="LOW"
                     style="@style/BtnSurveyAnswer"
-                    android:text="@string/survey_priority_safety"
+                    android:text="@string/survey_adhesion_notImportant"
                     />
 
                 <RadioButton
-                    android:id="@+id/btn_priority_absorbency"
+                    android:id="@+id/btn_adhesion_important"
                     android:tag="MIDDLE"
                     style="@style/BtnSurveyAnswer"
-                    android:text="@string/survey_priority_absorbency"
+                    android:text="@string/survey_adhesion_Important"
                     />
 
                 <RadioButton
-                    android:id="@+id/btn_priority_soft"
+                    android:id="@+id/btn_adhesion_veryImportant"
                     android:tag="HIGH"
                     style="@style/BtnSurveyAnswer"
-                    android:text="@string/survey_priority_soft"
+                    android:text="@string/survey_adhesion_veryImportant"
                     android:layout_marginRight="0dp"
                     />
 

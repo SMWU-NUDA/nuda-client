@@ -34,7 +34,7 @@ class SignupSurveyActivity : AppCompatActivity() {
     private var answerScent = "NULL"
     private var answerChangeFrequency = "NULL"
     private var answerThickness = "NULL"
-    private var answerPriority = "NULL"
+    private var answerAdhesion = "NULL"
     private var productIds : List<Int> = emptyList()
 
 
@@ -44,7 +44,7 @@ class SignupSurveyActivity : AppCompatActivity() {
     private lateinit var rg_scent : RadioGroup
     private lateinit var rg_flow : RadioGroup
     private lateinit var rg_thickness : RadioGroup
-    private lateinit var rg_priority : RadioGroup
+    private lateinit var rg_adhesion : RadioGroup
 
     private lateinit var iv_back : ImageView
 
@@ -71,7 +71,7 @@ class SignupSurveyActivity : AppCompatActivity() {
         rg_scent = binding.radioAnswerScent
         rg_flow = binding.radioAnswerFlow
         rg_thickness = binding.radioAnswerThickness
-        rg_priority = binding.radioAnswerPriority
+        rg_adhesion = binding.radioAnswerAdhesion
 
         iv_back = binding.ivBack
 
@@ -104,7 +104,7 @@ class SignupSurveyActivity : AppCompatActivity() {
         answerScent = SignupDataManager.scent ?: "NULL"
         answerChangeFrequency = SignupDataManager.changeFrequency ?: "NULL"
         answerThickness = SignupDataManager.thickness ?: "NULL"
-        answerPriority = SignupDataManager.priority ?: "NULL"
+        answerAdhesion = SignupDataManager.adhesion ?: "NULL"
         productIds = SignupDataManager.productIds
 
         // UI 복원
@@ -124,9 +124,9 @@ class SignupSurveyActivity : AppCompatActivity() {
             val tagValue = convertThickness(answerThickness)
             selectedRadioButtonByTag(rg_thickness, tagValue)
         }
-        if(answerPriority != "NULL") {
-            val tagValue = convertPriority(answerPriority)
-            selectedRadioButtonByTag(rg_priority, tagValue)
+        if(answerAdhesion != "NULL") {
+            val tagValue = convertAdhesion(answerAdhesion)
+            selectedRadioButtonByTag(rg_adhesion, tagValue)
         }
 
         isRestoringData = false
@@ -180,11 +180,11 @@ class SignupSurveyActivity : AppCompatActivity() {
         }
     }
 
-    private fun convertPriority(serverValue: String) : String {
+    private fun convertAdhesion(serverValue: String) : String {
         return when (serverValue) {
-            "SAFETY" -> "LOW"
-            "ABSORPTION" -> "MIDDLE"
-            "SOFTNESS" -> "HIGH"
+            "WEAK" -> "LOW"
+            "NORMAL" -> "MIDDLE"
+            "STRONG" -> "HIGH"
             else -> "NULL"
         }
     }
@@ -223,11 +223,11 @@ class SignupSurveyActivity : AppCompatActivity() {
             else -> "NULL"
         }
 
-        // 우선순위
-        answerPriority = when (getSurveyAnswer(rg_priority)) {
-            "LOW" -> "SAFETY"
-            "MIDDLE" -> "ABSORPTION"
-            "HIGH" -> "SOFTNESS"
+        // 접착력
+        answerAdhesion = when (getSurveyAnswer(rg_adhesion)) {
+            "LOW" -> "WEAK"
+            "MIDDLE" -> "NORMAL"
+            "HIGH" -> "STRONG"
             else -> "NULL"
         }
     }
@@ -304,7 +304,7 @@ class SignupSurveyActivity : AppCompatActivity() {
                 answerScent == "NULL" ||
                 answerChangeFrequency == "NULL" ||
                 answerThickness == "NULL" ||
-                answerPriority == "NULL" ||
+                answerAdhesion == "NULL" ||
                 productIds.isEmpty()
     }
 
@@ -313,7 +313,7 @@ class SignupSurveyActivity : AppCompatActivity() {
         val SignupSurveyRequest = SignupSurveyRequest(
             changeFrequency = answerChangeFrequency,
             irritationLevel = answerIrritationLevel,
-            priority = answerPriority,
+            adhesion = answerAdhesion,
             scent = answerScent,
             thickness = answerThickness,
             productIds = productIds
@@ -385,7 +385,7 @@ class SignupSurveyActivity : AppCompatActivity() {
         SignupDataManager.scent = answerScent
         SignupDataManager.changeFrequency = answerChangeFrequency
         SignupDataManager.thickness = answerThickness
-        SignupDataManager.priority = answerPriority
+        SignupDataManager.adhesion = answerAdhesion
         SignupDataManager.productIds = productIds
     }
 }

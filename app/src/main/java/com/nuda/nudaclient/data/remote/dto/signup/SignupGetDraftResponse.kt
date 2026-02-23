@@ -22,7 +22,7 @@ data class SignupGetDraftResponse(
     data class SurveyInfo(
         val changeFrequency: String,
         val irritationLevel: String,
-        val priority: String,
+        val adhesion: String,
         val productIds: List<Int>,
         val scent: String,
         val thickness: String

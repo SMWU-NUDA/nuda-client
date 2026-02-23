@@ -84,10 +84,10 @@
     <string name="survey_thickness_low">얆음</string>
     <string name="survey_thickness_middle">일반</string>
     <string name="survey_thickness_high">도톰함</string>
-    <string name="survey_priority">생리대를 고를 때 가장 중요하게 생각하는 요소는?</string>
-    <string name="survey_priority_safety">안전한 성분</string>
-    <string name="survey_priority_absorbency">흡수력</string>
-    <string name="survey_priority_soft">부드러움</string>
+    <string name="survey_adhesion">제품의 접착력을 중요하게 생각하시나요?</string>
+    <string name="survey_adhesion_notImportant">중요하지 않음</string>
+    <string name="survey_adhesion_Important">중요함</string>
+    <string name="survey_adhesion_veryImportant">매우 중요함</string>
     <string name="survey_add_product">사용 후 만족했던 제품을 입력해주세요</string>
 
     <!--상품 카드-->

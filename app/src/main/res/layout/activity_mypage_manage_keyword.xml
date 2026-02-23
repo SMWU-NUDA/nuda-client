@@ -100,16 +100,16 @@
                     style="@style/keyword_setting_gray"
                     android:text="@string/keyword_high"
                     />
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    />
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/img_delete"
-                    />
+<!--                <Space-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/img_delete"-->
+<!--                    />-->
             </LinearLayout>
 
             <!--향-->
@@ -137,16 +137,16 @@
                     style="@style/keyword_setting_gray"
                     android:text="@string/keyword_strong"
                     />
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    />
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/img_delete"
-                    />
+<!--                <Space-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/img_delete"-->
+<!--                    />-->
             </LinearLayout>
 
             <!--흡수력-->
@@ -174,16 +174,16 @@
                     style="@style/keyword_setting_gray"
                     android:text="@string/keyword_high"
                     />
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    />
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/img_delete"
-                    />
+<!--                <Space-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/img_delete"-->
+<!--                    />-->
             </LinearLayout>
 
             <!--안전성-->
@@ -197,7 +197,7 @@
                 <TextView
                     android:id="@+id/tv_keyword_safety"
                     style="@style/TextSecondaryDefault"
-                    android:text="@string/keyword_safety"
+                    android:text="@string/keyword_adhesion"
                     />
                 <TextView
                     style="@style/keyword_setting_gray"
@@ -211,97 +211,97 @@
                     style="@style/keyword_setting_gray"
                     android:text="@string/keyword_important"
                     />
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    />
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/img_delete"
-                    />
+<!--                <Space-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/img_delete"-->
+<!--                    />-->
             </LinearLayout>
 
-            <!--추가 키워드 (예시1)-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                android:gravity="center_vertical"
-                >
-                <TextView
-                    android:id="@+id/tv_keyword_ex1"
-                    style="@style/TextSecondaryblock"
-                    android:text="@string/keyword_safety"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:textColor="@color/gray4"
-                    android:text="@string/keyword_notImportant"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:textColor="@color/gray4"
-                    android:text="@string/keyword_normal"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:textColor="@color/gray4"
-                    android:text="@string/keyword_important"
-                    />
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    />
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/img_add"
-                    />
-            </LinearLayout>
+<!--            &lt;!&ndash;추가 키워드 (예시1)&ndash;&gt;-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                >-->
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_keyword_ex1"-->
+<!--                    style="@style/TextSecondaryblock"-->
+<!--                    android:text="@string/keyword_safety"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    style="@style/keyword_setting_gray"-->
+<!--                    android:textColor="@color/gray4"-->
+<!--                    android:text="@string/keyword_notImportant"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    style="@style/keyword_setting_gray"-->
+<!--                    android:textColor="@color/gray4"-->
+<!--                    android:text="@string/keyword_normal"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    style="@style/keyword_setting_gray"-->
+<!--                    android:textColor="@color/gray4"-->
+<!--                    android:text="@string/keyword_important"-->
+<!--                    />-->
+<!--                <Space-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/img_add"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
 
-            <!--추가 키워드(예시2)-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                android:gravity="center_vertical"
-                >
-                <TextView
-                    android:id="@+id/tv_keyword_ex2"
-                    style="@style/TextSecondaryblock"
-                    android:text="@string/keyword_safety"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:textColor="@color/gray4"
-                    android:text="@string/keyword_notImportant"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:textColor="@color/gray4"
-                    android:text="@string/keyword_normal"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:textColor="@color/gray4"
-                    android:text="@string/keyword_important"
-                    />
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    />
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/img_add"
-                    />
-            </LinearLayout>
+<!--            &lt;!&ndash;추가 키워드(예시2)&ndash;&gt;-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                >-->
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_keyword_ex2"-->
+<!--                    style="@style/TextSecondaryblock"-->
+<!--                    android:text="@string/keyword_safety"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    style="@style/keyword_setting_gray"-->
+<!--                    android:textColor="@color/gray4"-->
+<!--                    android:text="@string/keyword_notImportant"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    style="@style/keyword_setting_gray"-->
+<!--                    android:textColor="@color/gray4"-->
+<!--                    android:text="@string/keyword_normal"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    style="@style/keyword_setting_gray"-->
+<!--                    android:textColor="@color/gray4"-->
+<!--                    android:text="@string/keyword_important"-->
+<!--                    />-->
+<!--                <Space-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/img_add"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
 
             <!-- 저장 버튼-->
             <androidx.appcompat.widget.AppCompatButton
