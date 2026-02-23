@@ -9,7 +9,7 @@
         android:id="@+id/tv_Hcode"
         style="@style/TextIngredient_detail_info"
         android:text="H351(위험)"
-        android:textColor="@color/riskLevel_mint"
+        android:textColor="@color/gray1"
         />
     <!--H코드 설명-->
     <TextView

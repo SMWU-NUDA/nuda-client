@@ -16,7 +16,7 @@ interface IngredientsService {
 
     // GET /ingredients/{ingredientId} : 성분 상세 조회
     @GET("ingredients/{ingredientId}")
-    fun getIngredientDetail(@Query("ingredientId") ingredientId: Int) : Call<ApiResponse<IngredientsGetDetailResponse>>
+    fun getIngredientDetail(@Path("ingredientId") ingredientId: Int) : Call<ApiResponse<IngredientsGetDetailResponse>>
 
     // GET /ingredients/search?ingredient={ingredient} : 성분 검색
 //    @GET("ingredients/search")

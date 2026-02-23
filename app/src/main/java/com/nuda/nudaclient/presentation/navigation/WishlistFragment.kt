@@ -21,6 +21,7 @@ import com.nuda.nudaclient.databinding.ItemWishBrandBinding
 import com.nuda.nudaclient.databinding.ItemWishIngredientBinding
 import com.nuda.nudaclient.databinding.ItemWishProductBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
+import com.nuda.nudaclient.presentation.ingredient.IngredientDetailActivity
 import com.nuda.nudaclient.presentation.product.ProductDetailActivity
 
 class WishlistFragment : Fragment() {
@@ -443,9 +444,9 @@ class WishlistFragment : Fragment() {
         // 성분 아이템 클릭 이벤트
         itemBinding.root.setOnClickListener {
             // 성분 상세페이지로 이동하면서 ingredientId 전달
-//            val intent = Intent(requireContext(), ::class.java)
-//            intent.putExtra("INGREDIENT_ID", highlightIngredient.ingredientId)
-//            startActivity(intent)
+            val intent = Intent(requireContext(), IngredientDetailActivity::class.java)
+            intent.putExtra("INGREDIENT_ID", highlightIngredient.ingredientId)
+            startActivity(intent)
         }
         // root 뷰를 추가
         binding.llHighlightIngredients.addView(itemBinding.root)
@@ -494,9 +495,9 @@ class WishlistFragment : Fragment() {
         // 성분 아이템 클릭 이벤트
         itemBinding.root.setOnClickListener {
             // 성분 상세페이지로 이동하면서 ingredientId 전달
-//            val intent = Intent(requireContext(), ::class.java)
-//            intent.putExtra("INGREDIENT_ID", avoidIngredient.ingredientId)
-//            startActivity(intent)
+            val intent = Intent(requireContext(), IngredientDetailActivity::class.java)
+            intent.putExtra("INGREDIENT_ID", avoidIngredient.ingredientId)
+            startActivity(intent)
         }
         // root 뷰를 추가
         binding.llAvoidIngredients.addView(itemBinding.root)

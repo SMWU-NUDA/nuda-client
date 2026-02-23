@@ -21,17 +21,12 @@ import com.nuda.nudaclient.presentation.ingredient.adapter.IngredientItemAdapter
 import com.nuda.nudaclient.utils.setupBarGraph
 
 class IngredientComponentActivity : BaseActivity() {
-
     // 상품 구성 성분 화면으로 이동할 때 Intent에 productId 담아서 전달 필요 !!!
-
-    // TODO 상품 성분 구성 요약 정보 로드
-    // TODO 성분 아이템 클릭 이벤트 로직 추가 : 어댑터 설정에 추가 (ingredientId Intent에 함께 전달)
-    // TODO BottomSheetDialog 추가 (다른 화면거 복붙해도 ㄱㅊ)
 
     private lateinit var binding: ActivityIngredientComponentBinding
 
     private var productId: Int = -1
-    private var selectedSortTypeIdx = 0
+    private var selectedSortTypeIdx = 0 // 필터링 기본값 인덱스 0
 
     private lateinit var ingredientAdapter: IngredientItemAdapter
 

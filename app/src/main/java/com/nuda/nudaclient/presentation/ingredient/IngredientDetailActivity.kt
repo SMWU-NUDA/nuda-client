@@ -76,7 +76,36 @@ class IngredientDetailActivity : BaseActivity() {
                             binding.tvIngredientName.text = data.name
                             binding.tvComponent.text = data.layerType
                             binding.tvIngredientInfo.text = data.description
-                            binding.tvComponent2.text = data.name
+                            binding.tvComponent2.text = data.layerType
+
+                            // 구성요소
+                            when (data.layerType) {
+                                "TOP_SHEET" -> {
+                                    binding.tvComponent.text = "표지"
+                                    binding.tvComponent2.text = "표지"
+                                }
+                                "ABSORBER" ->  {
+                                    binding.tvComponent.text = "흡수체"
+                                    binding.tvComponent2.text = "흡수체"
+                                }
+                                "BACK_SHEET" -> {
+                                    binding.tvComponent.text = "방수층"
+                                    binding.tvComponent2.text = "방수층"
+                                }
+                                "ADHESIVE" -> {
+                                    binding.tvComponent.text = "접착제"
+                                    binding.tvComponent2.text = "접착제"
+                                }
+                                "ADDITIVE" -> {
+                                    binding.tvComponent.text = "기타"
+                                    binding.tvComponent2.text = "기타"
+                                }
+                                else -> {
+                                    binding.tvComponent.text = "UNKNOWN"
+                                    binding.tvComponent2.text = "UNKNOWN"
+                                }
+                            }
+
 
                             // 구성요소 설명
                             binding.tvComponentInfo.text = when (data.layerType) {
@@ -100,7 +129,7 @@ class IngredientDetailActivity : BaseActivity() {
                                     binding.llHcodeList, // 아이템을 추가할 LinearLayout
                                     false)
                                 if (hcode.description == "") {
-                                    itemView.findViewById<TextView>(R.id.tv_Hcode).text = "H코드 없음(안전)"
+                                    itemView.findViewById<TextView>(R.id.tv_Hcode).text = "H코드 없음"
                                     itemView.findViewById<TextView>(R.id.tv_Hcode_info).visibility = View.GONE // H코드 설명 gone
                                 } else {
                                     itemView.findViewById<TextView>(R.id.tv_Hcode).text = hcode.code
@@ -160,18 +189,29 @@ class IngredientDetailActivity : BaseActivity() {
                     if (body.success == true) {
                         body.data?.let { data ->
                             when(data.preference) {
-                                true -> { // 관심 등록
-                                    resetButtons() // 다른 버튼 해제
+                                true -> { // 관심만
+                                    resetButtons() // 둘 다 취소
                                     btnHighlight.isSelected = true
                                     btnHighlight.typeface = typefaceClicked // 버튼 폰트 변경
-                                    Log.d("API_DEBUG", "성분 관심 등록 성공")
+                                    Log.d("API_DEBUG", "관심 버튼 - 성분 관심")
+                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
                                 }
-                                null -> { // 관심 취소
-                                    resetButtons() // 둘 다 해제
-                                    btnHighlight.typeface = typefaceUnclicked
-                                    Log.d("API_DEBUG", "성분 관심 등록 취소")
+                                false -> { // 피하기
+                                    resetButtons() // 둘 다 취소
+                                    btnAvoid.isSelected = true
+                                    btnAvoid.typeface = typefaceClicked
+                                    Log.d("API_DEBUG", "관심 버튼 - 성분 피하기")
+                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
                                 }
-                                else -> Log.d("API_DEBUG", "성분 관심 등록 실패")
+                                null -> { // 둘 다 취소
+                                    resetButtons()
+                                    Log.d("API_DEBUG", "관심 버튼 - 성분 즐겨찾기 해제")
+                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                }
+                                else ->  {
+                                    Log.d("API_DEBUG", "관심 버튼 - 성분 관심 등록 실패")
+                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                }
                             }
                         }
                     }
@@ -189,18 +229,29 @@ class IngredientDetailActivity : BaseActivity() {
                     if (body.success == true) {
                         body.data?.let { data ->
                             when(data.preference) {
-                                true -> { // 피하기 등록
-                                    resetButtons() // 다른 버튼 해제
+                                true -> { // 관심
+                                    resetButtons() // 둘 다 취소
+                                    btnHighlight.isSelected = true
+                                    btnHighlight.typeface = typefaceClicked // 버튼 폰트 변경
+                                    Log.d("API_DEBUG", "피하기 버튼 - 성분 관심")
+                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                }
+                                false -> { // 피하기
+                                    resetButtons() // 둘 다 취소
                                     btnAvoid.isSelected = true
-                                    btnAvoid.typeface = typefaceClicked // 버튼 폰트 변경
-                                    Log.d("API_DEBUG", "성분 피하기 등록 성공")
+                                    btnAvoid.typeface = typefaceClicked
+                                    Log.d("API_DEBUG", "피하기 버튼 - 성분 피하기")
+                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
                                 }
-                                null -> { // 피하기 취소
-                                    resetButtons() // 둘 다 해제
-                                    btnAvoid.typeface = typefaceUnclicked
-                                    Log.d("API_DEBUG", "성분 피하기 등록 취소")
+                                null -> { // 둘 다 취소
+                                    resetButtons()
+                                    Log.d("API_DEBUG", "피하기 버튼 - 성분 즐겨찾기 해제")
+                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
                                 }
-                                else -> Log.d("API_DEBUG", "성분 피하기 등록 실패")
+                                else -> {
+                                    Log.d("API_DEBUG", "피하기 버튼 - 성분 피하기 등록 실패")
+                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                }
                             }
                         }
                     }

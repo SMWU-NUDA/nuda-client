@@ -6,13 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nuda.nudaclient.R
-
+import com.nuda.nudaclient.databinding.FragmentRecommendBinding
+import com.nuda.nudaclient.databinding.FragmentWishlistBinding
+import com.nuda.nudaclient.presentation.common.activity.BaseActivity
+import com.nuda.nudaclient.presentation.common.fragment.SortBottomSheet
 
 
 class RecommendFragment : Fragment() {
 
     // TODO feat: 맞춤 제품 추천 툴바 설정 (타이틀, 뒤로가기, 버튼들)
     // TODO feat: 맞춤 상품 추천 UI 구현 완료 (키워드 필터링은 사용자 별 개수 차이가 있을 수 있음)
+
+    private var _binding: FragmentRecommendBinding? = null
+    private val binding get() = _binding!!
+
+    private var selectedSortTypeIdx = 0 // 필터링 기본값 인덱스 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +31,64 @@ class RecommendFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recommend, container, false)
+        _binding = FragmentRecommendBinding.inflate(inflater, container, false)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 툴바 설정
+         setToolbar()
+
+        // 필터링 버튼 설정
+        setFilterButton()
+
+
+    }
+    // 툴바 설정
+    private fun setToolbar() {
+        (activity as? BaseActivity)?.setToolbarTitle("맞춤 제품 추천") // 타이틀 설정
+        (activity as? BaseActivity)?.setBackButton() // 뒤로가기 버튼 설정
+        (activity as? BaseActivity)?.setToolbarButtons() // 툴바 버튼들 설정
+    }
+
+    // 필터링 버튼 클릭 이벤트 -> BottomSheetDialog 프래그먼트 호출
+    private fun setFilterButton() {
+        val BtnFilter = binding.btnFilter
+
+        BtnFilter.setOnClickListener {
+            SortBottomSheet.newInstance(
+                options = listOf("전체", "민감도", "향", "흡수력", "접착력"),
+                sortTypes = listOf("ALL", "IRRITATION_LEVEL", "SCENT", "THICKNESS", "ADHESION"),
+                selectedIndex = selectedSortTypeIdx
+            ){ sortType ->
+                when (sortType) {
+                    "ALL" -> {
+                        selectedSortTypeIdx = 0
+                        BtnFilter.text = "전체"
+                    }
+                    "IRRITATION_LEVEL" -> {
+                        selectedSortTypeIdx = 1
+                        BtnFilter.text = "민감도"
+                    }
+                    "SCENT" -> {
+                        selectedSortTypeIdx = 2
+                        BtnFilter.text = "향"
+                    }
+                    "THICKNESS" -> {
+                        selectedSortTypeIdx = 3
+                        BtnFilter.text = "흡수력"
+                    }
+                    "ADHESION" -> {
+                        selectedSortTypeIdx = 4
+                        BtnFilter.text = "접착력"
+                    }
+                }
+            }.show(parentFragmentManager, "SortBottomSheet")
+
+        }
+    }
+
 
 }
