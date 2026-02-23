@@ -134,6 +134,7 @@ class LoginActivity : AppCompatActivity() {
                     // 홈화면으로 이동
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
                     CustomToast.show(binding.root, body.message)
                 }
@@ -198,6 +199,7 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToAccount() {
         val intent = Intent(this, SignupAccountActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
 }

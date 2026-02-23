@@ -2,7 +2,9 @@ package com.nuda.nudaclient.data.remote.api
 
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
 import com.nuda.nudaclient.data.remote.dto.common.Me
+import com.nuda.nudaclient.data.remote.dto.members.MembersChangeKeywordRequest
 import com.nuda.nudaclient.data.remote.dto.members.MembersDeliveryInfoResponse
+import com.nuda.nudaclient.data.remote.dto.members.MembersGetKeywordResponse
 import com.nuda.nudaclient.data.remote.dto.members.MembersUserInfoResponse
 import com.nuda.nudaclient.data.remote.dto.signup.SignupDeliveryRequest
 import retrofit2.Call
@@ -30,6 +32,11 @@ interface MembersService {
     fun updateDeliveryInfo(@Body request: SignupDeliveryRequest) : Call<ApiResponse<MembersDeliveryInfoResponse>>
 
     // GET /members/me/keywords : 키워드 조회
+    @GET("members/me/keywords")
+    fun getKeywords() : Call<ApiResponse<MembersGetKeywordResponse>>
 
     // PATCH /members/me/keywords : 키워드 수정
+    @PATCH("members/me/keywords")
+    fun changeKeywords(@Body request: MembersChangeKeywordRequest) : Call<ApiResponse<MembersGetKeywordResponse>>
+
 }

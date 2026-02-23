@@ -86,10 +86,7 @@ class MypageEditDeliveryActivity : BaseActivity() {
             insets
         }
 
-        // 툴바 타이틀 변경
-        setToolbarTitle("배송정보 관리")
-        // 툴바 뒤로가기 설정
-        setBackButton()
+        setToolbar()
 
         // 계정 정보 로드
         loadDeliveryInfo()
@@ -102,6 +99,13 @@ class MypageEditDeliveryActivity : BaseActivity() {
 
         // 배송 정보 저장
         updateDeliveryInfo()
+    }
+
+
+    // 툴바 설정
+    private fun setToolbar() {
+        setToolbarTitle("배송정보 관리") // 타이틀
+        setBackButton() // 뒤로가기 버튼
     }
 
     // 배송 정보 로드

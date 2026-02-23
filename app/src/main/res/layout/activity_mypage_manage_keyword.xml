@@ -53,17 +53,57 @@
                     />
             </LinearLayout>
 
-            <!--동적으로 키워드 목록이 추가될 컨테이너-->
-            <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/flexbox_keywords"
+            <!--키워드 목록-->
+            <LinearLayout
+                android:id="@+id/ll_keywords"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:flexWrap="wrap"
-                app:justifyContent="flex_start"
-                app:alignItems="flex_start"
-                app:alignContent="flex_start"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_irritationLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSecondaryGreen"
+                    android:text="민감도 높음"
+                    />
+                <TextView
+                    android:id="@+id/tv_scent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSecondaryGreen"
+                    android:text="보통 향"
+                    />
+                <TextView
+                    android:id="@+id/tv_adhesion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSecondaryGreen"
+                    android:text="접착력 중시"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_thickness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextSecondaryGreen"
+                android:text="약한 흡수력"
                 />
+
+            <!--            -->
+<!--            &lt;!&ndash;동적으로 키워드 목록이 추가될 컨테이너&ndash;&gt;-->
+<!--            <com.google.android.flexbox.FlexboxLayout-->
+<!--                android:id="@+id/flexbox_keywords"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                app:flexWrap="wrap"-->
+<!--                app:justifyContent="flex_start"-->
+<!--                app:alignItems="flex_start"-->
+<!--                app:alignContent="flex_start"-->
+<!--                />-->
 
             <!--키워드 설정-->
             <TextView
@@ -88,18 +128,40 @@
                     style="@style/TextSecondaryDefault"
                     android:text="@string/keyword_irritationLevel"
                     />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_low"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_normal"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_high"
-                    />
+                <RadioGroup
+                    android:id="@+id/rg_irritationLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <RadioButton
+                        android:id="@+id/rb_irritationLevel_low"
+                        android:tag="NONE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_low"
+                        />
+                    <RadioButton
+                        android:id="@+id/rb_irritationLevel_normal"
+                        android:tag="SOMETIMES"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_normal"
+                        />
+                    <RadioButton
+                        android:id="@+id/rb_irritationLevel_high"
+                        android:tag="OFTEN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_high"
+                        />
+                </RadioGroup>
 <!--                <Space-->
 <!--                    android:layout_width="0dp"-->
 <!--                    android:layout_height="1dp"-->
@@ -125,18 +187,41 @@
                     style="@style/TextSecondaryDefault"
                     android:text="@string/keyword_scent"
                     />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_noScent"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_normal"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_strong"
-                    />
+
+                <RadioGroup
+                    android:id="@+id/rg_scent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <RadioButton
+                        android:id="@+id/rb_scent_low"
+                        android:tag="NONE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_noScent"
+                        />
+                    <RadioButton
+                        android:id="@+id/rb_scent_normal"
+                        android:tag="MILD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_normal"
+                        />
+                    <RadioButton
+                        android:id="@+id/rb_scent_high"
+                        android:tag="STRONG"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_strong"
+                        />
+                </RadioGroup>
 <!--                <Space-->
 <!--                    android:layout_width="0dp"-->
 <!--                    android:layout_height="1dp"-->
@@ -148,6 +233,66 @@
 <!--                    android:src="@drawable/img_delete"-->
 <!--                    />-->
             </LinearLayout>
+
+            <!--접착력-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                 >
+                <TextView
+                    android:id="@+id/tv_keyword_safety"
+                    style="@style/TextSecondaryDefault"
+                    android:text="@string/keyword_adhesion"
+                    />
+                <RadioGroup
+                    android:id="@+id/rg_adhesion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <RadioButton
+                        android:id="@+id/rb_adhesion_low"
+                        android:tag="WEAK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_notImportant"
+                        />
+                    <RadioButton
+                        android:id="@+id/rb_adhesion_normal"
+                        android:tag="NORMAL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_normal"
+                        />
+                    <RadioButton
+                        android:id="@+id/rb_adhesion_high"
+                        android:tag="STRONG"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_important"
+                        />
+                </RadioGroup>
+
+<!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="1dp"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    />-->
+                <!--                <ImageView-->
+                <!--                    android:layout_width="24dp"-->
+                <!--                    android:layout_height="24dp"-->
+                <!--                    android:src="@drawable/img_delete"-->
+                <!--                    />-->
+            </LinearLayout>
+
 
             <!--흡수력-->
             <LinearLayout
@@ -162,69 +307,56 @@
                     style="@style/TextSecondaryDefault"
                     android:text="@string/keyword_flow"
                     />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_light"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_normal"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_high"
-                    />
-<!--                <Space-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="1dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    />-->
-<!--                <ImageView-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:src="@drawable/img_delete"-->
-<!--                    />-->
-            </LinearLayout>
 
-            <!--안전성-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                android:gravity="center_vertical"
-                >
-                <TextView
-                    android:id="@+id/tv_keyword_safety"
-                    style="@style/TextSecondaryDefault"
-                    android:text="@string/keyword_adhesion"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_notImportant"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_normal"
-                    />
-                <TextView
-                    style="@style/keyword_setting_gray"
-                    android:text="@string/keyword_important"
-                    />
-<!--                <Space-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="1dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    />-->
-<!--                <ImageView-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:src="@drawable/img_delete"-->
-<!--                    />-->
-            </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/rg_thickness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <RadioButton
+                        android:id="@+id/rb_thickness_low"
+                        android:tag="THIN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_light"
+                        />
+                    <RadioButton
+                        android:id="@+id/rb_thickness_normal"
+                        android:tag="NORMAL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_normal"
+                        />
+                    <RadioButton
+                        android:id="@+id/rb_thickness_high"
+                        android:tag="THICK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        style="@style/keyword_setting_gray"
+                        android:text="@string/keyword_high"
+                        />
+                </RadioGroup>
 
-<!--            &lt;!&ndash;추가 키워드 (예시1)&ndash;&gt;-->
-<!--            <LinearLayout-->
+                <!--                <Space-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="1dp"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    />-->
+                <!--                <ImageView-->
+                <!--                    android:layout_width="24dp"-->
+                <!--                    android:layout_height="24dp"-->
+                <!--                    android:src="@drawable/img_delete"-->
+                <!--                    />-->
+            </LinearLayout>
+            <!--                <Space-->
+            <!--            &lt;!&ndash;추가 키워드 (예시1)&ndash;&gt;-->
+            <!--            <LinearLayout-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
 <!--                android:orientation="horizontal"-->

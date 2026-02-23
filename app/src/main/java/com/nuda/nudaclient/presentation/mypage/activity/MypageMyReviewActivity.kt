@@ -38,10 +38,7 @@ class MypageMyReviewActivity : BaseActivity() {
             insets
         }
 
-        // 툴바 타이틀 변경
-        setToolbarTitle("내 리뷰")
-        // 툴바 뒤로가기 설정
-        setBackButton()
+        setToolbar()
 
         // 리사이클러뷰 설정
         setRecyclerView()
@@ -49,6 +46,13 @@ class MypageMyReviewActivity : BaseActivity() {
         // 리뷰 첫 페이지 로드
         loadReviews()
 
+    }
+
+
+    // 툴바 설정
+    private fun setToolbar() {
+        setToolbarTitle("내 리뷰") // 타이틀
+        setBackButton() // 뒤로가기 버튼
     }
 
     // 리사이클러뷰 설정

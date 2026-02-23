@@ -366,27 +366,70 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_nickname2"
                 />
 
-            <!--동적으로 키워드 목록이 추가될 컨테이너-->
-            <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/flexbox_keywords"
+            <!--키워드 목록-->
+            <LinearLayout
+                android:id="@+id/ll_keywords"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:flexWrap="wrap"
-                app:justifyContent="flex_start"
-                app:alignItems="flex_start"
-                app:alignContent="flex_start"
+                android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/tv_nickname2"
                 >
+                <TextView
+                    android:id="@+id/tv_irritationLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSecondaryGreen"
+                    android:text="민감도 높음"
+                    />
+                <TextView
+                    android:id="@+id/tv_scent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSecondaryGreen"
+                    android:text="보통 향"
+                    />
+                <TextView
+                    android:id="@+id/tv_adhesion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSecondaryGreen"
+                    android:text="접착력 중시"
+                    />
+            </LinearLayout>
 
-                <!--더미 키워드-->
-                <include layout="@layout/item_keyword"/>
-                <include layout="@layout/item_keyword"/>
-                <include layout="@layout/item_keyword"/>
-                <include layout="@layout/item_keyword"/>
-                <include layout="@layout/item_keyword"/>
+            <TextView
+                android:id="@+id/tv_thickness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextSecondaryGreen"
+                android:text="약한 흡수력"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_keywords"
+                />
 
-            </com.google.android.flexbox.FlexboxLayout>
+
+            <!--            &lt;!&ndash;동적으로 키워드 목록이 추가될 컨테이너&ndash;&gt;-->
+<!--            <com.google.android.flexbox.FlexboxLayout-->
+<!--                android:id="@+id/flexbox_keywords"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                app:flexWrap="wrap"-->
+<!--                app:justifyContent="flex_start"-->
+<!--                app:alignItems="flex_start"-->
+<!--                app:alignContent="flex_start"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/tv_nickname2"-->
+<!--                >-->
+
+<!--                &lt;!&ndash;더미 키워드&ndash;&gt;-->
+<!--                <include layout="@layout/item_keyword"/>-->
+<!--                <include layout="@layout/item_keyword"/>-->
+<!--                <include layout="@layout/item_keyword"/>-->
+<!--                <include layout="@layout/item_keyword"/>-->
+<!--                <include layout="@layout/item_keyword"/>-->
+
+<!--            </com.google.android.flexbox.FlexboxLayout>-->
 
             <!--구분선-->
             <View
@@ -395,7 +438,7 @@
                 android:layout_height="0.5dp"
                 android:layout_marginTop="26dp"
                 android:background="@color/gray5"
-                app:layout_constraintTop_toBottomOf="@id/flexbox_keywords"
+                app:layout_constraintTop_toBottomOf="@id/tv_thickness"
                 />
 
             <!--추천 랭킹-->

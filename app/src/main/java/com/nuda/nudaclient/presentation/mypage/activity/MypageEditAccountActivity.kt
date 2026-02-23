@@ -71,11 +71,7 @@ class MypageEditAccountActivity : BaseActivity() {
             insets
         }
 
-        // 툴바 타이틀 변경
-        setToolbarTitle("프로필 수정")
-        // 툴바 뒤로가기 설정
-        setBackButton()
-
+        setToolbar()
 
         // 회원 정보 로드
         loadUserInfo()
@@ -89,6 +85,13 @@ class MypageEditAccountActivity : BaseActivity() {
         // 회원가입 저장
         updateProfile()
 
+    }
+
+
+    // 툴바 설정
+    private fun setToolbar() {
+        setToolbarTitle("프로필 수정") // 타이틀
+        setBackButton() // 뒤로가기 버튼
     }
 
     // 회원 정보 로드

@@ -173,8 +173,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/pretendard_extralight</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/gray3</item>
-        <item name="android:layout_marginRight">18dp</item>
+        <item name="android:textColor">@color/btn_keyword_text</item>
     </style>
 
     <!--키워드 설정 텍스트(그린)-->

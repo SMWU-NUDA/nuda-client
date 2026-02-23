@@ -21,7 +21,7 @@ import org.w3c.dom.Text
 class IngredientDetailActivity : BaseActivity() {
     // 성분 상세페이지 진입 시 intent에 ingredientId 함께 전달 필요!!
 
-    // TODO h코드 위험도 색상 추가 필요
+    // TODO 성분 위험도 추가 필요
 
     private lateinit var binding: ActivityIngredientDetailBinding
 
@@ -78,6 +78,12 @@ class IngredientDetailActivity : BaseActivity() {
                             binding.tvIngredientInfo.text = data.description
                             binding.tvComponent2.text = data.layerType
 
+//                            // 위험도 텍스트랑 텍스트 색 변경
+//                            when (data.) {
+//
+//                            }
+
+
                             // 구성요소
                             when (data.layerType) {
                                 "TOP_SHEET" -> {
@@ -133,7 +139,6 @@ class IngredientDetailActivity : BaseActivity() {
                                     itemView.findViewById<TextView>(R.id.tv_Hcode_info).visibility = View.GONE // H코드 설명 gone
                                 } else {
                                     itemView.findViewById<TextView>(R.id.tv_Hcode).text = hcode.code
-                                    // TODO h코드 위험도 색상 추가 필요
                                     itemView.findViewById<TextView>(R.id.tv_Hcode_info).text = hcode.description
                                 }
 
