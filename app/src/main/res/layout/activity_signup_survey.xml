@@ -341,7 +341,7 @@
                 android:id="@+id/img_circle_addProduct"
                 style="@style/ImageCircle"
                 app:layout_constraintStart_toStartOf="@id/guideline3"
-                app:layout_constraintTop_toBottomOf="@id/radio_answer_priority" />
+                app:layout_constraintTop_toBottomOf="@id/radio_answer_adhesion" />
 
             <TextView
                 android:id="@+id/tv_survey_addProduct"

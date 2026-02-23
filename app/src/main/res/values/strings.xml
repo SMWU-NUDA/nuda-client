@@ -178,6 +178,11 @@
     <string name="component_waterproofLayer">방수층</string>
     <string name="component_adhesive">접착제</string>
     <string name="component_additionalParts">기타</string>
+    <string name="component_coverLayerInfo">피부에 직접 닿는 가장 윗부분으로, 생리혈을 빠르게 흡수체로 통과시키고 피부에는 부드러움과 건조함을 제공하는 역할</string>
+    <string name="component_absorbentCoreInfo">생리혈을 빠르게 흡수해 내부에 저장하고 역류를 방지하여 보송한 착용감을 유지하는 역할</string>
+    <string name="component_waterproofLayerInfo">생리혈이 속옷이나 외부로 새어나가지 않도록 차단해주는 하단 보호층 역할</string>
+    <string name="component_adhesiveInfo">생리대를 속옷에 안정적으로 고정해 활동 중에도 밀리거나 들뜨지 않도록 돕는 역할</string>
+    <string name="component_additionalPartsInfo">향을 더하거나 밀착력을 높여 착용감과 편의성을 보완하는 부가 요소 역할</string>
     <string name="ingredients_all">전체 성분</string>
     <string name="ingredients_caution">주의 성분</string>
     <string name="ingredients_danger">위험 성분</string>
@@ -190,6 +195,7 @@
     <string name="ingredient_info">성분 설명</string>
     <string name="caution">주의 사항</string>
     <string name="component">구성 요소</string>
+
 
     <!--리뷰-->
     <string name="review_analysis">리뷰 AI 분석</string>

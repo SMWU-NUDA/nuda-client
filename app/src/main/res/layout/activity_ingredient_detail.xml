@@ -93,7 +93,7 @@
                 android:layout_height="0.5dp"
                 android:background="@color/gray5"
                 android:layout_marginTop="40dp"
-                android:layout_marginBottom="43dp"
+                android:layout_marginBottom="30dp"
                 />
 
             <!--H코드-->
@@ -108,9 +108,10 @@
                     android:layout_height="18dp"
                     android:src="@drawable/img_circle"
                     app:tint="@color/gray5"
+                    android:layout_marginTop="5dp"
                     />
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="16dp"
@@ -118,23 +119,16 @@
                     <TextView
                         style="@style/TextIngredient_detail_title"
                         android:text="@string/Hcode"
-                        android:layout_marginBottom="12dp"
                         />
-                    <!--H코드-->
-                    <TextView
-                        android:id="@+id/tv_Hcode"
-                        style="@style/TextIngredient_detail_info"
-                        android:text="H351(위험)"
-                        android:textColor="@color/riskLevel_red"
-                        />
-                    <!--H코드 설명-->
-                    <TextView
-                        android:id="@+id/tv_Hcode_info"
-                        style="@style/TextIngredient_detail_info"
-                        android:text="발암 의심 물질 (Suspected of causing cancer)"
-                        android:layout_marginTop="8dp"
-                        android:visibility="visible"
-                        />
+
+                    <!--H코드 목록-->
+                    <LinearLayout
+                        android:id="@+id/ll_hcode_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -151,6 +145,7 @@
                     android:layout_height="18dp"
                     android:src="@drawable/img_circle"
                     app:tint="@color/gray5"
+                    android:layout_marginTop="5dp"
                     />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -176,6 +171,7 @@
 
             <!--주의 사항-->
             <LinearLayout
+                android:id="@+id/ll_caution"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -187,6 +183,7 @@
                     android:layout_height="18dp"
                     android:src="@drawable/img_circle"
                     app:tint="@color/gray5"
+                    android:layout_marginTop="5dp"
                     />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -221,6 +218,7 @@
                     android:layout_height="18dp"
                     android:src="@drawable/img_circle"
                     app:tint="@color/gray5"
+                    android:layout_marginTop="5dp"
                     />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -247,7 +245,7 @@
                     <TextView
                         android:id="@+id/tv_component_info"
                         style="@style/TextIngredient_detail_info"
-                        android:text="피부에 직접 닿는 가장 윗부분으로, 생리혈을 빠르게 흡수체로 통과시키고 피부에는 부드러움과 건조함을 제공하는 역할"
+                        android:text="@string/component_coverLayerInfo"
                         android:visibility="visible"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="30dp"

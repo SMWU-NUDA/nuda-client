@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="12dp">
+    <!--H코드-->
+    <TextView
+        android:id="@+id/tv_Hcode"
+        style="@style/TextIngredient_detail_info"
+        android:text="H351(위험)"
+        android:textColor="@color/riskLevel_mint"
+        />
+    <!--H코드 설명-->
+    <TextView
+        android:id="@+id/tv_Hcode_info"
+        style="@style/TextIngredient_detail_info"
+        android:text="발암 의심 물질 (Suspected of causing cancer)"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        />
+</LinearLayout>

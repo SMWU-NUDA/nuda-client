@@ -1,14 +1,18 @@
 package com.nuda.nudaclient.presentation.ingredient
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.ingredientsService
+import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetAllResponse
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetSummaryResponse
 import com.nuda.nudaclient.databinding.ActivityIngredientComponentBinding
+import com.nuda.nudaclient.databinding.ActivityIngredientDetailBinding
 import com.nuda.nudaclient.databinding.ActivityReviewAllBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
@@ -52,7 +56,7 @@ class IngredientComponentActivity : BaseActivity() {
         loadIngredientInfo() // 구성 성분 정보 로드
         setFilterButton() // 필터링 버튼 설정
         
-//        loadIngredientItems() // 성분 아이템 목록 로드
+        loadIngredientItems("ALL") // 전성분 아이템 목록 로드
 
     }
 
@@ -117,13 +121,45 @@ class IngredientComponentActivity : BaseActivity() {
     }
 
     // 성분 아이템 목록 로드
-    private fun loadIngredientItems(sortType: String) {
+    private fun loadIngredientItems(filter: String) {
         // 어댑터 연결 및 API 연동
+        ingredientsService.getAllIngredients(
+            productId = productId,
+            filter = filter
+        ).executeWithHandler(
+            context = this,
+            onSuccess = { body ->
+                if (body.success == true) {
+                    body.data?.let { data ->
+                        binding.tvTotalCount.text = "${data.totalCount.toString()}개"
+                        setupIngredientAdapter(data.ingredients)
+                    }
+                }
+            }
+        )
+    }
+
+    // 성분 목록 어댑터 설정
+    private fun setupIngredientAdapter(ingredientList: List<IngredientsGetAllResponse.Ingredient>) {
+        // 어댑터 설정
+        ingredientAdapter = IngredientItemAdapter(
+            ingredientList = ingredientList,
+            onItemClick = { ingredientId -> // 성분 아이템 클릭 이벤트 설정
+                // 성분 상세페이지로 이동, ingredientId 전달
+                val intent = Intent(this, IngredientDetailActivity::class.java)
+                intent.putExtra("INGREDIENT_ID", ingredientId)
+                startActivity(intent)
+            })
+        binding.rvIngredientList.apply {
+            adapter = ingredientAdapter // 리사이클러뷰에 어댑터 연결
+            layoutManager = LinearLayoutManager(this@IngredientComponentActivity)
+        }
     }
 
     // 필터링 버튼 클릭 이벤트 -> BottomSheetDialog 프래그먼트 호출
     private fun setFilterButton() {
         val BtnFilter = binding.btnFilter
+        val tvFilter = binding.tvIngredientFilter
 
         BtnFilter.setOnClickListener {
             SortBottomSheet.newInstance(
@@ -135,25 +171,30 @@ class IngredientComponentActivity : BaseActivity() {
                     "DEFAULT" -> {
                         selectedSortTypeIdx = 0
                         BtnFilter.text = "전성분"
-                        loadIngredientItems("default")
+                        tvFilter.text = "전성분"
+                        loadIngredientItems("ALL")
                     }
                     "WARN" -> {
                         selectedSortTypeIdx = 1
                         BtnFilter.text = "주의 성분"
-                        loadIngredientItems("warn") }
+                        tvFilter.text = "주의 성분"
+                        loadIngredientItems("WARN") }
                     "DANGER" -> {
                         selectedSortTypeIdx = 2
                         BtnFilter.text = "위험 성분"
-                        loadIngredientItems("danger") }
+                        tvFilter.text = "위험 성분"
+                        loadIngredientItems("DANGER") }
                     "HIGHLIGHT" -> {
                         selectedSortTypeIdx = 3
                         BtnFilter.text = "관심 성분"
-                        loadIngredientItems("highlight")
+                        tvFilter.text = "관심 성분"
+                        loadIngredientItems("INTEREST")
                     }
                     "AVOID" -> {
                         selectedSortTypeIdx = 4
                         BtnFilter.text = "피할 성분"
-                        loadIngredientItems("avoid")
+                        tvFilter.text = "피할 성분"
+                        loadIngredientItems("AVOID")
                     }
                 }
             }.show(supportFragmentManager, "SortBottomSheet")

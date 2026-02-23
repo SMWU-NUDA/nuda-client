@@ -3,6 +3,7 @@ package com.nuda.nudaclient.data.remote.api
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsCreateLikeResponse
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetAllResponse
+import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetDetailResponse
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetSummaryResponse
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetWishlistResponse
 import retrofit2.Call
@@ -14,7 +15,8 @@ import retrofit2.http.Query
 interface IngredientsService {
 
     // GET /ingredients/{ingredientId} : 성분 상세 조회
-//    @GET("ingredients/{ingredientId}")
+    @GET("ingredients/{ingredientId}")
+    fun getIngredientDetail(@Query("ingredientId") ingredientId: Int) : Call<ApiResponse<IngredientsGetDetailResponse>>
 
     // GET /ingredients/search?ingredient={ingredient} : 성분 검색
 //    @GET("ingredients/search")
@@ -37,6 +39,6 @@ interface IngredientsService {
 
     // GET products/{productId}/ingredients : 상품 성분 전성분
     @GET("products/{productId}/ingredients")
-    fun getAllIngredients(@Path("productId") productId: Int) : Call<ApiResponse<IngredientsGetAllResponse>>
+    fun getAllIngredients(@Path("productId") productId: Int, @Query("filter") filter: String) : Call<ApiResponse<IngredientsGetAllResponse>>
 
 }

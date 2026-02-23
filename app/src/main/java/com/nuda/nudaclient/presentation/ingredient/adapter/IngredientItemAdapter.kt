@@ -2,6 +2,7 @@ package com.nuda.nudaclient.presentation.ingredient.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetAllResponse
@@ -60,11 +61,20 @@ class IngredientItemAdapter(
                 "DANGER" -> R.color.riskLevel_red
                 else -> R.color.gray4
             }
-            binding.ivRiskLevel.setColorFilter(color)
+            binding.ivRiskLevel.setColorFilter(ContextCompat.getColor(binding.root.context, color))
 
-            // 성분 이름, 구성 요소 반영
+            // 성분 이름
             binding.tvIngredientName.text = ingredientItem.name
-            binding.tvComponent.text = ingredientItem.layerType
+
+            // 구성 요소
+            binding.tvComponent.text = when (ingredientItem.layerType) {
+                "TOP_SHEET" -> "표지"
+                "ABSORBER" -> "흡수체"
+                "BACK_SHEET" -> "방수층"
+                "ADHESIVE" -> "접착제"
+                "ADDITIVE" -> "기타"
+                else -> "UNKNOWN"
+            }
         }
     }
 }
