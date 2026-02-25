@@ -352,6 +352,7 @@ class SignupSurveyActivity : AppCompatActivity() {
                         // 로그인 페이지로 이동 (LoginActivity)
                         val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
+                        finish()
                         // 모든 회원가입 액티비티 종료
                     } else {
                         CustomToast.show(binding.root, body.message)

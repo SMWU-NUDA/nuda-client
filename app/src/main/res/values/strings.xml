@@ -224,7 +224,9 @@
     <!--장바구니, 결제-->
     <string name="shoppingCart">장바구니</string>
     <string name="instantPurchase">바로 구매</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_all">전체 선택</string>
+    <string name="delete_selected">선택 삭제</string>
+    <string name="cart_text1">총</string>
+    <string name="cart_text2">개 상품</string>
 
 </resources>

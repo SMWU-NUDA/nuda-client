@@ -419,7 +419,7 @@ class ProductDetailActivity : BaseActivity() {
         // 브랜드 찜하기 설정
         val btnBrandLike = binding.ivBrandLike
         btnBrandLike.setOnClickListener {
-            productsService.createBrandLike(1) // brandId 임시 데이터. 이후 수정
+            productsService.createBrandLike(brandId) // brandId 임시 데이터. 이후 수정
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->

@@ -6,7 +6,7 @@ data class IngredientsGetDetailResponse(
     val riskLevel: String,
     val layerType: String,
     val description: String,
-    val preference: Boolean,
+    val preference: Boolean?,
     val caution: String?,
     val hcodes: List<Hcode>
 ) {

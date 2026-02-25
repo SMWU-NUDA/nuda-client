@@ -62,6 +62,16 @@ class IngredientDetailActivity : BaseActivity() {
         setToolbarShadow(false) // 그림자 숨김
     }
 
+    // 버튼 상태 초기화 함수
+    private fun resetButtons() {
+        // 버튼 선택 상태 초기화
+        binding.btnHighlight.isSelected = false
+        binding.btnAvoid.isSelected = false
+        // 폰트 초기화
+        binding.btnHighlight.typeface = typefaceUnclicked
+        binding.btnAvoid.typeface = typefaceUnclicked
+    }
+
     // 성분 상세 정보 로드
     private fun loadIngredientInfo() {
         ingredientsService.getIngredientDetail(ingredientId)
@@ -95,7 +105,6 @@ class IngredientDetailActivity : BaseActivity() {
                                     binding.tvRiskLevel.setTextColor(ContextCompat.getColor(this, R.color.gray4))
                                 }
                             }
-
 
                             // 구성요소
                             when (data.layerType) {
@@ -180,16 +189,6 @@ class IngredientDetailActivity : BaseActivity() {
             )
     }
 
-
-    // 버튼 상태 초기화 함수
-    private fun resetButtons() {
-        // 버튼 선택 상태 초기화
-        binding.btnHighlight.isSelected = false
-        binding.btnAvoid.isSelected = false
-        // 폰트 초기화
-        binding.btnHighlight.typeface = typefaceUnclicked
-        binding.btnAvoid.typeface = typefaceUnclicked
-    }
 
     // 성분 즐겨찾기 버튼 설정
     private fun setIngredientWishButtons() {

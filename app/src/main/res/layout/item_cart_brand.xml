@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--브랜드 선택 체크박스-->
+    <CheckBox
+        android:id="@+id/cb_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/btn_check_box"
+        app:buttonTint="@null"
+        android:padding="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!--브랜드명-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="쏘피"
+        android:fontFamily="@font/pretendard_medium"
+        android:textSize="17sp"
+        android:textColor="@color/gray1"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintStart_toEndOf="@id/cb_product"
+        app:layout_constraintTop_toTopOf="@id/cb_product"
+        app:layout_constraintBottom_toBottomOf="@id/cb_product"
+        />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray4"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cb_product"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

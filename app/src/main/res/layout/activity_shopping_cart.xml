@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.shopping.ShoppingCartActivity">
+
+    <!--툴바 배치-->
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <!--전체 선택-->
+    <CheckBox
+        android:id="@+id/cb_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/btn_check_box"
+        app:buttonTint="@null"
+        android:padding="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_all"
+        android:fontFamily="@font/pretendard_light"
+        android:textSize="14sp"
+        android:textColor="@color/gray3"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="@id/cb_all"
+        app:layout_constraintStart_toEndOf="@id/cb_all"
+        app:layout_constraintBottom_toBottomOf="@id/cb_all"
+        />
+
+    <!--선택 삭제-->
+    <TextView
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_selected"
+        android:background="@drawable/btn_secondary"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="12dp"
+        app:layout_constraintTop_toTopOf="@id/cb_all"
+        app:layout_constraintBottom_toBottomOf="@id/cb_all"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        />
+    
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="13dp"
+        android:background="@color/gray5"
+        app:layout_constraintTop_toBottomOf="@id/cb_all"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <!--장바구니 상품 리사이클러뷰-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_cartItems"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintBottom_toTopOf="@id/constraint_bottomBar"
+        />
+
+
+    <!--하단 바-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <!--툴바 하단 그림자-->
+        <View
+            android:id="@+id/bottom_bar_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/shadow_bottom_nav"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_bottom_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/bottom_bar_shadow"
+            app:layout_constraintStart_toStartOf="@id/guideline_start2"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cart_text1"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="16sp"
+                android:textColor="@color/gray2"
+                />
+
+            <TextView
+                android:id="@+id/tv_total_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/gray2"
+                android:layout_marginLeft="3dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cart_text2"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="16sp"
+                android:textColor="@color/gray2"
+                />
+        </LinearLayout>
+
+        <!--주문하기 버튼-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_order"
+            style="@style/BtnPrimaryCart"
+            android:text="6,500원 주문하기"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="25dp"
+            app:layout_constraintTop_toBottomOf="@id/ll_bottom_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline_start2"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end2"
+            />
+
+
+        <!--가이드라인-->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--가이드라인-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
