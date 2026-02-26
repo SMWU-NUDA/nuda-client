@@ -30,6 +30,11 @@ open class BaseActivity : AppCompatActivity() {
         finish() // 기본 동작
     }
 
+    // 뒤로가기 버튼 표시/숨김 설정
+    fun setToolbarBackBtn(isVisible: Boolean) {
+        findViewById<ImageView>(R.id.iv_back).visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
     // 툴바 그림자 표시/숨김 설정
     fun setToolbarShadow(isVisible: Boolean) {
         findViewById<View>(R.id.toolbar_shadow).visibility = if (isVisible) View.VISIBLE else View.GONE

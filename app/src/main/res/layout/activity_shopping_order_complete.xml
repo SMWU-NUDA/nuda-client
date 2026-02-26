@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.shopping.ShoppingOrderCompleteActivity">
+
+    <!--툴바 배치-->
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_order_finish"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/order_complete"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="20sp"
+                android:textColor="@color/gray1"
+                android:layout_marginTop="24dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/order_number_1"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="18sp"
+                android:textColor="@color/gray2"
+                android:layout_marginTop="8dp"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                >
+                <!--주문 번호-->
+                <TextView
+                    android:id="@+id/tv_order_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="2025112314523"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textSize="18sp"
+                    android:textColor="@color/riskLevel_red"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/order_number_2"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textSize="18sp"
+                    android:textColor="@color/gray2"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="68dp"
+                android:background="@color/gray1"
+                />
+
+            <!--주문 상품 목록 리사이클러뷰-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_order_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_order_product"
+                tools:itemCount="2"
+                />
+
+            <!--총 가격-->
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="10,450원"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="16sp"
+                android:textColor="@color/gray1"
+                android:layout_marginTop="14dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/gray1"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_info"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="20sp"
+                android:textColor="@color/gray1"
+                android:layout_marginTop="23dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="13dp"
+                android:background="@color/gray5"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                >
+                <!--수령인-->
+                <TextView
+                    android:id="@+id/tv_title_name"
+                    style="@style/TextOrder_delivery_title"
+                    android:text="@string/order_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+                <TextView
+                    android:id="@+id/tv_name"
+                    style="@style/TextOrder_delivery_info"
+                    android:text="눈송이"
+                    app:layout_constraintStart_toStartOf="@id/guideline_vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <!--휴대폰번호-->
+                <TextView
+                    android:id="@+id/tv_title_phone"
+                    style="@style/TextOrder_delivery_title"
+                    android:text="@string/order_phone"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title_name"
+                    />
+                <TextView
+                    android:id="@+id/tv_phone"
+                    style="@style/TextOrder_delivery_info"
+                    android:text="010-4856-3617"
+                    app:layout_constraintStart_toStartOf="@id/guideline_vertical"
+                    app:layout_constraintTop_toTopOf="@id/tv_title_phone"
+                    />
+
+                <!--주소-->
+                <TextView
+                    android:id="@+id/tv_title_address"
+                    style="@style/TextOrder_delivery_title"
+                    android:text="@string/order_address"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title_phone"
+                    />
+                <TextView
+                    android:id="@+id/tv_address"
+                    style="@style/TextOrder_delivery_info"
+                    android:layout_width="0dp"
+                    android:text="서울특별시 용산구 청파로47길 100 (04310)"
+                    app:layout_constraintStart_toStartOf="@id/guideline_vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_title_address"
+                    />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.3"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_go_to_home"
+                android:layout_width="wrap_content"
+                style="@style/BtnPrimary"
+                android:text="@string/go_to_home"
+                android:layout_marginTop="38dp"
+                android:layout_marginBottom="50dp"
+                android:paddingHorizontal="70dp"
+                android:layout_gravity="center_horizontal"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <!--가이드라인-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

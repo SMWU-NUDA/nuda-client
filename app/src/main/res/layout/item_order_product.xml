@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--상품 이미지-->
+    <ImageView
+        android:id="@+id/iv_product"
+        android:layout_width="77dp"
+        android:layout_height="77dp"
+        android:src="@drawable/image_product2"
+        android:background="@drawable/bg_image_radius_5"
+        android:clipToOutline="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!--브랜드-->
+    <TextView
+        android:id="@+id/tv_brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="쏘피"
+        android:fontFamily="@font/pretendard_regular"
+        android:textSize="16sp"
+        android:textColor="@color/gray3"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintStart_toEndOf="@id/iv_product"
+        app:layout_constraintTop_toTopOf="@id/iv_product"
+        />
+
+    <!--상품 이름-->
+    <TextView
+        android:id="@+id/tv_productName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="유기농 100% 순면 생리대"
+        android:fontFamily="@font/pretendard_medium"
+        android:textSize="16sp"
+        android:textColor="@color/gray1"
+        android:layout_marginTop="3dp"
+        app:layout_constraintStart_toStartOf="@id/tv_brand"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_brand"
+        />
+
+    <!--상품 개수-->
+    <TextView
+        android:id="@+id/tv_productCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2개"
+        android:fontFamily="@font/pretendard_light"
+        android:textSize="14sp"
+        android:textColor="@color/gray3"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/tv_brand"
+        app:layout_constraintTop_toBottomOf="@id/tv_productName"
+        />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray5"
+        android:layout_marginTop="42dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_productCount"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

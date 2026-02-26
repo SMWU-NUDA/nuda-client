@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toBottomOf="@id/cb_all"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         />
-    
+
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"

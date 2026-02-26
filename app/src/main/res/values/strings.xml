@@ -228,5 +228,13 @@
     <string name="delete_selected">선택 삭제</string>
     <string name="cart_text1">총</string>
     <string name="cart_text2">개 상품</string>
+    <string name="order_complete">결제가 완료되었습니다</string>
+    <string name="order_number_1">주문하신 상품의 주문번호는</string>
+    <string name="order_number_2">입니다</string>
+    <string name="order_info">배송 정보</string>
+    <string name="order_name">수령인</string>
+    <string name="order_phone">휴대폰번호</string>
+    <string name="order_address">주소</string>
+    <string name="go_to_home">홈으로 이동</string>
 
 </resources>
