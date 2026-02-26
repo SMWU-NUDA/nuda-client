@@ -6,7 +6,7 @@
 
     <!--브랜드 선택 체크박스-->
     <CheckBox
-        android:id="@+id/cb_product"
+        android:id="@+id/cb_brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:button="@drawable/btn_check_box"
@@ -20,6 +20,7 @@
 
     <!--브랜드명-->
     <TextView
+        android:id="@+id/tv_brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="쏘피"
@@ -27,9 +28,9 @@
         android:textSize="17sp"
         android:textColor="@color/gray1"
         android:layout_marginLeft="8dp"
-        app:layout_constraintStart_toEndOf="@id/cb_product"
-        app:layout_constraintTop_toTopOf="@id/cb_product"
-        app:layout_constraintBottom_toBottomOf="@id/cb_product"
+        app:layout_constraintStart_toEndOf="@id/cb_brand"
+        app:layout_constraintTop_toTopOf="@id/cb_brand"
+        app:layout_constraintBottom_toBottomOf="@id/cb_brand"
         />
 
     <View
@@ -40,7 +41,7 @@
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cb_product"
+        app:layout_constraintTop_toBottomOf="@id/cb_brand"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
