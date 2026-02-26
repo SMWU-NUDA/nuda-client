@@ -16,6 +16,9 @@
         android:theme="@style/Theme.NudaClient"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.shopping.ShoppingOrderHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.shopping.ShoppingOrderCompleteActivity"
             android:exported="false" />
         <activity
