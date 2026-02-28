@@ -12,6 +12,7 @@ import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
 import com.nuda.nudaclient.databinding.ActivityMypageMyreviewBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
+import com.nuda.nudaclient.extensions.setInfiniteScrollListener
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.mypage.adapter.MypageMyReviewAdapter
 import com.nuda.nudaclient.utils.CustomToast
@@ -74,29 +75,36 @@ class MypageMyReviewActivity : BaseActivity() {
 
     // 스크롤 리스너 설정
     private fun setScrollListner() {
-        // addOnScrollListener: 사용자가 스크롤할 때마다 자동으로 알려줌
-        binding.rvMyreview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            // onScrolled(): 스크롤이 발생하면 자동 호출되는 함수
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                // 1. 레이아웃 메니저 가져오기
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-
-                // 2. 현재 화면에 보이는 마지막 아이템 위치
-                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-
-                // 3. 전체 아이템 개수
-                val totalItemCount = layoutManager.itemCount
-
-                // 4. 끝에 가까워졌는지 체크
-                if (!isLoading && // 로딩 중이 아니고
-                    currenCursor != null && // 다음 페이지가 있고
-                    lastVisiblePosition >= totalItemCount - 3) { // 끝에서 3개 전이면
-
-                    loadReviews() // 다음 페이지 로드
-                }
+        binding.rvMyreview.setInfiniteScrollListener {
+            if (!isLoading // 로딩 중이 아니고
+                && currenCursor != null) { // 다음 페이지가 있으면
+                loadReviews() // 다음 페이지 로드
             }
-        })
+        }
+
+    // addOnScrollListener: 사용자가 스크롤할 때마다 자동으로 알려줌
+//        binding.rvMyreview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            // onScrolled(): 스크롤이 발생하면 자동 호출되는 함수
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                // 1. 레이아웃 메니저 가져오기
+//                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+//
+//                // 2. 현재 화면에 보이는 마지막 아이템 위치
+//                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+//
+//                // 3. 전체 아이템 개수
+//                val totalItemCount = layoutManager.itemCount
+//
+//                // 4. 끝에 가까워졌는지 체크
+//                if (!isLoading && // 로딩 중이 아니고
+//                    currenCursor != null && // 다음 페이지가 있고
+//                    lastVisiblePosition >= totalItemCount - 3) { // 끝에서 3개 전이면
+//
+//                    loadReviews() // 다음 페이지 로드
+//                }
+//            }
+//        })
     }
 
     // 리뷰 삭제 (API 호출)

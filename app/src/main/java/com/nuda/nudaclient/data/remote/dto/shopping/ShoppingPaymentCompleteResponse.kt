@@ -20,7 +20,7 @@ data class ShoppingPaymentCompleteResponse(
     ) {
         data class Product(
             val productId: Int,
-            val thumbnailImg: String,
+            val thumbnailImg: String?,
             val productName: String,
             val quantity: Int,
             val price: Int,

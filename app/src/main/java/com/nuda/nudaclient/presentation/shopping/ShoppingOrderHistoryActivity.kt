@@ -11,6 +11,11 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 
 class ShoppingOrderHistoryActivity : BaseActivity() {
 
+    // TODO 어댑터 설정
+    // TODO 리사이클러뷰 설정 및 어댑터 연결
+    // TODO 나의 주문 목록 조회 API 연동
+
+
     private lateinit var binding: ActivityShoppingOrderHistoryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

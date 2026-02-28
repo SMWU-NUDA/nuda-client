@@ -61,7 +61,7 @@ interface ShoppingService {
 
     // GET /orders : 나의 주문 목록 조회
     @GET("orders")
-    fun getOrderHistory(@Query("cursor") cursor: Int, @Query("size") size: Int) : Call<ApiResponse<ShoppingGetOrderHistoryResponse>>
+    fun getOrderHistory(@Query("cursor") cursor: Int?, @Query("size") size: Int = 20) : Call<ApiResponse<ShoppingGetOrderHistoryResponse>>
 
     /**
      * 결제 API
