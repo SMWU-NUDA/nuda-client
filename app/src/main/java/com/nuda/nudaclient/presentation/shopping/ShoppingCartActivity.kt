@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
 import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingChangeQuantityRequest
+import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingDeleteSelectedCartItemRequest
 import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingGetCartItemsResponse
 import com.nuda.nudaclient.databinding.ActivityShoppingCartBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
@@ -18,8 +19,10 @@ import com.nuda.nudaclient.presentation.shopping.adapter.CartAdapter
 
 class ShoppingCartActivity : BaseActivity() {
 
-    // TODO 전체 선택 체크박스 설정
-    // TODO 선택 삭제 및 전체 삭제 설정
+    // TODO 전체 선택 체크박스 설정 .
+    // TODO 선택 삭제 및 전체 삭제 설정 .
+    // TODO 장바구니 화면 이동 연결
+    // TODO 장바구니 상품 추가
 
     private lateinit var binding: ActivityShoppingCartBinding
     private lateinit var cartAdapter: CartAdapter
@@ -46,6 +49,8 @@ class ShoppingCartActivity : BaseActivity() {
         setupRecyclerView() // 리사이클러뷰 설정
         loadCartItems() // 장바구니 데이터 로드
 
+        updateAllCheck() // 전체 선택 설정
+        setupDeleteButton() // 삭제 버튼 설정
 
     }
 
@@ -123,7 +128,7 @@ class ShoppingCartActivity : BaseActivity() {
         return convertData
     }
 
-    // 상품 체크박스 클릭 시 처리
+    // 상품 체크 박스 클릭 시 처리
     private fun updateProductCheck(position: Int, isChecked: Boolean) {
         // 1. 클릭한 상품의 isChecked 상태 업데이트
         val product = cartItems[position] as CartItem.Product // Product 타입으로 강제 변환
@@ -175,6 +180,23 @@ class ShoppingCartActivity : BaseActivity() {
         updateTotalPrice() // 총 가격 업데이트
     }
 
+    // 전체 선택 체크 박스 클릭 시 처리
+    private fun updateAllCheck() {
+        binding.cbAll.setOnCheckedChangeListener { _, isChecked ->
+            cartItems.forEachIndexed { index, item ->
+                // 체크 상태 업데이트
+                when (item) {
+                    is CartItem.BrandHeader -> item.isChecked = isChecked
+                    is CartItem.Product -> item.isChecked = isChecked
+                }
+                cartAdapter.notifyItemChanged(index)
+            }
+
+            updateTotalQuantity() // 총 상품 개수 업데이트
+            updateTotalPrice() // 총 가격 업데이트
+        }
+    }
+
     // 총 가격 업데이트
     private fun updateTotalPrice() {
         var totalPrice = cartItems
@@ -200,6 +222,7 @@ class ShoppingCartActivity : BaseActivity() {
 
         binding.tvTotalCount.text = totalQuantity.toString() // 총 상품 개수 업데이트
     }
+
     // 상품 수량 변경
     private fun changeQuantity(cartItemId: Int, delta: Int) {
         shoppingService.changeQuantity(cartItemId, ShoppingChangeQuantityRequest(delta))
@@ -257,4 +280,61 @@ class ShoppingCartActivity : BaseActivity() {
 
     }
 
+    // 선택 삭제 버튼 설정 (선택 삭제, 전체 삭제)
+    private fun setupDeleteButton() {
+        binding.btnDelete.setOnClickListener {
+            if (binding.cbAll.isChecked) { // 전체 선택 체크박스 선택된 상태일 때 -> 전체 삭제 API 호출
+                shoppingService.deleteAllCartItems()
+                    .executeWithHandler(
+                        context = this,
+                        onSuccess = { body ->
+                            if (body.success == true) {
+                                cartItems.clear() // 장바구니 아이템 리스트 초기화
+                                cartAdapter.notifyDataSetChanged() // 리스트 전체 갱신
+                                updateTotalQuantity() // 총 상품 개수 업데이트
+                                updateTotalPrice() // 총 가격 업데이트
+                            }
+                        }
+                    )
+            } else { // 일부 선택 상태일 때 -> 선택 삭제 API 호출
+                // 선택된 상품들의 cartItemId 리스트
+                val cartItemIds = cartItems.filterIsInstance<CartItem.Product>()
+                    .filter { it.isChecked }
+                    .map { it.cartItemId } // cartItemId만 뽑아서 리스트로 만듦
+
+                // 전체 선택된 브랜드의 brandId 리스트
+                val brandIds = cartItems.filterIsInstance<CartItem.BrandHeader>()
+                    .filter { it.isChecked } // 모든 상품이 체크되면 브랜드 헤더도 체크
+                    .map { it.brandId } // brandId만 뽑아서 리스트로 만듦
+
+                // 선택 삭제 API 호출
+                shoppingService.deleteSelectedCartitems(
+                    ShoppingDeleteSelectedCartItemRequest(cartItemIds))
+                    .executeWithHandler(
+                        context = this,
+                        onSuccess = { body ->
+                            if (body.success == true) {
+                                // 선택된 상품과 브랜드 UI 삭제
+                                cartItems.forEachIndexed { index, item ->
+                                    // 선택된 상품 삭제
+                                    if (item is CartItem.Product && item.cartItemId in cartItemIds) {
+                                        cartItems.removeAt(index) // 상품 삭제
+                                        cartAdapter.notifyItemRemoved(index)
+                                    }
+                                    // 전체 선택된 브랜드 삭제
+                                    if (item is CartItem.BrandHeader && item.brandId in brandIds) {
+                                        cartItems.removeAt(index)
+                                        cartAdapter.notifyItemChanged(index)
+                                    }
+                                }
+
+                                updateTotalQuantity() // 총 상품 개수 업데이트
+                                updateTotalPrice() // 총 가격 업데이트
+                            }
+                        }
+                    )
+            }
+
+        }
+    }
 }
