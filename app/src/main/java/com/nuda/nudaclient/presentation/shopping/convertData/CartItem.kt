@@ -1,4 +1,4 @@
-package com.nuda.nudaclient.presentation.shopping
+package com.nuda.nudaclient.presentation.shopping.convertData
 
 sealed class CartItem {
     // 브랜드 헤더 데이터

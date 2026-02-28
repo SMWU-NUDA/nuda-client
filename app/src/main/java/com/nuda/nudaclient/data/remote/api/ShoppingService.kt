@@ -38,7 +38,6 @@ interface ShoppingService {
     @PATCH("carts/items/{cartItemId}")
     fun changeQuantity(@Path("cartItemId") cartItemId: Int, @Body request: ShoppingChangeQuantityRequest) : Call<ApiResponse<ShoppingCartBaseResponse>>
 
-
     // DELETE /carts/items : 선택 상품 삭제
     // DELETE에 BODY 못 넘기므로 HTTP로 설정 후 Body 가질 수 있도록 설정
     @HTTP(method = "DELETE", path = "carts/items", hasBody = true)

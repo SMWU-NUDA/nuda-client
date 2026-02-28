@@ -4,26 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
-import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingGetCartItemsResponse
 import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingPaymentCompleteResponse
 import com.nuda.nudaclient.databinding.ActivityShoppingOrderCompleteBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.navigation.NavigationActivity
 import com.nuda.nudaclient.presentation.shopping.adapter.OrderAdapter
+import com.nuda.nudaclient.presentation.shopping.convertData.OrderProduct
 
 class ShoppingOrderCompleteActivity : BaseActivity() {
     // 결제 완료 화면으로 이동할 때 Intent에 paymentId 담아서 전달 필요 !!!
-
-    // TODO 주문 상품 목록 어댑터 설정
-    // TODO 주문 상품 목록 리사이클러뷰 설정
-    // TODO 홈으로 이동 버튼 설정 (finish)
 
     private lateinit var binding: ActivityShoppingOrderCompleteBinding
     private lateinit var orderAdapter: OrderAdapter
@@ -114,15 +109,17 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
         data.brands.forEach { brand ->
             // 상품 아이템 1차원 리스트로 변환
             brand.products.forEach { product ->
-                convertData.add(OrderProduct(
-                    brand.brandId,
-                    brand.brandName,
-                    product.productId,
-                    product.productName,
-                    product.quantity,
-                    product.price,
-                    product.totalPrice
-                ))
+                convertData.add(
+                    OrderProduct(
+                        brand.brandId,
+                        brand.brandName,
+                        product.productId,
+                        product.productName,
+                        product.quantity,
+                        product.price,
+                        product.totalPrice
+                    )
+                )
             }
         }
         return convertData

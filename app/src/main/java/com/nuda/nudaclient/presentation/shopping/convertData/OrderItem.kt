@@ -1,4 +1,4 @@
-package com.nuda.nudaclient.presentation.shopping
+package com.nuda.nudaclient.presentation.shopping.convertData
 
 data class OrderProduct (
     val brandId: Int,

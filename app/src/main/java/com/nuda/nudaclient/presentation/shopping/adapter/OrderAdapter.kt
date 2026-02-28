@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nuda.nudaclient.databinding.ItemOrderProductBinding
 import com.nuda.nudaclient.extensions.toFormattedPrice
-import com.nuda.nudaclient.presentation.shopping.OrderProduct
+import com.nuda.nudaclient.presentation.shopping.convertData.OrderProduct
 
 class OrderAdapter(
     private val items: MutableList<OrderProduct>

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nuda.nudaclient.databinding.ItemCartBrandHeaderBinding
 import com.nuda.nudaclient.databinding.ItemCartProductBinding
 import com.nuda.nudaclient.extensions.toFormattedPrice
-import com.nuda.nudaclient.presentation.shopping.CartItem
+import com.nuda.nudaclient.presentation.shopping.convertData.CartItem
 
 class CartAdapter(
     // 체크/수량/삭제 이벤트를 Activity로 올려보내는 콜백들

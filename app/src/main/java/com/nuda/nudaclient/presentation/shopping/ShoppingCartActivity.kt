@@ -19,6 +19,7 @@ import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.toFormattedPrice
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.shopping.adapter.CartAdapter
+import com.nuda.nudaclient.presentation.shopping.convertData.CartItem
 
 class ShoppingCartActivity : BaseActivity() {
 
@@ -114,13 +115,15 @@ class ShoppingCartActivity : BaseActivity() {
         val convertData = mutableListOf<CartItem>()
         data.brands.forEach { brand ->
             // 브랜드 헤더 먼저 추가
-            convertData.add(CartItem.BrandHeader(
+            convertData.add(
+                CartItem.BrandHeader(
                 brand.brandId,
                 brand.brandName
             ))
             // 해당 브랜드의 상품 아이템 추가
             brand.products.forEach { product ->
-                convertData.add(CartItem.Product(
+                convertData.add(
+                    CartItem.Product(
                     product.cartItemId,
                     brand.brandId,
                     brand.brandName,
@@ -262,19 +265,31 @@ class ShoppingCartActivity : BaseActivity() {
                     if (body.success == true) {
                         body.data?.let { data ->
                             if (data.quantity == 0) { // 수량이 0이면
-                                deleteCartItem(cartItemId) // 해당 상품 삭제
+                                // 서버에서 상품 데이터 삭제 완료, UI만 제거
+                                val brandId = (cartItems.find {
+                                    it is CartItem.Product && it.cartItemId == cartItemId
+                                } as CartItem.Product).brandId
+                                cartItems.removeIf { it is CartItem.Product && it.cartItemId == cartItemId }
+
+                                // 브랜드 내 상품 전부 삭제이면 브랜드 헤더 또한 삭제
+                                val hasProduct = cartItems.any { it is CartItem.Product && it.brandId == brandId }
+                                if (!hasProduct) {
+                                    cartItems.removeIf { it is CartItem.BrandHeader && it.brandId == brandId }
+                                }
+                                
+                                cartAdapter.notifyDataSetChanged() // 리스트 전체 갱신
                             } else {
                                 // 수량 변경한 상품 찾기
                                 val product = cartItems.find { it is CartItem.Product && it.cartItemId == cartItemId } as CartItem.Product
                                 product.quantity = data.quantity // 수량 업데이트
-                                product.totalPrice = product.price * data.quantity // 상품 가격 업데이트
+                                product.totalPrice = data.totalPrice // 상품 가격 업데이트
                                 val productPosition = cartItems.indexOf(product) // position 찾기
                                 cartAdapter.notifyItemChanged(productPosition) // 변경 감지 리스너
-
-                                updateTotalQuantity() // 총 상품 개수 업데이트
-                                updateTotalPrice() // 총 가격 업데이트
-                                syncAllCheckState() // 전체 선택 체크 상태 동기화
                             }
+
+                            updateTotalQuantity() // 총 상품 개수 업데이트
+                            updateTotalPrice() // 총 가격 업데이트
+                            syncAllCheckState() // 전체 선택 체크 상태 동기화
                         }
                     }
                 }
