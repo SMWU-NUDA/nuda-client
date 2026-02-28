@@ -110,7 +110,7 @@ class CartAdapter(
             binding.tvBrand.text = productItem.brandName
             binding.tvProductName.text = productItem.productName
             binding.tvProductCount.text = productItem.quantity.toString()
-            binding.tvPrice.text = productItem.price.toFormattedPrice() // 가격 포맷
+            binding.tvPrice.text = productItem.totalPrice.toFormattedPrice() // 가격 포맷
 
             // 상품 체크박스
             cbProduct.setOnCheckedChangeListener(null) // 기존 리스너 제거

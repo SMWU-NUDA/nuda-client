@@ -1,7 +1,7 @@
 package com.nuda.nudaclient.data.remote.dto.shopping
 
 data class ShoppingPaymentCompleteResponse(
-    val orderNum: Int,
+    val orderNum: Long,
     val deliveryResponse: DeliveryResponse,
     val brands: List<Brand>
 ) {

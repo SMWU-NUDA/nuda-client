@@ -103,7 +103,6 @@
                 android:id="@+id/rv_order_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_order_product"
                 tools:itemCount="2"
@@ -116,8 +115,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:text="10,450원"
-                android:fontFamily="@font/pretendard_medium"
-                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="18sp"
                 android:textColor="@color/gray1"
                 android:layout_marginTop="14dp"
                 />

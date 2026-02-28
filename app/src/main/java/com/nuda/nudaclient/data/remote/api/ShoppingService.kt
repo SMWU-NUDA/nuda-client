@@ -55,6 +55,7 @@ interface ShoppingService {
     /**
      * 주문 API
      */
+    // 주문 1
     // POST /orders : 주문 등록
     @POST("orders")
     fun createOrder(@Body request: ShoppingCreateOrderRequest) : Call<ApiResponse<ShoppingCreateOrderResponse>>
@@ -66,10 +67,12 @@ interface ShoppingService {
     /**
      * 결제 API
      */
+    // 주문 2
     // POST /payments/orders/{orderId} : 결제(Mock) 요청
     @POST("payments/orders/{orderId}")
     fun createPayment(@Path("orderId") orderId: Int) : Call<ApiResponse<ShoppingCreatePaymentsResponse>>
 
+    // 주문 3
     // POST /payments/{paymentId}/complete-test : 결제(Mock) 테스트용 완료
     @POST("payments/{paymentId}/complete-test")
     fun CompletePayment(@Path("paymentId") paymentId: Int) : Call<ApiResponse<ShoppingPaymentCompleteResponse>>
