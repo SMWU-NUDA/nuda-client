@@ -399,6 +399,8 @@ class ProductDetailActivity : BaseActivity() {
                                 }
                                 .setNegativeButton("계속 쇼핑하기", null) // 팝업 닫기
                                 .show()
+
+                            Log.d("API_DEBUG", "productId: ${body.data?.productId}, quantity: ${body.data?.quantity}")
                         }
                     }
                 )

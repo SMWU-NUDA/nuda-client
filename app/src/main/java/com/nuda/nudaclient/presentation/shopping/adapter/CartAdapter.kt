@@ -1,6 +1,7 @@
 package com.nuda.nudaclient.presentation.shopping.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nuda.nudaclient.databinding.ItemCartBrandHeaderBinding
@@ -124,6 +125,22 @@ class CartAdapter(
 
             // 상품 삭제 버튼
             binding.ivDelete.setOnClickListener { onDeleteClicked(productItem.cartItemId) }
+
+            // 구분선 설정
+            when {
+                position == items.size - 1 -> { // 목록의 마지막 아이템
+                    binding.dividerThin.visibility = View.GONE
+                    binding.dividerThick.visibility = View.GONE
+                }
+                items[position + 1] is CartItem.BrandHeader -> { // 브랜드 마지막 상품
+                    binding.dividerThin.visibility = View.GONE
+                    binding.dividerThick.visibility = View.VISIBLE
+                }
+                else -> { // 일반 상품
+                    binding.dividerThin.visibility = View.VISIBLE
+                    binding.dividerThick.visibility = View.GONE
+                }
+            }
         }
     }
 }

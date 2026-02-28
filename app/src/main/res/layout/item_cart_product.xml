@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--상품 선택 체크박스-->
@@ -48,8 +49,8 @@
 
     <!--상품 이름-->
     <TextView
-        android:id="@+id/tv_productName"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_product_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="유기농 100% 순면 생리대"
         android:fontFamily="@font/pretendard_medium"
@@ -57,6 +58,7 @@
         android:textColor="@color/gray1"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="@id/tv_brand"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_brand"
         />
 
@@ -83,7 +85,7 @@
 
     <!--상품 개수-->
     <TextView
-        android:id="@+id/tv_productCount"
+        android:id="@+id/tv_product_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2"
@@ -100,7 +102,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/img_plus"
         android:layout_marginLeft="10dp"
-        app:layout_constraintStart_toEndOf="@id/tv_productCount"
+        app:layout_constraintStart_toEndOf="@id/tv_product_count"
         app:layout_constraintTop_toTopOf="@id/iv_minus"
         app:layout_constraintBottom_toBottomOf="@id/iv_minus"
          />
