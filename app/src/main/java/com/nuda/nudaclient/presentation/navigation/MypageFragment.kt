@@ -22,6 +22,7 @@ import com.nuda.nudaclient.presentation.mypage.activity.MypageEditDeliveryActivi
 import com.nuda.nudaclient.presentation.mypage.activity.MypageManageKeywordActivity
 import com.nuda.nudaclient.presentation.mypage.activity.MypageMyReviewActivity
 import com.nuda.nudaclient.presentation.review.ReviewCreateActivity
+import com.nuda.nudaclient.presentation.shopping.ShoppingOrderHistoryActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MyPageFragment : Fragment() {
@@ -146,7 +147,7 @@ class MyPageFragment : Fragment() {
     private fun setupOrderHistory() {
         binding.groupOrderHistory.setOnClickListener {
             // 주문 내역 액티비티로 이동
-
+            startActivity(Intent(requireContext(), ShoppingOrderHistoryActivity::class.java))
         }
     }
 

@@ -2,6 +2,7 @@ package com.nuda.nudaclient.presentation.shopping.adapter
 
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -74,7 +75,7 @@ class OrderHistoryAdapter(
         when (holder) {
             is DateHeaderViewHolder -> holder.bind(items[position] as OrderHistoryItem.DateHeader)
             is OrderProductViewHolder -> holder.bind(items[position] as OrderHistoryItem.Product)
-            is PriceFooterViewHolder -> holder.bind(items[position] as OrderHistoryItem.PriceFooter)
+            is PriceFooterViewHolder -> holder.bind(items[position] as OrderHistoryItem.PriceFooter, position)
         }
     }
 
@@ -88,7 +89,9 @@ class OrderHistoryAdapter(
         private val binding: ItemOrderDateHeaderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(dateHeader: OrderHistoryItem.DateHeader) {
-            binding.tvDate.text = dateHeader.orderDate
+            val date = dateHeader.orderDate.split(" ").take(2).joinToString(" ") // "2026.03.01 (일)"
+            binding.tvDate.text = date
+
             binding.tvOrderNumber.apply {
                text = dateHeader.orderNum.toString()
                paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG // 밑줄 설정
@@ -120,8 +123,15 @@ class OrderHistoryAdapter(
     inner class PriceFooterViewHolder(
         private val binding: ItemOrderPriceFooterBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(priceFooter: OrderHistoryItem.PriceFooter) {
+        fun bind(priceFooter: OrderHistoryItem.PriceFooter, position: Int) {
             binding.tvTotalPrice.text = priceFooter.totalAmount.toFormattedPrice()
+
+            // 구분선 설정
+            if (position == items.size - 1) {
+                binding.divider.visibility = View.GONE
+            } else {
+                binding.divider.visibility = View.VISIBLE
+            }
         }
     }
 }
