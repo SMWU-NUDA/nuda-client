@@ -11,12 +11,13 @@ sealed class CartItem {
     // 상품 아이템 데이터
     data class Product(
         val cartItemId: Int,
+        val brandId: Int,
         val brandName: String, // 브랜드 이름 추가
         val productId: Int,
         val productName: String,
-        val quantity: Int,
+        var quantity: Int,
         val price: Int,
-        val totalPrice: Int,
+        var totalPrice: Int,
         var isChecked: Boolean = false
     ) : CartItem()
 }

@@ -5,13 +5,28 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
+import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingChangeQuantityRequest
+import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingGetCartItemsResponse
 import com.nuda.nudaclient.databinding.ActivityShoppingCartBinding
+import com.nuda.nudaclient.extensions.executeWithHandler
+import com.nuda.nudaclient.extensions.toFormattedPrice
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
+import com.nuda.nudaclient.presentation.shopping.adapter.CartAdapter
 
 class ShoppingCartActivity : BaseActivity() {
 
+    // TODO 전체 선택 체크박스 설정
+    // TODO 선택 삭제 및 전체 삭제 설정
+
     private lateinit var binding: ActivityShoppingCartBinding
+    private lateinit var cartAdapter: CartAdapter
+
+    // 어댑터와 공유하는 리스트
+    // cartItems가 바뀌면 notifyItemChanged로 어댑터에 알려줘야 화면이 갱신됨
+    private val cartItems = mutableListOf<CartItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +43,8 @@ class ShoppingCartActivity : BaseActivity() {
 
         setToolbar() // 툴바 설정
 
+        setupRecyclerView() // 리사이클러뷰 설정
+        loadCartItems() // 장바구니 데이터 로드
 
 
     }
@@ -37,4 +54,207 @@ class ShoppingCartActivity : BaseActivity() {
         setToolbarTitle("장바구니") // 타이틀
         setBackButton() // 뒤로가기 버튼
     }
+
+    // 리사이클러뷰 설정
+    private fun setupRecyclerView() {
+        // 어댑터 설정
+        cartAdapter = CartAdapter(
+            items = cartItems,
+            onBrandChecked = { position, isChecked ->
+                updateBrandCheck(position, isChecked)
+            },
+            onProductChecked = { position, isChecked ->
+                updateProductCheck(position, isChecked)
+            },
+            onQuantityChanged = { cartItemId, delta ->
+                changeQuantity(cartItemId, delta)
+            },
+            onDeleteClicked = { cartItemId ->
+                deleteCartItem(cartItemId)
+            }
+        )
+        binding.rvCartItems.adapter = cartAdapter
+        // 레이아웃 매니저 설정
+        binding.rvCartItems.layoutManager = LinearLayoutManager(this)
+    }
+
+    // 장바구니 아이템 로드
+    private fun loadCartItems() {
+        shoppingService.getCartItems() // 장바구니 조회 API 호출
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        body.data?.let { data ->
+                            cartItems.clear() // 기존 카트 아이템 제거
+                            cartItems.addAll(convertToCartItems(data)) // 중첩 구조의 응답을 1차원 리스트로 변환 후 추가
+
+                            updateTotalQuantity() // 총 상품 개수 업데이트
+                            updateTotalPrice() // 총 가격 업데이트
+                        }
+                    }
+                }
+            )
+    }
+
+    // API 응답의 중첩 구조를 리사이클러뷰가 사용할 수 있는 1차원 리스트로 펼치는 함수
+    private fun convertToCartItems(data: ShoppingGetCartItemsResponse) : List<CartItem> {
+        val convertData = mutableListOf<CartItem>()
+        data.brands.forEach { brand ->
+            // 브랜드 헤더 먼저 추가
+            convertData.add(CartItem.BrandHeader(
+                brand.brandId,
+                brand.brandName
+            ))
+            // 해당 브랜드의 상품 아이템 추가
+            brand.products.forEach { product ->
+                convertData.add(CartItem.Product(
+                    product.cartItemId,
+                    brand.brandId,
+                    brand.brandName,
+                    product.productId,
+                    product.productName,
+                    product.quantity,
+                    product.price,
+                    product.totalPrice
+                ))
+            }
+        }
+        return convertData
+    }
+
+    // 상품 체크박스 클릭 시 처리
+    private fun updateProductCheck(position: Int, isChecked: Boolean) {
+        // 1. 클릭한 상품의 isChecked 상태 업데이트
+        val product = cartItems[position] as CartItem.Product // Product 타입으로 강제 변환
+        product.isChecked = isChecked // 체크 상태 업데이트
+        // 어댑터에 변경 사항 알리기
+        cartAdapter.notifyItemChanged(position) // 해당 position 뷰 갱신
+
+        // 2. 이 상품이 속한 브랜드 헤더의 position 찾기
+        // indexOfLast: 조건에 맞는 마지막 인덱스 반환
+        val brandPosition = cartItems.indexOfFirst { item ->
+            // 브랜드 헤더 이면서 브랜드 아이디가 같은 것의 첫 번째 인덱스 반환
+            item is CartItem.BrandHeader && item.brandId == product.brandId
+        }
+
+        // 3. 같은 브랜드 상품들 필터링
+        val brandProducts = cartItems.filter { item ->
+            item is CartItem.Product && item.brandId == product.brandId
+        }
+
+        // 4. 브랜드 내 상품이 전부 체크되었는지 확인
+        // all { } : 모든 아이템이 조건을 만족하면 true
+        val allChecked = brandProducts.all { it is CartItem.Product && it.isChecked }
+
+        // 5. 브랜드 헤더 체크 상태 업데이트
+        // 해당 브랜드 상품 전체 체크이면 브랜드 또한 체크, 하나라도 해제면 브랜드도 해제
+        (cartItems[brandPosition] as CartItem.BrandHeader).isChecked = allChecked
+        cartAdapter.notifyItemChanged(brandPosition) // 해당 브랜드 position 뷰 갱신
+
+        updateTotalQuantity() // 총 상품 개수 업데이트
+        updateTotalPrice() // 총 가격 업데이트
+    }
+
+    // 브랜드 체크 박스 클릭 시 처리
+    private fun updateBrandCheck(position: Int, isChecked: Boolean) {
+        // 1. 브랜드 헤더 체크 상태 업데이트
+        val brand = cartItems[position] as CartItem.BrandHeader // BrandHeader 타입으로 강제 변환
+        brand.isChecked = isChecked // 체크 상태 업데이트
+        cartAdapter.notifyItemChanged(position) // 해당 position 뷰 갱신
+
+        // 2. 해당 브랜드 상품을 찾아서 모두 상태 업데이트
+        cartItems.forEachIndexed { index, item ->
+            if (item is CartItem.Product && item.brandId == brand.brandId) {
+                item.isChecked = isChecked // 체크 상태 업데이트
+                cartAdapter.notifyItemChanged(index) // 해당 뷰 갱신
+            }
+        }
+
+        updateTotalQuantity() // 총 상품 개수 업데이트
+        updateTotalPrice() // 총 가격 업데이트
+    }
+
+    // 총 가격 업데이트
+    private fun updateTotalPrice() {
+        var totalPrice = cartItems
+            .filterIsInstance<CartItem.Product>() // 상품 아이템만 필터링
+            .filter { it.isChecked } // 체크된 상품만 필터링
+            .sumOf { it.totalPrice } // 체크된 상품의 totalPrice 전부 더하기
+
+        if (totalPrice > 0) { // 총 가격이 0원 이상이면
+            binding.btnOrder.text = "${totalPrice.toFormattedPrice()} 주문하기" // 가격 포맷
+            binding.btnOrder.isEnabled = true // 버튼 클릭 가능
+        } else { // 총 가격이 0원 이하이면
+            binding.btnOrder.text = "주문하기"
+            binding.btnOrder.isEnabled = false // 버튼 클릭 불가능
+        }
+    }
+
+    // 총 상품 개수 업데이트
+    private fun updateTotalQuantity() {
+        var totalQuantity = cartItems
+            .filterIsInstance<CartItem.Product>() // 상품 아이템만 필터링
+            .filter { it.isChecked } // 체크된 상품만 필터링
+            .sumOf { it.quantity } // 체크된 상품의 quantity 전부 더하기
+
+        binding.tvTotalCount.text = totalQuantity.toString() // 총 상품 개수 업데이트
+    }
+    // 상품 수량 변경
+    private fun changeQuantity(cartItemId: Int, delta: Int) {
+        shoppingService.changeQuantity(cartItemId, ShoppingChangeQuantityRequest(delta))
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        body.data?.let { data ->
+                            if (data.quantity == 0) { // 수량이 0이면
+                                deleteCartItem(cartItemId) // 해당 상품 삭제
+                            } else {
+                                // 수량 변경한 상품 찾기
+                                val product = cartItems.find { it is CartItem.Product && it.cartItemId == cartItemId } as CartItem.Product
+                                product.quantity = data.quantity // 수량 업데이트
+                                product.totalPrice = product.price * data.quantity // 상품 가격 업데이트
+                                val productPosition = cartItems.indexOf(product) // position 찾기
+                                cartAdapter.notifyItemChanged(productPosition) // 변경 감지 리스너
+
+                                updateTotalQuantity() // 총 상품 개수 업데이트
+                                updateTotalPrice() // 총 가격 업데이트
+                            }
+                        }
+                    }
+                }
+            )
+    }
+
+    // 선택 상품 삭제 (단건 상품 삭제)
+    private fun deleteCartItem(cartItemId: Int) {
+        shoppingService.deleteCartItem(cartItemId)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        // 삭제할 상품의 브랜드 아이디
+                        val brandId = (cartItems.find {
+                            it is CartItem.Product && it.cartItemId == cartItemId
+                        } as CartItem.Product).brandId
+                        // 상품 삭제
+                        cartItems.removeIf { it is CartItem.Product && it.cartItemId == cartItemId }
+                        // 해당 상품 브랜드에 상품이 하나도 없으면 브랜드 헤더도 삭제
+                        // 상품이 하나라도 있으면 true
+                        val hasProduct = cartItems.any { it is CartItem.Product && it.brandId == brandId }
+                        if (!hasProduct) { // 상품이 없을 때(false)
+                            // 브랜드 헤더 삭제
+                            cartItems.removeIf { it is CartItem.BrandHeader && it.brandId == brandId }
+                        }
+
+                        cartAdapter.notifyDataSetChanged() // 리스트 전체 갱신
+                        updateTotalQuantity() // 총 상품 개수 업데이트
+                        updateTotalPrice() // 총 가격 업데이트
+                    }
+                }
+            )
+
+    }
+
 }
