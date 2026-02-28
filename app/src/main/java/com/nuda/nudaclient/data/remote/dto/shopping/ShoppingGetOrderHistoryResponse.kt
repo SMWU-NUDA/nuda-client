@@ -8,7 +8,7 @@ data class ShoppingGetOrderHistoryResponse(
     data class Content(
         val orderId: Int,
         val orderDate: String,
-        val orderNum: Int,
+        val orderNum: Long,
         val totalAmount: Int,
         val brands: List<Brand>
     ) {
@@ -19,6 +19,7 @@ data class ShoppingGetOrderHistoryResponse(
         ) {
             data class Product(
                 val productId: Int,
+                val thumbnailImg: String?,
                 val productName: String,
                 val quantity: Int,
                 val price: Int,
