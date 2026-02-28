@@ -19,8 +19,6 @@ import com.nuda.nudaclient.presentation.shopping.adapter.CartAdapter
 
 class ShoppingCartActivity : BaseActivity() {
 
-    // TODO 전체 선택 체크박스 설정 .
-    // TODO 선택 삭제 및 전체 삭제 설정 .
     // TODO 장바구니 화면 이동 연결
     // TODO 장바구니 상품 추가
 

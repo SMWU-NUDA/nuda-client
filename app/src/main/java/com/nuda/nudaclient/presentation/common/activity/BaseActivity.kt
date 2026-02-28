@@ -1,16 +1,17 @@
 package com.nuda.nudaclient.presentation.common.activity
 
+import android.content.Intent
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.presentation.shopping.ShoppingCartActivity
 
 open class BaseActivity : AppCompatActivity() {
 
     // TODO: feat: 로딩 화면 추가 (BaseActivity)
-    // TODO: refactor: 툴바 뒤로가기 공통 로직으로 수정(BaseActivity)
 
     // 툴바 타이틀 설정 메소드
     fun setToolbarTitle(title: String) {
@@ -84,7 +85,7 @@ open class BaseActivity : AppCompatActivity() {
 
     // 장바구니 화면으로 이동 (오버라이딩 가능)
     protected open fun navigationToCart() {
-
+        startActivity(Intent(this, ShoppingCartActivity::class.java))
     }
 
     protected fun Int.dpToPx() : Int {

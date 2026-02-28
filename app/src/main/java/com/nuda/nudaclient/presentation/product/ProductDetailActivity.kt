@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
@@ -19,6 +20,7 @@ import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.ingredientsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
+import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
 import com.nuda.nudaclient.data.remote.api.IngredientsService
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetSummaryResponse
 import com.nuda.nudaclient.databinding.ActivityProductDetailBinding
@@ -29,6 +31,8 @@ import com.nuda.nudaclient.presentation.ingredient.IngredientComponentActivity
 import com.nuda.nudaclient.presentation.product.adapter.ProductImagesAdapter
 import com.nuda.nudaclient.presentation.review.ReviewAllActivity
 import com.nuda.nudaclient.presentation.review.ReviewCreateActivity
+import com.nuda.nudaclient.presentation.shopping.ShoppingCartActivity
+import com.nuda.nudaclient.utils.CustomToast
 import com.nuda.nudaclient.utils.setupBarGraph
 
 class ProductDetailActivity : BaseActivity() {
@@ -370,10 +374,39 @@ class ProductDetailActivity : BaseActivity() {
     }
 
     private fun setButtons() {
+        setBottomBarButtons()
         setMoveToIngredientPage()
         setMoveToReviewAllPage()
         setMoveToReviewCreatePage()
         setLikeButtons()
+    }
+
+    // 하단 바 버튼 설정 (장바구니, 바로 구매)
+    private fun setBottomBarButtons() {
+        // 장바구니 버튼 설정
+        binding.btnCart.setOnClickListener {
+            // 장바구니에 상품 추가 API 호출
+            shoppingService.addToCart(productId)
+                .executeWithHandler(
+                    context = this,
+                    onSuccess = { body ->
+                        if (body.success == true) {
+                            // 장바구니 이동 팝업
+                            AlertDialog.Builder(this)
+                                .setTitle("장바구니에 담겼습니다")
+                                .setPositiveButton("장바구니 이동") { _, _ ->
+                                    startActivity(Intent(this, ShoppingCartActivity::class.java))
+                                }
+                                .setNegativeButton("계속 쇼핑하기", null) // 팝업 닫기
+                                .show()
+                        }
+                    }
+                )
+        }
+        // 바로 구매 버튼 설정
+        binding.btnOrder.setOnClickListener {
+
+        }
     }
 
     // 상품 구성 성분 화면으로 이동
