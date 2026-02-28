@@ -23,6 +23,7 @@ import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
 import com.nuda.nudaclient.data.remote.api.IngredientsService
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetSummaryResponse
+import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingCreateOrderRequest
 import com.nuda.nudaclient.databinding.ActivityProductDetailBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.toFormattedPrice
@@ -32,6 +33,7 @@ import com.nuda.nudaclient.presentation.product.adapter.ProductImagesAdapter
 import com.nuda.nudaclient.presentation.review.ReviewAllActivity
 import com.nuda.nudaclient.presentation.review.ReviewCreateActivity
 import com.nuda.nudaclient.presentation.shopping.ShoppingCartActivity
+import com.nuda.nudaclient.presentation.shopping.ShoppingOrderCompleteActivity
 import com.nuda.nudaclient.utils.CustomToast
 import com.nuda.nudaclient.utils.setupBarGraph
 
@@ -407,7 +409,43 @@ class ProductDetailActivity : BaseActivity() {
         }
         // 바로 구매 버튼 설정
         binding.btnOrder.setOnClickListener {
-
+            Log.d("API_DEBUG", "productId: $productId")
+            val items = listOf(
+                ShoppingCreateOrderRequest.Item(
+                    productId = productId,
+                    quantity = 1
+                )
+            )
+            // 1. 주문 등록 API 호출
+            shoppingService.createOrder(ShoppingCreateOrderRequest(items))
+                .executeWithHandler(
+                    context = this,
+                    onSuccess = { body ->
+                        if (body.success == true) {
+                            body.data?.let { data ->
+                                Log.d("API_DEBUG", "주문 1. 주문 등록 API 호출 성공")
+                                // 2. 결제 요청 API 호출
+                                shoppingService.createPayment(data.orderId)
+                                    .executeWithHandler(
+                                        context = this,
+                                        onSuccess = { body ->
+                                            if (body.success == true) {
+                                                body.data?.let { data ->
+                                                    Log.d("API_DEBUG", "주문 2. 결제 요청 API 호출 성공")
+                                                    // 결제 완료 화면으로 이동
+                                                    val intent = Intent(this,
+                                                        ShoppingOrderCompleteActivity::class.java)
+                                                    intent.putExtra("PAYMENT_ID", data.paymentId) // 결제 고유 식별자 전달
+                                                    startActivity(intent)
+                                                    finish()
+                                                }
+                                            }
+                                        }
+                                    )
+                            }
+                        }
+                    }
+                )
         }
     }
 
