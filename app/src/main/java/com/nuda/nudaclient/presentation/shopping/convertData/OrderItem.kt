@@ -5,6 +5,7 @@ data class OrderProduct (
     val brandName: String,
     val productId: Int,
     val productName: String,
+    val thumbnailImg: String,
     val quantity: Int,
     val price: Int,
     val totalPrice: Int

@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.nuda.nudaclient.R
 import com.nuda.nudaclient.databinding.ItemCartBrandHeaderBinding
 import com.nuda.nudaclient.databinding.ItemCartProductBinding
 import com.nuda.nudaclient.extensions.toFormattedPrice
@@ -106,11 +108,18 @@ class CartAdapter(
 
         fun bind(productItem: CartItem.Product, position: Int) {
             // 데이터 바인딩
-//            binding.ivProduct
             binding.tvBrand.text = productItem.brandName
             binding.tvProductName.text = productItem.productName
             binding.tvProductCount.text = productItem.quantity.toString()
             binding.tvPrice.text = productItem.totalPrice.toFormattedPrice() // 가격 포맷
+
+            // 상품 이미지 : URL 문자열 이미지로 로드 및 업데이트
+            Glide.with(binding.root.context)
+                .load(productItem.thumbnailImg)
+                .placeholder(R.drawable.image_product2)
+                .error(R.drawable.image_product)
+                .centerCrop()
+                .into(binding.ivProduct)
 
             // 상품 체크박스
             cbProduct.setOnCheckedChangeListener(null) // 기존 리스너 제거

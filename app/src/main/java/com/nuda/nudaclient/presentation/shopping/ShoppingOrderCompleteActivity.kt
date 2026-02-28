@@ -7,11 +7,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
 import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingPaymentCompleteResponse
 import com.nuda.nudaclient.databinding.ActivityShoppingOrderCompleteBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
+import com.nuda.nudaclient.extensions.toFormattedPrice
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.navigation.NavigationActivity
 import com.nuda.nudaclient.presentation.shopping.adapter.OrderAdapter
@@ -83,9 +85,9 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
                     if (body.success == true) {
                         body.data?.let { data ->
                             binding.tvOrderNumber.text = data.orderNum.toString()
+                            binding.tvTotalPrice.text = data.totalAmount.toFormattedPrice()
                             binding.tvName.text = data.deliveryResponse.recipient
                             binding.tvPhone.text = data.deliveryResponse.phoneNum
-//                            TODO binding.tvTotalPrice.text = data.
                             val address = "${data.deliveryResponse.address1} ${data.deliveryResponse.address2} (${data.deliveryResponse.postalCode})"
                             binding.tvAddress.text = address
 
@@ -115,6 +117,7 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
                         brand.brandName,
                         product.productId,
                         product.productName,
+                        product.thumbnailImg,
                         product.quantity,
                         product.price,
                         product.totalPrice

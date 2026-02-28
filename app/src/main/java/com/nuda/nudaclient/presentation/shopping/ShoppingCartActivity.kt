@@ -124,14 +124,15 @@ class ShoppingCartActivity : BaseActivity() {
             brand.products.forEach { product ->
                 convertData.add(
                     CartItem.Product(
-                    product.cartItemId,
-                    brand.brandId,
-                    brand.brandName,
-                    product.productId,
-                    product.productName,
-                    product.quantity,
-                    product.price,
-                    product.totalPrice
+                        product.cartItemId,
+                        brand.brandId,
+                        brand.brandName,
+                        product.productId,
+                        product.thumbnailImg,
+                        product.productName,
+                        product.quantity,
+                        product.price,
+                        product.totalPrice
                 ))
             }
         }

@@ -14,6 +14,7 @@ sealed class CartItem {
         val brandId: Int,
         val brandName: String, // 브랜드 이름 추가
         val productId: Int,
+        val thumbnailImg: String,
         val productName: String,
         var quantity: Int,
         val price: Int,

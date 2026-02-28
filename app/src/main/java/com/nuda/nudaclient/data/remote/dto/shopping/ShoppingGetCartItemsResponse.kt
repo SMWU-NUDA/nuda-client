@@ -13,6 +13,7 @@ data class ShoppingGetCartItemsResponse(
         data class Product(
             val cartItemId: Int,
             val productId: Int,
+            val thumbnailImg: String,
             val productName: String,
             val quantity: Int,
             val price: Int,
