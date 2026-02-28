@@ -206,17 +206,22 @@ class ShoppingCartActivity : BaseActivity() {
 
     // 전체 선택 체크 박스 상태 동기화
     private fun syncAllCheckState() {
-        if (cartItems.isEmpty()) return // 리스트가 비어있다면 무시
+        // 리스너 제거 후 세팅 (무한 루프 방지)
+        binding.cbAll.setOnCheckedChangeListener(null)
+
+        if (cartItems.isEmpty()) { // 리스트가 비어있을 때
+            binding.cbAll.isChecked = false
+            updateAllCheck() // 리스너 재등록
+            return
+        }
 
         // 전체 상품이 선택되었는지 확인
         val allChecked = cartItems
             .filterIsInstance<CartItem.Product>()
             .all { it.isChecked }
-
-        // 리스너 제거 후 세팅 (무한 루프 방지)
-        binding.cbAll.setOnCheckedChangeListener(null)
+        
         binding.cbAll.isChecked = allChecked
-        updateAllCheck()
+        updateAllCheck() // 리스너 재등록
     }
 
     // 총 가격 업데이트
@@ -265,6 +270,7 @@ class ShoppingCartActivity : BaseActivity() {
 
                                 updateTotalQuantity() // 총 상품 개수 업데이트
                                 updateTotalPrice() // 총 가격 업데이트
+                                syncAllCheckState() // 전체 선택 체크 상태 동기화
                             }
                         }
                     }
@@ -272,7 +278,7 @@ class ShoppingCartActivity : BaseActivity() {
             )
     }
 
-    // 선택 상품 삭제 (단건 상품 삭제)
+    // 단건 상품 삭제
     private fun deleteCartItem(cartItemId: Int) {
         shoppingService.deleteCartItem(cartItemId)
             .executeWithHandler(
@@ -296,6 +302,7 @@ class ShoppingCartActivity : BaseActivity() {
                         cartAdapter.notifyDataSetChanged() // 리스트 전체 갱신
                         updateTotalQuantity() // 총 상품 개수 업데이트
                         updateTotalPrice() // 총 가격 업데이트
+                        syncAllCheckState() // 전체 선택 체크 상태 동기화
                     }
                 }
             )
@@ -315,6 +322,7 @@ class ShoppingCartActivity : BaseActivity() {
                                 cartAdapter.notifyDataSetChanged() // 리스트 전체 갱신
                                 updateTotalQuantity() // 총 상품 개수 업데이트
                                 updateTotalPrice() // 총 가격 업데이트
+                                syncAllCheckState() //  전체 선택 체크 상태 동기화
                             }
                         }
                     )
@@ -336,22 +344,24 @@ class ShoppingCartActivity : BaseActivity() {
                         context = this,
                         onSuccess = { body ->
                             if (body.success == true) {
-                                // 선택된 상품과 브랜드 UI 삭제
-                                cartItems.forEachIndexed { index, item ->
-                                    // 선택된 상품 삭제
-                                    if (item is CartItem.Product && item.cartItemId in cartItemIds) {
-                                        cartItems.removeAt(index) // 상품 삭제
-                                        cartAdapter.notifyItemRemoved(index)
-                                    }
-                                    // 전체 선택된 브랜드 삭제
-                                    if (item is CartItem.BrandHeader && item.brandId in brandIds) {
-                                        cartItems.removeAt(index)
-                                        cartAdapter.notifyItemChanged(index)
+                                // 상품 삭제
+                                cartItems.removeIf { item ->
+                                    item is CartItem.Product && item.cartItemId in cartItemIds
+                                }
+                                // 브랜드 헤더 삭제
+                                brandIds.forEach { brandId ->
+                                    // 브랜드 별로 상품이 남아있는지 확인
+                                    val hasProduct = cartItems.any { it is CartItem.Product && it.brandId == brandId }
+                                    if (!hasProduct) { // 하나도 없으면 브랜드 헤더 삭제
+                                        cartItems.removeIf { it is CartItem.BrandHeader && it.brandId == brandId }
                                     }
                                 }
 
+                                cartAdapter.notifyDataSetChanged() // 리스트 전체 갱신
+
                                 updateTotalQuantity() // 총 상품 개수 업데이트
                                 updateTotalPrice() // 총 가격 업데이트
+                                syncAllCheckState() // 전체 선택 체크 상태 동기화
                             }
                         }
                     )

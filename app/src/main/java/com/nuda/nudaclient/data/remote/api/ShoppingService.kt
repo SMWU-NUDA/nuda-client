@@ -15,6 +15,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -39,7 +40,8 @@ interface ShoppingService {
 
 
     // DELETE /carts/items : 선택 상품 삭제
-    @DELETE("carts/items")
+    // DELETE에 BODY 못 넘기므로 HTTP로 설정 후 Body 가질 수 있도록 설정
+    @HTTP(method = "DELETE", path = "carts/items", hasBody = true)
     fun deleteSelectedCartitems(@Body request: ShoppingDeleteSelectedCartItemRequest) : Call<BaseResponse>
 
     // DELETE /carts/items/all : 전체 상품 삭제
