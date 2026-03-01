@@ -266,6 +266,15 @@
         <item name="android:textColor">@color/gray1</item>
     </style>
 
+    <style name="TextSearch_popular_keywords">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray1</item>
+        <item name="android:layout_marginBottom">13dp</item>
+    </style>
+
     <!--EditText-->
     <!--기본 입력창(디폴트)-->
     <style name="EditTextInput">

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.search.SearchActivity">
+
+    <!--툴바 배치-->
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="@id/toolBar"
+        app:layout_constraintBottom_toBottomOf="@id/toolBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        >
+        <!--제품 검색 버튼-->
+        <TextView
+            android:id="@+id/btn_search_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_product"
+            android:fontFamily="@font/pretendard_medium"
+            android:textSize="12sp"
+            android:background="@drawable/btn_product_search"
+            android:textColor="@color/btn_search"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
+            />
+        <!--성분 검색 버튼-->
+        <TextView
+            android:id="@+id/btn_search_ingredient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_ingredient"
+            android:fontFamily="@font/pretendard_medium"
+            android:textSize="12sp"
+            android:background="@drawable/btn_ingredient_search"
+            android:textColor="@color/btn_search"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"
+            />
+    </LinearLayout>
+
+    <!--검색 바-->
+    <EditText
+        android:id="@+id/et_searchbar"
+        style="@style/EditTextSearchbar"
+        android:hint="@string/searchbar"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        />
+
+    <!--검색 버튼-->
+    <ImageView
+        android:id="@+id/btn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ImageBtn"
+        android:src="@drawable/img_search"
+        android:layout_marginRight="12dp"
+        app:layout_constraintEnd_toEndOf="@id/et_searchbar"
+        app:layout_constraintTop_toTopOf="@id/et_searchbar"
+        app:layout_constraintBottom_toBottomOf="@id/et_searchbar"
+        />
+
+    <TextView
+        android:id="@+id/tv_search_keyword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/popular_searchKeywords"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textSize="20sp"
+        android:textColor="@color/gray1"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/et_searchbar"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        />
+
+    <!--인기 검색어 순위-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/tv_search_keyword"
+        >
+        <!--1~5순위-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/tv_search"
+                style="@style/TextSearch_popular_keywords"
+                android:text="1 쏘피 쿨링프레쉬"
+                />
+
+            <TextView
+                android:id="@+id/tv_search2"
+                style="@style/TextSearch_popular_keywords"
+                android:text="2 좋은느낌 수퍼소프트"
+                />
+
+            <TextView
+                android:id="@+id/tv_search3"
+                style="@style/TextSearch_popular_keywords"
+                android:text="3 쿨만 유기농 순면"
+                />
+
+            <TextView
+                android:id="@+id/tv_search4"
+                style="@style/TextSearch_popular_keywords"
+                android:text="4 쏘피 쿨링프레쉬"
+                />
+
+            <TextView
+                android:id="@+id/tv_search5"
+                style="@style/TextSearch_popular_keywords"
+                android:text="5 콜만 유기농 순면"
+                />
+        </LinearLayout>
+        <!--6~10순위-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/tv_search6"
+                style="@style/TextSearch_popular_keywords"
+                android:text="6 쏘피 쿨링프레쉬"
+                />
+
+            <TextView
+                android:id="@+id/tv_search7"
+                style="@style/TextSearch_popular_keywords"
+                android:text="7 좋은느낌 수퍼소프트"
+                />
+
+            <TextView
+                android:id="@+id/tv_search8"
+                style="@style/TextSearch_popular_keywords"
+                android:text="8 쿨만 유기농 순면"
+                />
+
+            <TextView
+                android:id="@+id/tv_search9"
+                style="@style/TextSearch_popular_keywords"
+                android:text="9 쏘피 쿨링프레쉬"
+                />
+
+            <TextView
+                android:id="@+id/tv_search10"
+                style="@style/TextSearch_popular_keywords"
+                android:text="10 콜만 유기농 순면"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!--가이드라인-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

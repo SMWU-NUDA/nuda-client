@@ -78,6 +78,27 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    // 장바구니 버튼만 설정
+    fun setCartButton() {
+        // 버튼 컨테이너 설정
+        val container = findViewById<LinearLayout>(R.id.toolbar_btnContainer)
+        container.visibility = View.VISIBLE // 컨테이너 보이도록 설정
+        container.removeAllViews() // 기존 뷰 제거 (중복 방지)
+
+        // 장바구니 아이콘
+        val cartIcon = ImageView(this).apply {
+            setImageResource(R.drawable.img_toolbar_basket)
+            layoutParams = LinearLayout.LayoutParams(
+                20.dpToPx(),
+                22.dpToPx()
+            )
+            setOnClickListener { navigationToCart() }
+        }
+
+        // 툴바 컨테이너에 아이콘 추가
+        container.addView(cartIcon)
+    }
+
     // 검색 화면으로 이동 (오버라이딩 가능)
     protected open fun navigationToSearch() {
 

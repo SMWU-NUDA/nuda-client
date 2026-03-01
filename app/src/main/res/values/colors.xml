@@ -22,6 +22,7 @@
     <color name="light_lime">#BDE5CB</color>
     <color name="secondary_light_lime_20">#33C0E89D</color>
     <color name="text_green">#4ACA79</color>
+    <color name="dark_lime">#6BE798</color>
 
     <!--위험도 색상-->
     <color name="riskLevel_mint">#00C8B3</color>
