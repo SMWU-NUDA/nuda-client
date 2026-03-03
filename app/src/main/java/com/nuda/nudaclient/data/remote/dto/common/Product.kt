@@ -7,7 +7,7 @@ data class Product (
     val brandName: String,
     val productName: String,
     val ingredientLabels: List<String>,
-    val averageRating: Int,
+    val averageRating: Double,
     val reviewCount: Int,
     val likeCount: Int,
     val costPrice: Int

@@ -3,9 +3,14 @@ package com.nuda.nudaclient.presentation.product.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.dto.common.Product
 import com.nuda.nudaclient.databinding.ItemProductCardBinding
+import com.nuda.nudaclient.extensions.toFormattedPrice
 
 class ProductAdapter (
     private val showRank: Boolean = false // 랭킹 표시(true: 랭킹o, fals: 랭킹x)
@@ -54,14 +59,53 @@ class ProductAdapter (
         private val binding: ItemProductCardBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Product, position: Int, showRank: Boolean) {
+            // 순위 설정
             if (showRank) { // 랭킹 있는 목록
                 binding.tvRank.visibility = View.VISIBLE
-                binding.space.visibility = View.VISIBLE
                 binding.tvRank.text = (position + 1).toString()
+                // guideline을 38dp로
+                (binding.guideline.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    guideBegin = 38.dpToPx()
+                    binding.guideline.requestLayout()
+                }
             } else { // 랭킹 없는 목록
                 binding.tvRank.visibility = View.GONE
-                binding.space.visibility = View.GONE
+                // guideline을 0dp로 : 상품 이미지가 parent에 붙음
+                (binding.guideline.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    guideBegin = 0.dpToPx()
+                    binding.guideline.requestLayout()
+                }
             }
+
+            // 상품 이미지 : URL 문자열 이미지로 로드 및 업데이트
+            Glide.with(binding.root.context)
+                .load(item.thumbnailImg)
+                .placeholder(R.drawable.image_product2)
+                .error(R.drawable.image_product)
+                .centerCrop()
+                .into(binding.ivProduct)
+
+            // 텍스트 바인딩
+            binding.tvProductBrand.text = item.brandName
+            binding.tvProductName.text = item.productName
+            binding.tvRatingAndReview.text = "${item.averageRating}(${item.reviewCount})"
+            binding.tvProductPrice.text = item.costPrice.toFormattedPrice()
+
+            // 키워드 바인딩 (최대 3개)
+            val keywords = item.ingredientLabels // List<String>
+            binding.tvProductIngredient.text = when {
+                keywords.isNullOrEmpty() -> "키워드 없음"
+                keywords.size <= 3 -> keywords.joinToString(", ")
+                else -> keywords.take(3).joinToString(", ") + " ..."
+            }
+
+        }
+
+        // dp → px 변환 함수
+        private fun Int.dpToPx(): Int {
+            return (this * binding.root.context.resources.displayMetrics.density).toInt()
         }
     }
+
+
 }

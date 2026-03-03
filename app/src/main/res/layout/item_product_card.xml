@@ -8,24 +8,22 @@
     <!--랭킹 순위-->
     <TextView
         android:id="@+id/tv_rank"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/product_rank"
         android:fontFamily="@font/pretendard_bold"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="@color/gray1"
+        android:layout_marginTop="2dp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="18sp"
+        android:autoSizeMinTextSize="12sp"
+        android:maxLines="1"
+        android:gravity="start|center_vertical"
+        android:layout_marginRight="8dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="visible"
-        />
-
-    <Space
-        android:id="@+id/space"
-        android:layout_width="16dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@id/tv_rank"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline"
         android:visibility="visible"
         />
 
@@ -36,7 +34,7 @@
         android:clipToOutline="true"
         android:src="@drawable/image_product"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/space"
+        app:layout_constraintStart_toStartOf="@id/guideline"
         />
 
     <!--브랜드명-->
@@ -51,10 +49,12 @@
     <!--상품명-->
     <TextView
         android:id="@+id/tv_productName"
+        android:layout_width="0dp"
         style="@style/TextProductName"
         android:text="@string/product_name"
         app:layout_constraintTop_toBottomOf="@id/tv_productBrand"
         app:layout_constraintStart_toStartOf="@id/tv_productBrand"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
     <!--성분 리스트-->
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/img_star_12"
         android:layout_marginTop="9dp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_product"
+        app:layout_constraintTop_toBottomOf="@id/tv_productIngredient"
         app:layout_constraintStart_toStartOf="@id/tv_productBrand"
         />
 
@@ -92,7 +92,7 @@
         android:id="@+id/tv_productPrice"
         style="@style/TextProductPrice"
         android:text="@string/product_price"
-        app:layout_constraintTop_toBottomOf="@id/tv_productIngredient"
+       app:layout_constraintTop_toTopOf="@id/tv_ratingAndReview"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
@@ -105,5 +105,13 @@
         android:layout_marginTop="13dp"
         app:layout_constraintTop_toBottomOf="@id/tv_productPrice"
         android:visibility="visible"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="38dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

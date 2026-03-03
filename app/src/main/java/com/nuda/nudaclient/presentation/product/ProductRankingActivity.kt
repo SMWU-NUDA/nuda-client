@@ -20,13 +20,15 @@ import com.nuda.nudaclient.presentation.common.fragment.SortBottomSheet
 import com.nuda.nudaclient.presentation.product.adapter.ProductAdapter
 
 class ProductRankingActivity : BaseActivity() {
-
-    // TODO 제품 랭킹 리사이클러뷰 설정 및 어댑터 연결
-    // TODO 제품 랭킹 API 연동 및 데이터 바인딩
+    
+    // TODO 필터링 선택 시 목록 초기화 안됨 에러
+    // TODO 상품 카드 클릭 시 해당 상품 상세페이지로 이동 로직
+    // TODO 상품 랭킹 텍스트 늘어나면 잘리는 에러 수정 필요
+    
 
     private lateinit var binding: ActivityProductRankingBinding
     private var selectedSortTypeIdx = 0 // 필터링 기본값 인덱스 0, 이후 선택 필터 인덱스 전달로 상태 유지
-    private lateinit var selectedSortType: String // 선택된 필터링 저장
+    private var selectedSortType: String = "DEFAULT" // 선택된 필터링 저장
 
     private lateinit var productAdapter : ProductAdapter
 
