@@ -15,7 +15,9 @@ import com.nuda.nudaclient.presentation.common.fragment.SortBottomSheet
 
 class ProductRankingActivity : BaseActivity() {
 
-    // TODO feat(products): 필터링 항목 클릭 시 폰트 변경 및 체크 아이콘 추가
+    // TODO 제품 랭킹 어댑터 생성
+    // TODO 제품 랭킹 리사이클러뷰 설정 및 어댑터 연결
+    // TODO 제품 랭킹 API 연동 및 데이터 바인딩
 
     private lateinit var binding: ActivityProductRankingBinding
     private var selectedSortTypeIdx = 0 // 필터링 기본값 인덱스 0
