@@ -52,7 +52,7 @@ interface ProductsService {
     @GET("products")
     fun getAllProductRanking(
         @Query("sort") sort: String,
-        @Query("cursor") cursor: String,
+        @Query("cursor") cursor: String?,
         @Query("size") size: Int = 20
     ) : Call<ApiResponse<ProductsGetAllRankingResponse>>
 

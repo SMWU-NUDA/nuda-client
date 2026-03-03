@@ -61,6 +61,7 @@
 
     <!--제품 랭킹 목록-->
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_all_ranking"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="23dp"
