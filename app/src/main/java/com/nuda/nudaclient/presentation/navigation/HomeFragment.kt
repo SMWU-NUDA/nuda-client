@@ -14,6 +14,8 @@ import com.nuda.nudaclient.presentation.product.ProductRankingActivity
 
 class HomeFragment : Fragment() {
 
+    // TODO ViewPager2 설정
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 

@@ -1,5 +1,6 @@
 package com.nuda.nudaclient.presentation.product
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -98,6 +99,9 @@ class ProductRankingActivity : BaseActivity() {
                     }
                 }
                 selectedSortType = sortType // 선택된 필터링 항목 저장
+                currentCursor = null // cursor 초기화 (필터링 된 목록으로 로드하기 위해)
+
+                loadAllProductRanking() // 상품 목록 로드
 
             }.show(supportFragmentManager, "SortBottomSheet")
 
@@ -108,7 +112,11 @@ class ProductRankingActivity : BaseActivity() {
     private fun setupRecyclerView() {
         productAdapter = ProductAdapter(
             showRank = true // 순위 있음 (전체 랭킹)
-        )
+        ) { productId ->
+            val intent = Intent(this, ProductDetailActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
 
         binding.rvAllRanking.apply {
             adapter = productAdapter

@@ -8,7 +8,7 @@ data class ProductsGetAllRankingResponse(
     val hasNext: Boolean
 ) {
     data class NextCursor(
-        val sortValue: Int,
+        val sortValue: Double,
         val id: Int
     )
 }

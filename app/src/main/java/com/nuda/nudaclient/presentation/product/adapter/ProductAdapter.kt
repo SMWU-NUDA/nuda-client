@@ -13,7 +13,8 @@ import com.nuda.nudaclient.databinding.ItemProductCardBinding
 import com.nuda.nudaclient.extensions.toFormattedPrice
 
 class ProductAdapter (
-    private val showRank: Boolean = false // 랭킹 표시(true: 랭킹o, fals: 랭킹x)
+    private val showRank: Boolean = false, // 랭킹 표시(true: 랭킹o, fals: 랭킹x)
+    private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     private val items = mutableListOf<Product>()
@@ -48,7 +49,14 @@ class ProductAdapter (
         holder: ProductViewHolder,
         position: Int
     ) {
-        holder.bind(items[position], position, showRank)
+        val item = items[position]
+
+        holder.bind(item, position, showRank)
+
+        // 상품 카드 클릭 시 상품 상세페이지로 이동하는 이벤트 처리
+        holder.productCard.setOnClickListener {
+            onItemClick(item.productId) // 상품 ID 전달 
+        }
     }
 
     override fun getItemCount(): Int {
@@ -58,6 +66,8 @@ class ProductAdapter (
     inner class ProductViewHolder(
         private val binding: ItemProductCardBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+        val productCard = binding.root
+
         fun bind(item: Product, position: Int, showRank: Boolean) {
             // 순위 설정
             if (showRank) { // 랭킹 있는 목록
