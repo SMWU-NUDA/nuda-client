@@ -10,8 +10,16 @@ import com.nuda.nudaclient.databinding.ItemHomeRankingCardBinding
 
 // ViewPager2 어댑터
 class HomeRankingAdapter(
-    private val products: List<Product>
 ) : RecyclerView.Adapter<HomeRankingAdapter.RankingViewHolder>() {
+
+    private val products = mutableListOf<Product>()
+
+    // 랭킹 조회 후 응답 저장
+    fun submitList(newItems: List<Product>) {
+        products.clear() // 전체 리스트 제거
+        products.addAll(newItems) // 새로운 리스트로 교체
+        notifyDataSetChanged() // 리스트 전체 갱신
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

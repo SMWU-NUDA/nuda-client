@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--홈 화면 제품 랭킹 ViewPager2 관련 dp 값-->
+    <dimen name="pageMargin">16dp</dimen>
+    <dimen name="pageOffset">24dp</dimen>
+</resources>
