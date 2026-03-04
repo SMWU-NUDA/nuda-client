@@ -17,6 +17,7 @@ import com.nuda.nudaclient.databinding.FragmentHomeBinding
 import com.nuda.nudaclient.databinding.FragmentMypageBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.navigation.adapter.HomeRankingAdapter
+import com.nuda.nudaclient.presentation.product.ProductDetailActivity
 import com.nuda.nudaclient.presentation.product.ProductRankingActivity
 
 
@@ -62,8 +63,15 @@ class HomeFragment : Fragment() {
     private fun setRankingViewPager() {
         val viewPager2 = binding.viewPager2
 
-        homeRankingAdapter = HomeRankingAdapter() // 어댑터 생섣
-        loadProductRanking() // 랭킹 상품 목록 로드
+        // 어댑터 생섣
+        homeRankingAdapter = HomeRankingAdapter() { productId -> // 상품 카드 클릭 시 상품 상세페이지로 이동
+            val intent = Intent(requireContext(), ProductDetailActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
+
+        // 랭킹 상품 목록 로드
+        loadProductRanking()
 
         // 어댑터 연결
         viewPager2.adapter = homeRankingAdapter

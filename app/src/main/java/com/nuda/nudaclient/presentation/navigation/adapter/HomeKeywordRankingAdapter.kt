@@ -6,12 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.dto.common.Product
-import com.nuda.nudaclient.databinding.ItemHomeRankingCardBinding
+import com.nuda.nudaclient.databinding.ItemWishProductBinding
 
-// ViewPager2 어댑터
-class HomeRankingAdapter(
+class HomeKeywordRankingAdapter(
     private val onItemClick: (Int) -> Unit
-) : RecyclerView.Adapter<HomeRankingAdapter.RankingViewHolder>() {
+) : RecyclerView.Adapter<HomeKeywordRankingAdapter.KeywordRankingViewHolder>() {
 
     private val products = mutableListOf<Product>()
 
@@ -22,26 +21,26 @@ class HomeRankingAdapter(
         notifyDataSetChanged() // 리스트 전체 갱신
     }
 
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RankingViewHolder {
-        val binding = ItemHomeRankingCardBinding.inflate(
+    ): KeywordRankingViewHolder {
+        val binding = ItemWishProductBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
-            false
-        )
-        return RankingViewHolder(binding)
+            false)
+
+        return KeywordRankingViewHolder(binding)
     }
 
     override fun onBindViewHolder(
-        holder: RankingViewHolder,
+        holder: KeywordRankingViewHolder,
         position: Int
     ) {
         val product = products[position]
 
-        holder.bind(product, position)
-
+        holder.bind(product)
         holder.productCard.setOnClickListener {
             onItemClick(product.productId)
         }
@@ -51,31 +50,15 @@ class HomeRankingAdapter(
         return products.size
     }
 
-    inner class RankingViewHolder(
-        private val binding: ItemHomeRankingCardBinding
+    inner class KeywordRankingViewHolder(
+        private val binding: ItemWishProductBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         val productCard = binding.root
 
-        fun bind(product: Product, position: Int) {
-            // 랭킹 숫자 이미지 (1~10)
-            val rankDrawable = when (position + 1) {
-                1 -> R.drawable.img_number_1
-                2 -> R.drawable.img_number_2
-                3 -> R.drawable.img_number_3
-                4 -> R.drawable.img_number_4
-                5 -> R.drawable.img_number_5
-                6 -> R.drawable.img_number_6
-                7 -> R.drawable.img_number_7
-                8 -> R.drawable.img_number_8
-                9 -> R.drawable.img_number_9
-                10 -> R.drawable.img_number_10
-                else -> R.drawable.img_number_0
-            }
-            binding.ivRankNumber.setImageResource(rankDrawable)
-
-            // 텍스트 바인딩
+        fun bind(product: Product) {
             binding.tvBrand.text = product.brandName
             binding.tvProductName.text = product.productName
+            binding.tvRatingAndReview.text = "${product.averageRating}(${product.reviewCount})"
 
             // 상품 이미지 : URL 문자열 이미지로 로드 및 업데이트
             Glide.with(binding.root.context)
@@ -85,8 +68,7 @@ class HomeRankingAdapter(
                 .centerCrop()
                 .into(binding.ivProduct)
         }
+
     }
-
-
 
 }
