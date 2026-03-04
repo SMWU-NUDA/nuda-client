@@ -96,6 +96,10 @@ class RecommendFragment : Fragment() {
                                 "THICK" -> "높은 흡수력"
                                 else -> "UNKNOWN"
                             }
+
+                            // 사용자 닉네임 설정
+                            binding.tvNickname.text = data.me.nickname
+                            binding.tvNickname2.text = data.me.nickname
                         }
                     }
                 }
