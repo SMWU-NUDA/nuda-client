@@ -4,21 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_vertical">
+    android:layout_marginBottom="10dp"
+    >
 
     <!--불릿 포인트-->
     <ImageView
         android:layout_width="4dp"
         android:layout_height="4dp"
         android:src="@drawable/img_circle"
-        app:tint="@color/gray1" />
+        app:tint="@color/gray1"
+        android:layout_marginTop="9dp"
+        />
     <TextView
+        android:id="@+id/tv_trend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pretendard_regular"
         android:text="물류 및 배송 카테고리에서 40% 언급 발생"
         android:textSize="16sp"
         android:textColor="@color/gray2"
+        android:letterSpacing="0.05"
         android:layout_marginLeft="10dp"/>
 
 </LinearLayout>

@@ -213,6 +213,9 @@
     <string name="input_photo2">(선택)</string>
     <string name="create_review">리뷰 등록</string>
     <string name="search_review">리뷰를 작성할 제품을 검색해주세요</string>
+    <string name="no_positive_keywords">분석된 긍정 키워드가 없습니다</string>
+    <string name="no_negative_keywords">분석된 부정 키워드가 없습니다</string>
+
 
     <!--나의 관심-->
     <string name="my_wishlist">나의 관심</string>

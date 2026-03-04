@@ -2,15 +2,23 @@ package com.nuda.nudaclient.presentation.review
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
 import com.nuda.nudaclient.databinding.ActivityReviewAllBinding
+import com.nuda.nudaclient.databinding.ItemReviewKeywordsBinding
+import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 
 class ReviewAllActivity : BaseActivity() {
+    
+    // TODO 별점, 리뷰 수 바인딩 필요
 
     private lateinit var binding: ActivityReviewAllBinding
     private var productId = -1
@@ -35,6 +43,7 @@ class ReviewAllActivity : BaseActivity() {
 
         setCreateReviewBtn()
 
+        loadReviewKeyword() // 긍정/부정 키워드 로드
     }
 
     // 툴바 설정
@@ -53,4 +62,61 @@ class ReviewAllActivity : BaseActivity() {
             startActivity(intent)
         }
     }
+
+    // 긍정/부정 키워드 로드
+    private fun loadReviewKeyword() {
+        reviewsService.getReviewKeywords(productId)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        body.data?.let { data ->
+                            // 긍정 키워드
+                            if (data.positive.isEmpty()) { // 긍정 키워드가 없는 경우
+                                binding.llPositiveItems.visibility = View.GONE
+                                binding.tvNoPositiveKeyword.visibility = View.VISIBLE
+                                Log.d("API_DEBUG", "긍정키워드가 없습니다")
+                            } else { // 긍정 키워드가 있는 경우
+                                binding.llPositiveItems.visibility = View.VISIBLE
+                                binding.tvNoPositiveKeyword.visibility = View.GONE
+                                addKeywordItems(binding.llPositiveItems, data.positive)
+                                Log.d("API_DEBUG", "positive: ${data.positive}")
+                            }
+                            // 부정 키워드
+                            if (data.negative.isEmpty()) { // 부정 키워드가 없는 경우
+                                binding.llNegativeItems.visibility = View.GONE
+                                binding.tvNoNegativeKeyword.visibility = View.VISIBLE
+                                Log.d("API_DEBUG", "긍정키워드가 없습니다")
+                            } else { // 부정 키워드가 있는 경우
+                                binding.llNegativeItems.visibility = View.VISIBLE
+                                binding.tvNoNegativeKeyword.visibility = View.GONE
+                                addKeywordItems(binding.llNegativeItems, data.negative)
+                                Log.d("API_DEBUG", "negative: ${data.negative}")
+                            }
+                        }
+                    }
+                }
+            )
+    }
+
+    // 긍정/부정 키워드 추가
+    private fun addKeywordItems(container: LinearLayout, keywords: List<String>) {
+        container.removeAllViews() // 기존 뷰 제거
+
+        keywords.forEachIndexed { index, keyword ->
+            val itemBinding = ItemReviewKeywordsBinding.inflate(
+                layoutInflater,
+                container,
+                false
+            )
+            // 키워드 설정
+            itemBinding.tvRank.text = "${index+1}"
+            itemBinding.tvKeyword.text = keyword
+
+            // 키워드 컨테이너에 추가
+            container.addView(itemBinding.root)
+        }
+    }
+
+
 }

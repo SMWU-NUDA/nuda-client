@@ -94,7 +94,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_positive"
-            android:layout_marginTop="3dp"
             android:layout_marginLeft="25dp"
             app:layout_constraintStart_toEndOf="@id/line1"
             app:layout_constraintTop_toTopOf="parent"
@@ -106,26 +105,39 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginLeft="11dp"
+            android:minHeight="84dp"
             app:layout_constraintStart_toEndOf="@id/iv_positive"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_positive"
             >
-            <include
-                layout="@layout/item_review_keywords"/>
-            <include
-                layout="@layout/item_review_keywords"/>
-            <include
-                layout="@layout/item_review_keywords"/>
         </LinearLayout>
+
+        <!--귿정 키워드가 없을 때 출력-->
+        <TextView
+            android:id="@+id/tv_no_positive_keyword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:text="@string/no_positive_keywords"
+            android:textSize="12sp"
+            android:textColor="@color/gray4"
+            android:gravity="center"
+            android:padding="10dp"
+            android:background="@drawable/bg_my_review_card"
+            app:layout_constraintStart_toEndOf="@id/iv_positive"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_positive"
+            android:visibility="gone"
+            />
         <!--부정 키워드-->
         <ImageView
             android:id="@+id/iv_negative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_negative"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="80dp"
             app:layout_constraintStart_toStartOf="@id/iv_positive"
-            app:layout_constraintTop_toBottomOf="@id/ll_positive_items"
+            app:layout_constraintTop_toBottomOf="@id/iv_positive"
             />
         <!--부정 리뷰 분석 키워드 항목들 (동적 추가)-->
         <LinearLayout
@@ -134,17 +146,30 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginLeft="11dp"
+            android:minHeight="84dp"
             app:layout_constraintStart_toEndOf="@id/iv_negative"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_negative"
-                >
-            <include
-                layout="@layout/item_review_keywords"/>
-            <include
-                layout="@layout/item_review_keywords"/>
-            <include
-                layout="@layout/item_review_keywords"/>
+            >
         </LinearLayout>
+
+        <!--부정 키워드가 없을 때 출력-->
+        <TextView
+            android:id="@+id/tv_no_negative_keyword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:text="@string/no_negative_keywords"
+            android:textSize="12sp"
+            android:textColor="@color/gray4"
+            android:gravity="center"
+            android:padding="10dp"
+            android:background="@drawable/bg_my_review_card"
+            app:layout_constraintStart_toEndOf="@id/iv_negative"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_negative"
+            android:visibility="gone"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
@@ -25,6 +26,8 @@ import com.nuda.nudaclient.data.remote.api.IngredientsService
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetSummaryResponse
 import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingCreateOrderRequest
 import com.nuda.nudaclient.databinding.ActivityProductDetailBinding
+import com.nuda.nudaclient.databinding.ItemReviewKeywordsBinding
+import com.nuda.nudaclient.databinding.ItemTrendBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.toFormattedPrice
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
@@ -76,6 +79,7 @@ class ProductDetailActivity : BaseActivity() {
 
         // Intent에서 productId 받기
         productId = intent.getIntExtra("PRODUCT_ID", -1)
+        Log.d("API_DEBUG", "productId: $productId")
 
         // ViewPager 객체 초기화
         viewPagerProductImages = binding.viewPagerProductImages
@@ -321,7 +325,79 @@ class ProductDetailActivity : BaseActivity() {
 
     // 리뷰 정보 로드
     private fun loadReviewInfo() {
+        loadReviewSummary()
+//        loadReviewList()
+    }
 
+    // 리뷰 AI 요약 조회
+    private fun loadReviewSummary() {
+        reviewsService.getReviewSummary(productId)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        Log.d("API_DEBUG", "리뷰 AI 요약 조회 성공")
+                        body.data?.let { data ->
+                            // 긍정/부정 키워드 설정
+                            addKeywordItems(binding.llPositiveItems, data.keywords.positive)
+                            addKeywordItems(binding.llNegativeItems, data.keywords.negative)
+
+                            Log.d("API_DEBUG", "positive: ${data.keywords.positive}")
+                            Log.d("API_DEBUG", "negative: ${data.keywords.negative}")
+
+                            // 만족도 설정
+                            binding.tvUserSatisfying.text = "사용자 만족도 ${data.satisfactionRate}%"
+                            binding.progressBar.setProgress(data.satisfactionRate)
+                            // 100%면 drawable 교체
+                            if (data.satisfactionRate == 100) {
+                                binding.progressBar.progressDrawable =
+                                    ContextCompat.getDrawable(this, R.drawable.progress_satisfaction_full)
+                            } else {
+                                binding.progressBar.progressDrawable =
+                                    ContextCompat.getDrawable(this, R.drawable.progress_satisfaction)
+                            }
+
+                            // 트렌드 설정
+                            addTrendItems(binding.llTrendsItems, data.trendHighlights)
+                            Log.d("API_DEBUG", "trends: ${data.trendHighlights}")
+                        }
+                    }
+                }
+            )
+    }
+
+    // 긍정/부정 키워드 추가
+    private fun addKeywordItems(container: LinearLayout, keywords: List<String>) {
+        container.removeAllViews() // 기존 뷰 제거
+
+        keywords.forEachIndexed { index, keyword ->
+            val itemBinding = ItemReviewKeywordsBinding.inflate(
+                layoutInflater,
+                container,
+                false
+            )
+            // 키워드 설정
+            itemBinding.tvRank.text = "${index+1}"
+            itemBinding.tvKeyword.text = keyword
+
+            // 키워드 컨테이너에 추가
+            container.addView(itemBinding.root)
+        }
+    }
+
+    // 트렌드 추가
+    private fun addTrendItems(container: LinearLayout, trends: List<String>) {
+        container.removeAllViews() // 기존 뷰 제거
+
+        trends.forEach { trend ->
+            val itemBinding = ItemTrendBinding.inflate(
+                layoutInflater,
+                container,
+                false
+            )
+            itemBinding.tvTrend.text = trend
+            container.addView(itemBinding.root)
+        }
     }
 
     // 상품 이미지 리스트 ViewPager 설정
