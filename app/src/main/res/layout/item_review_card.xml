@@ -108,16 +108,22 @@
         />
 
     <!--리뷰 이미지 리스트 (있을 때만 표시)-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_review_images"
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="13dp"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/tv_reviewText"
-        />
+        >
+        <!--리뷰 이미지 리스트 동적 추가-->
+        <LinearLayout
+            android:id="@+id/ll_review_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

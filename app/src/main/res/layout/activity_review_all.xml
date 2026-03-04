@@ -247,6 +247,7 @@
 
     <!--전체 리뷰 리사이클러뷰 / 무한 스크롤-->
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_all_reviews"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="36dp"

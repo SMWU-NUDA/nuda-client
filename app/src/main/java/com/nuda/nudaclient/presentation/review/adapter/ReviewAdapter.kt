@@ -1,0 +1,111 @@
+package com.nuda.nudaclient.presentation.review.adapter
+
+import android.media.Image
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.remote.dto.common.Product
+import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsGetRankingByKeywordResponse
+import com.nuda.nudaclient.databinding.ItemReviewCardBinding
+import com.nuda.nudaclient.databinding.ItemReviewImageBinding
+
+class ReviewAdapter(
+    private val onLikeClick: (Int, Boolean) -> Unit
+) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
+
+    private val items = mutableListOf<ReviewsGetRankingByKeywordResponse.Review>()
+
+    // 처음 로드 or 필터 변경 시 전체 교체
+    fun submitList(newItems: List<ReviewsGetRankingByKeywordResponse.Review>) {
+        items.clear() // 전체 리스트 제거
+        items.addAll(newItems) // 새로운 리스트로 교체
+        notifyDataSetChanged() // 리스트 전체 갱신
+    }
+
+    // 무한 스크롤 추가 로드 시
+    fun appendItems(newItems: List<ReviewsGetRankingByKeywordResponse.Review>) {
+        val startPosition = items.size
+        items.addAll(newItems)
+        notifyItemRangeInserted(startPosition, newItems.size)
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ReviewViewHolder {
+        val binding = ItemReviewCardBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ReviewViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(
+        holder: ReviewViewHolder,
+        position: Int
+    ) {
+        val item = items[position]
+
+        holder.bind(item)
+
+        // 좋아요 버튼 클릭 시 
+        holder.likeButton.setOnClickListener {
+            onLikeClick(item.likeCount, item.likedByMe) // 좋아요 수, 선택 여부 전달
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return items.size
+    }
+
+
+    inner class ReviewViewHolder(
+        private val binding: ItemReviewCardBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        val likeButton = binding.llBtnLike
+
+        fun bind(review: ReviewsGetRankingByKeywordResponse.Review) {
+            binding.tvNickname.text = review.me.nickname
+            binding.tvReviewText.text = review.content
+
+            // 별점
+            binding.ratingBar.rating = review.rating.toFloat()
+
+            // 날짜
+            val date = review.createdAt.substringBefore(" (") // "2026.02.24"
+            binding.tvDate.text = date
+
+            // 프로필 이미지
+            Glide.with(binding.root.context)
+                .load(review.me.profileImg)
+                .placeholder(R.drawable.image_product2)
+                .error(R.drawable.image_product)
+                .centerCrop()
+                .into(binding.ivProfile)
+
+            // 리뷰 상품 이미지 리스트
+            if (review.imageUrls.isNotEmpty()) { // 리뷰 이미지가 있다면
+                review.imageUrls.forEach { imageUrl ->
+                    // 리뷰 이미지 아이템 바인딩
+                    val itemBinding = ItemReviewImageBinding.inflate(
+                        LayoutInflater.from(binding.root.context),
+                        binding.llReviewPhoto,
+                        false
+                    )
+                    // 문자열 리뷰 이미지 로드
+                    Glide.with(itemBinding.root.context)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.image_product2)
+                        .error(R.drawable.image_product)
+                        .centerCrop()
+                        .into(itemBinding.root as ImageView)
+                }
+
+            }
+        }
+    }
+}
