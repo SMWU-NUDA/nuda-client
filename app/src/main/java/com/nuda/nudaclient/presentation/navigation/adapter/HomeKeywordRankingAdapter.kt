@@ -21,7 +21,6 @@ class HomeKeywordRankingAdapter(
         notifyDataSetChanged() // 리스트 전체 갱신
     }
 
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

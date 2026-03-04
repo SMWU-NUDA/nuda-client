@@ -21,11 +21,6 @@ import com.nuda.nudaclient.presentation.common.fragment.SortBottomSheet
 import com.nuda.nudaclient.presentation.product.adapter.ProductAdapter
 
 class ProductRankingActivity : BaseActivity() {
-    
-    // TODO 필터링 선택 시 목록 초기화 안됨 에러
-    // TODO 상품 카드 클릭 시 해당 상품 상세페이지로 이동 로직
-    // TODO 상품 랭킹 텍스트 늘어나면 잘리는 에러 수정 필요
-    
 
     private lateinit var binding: ActivityProductRankingBinding
     private var selectedSortTypeIdx = 0 // 필터링 기본값 인덱스 0, 이후 선택 필터 인덱스 전달로 상태 유지

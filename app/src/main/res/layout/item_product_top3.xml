@@ -22,6 +22,7 @@
 
         <!--랭킹 순위 이미지-->
         <ImageView
+            android:id="@+id/iv_rank"
             android:layout_width="28dp"
             android:layout_height="46dp"
             android:src="@drawable/img_number_1"
