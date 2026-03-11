@@ -27,14 +27,9 @@ import com.nuda.nudaclient.presentation.review.adapter.ReviewAdapter
 import com.nuda.nudaclient.utils.CustomToast
 
 class ReviewAllActivity : BaseActivity() {
-    
-    // TODO 별점, 리뷰 수 바인딩 필요
 
-    // TODO 전체 리뷰 목록 리사이클러뷰 설정 및 어댑터 연결
-    // TODO 키워드 필터링 설정 및 목록 로드
-    // TODO 좋아요 버튼 클릭 로직 구현
-
-    // TODO 리뷰 작성 후 리뷰 목록에 리뷰 추가되도록
+    // TODO 리뷰 작성 후 상품 상세 업데이트 반영 테스트
+    // TODO 리뷰 이미지 출력
 
     private lateinit var binding: ActivityReviewAllBinding
     private var productId = -1
@@ -241,6 +236,7 @@ class ReviewAllActivity : BaseActivity() {
             onSuccess = { body ->
                 if (body.success == true) {
                     body.data?.let { data ->
+                        Log.d("API_DEBUG", "(전체 리뷰 로드) 리뷰 개수: ${data.content.size}")
                         if (currentCursor == null) { // 첫 로드이거나 필터 변경 후 첫 로드인 경우
                             reviewAdapter.submitList(data.content) // 아이템 초기화
 

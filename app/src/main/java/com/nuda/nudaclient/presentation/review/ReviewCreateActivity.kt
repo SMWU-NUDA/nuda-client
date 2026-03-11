@@ -9,16 +9,19 @@ import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
 import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsCreateReviewRequest
 import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsUploadImageRequest
 import com.nuda.nudaclient.data.remote.dto.reviews.UriWithFile
 import com.nuda.nudaclient.databinding.ActivityReviewCreateBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
+import com.nuda.nudaclient.extensions.toFormattedPrice
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.utils.CustomToast
 import kotlinx.coroutines.Dispatchers
@@ -95,16 +98,65 @@ class ReviewCreateActivity : BaseActivity() {
         setBackButton() // 뒤로가기 버튼
     }
 
-    // 상태 변수에 따른 화면 로드9
+    // 상태 변수에 따른 화면 로드
     private fun loadScreen() {
         binding.itemProductCard.tvRank.visibility = View.GONE // 상품 아이템 카드의 순위 제거
 
-        // state = product : 상품 상세페이지의 리뷰 작성일 때 - 상품 정해짐
-        if (state == "mypage") { // 마이페이지의 리뷰 작성일 때 - 상품 선택 필요
-            binding.clSearch.visibility = View.VISIBLE // 검색바 설정
-            binding.itemProductCard.root.visibility = View.GONE // 상품 아이템 카드 설정
-            binding.viewOverlay.visibility = View.VISIBLE // 오버레이 설정
+        // guideline을 0dp로 이동
+        val guideline = binding.itemProductCard.guideline
+        val params = guideline.layoutParams as ConstraintLayout.LayoutParams
+        params.guideBegin = 0
+        guideline.layoutParams = params
+
+        when (state) {
+            "mypage" -> { // 마이페이지의 리뷰 작성일 때 - 상품 선택 필요
+                binding.clSearch.visibility = View.VISIBLE // 검색바 설정
+                binding.itemProductCard.root.visibility = View.GONE // 상품 아이템 카드 설정
+                binding.viewOverlay.visibility = View.VISIBLE // 오버레이 설정
+            }
+            "product" -> { // 상품 상세 페이지의 리뷰 작성일 때 - 상품 선택 필요 없음
+                binding.clSearch.visibility = View.GONE // 검색바 설정
+                binding.itemProductCard.root.visibility = View.VISIBLE // 상품 아이템 카드 설정
+                binding.viewOverlay.visibility = View.GONE // 오버레이 없음
+
+                loadProductInfo() // 상품 정보 로드
+            }
         }
+    }
+
+    private fun loadProductInfo() {
+        productsService.getProductInfo(productId)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        body.data?.let { data ->
+                            binding.itemProductCard.tvProductBrand.text = data.brandName
+                            binding.itemProductCard.tvProductName.text = data.name
+                            binding.itemProductCard.tvRatingAndReview.text = "${data.averageRating}(${data.reviewCount})"
+                            binding.itemProductCard.tvProductPrice.text = data.price.toFormattedPrice()
+
+                            // 성분 바인딩 (최대 3개)
+//                            val ingredients =  // List<String>
+//                            binding.itemProductCard.tvProductIngredient.text = when {
+//                                ingredients.isNullOrEmpty() -> "키워드 없음"
+//                                ingredients.size <= 3 -> ingredients.joinToString(", ")
+//                                else -> ingredients.take(3).joinToString(", ") + " ..."
+//                            }
+
+                            // 상품 이미지
+                            Glide.with(this)
+                                .load(data.mainImageUrls[0])
+                                .placeholder(R.drawable.image_product2)
+                                .error(R.drawable.image_product)
+                                .centerCrop()
+                                .into(binding.itemProductCard.ivProduct)
+
+                        }
+
+                    }
+                }
+            )
     }
 
     // 리뷰 이미지 등록 버튼 설정

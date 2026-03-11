@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
@@ -16,6 +17,8 @@ import com.nuda.nudaclient.data.remote.dto.common.Product
 import com.nuda.nudaclient.databinding.FragmentHomeBinding
 import com.nuda.nudaclient.databinding.FragmentMypageBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
+import com.nuda.nudaclient.extensions.setInfiniteScrollListener
+import com.nuda.nudaclient.presentation.navigation.adapter.HomeKeywordRankingAdapter
 import com.nuda.nudaclient.presentation.navigation.adapter.HomeRankingAdapter
 import com.nuda.nudaclient.presentation.product.ProductDetailActivity
 import com.nuda.nudaclient.presentation.product.ProductRankingActivity
@@ -27,6 +30,22 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var homeRankingAdapter: HomeRankingAdapter
+    private lateinit var irritationAdapter: HomeKeywordRankingAdapter
+    private lateinit var scentAdapter: HomeKeywordRankingAdapter
+    private lateinit var adhesionAdapter: HomeKeywordRankingAdapter
+    private lateinit var absorptionAdapter: HomeKeywordRankingAdapter
+
+    private var isIrritationLoading = false
+    private var isScentLoading = false
+    private var isAdhesionLoading = false
+    private var isAbsorptionLoading = false
+
+
+    private var currentIrritationLevelCursor: Int? = null // 다음 페이지 요청에 쓸 커서
+    private var currentScentCursor: Int? = null
+    private var currentAdhesionCursor: Int? = null
+    private var currentAbsorbencyCursor: Int? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +62,9 @@ class HomeFragment : Fragment() {
 
         // 전체 랭킹 ViewPager 설정
         setRankingViewPager()
+
+        // 키워드별 상품 목록 리사이클러뷰 설정
+        setKeywordRankingRecyclerView()
     }
 
     // 뷰 파괴 (프래그먼트 객체는 유지)
@@ -129,5 +151,164 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun setKeywordRankingRecyclerView() {
+        // 어댑터 생성 함수
+        fun makeAdapter() = HomeKeywordRankingAdapter { productId ->
+            val intent = Intent(requireContext(), ProductDetailActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
+
+        // 어댑터 생성
+        irritationAdapter = makeAdapter()
+        scentAdapter = makeAdapter()
+        adhesionAdapter = makeAdapter()
+        absorptionAdapter = makeAdapter()
+
+
+        binding.rvIrritationLevel.apply {
+            adapter = irritationAdapter
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false)
+        }
+
+        binding.rvScent.apply {
+            adapter = scentAdapter
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false)
+        }
+
+        binding.rvAdhesion.apply {
+            adapter = adhesionAdapter
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false)
+        }
+        binding.rvAbsorption.apply {
+            adapter = absorptionAdapter
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false)
+        }
+
+        setScrollListner() // 무한 스크롤 설정
+
+        // 상품 목록 로드
+        loadKeywordProductRanking("IRRITATION_LEVEL")
+        loadKeywordProductRanking("SCENT")
+        loadKeywordProductRanking("ADHESION")
+        loadKeywordProductRanking("ABSORBENCY")
+    }
+
+    // 무힌 스크롤 리스너 설정
+    private fun setScrollListner() {
+        binding.rvIrritationLevel.setInfiniteScrollListener { // 민감도
+            if (!getLoadingState("IRRITATION_LEVEL") // 로딩 중이 아니고
+                && currentIrritationLevelCursor != null) { // 다음 페이지가 있으면
+                loadKeywordProductRanking("IRRITATION_LEVEL") // 다음 페이지 로드
+            }
+        }
+        binding.rvScent.setInfiniteScrollListener { // 향
+            if (!getLoadingState("SCENT") // 로딩 중이 아니고
+                && currentScentCursor != null) { // 다음 페이지가 있으면
+                loadKeywordProductRanking("SCENT") // 다음 페이지 로드
+            }
+        }
+        binding.rvAdhesion.setInfiniteScrollListener { // 접착력
+            if (!getLoadingState("ADHESION") // 로딩 중이 아니고
+                && currentAdhesionCursor != null) { // 다음 페이지가 있으면
+                loadKeywordProductRanking("ADHESION") // 다음 페이지 로드
+            }
+        }
+        binding.rvAbsorption.setInfiniteScrollListener { // 흡수력
+            if (!getLoadingState("ABSORBENCY") // 로딩 중이 아니고
+                && currentAbsorbencyCursor != null) { // 다음 페이지가 있으면
+                loadKeywordProductRanking("ABSORBENCY") // 다음 페이지 로드
+            }
+        }
+    }
+
+    // 키워드별 로딩 상태 리턴
+    private fun getLoadingState(keyword: String): Boolean {
+        return when (keyword) {
+            "IRRITATION_LEVEL" -> isIrritationLoading
+            "SCENT" -> isScentLoading
+            "ADHESION" -> isAdhesionLoading
+            "ABSORBENCY" -> isAbsorptionLoading
+            else -> false
+        }
+    }
+
+    // 키워드별 로딩 상태 반영
+    private fun setLoadingState(keyword: String, loading: Boolean) {
+        when (keyword) {
+            "IRRITATION_LEVEL" -> isIrritationLoading = loading
+            "SCENT" -> isScentLoading = loading
+            "ADHESION" -> isAdhesionLoading = loading
+            "ABSORBENCY" -> isAbsorptionLoading = loading
+        }
+    }
+
+    // 키워드별 어댑터, 커서 반환
+    private fun getAdapterAndCursor(keyword: String): Pair<HomeKeywordRankingAdapter, Int?> {
+        return when (keyword) {
+            "IRRITATION_LEVEL" -> irritationAdapter to currentIrritationLevelCursor
+            "SCENT" -> scentAdapter to currentScentCursor
+            "ADHESION" -> adhesionAdapter to currentAdhesionCursor
+            "ABSORBENCY" -> absorptionAdapter to currentAbsorbencyCursor
+            else -> throw IllegalArgumentException("Unknown keyword: $keyword")
+        }
+    }
+
+    // 커서 업데이트
+    private fun updateCursor(keyword: String, cursor: Int?) {
+        when (keyword) {
+            "IRRITATION_LEVEL" -> currentIrritationLevelCursor = cursor
+            "SCENT" -> currentScentCursor = cursor
+            "ADHESION" -> currentAdhesionCursor = cursor
+            "ABSORBENCY" -> currentAbsorbencyCursor = cursor
+        }
+    }
+
+    // 키워드별 상품 목록 로드
+    private fun loadKeywordProductRanking(keyword: String) {
+        if (getLoadingState(keyword)) return // 키워드 별 로딩 체크 후 로딩 중이라면 리턴
+        setLoadingState(keyword, true) // 로딩 시작
+
+        val (adapter, cursor) = getAdapterAndCursor(keyword)
+
+        productsService.getGlobalProductRanking(
+            keyword = keyword,
+            cursor = cursor
+        ).executeWithHandler(
+            context = requireContext(),
+            onSuccess = { body ->
+                if (body.success == true) {
+                    body.data?.let { data ->
+                        if (cursor == null) { // 첫 로드이거나 필터 변경 후 첫 로드인 경우
+                            adapter.submitList(data.content)
+                        } else { // 첫 로드가 아닌 경우
+                            adapter.appendItems(data.content) // 무한 스크롤 추가
+                        }
+
+                        // 다음 커서 업데이트
+                        updateCursor(keyword,
+                            if (data.hasNext) data.nextCursor else null)
+                    }
+                }
+                // 로딩 종료
+                setLoadingState(keyword, false)
+            },
+            onError = {
+                setLoadingState(keyword, false)
+            }
+        )
+    }
 
 }

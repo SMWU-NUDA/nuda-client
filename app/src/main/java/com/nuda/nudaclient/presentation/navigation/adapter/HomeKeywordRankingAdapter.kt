@@ -21,6 +21,13 @@ class HomeKeywordRankingAdapter(
         notifyDataSetChanged() // 리스트 전체 갱신
     }
 
+    // 무한 스크롤 추가 로드 시
+    fun appendItems(newItems: List<Product>) {
+        val startPosition = products.size
+        products.addAll(newItems)
+        notifyItemRangeInserted(startPosition, newItems.size)
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -29,6 +36,13 @@ class HomeKeywordRankingAdapter(
             LayoutInflater.from(parent.context),
             parent,
             false)
+
+//        // 높이 강제 wrap_content
+//        binding.root.layoutParams = RecyclerView.LayoutParams(
+//            binding.root.layoutParams.width,
+//            RecyclerView.LayoutParams.WRAP_CONTENT
+//        )
+//
 
         return KeywordRankingViewHolder(binding)
     }

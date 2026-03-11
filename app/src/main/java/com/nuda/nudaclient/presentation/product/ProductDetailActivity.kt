@@ -45,12 +45,9 @@ import com.nuda.nudaclient.utils.setupBarGraph
 class ProductDetailActivity : BaseActivity() {
     // 상품 상세페이지로 이동할 때 Intent에 productId 담아서 전달 필요 !!!
 
-    // TODO 리뷰 요약 조회 API 연동 및 데이터 바인딩
-    // TODO 리뷰 좋아요 API 연동 및 기능 구현
-    // TODO 탭 설정 추가 (상품 정보, 성분, 리뷰)
-    // TODO 리뷰 작성 후 리뷰 목록에 리뷰 추가되도록
-
+    // TODO 리뷰 작성 후 상품 상세 업데이트 반영 테스트
     // TODO 상품 설명 이미지, 상품 정보 이미지 넣고 테스트까지
+    // TODO 리뷰 이미지 출력
 
     private lateinit var binding: ActivityProductDetailBinding
 
@@ -112,7 +109,10 @@ class ProductDetailActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
 
-        loadProductDetail()
+        loadProductInfo()
+        loadIngredientInfo()
+        loadReviewList()
+        loadReviewSummary()
     }
 
     // 툴바 설정
@@ -385,8 +385,11 @@ class ProductDetailActivity : BaseActivity() {
         ).executeWithHandler(
             context = this,
             onSuccess = { body ->
+                Log.d("API_DEBUG", "리뷰 목록 응답: ${body.success}")
                 if (body.success == true) {
                     body.data?.let { data ->
+                        Log.d("API_DEBUG", "(상품 상세페이지) 리뷰 개수: ${data.content.size}")
+
                         if (data.content.isEmpty()) { // 값이 비었을 때
                             binding.tvNoReview.visibility = View.VISIBLE
                             binding.rvReviews.visibility = View.GONE

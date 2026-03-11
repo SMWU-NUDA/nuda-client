@@ -103,7 +103,7 @@
                     android:layout_marginBottom="36dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="bottom"
@@ -148,7 +148,7 @@
                     android:layout_marginBottom="36dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="bottom"
@@ -159,7 +159,7 @@
                             android:id="@+id/tv_keyword_scent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="민감성"
+                            android:text="향"
                             android:fontFamily="@font/pretendard_bold"
                             android:textSize="20sp"
                             android:textColor="@color/gray1"
@@ -169,7 +169,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/popular_to"
+                            android:text="이 약한 제품"
                             android:fontFamily="@font/pretendard_light"
                             android:textSize="18sp"
                             android:textColor="@color/gray1"
@@ -193,7 +193,7 @@
                     android:layout_marginBottom="36dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="bottom"
@@ -204,7 +204,7 @@
                             android:id="@+id/tv_keyword_adhesion"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="민감성"
+                            android:text="접착력"
                             android:fontFamily="@font/pretendard_bold"
                             android:textSize="20sp"
                             android:textColor="@color/gray1"
@@ -214,7 +214,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/popular_to"
+                            android:text="이 좋은 제품"
                             android:fontFamily="@font/pretendard_light"
                             android:textSize="18sp"
                             android:textColor="@color/gray1"
@@ -238,7 +238,7 @@
                     android:layout_marginBottom="36dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="bottom"
@@ -249,7 +249,7 @@
                             android:id="@+id/tv_keyword_absorption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="민감성"
+                            android:text="흡수력"
                             android:fontFamily="@font/pretendard_bold"
                             android:textSize="20sp"
                             android:textColor="@color/gray1"
@@ -259,7 +259,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/popular_to"
+                            android:text="이 좋은 제품"
                             android:fontFamily="@font/pretendard_light"
                             android:textSize="18sp"
                             android:textColor="@color/gray1"

@@ -1,7 +1,9 @@
 package com.nuda.nudaclient.presentation.review.adapter
 
+import android.app.Dialog
 import android.media.Image
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -103,6 +105,8 @@ class ReviewAdapter(
                 .into(binding.ivProfile)
 
             // 리뷰 상품 이미지 리스트
+            binding.llReviewPhoto.removeAllViews() // 기존 뷰 제거
+
             if (review.imageUrls.isNotEmpty()) { // 리뷰 이미지가 있다면
                 review.imageUrls.forEach { imageUrl ->
                     // 리뷰 이미지 아이템 바인딩
@@ -118,8 +122,35 @@ class ReviewAdapter(
                         .error(R.drawable.image_product)
                         .centerCrop()
                         .into(itemBinding.root as ImageView)
-                }
 
+                    binding.llReviewPhoto.addView(itemBinding.root) // 컨테이너에 뷰 추가
+
+                    // 이미지 클릭 시 확대
+                    itemBinding.root.setOnClickListener {
+                        val dialog = Dialog(binding.root.context)
+
+                        val density = binding.root.context.resources.displayMetrics.density
+                        val size = (300 * density).toInt() // 300dp를 px로 변환
+
+                        val imageView = ImageView(binding.root.context).apply {
+                            layoutParams = ViewGroup.LayoutParams(size, size)
+                            scaleType = ImageView.ScaleType.FIT_CENTER
+                        }
+
+                        Glide.with(binding.root.context)
+                            .load(imageUrl)
+                            .into(imageView)
+
+                        dialog.setContentView(imageView)
+                        dialog.window?.apply {
+                            setLayout(size, size)
+                            setBackgroundDrawableResource(android.R.color.transparent)
+                        }
+                        dialog.show()
+                    }
+                }
+            } else { // 리뷰 이미지가 없을 때
+                binding.llReviewPhoto.visibility = View.GONE
             }
         }
     }
