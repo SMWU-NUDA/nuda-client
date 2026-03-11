@@ -23,7 +23,7 @@
         android:text="물류 및 배송 카테고리에서 40% 언급 발생"
         android:textSize="16sp"
         android:textColor="@color/gray2"
-        android:letterSpacing="0.05"
+        android:letterSpacing="0.02"
         android:layout_marginLeft="10dp"/>
 
 </LinearLayout>

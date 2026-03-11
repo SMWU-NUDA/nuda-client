@@ -38,7 +38,7 @@ interface ReviewsService {
         @Query("topN") topN: Int = 3
     ) : Call<ApiResponse<ReviewsGetKeywordResponse>>
 
-    // GET products/{productId}/reviews : 키워드별 전체 리뷰 랭킹 조회
+    // GET /products/{productId}/reviews/global-rankings : 키워드별 전체 리뷰 랭킹 조회
     /**
      * DEFAULT : 전체
      * IRRITATION_LEVEL : 민감도 순
@@ -46,7 +46,7 @@ interface ReviewsService {
      * ABSORBENCY : 흡수력 순
      * ADHESION : 접착력 순
      */
-    @GET("products/{productId}/reviews")
+    @GET("products/{productId}/reviews/global-rankings")
     fun getReviewRankingByKeyword(
         @Path("productId") productId: Int,
         @Query("keyword") keyword: String,

@@ -204,6 +204,7 @@
     <string name="now_trend">지금 이 제품의 트렌드는</string>
     <string name="write_review">리뷰 쓰기</string>
     <string name="no_analysis">리뷰 10개 이상부터 AI 분석이 제공됩니다</string>
+    <string name="non_product">존재하지 않는 상품입니다</string>
     <string name="no_reviews">작성된 리뷰가 없습니다</string>
     <string name="how_about_this_product">이 제품 어떠셨나요?</string>
     <string name="input_rating">별점을 입력해주세요 (필수)</string>

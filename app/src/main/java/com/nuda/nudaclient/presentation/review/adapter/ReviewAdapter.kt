@@ -13,7 +13,7 @@ import com.nuda.nudaclient.databinding.ItemReviewCardBinding
 import com.nuda.nudaclient.databinding.ItemReviewImageBinding
 
 class ReviewAdapter(
-    private val onLikeClick: (Int, Boolean) -> Unit
+    private val onLikeClick: (Int, Int) -> Unit
 ) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
 
     private val items = mutableListOf<ReviewsGetRankingByKeywordResponse.Review>()
@@ -30,6 +30,13 @@ class ReviewAdapter(
         val startPosition = items.size
         items.addAll(newItems)
         notifyItemRangeInserted(startPosition, newItems.size)
+    }
+    
+    // 좋아요 업데이트 
+    fun updateLikeState(position: Int, likedByMe: Boolean, likeCount: Int) {
+        items[position].likedByMe = likedByMe
+        items[position].likeCount = likeCount
+        notifyItemChanged(position) // 해당 위치의 아이템만 갱신
     }
 
     override fun onCreateViewHolder(
@@ -54,7 +61,7 @@ class ReviewAdapter(
 
         // 좋아요 버튼 클릭 시 
         holder.likeButton.setOnClickListener {
-            onLikeClick(item.likeCount, item.likedByMe) // 좋아요 수, 선택 여부 전달
+            onLikeClick(item.reviewId, position) // 리뷰 아이디 전달
         }
     }
 
@@ -78,6 +85,14 @@ class ReviewAdapter(
             // 날짜
             val date = review.createdAt.substringBefore(" (") // "2026.02.24"
             binding.tvDate.text = date
+
+            // 좋아요 버튼
+            if (review.likedByMe) { // 좋아요 선택 상태
+                binding.ivLike.setImageResource(R.drawable.img_like_selected)
+            } else {
+                binding.ivLike.setImageResource(R.drawable.img_like_unselected)
+            }
+            binding.tvLikeCount.text = "좋아요 ${review.likeCount}"
 
             // 프로필 이미지
             Glide.with(binding.root.context)

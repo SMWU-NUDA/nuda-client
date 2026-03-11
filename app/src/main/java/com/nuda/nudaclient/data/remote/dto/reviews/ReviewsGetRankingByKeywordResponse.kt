@@ -12,8 +12,8 @@ data class ReviewsGetRankingByKeywordResponse(
         val productId: Int,
         val me: Me,
         val rating: Double,
-        val likeCount: Int,
-        val likedByMe: Boolean,
+        var likeCount: Int,
+        var likedByMe: Boolean,
         val content: String,
         val imageUrls: List<String>,
         val createdAt: String

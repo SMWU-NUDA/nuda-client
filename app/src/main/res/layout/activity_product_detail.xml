@@ -141,7 +141,9 @@
                     <LinearLayout
                         android:id="@+id/ll_moveToReviewPage"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        >
                         <!--리뷰(밑줄 추가 필요)-->
                         <TextView
                             android:id="@+id/tv_review"
@@ -731,6 +733,22 @@
                     android:visibility="gone"
                     />
 
+                <!--존재하지 않는 상품을 때-->
+                <TextView
+                    android:id="@+id/non_exist_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/non_product"
+                    android:fontFamily="@font/pretendard_light"
+                    android:textSize="15sp"
+                    android:textColor="@color/gray4"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:background="@drawable/bg_my_review_card"
+                    app:layout_constraintTop_toBottomOf="@id/space"
+                    android:visibility="gone"
+                    />
+
                 <!--리뷰 AI 분석 그룹 (리뷰 없을 경우 gone 처리)-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/review_summary_group"
@@ -889,31 +907,18 @@
                 app:layout_constraintTop_toBottomOf="@id/constraint_review"
                 />
 
-            <!--리뷰 목록 (최대 5개)-->
-            <LinearLayout
-                android:id="@+id/ll_reviews"
+            <FrameLayout
+                android:id="@+id/fl_review_area"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="29dp"
+                android:layout_marginTop="30dp"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toBottomOf="@id/line8"
-                >
-
-                <include
-                    layout="@layout/item_review_card"/>
-                <include
-                    layout="@layout/item_review_card"/>
-                <include
-                    layout="@layout/item_review_card"/>
-                <include
-                    layout="@layout/item_review_card"/>
-                <include
-                    layout="@layout/item_review_card"/>
+                app:layout_constraintTop_toBottomOf="@id/line8">
 
                 <!--리뷰 없을 경우 (없을 때만 표시)-->
                 <TextView
+                    android:id="@+id/tv_no_review"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/no_reviews"
@@ -923,8 +928,18 @@
                     android:gravity="center"
                     android:padding="15dp"
                     android:background="@drawable/bg_my_review_card"
+                    android:layout_marginBottom="18dp"
                     android:visibility="gone"/>
-            </LinearLayout>
+
+                <!--리뷰 목록 (최대 5개)-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    />
+            </FrameLayout>
 
             <!--리뷰 전체 보기 버튼-->
             <androidx.appcompat.widget.AppCompatButton
@@ -940,7 +955,7 @@
                 android:layout_marginHorizontal="20dp"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toBottomOf="@id/ll_reviews"
+                app:layout_constraintTop_toBottomOf="@id/fl_review_area"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"

@@ -10,7 +10,7 @@ import com.nuda.nudaclient.R
 import com.nuda.nudaclient.databinding.ItemProductDetailImageBinding
 
 class ProductImagesAdapter(
-    private val imageList: List<String> // 이미지 리소스 URL
+    private val imageList: List<String>? // 이미지 리소스 URL
 ) : RecyclerView.Adapter<ProductImagesAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -30,11 +30,15 @@ class ProductImagesAdapter(
         holder: ImageViewHolder,
         position: Int
     ) {
+        if (imageList == null) {
+            holder.bind("")
+            return
+        }
         holder.bind(imageList[position])
     }
 
     override fun getItemCount(): Int {
-        return imageList.size
+        return imageList?.size ?: 0
     }
 
     // 중첩 클래스로 뷰 홀더 정의

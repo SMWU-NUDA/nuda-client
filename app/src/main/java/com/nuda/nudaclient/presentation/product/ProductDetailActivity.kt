@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.nuda.nudaclient.R
@@ -35,6 +36,7 @@ import com.nuda.nudaclient.presentation.ingredient.IngredientComponentActivity
 import com.nuda.nudaclient.presentation.product.adapter.ProductImagesAdapter
 import com.nuda.nudaclient.presentation.review.ReviewAllActivity
 import com.nuda.nudaclient.presentation.review.ReviewCreateActivity
+import com.nuda.nudaclient.presentation.review.adapter.ReviewAdapter
 import com.nuda.nudaclient.presentation.shopping.ShoppingCartActivity
 import com.nuda.nudaclient.presentation.shopping.ShoppingOrderCompleteActivity
 import com.nuda.nudaclient.utils.CustomToast
@@ -46,13 +48,17 @@ class ProductDetailActivity : BaseActivity() {
     // TODO 리뷰 요약 조회 API 연동 및 데이터 바인딩
     // TODO 리뷰 좋아요 API 연동 및 기능 구현
     // TODO 탭 설정 추가 (상품 정보, 성분, 리뷰)
+    // TODO 리뷰 작성 후 리뷰 목록에 리뷰 추가되도록
 
+    // TODO 상품 설명 이미지, 상품 정보 이미지 넣고 테스트까지
 
     private lateinit var binding: ActivityProductDetailBinding
 
     private lateinit var viewPagerProductImages: ViewPager2
     private lateinit var layoutIndicator: LinearLayout
     private lateinit var imageAdapter: ProductImagesAdapter
+
+    private lateinit var reviewAdapter: ReviewAdapter
 
     // 탭 레이아웃 관련 변수
     private var productInfoSectionTop = 0 // 상품 정보 섹션 상단 위치 저장
@@ -101,6 +107,12 @@ class ProductDetailActivity : BaseActivity() {
         measureSectionPositions()
         setupScrollListener()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        loadProductDetail()
     }
 
     // 툴바 설정
@@ -226,7 +238,7 @@ class ProductDetailActivity : BaseActivity() {
 
     // 상품 정보 로드
     private fun loadProductInfo() {
-        productsService.getProductInfo(productId) // 묵업 데이터 입력 (productId = 1)
+        productsService.getProductInfo(productId)
             .executeWithHandler(
                 context = this,
                 onSuccess = { body ->
@@ -241,16 +253,18 @@ class ProductDetailActivity : BaseActivity() {
                             binding.tvRatingScore.text = data.averageRating.toString()
                             binding.tvReview.text = "리뷰 ${data.reviewCount}개"
                             binding.tvPrice.text = data.price.toFormattedPrice()
+                            binding.tvReviewRatingScoreAndCount.text = "${data.averageRating}(${data.reviewCount})"
+                            binding.btnMoveToAllReviewsBottom.text = "${data.reviewCount}개 리뷰 전체보기"
 
                             // 리뷰 개수 텍스트에 밑줄 플래그 추가
                             binding.tvReview.paintFlags = binding.tvReview.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
                             // 상품 이미지 리스트
-                            setupViewPager(data.imageUrls)
-                            setupIndicator(data.imageUrls.size)
+                            setupViewPager(data.mainImageUrls)
+                            setupIndicator(data.mainImageUrls.size)
 
-//                            // 상품 정보 이미지 (크롤링 후 수정)
-//                            data.content
+                            // 상품 정보 이미지 (크롤링 후 수정)
+//                            data.
 
                             // 찜하기
                             if (data.productLikedByMe) { // 상품 찜하기 여부
@@ -325,8 +339,68 @@ class ProductDetailActivity : BaseActivity() {
 
     // 리뷰 정보 로드
     private fun loadReviewInfo() {
+        setupRecyclerView()
         loadReviewSummary()
-//        loadReviewList()
+    }
+
+    // 리사이클러뷰 설정
+    private fun setupRecyclerView() {
+        reviewAdapter = ReviewAdapter() { reviewId, position ->
+            setLikeReview(reviewId, position) // 좋아요 버튼 클릭 시 동작 설정
+        }
+        binding.rvReviews.apply {
+            adapter = reviewAdapter
+            layoutManager = LinearLayoutManager(this@ProductDetailActivity)
+        }
+
+        loadReviewList() // 리뷰 목록 로드
+    }
+
+
+    // 리뷰 좋아요 버튼 설정
+    private fun setLikeReview(reviewId: Int, position: Int) {
+        reviewsService.likeReview(reviewId)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        body.data?.let { data ->
+                            // 어댑터의 좋아요 업데이트 메소드
+                            reviewAdapter.updateLikeState(
+                                position = position,
+                                likedByMe = data.liked,
+                                likeCount = data.likeCount)
+                        }
+                    }
+                }
+            )
+    }
+
+    // 리뷰 목록 로드
+    private fun loadReviewList() {
+        reviewsService.getReviewRankingByKeyword(
+            productId = productId, // 상품 아이디
+            keyword = "DEFAULT", // 선택된 키워드
+            cursor = null
+        ).executeWithHandler(
+            context = this,
+            onSuccess = { body ->
+                if (body.success == true) {
+                    body.data?.let { data ->
+                        if (data.content.isEmpty()) { // 값이 비었을 때
+                            binding.tvNoReview.visibility = View.VISIBLE
+                            binding.rvReviews.visibility = View.GONE
+                        } else { // 값이 있을 때
+                            binding.tvNoReview.visibility = View.GONE
+                            binding.rvReviews.visibility = View.VISIBLE
+
+                            // 어댑터에 최대 5개 리뷰 전달
+                            reviewAdapter.submitList(data.content.take(5))
+                        }
+                    }
+                }
+            }
+        )
     }
 
     // 리뷰 AI 요약 조회
@@ -338,6 +412,24 @@ class ProductDetailActivity : BaseActivity() {
                     if (body.success == true) {
                         Log.d("API_DEBUG", "리뷰 AI 요약 조회 성공")
                         body.data?.let { data ->
+                            // ml 서버가 죽었을 경우
+                            if (data.keywords.positive.isEmpty()
+                                && data.keywords.negative.isEmpty()
+                                && data.satisfactionRate == 50
+                                && data.trendHighlights.isEmpty()) {
+                                binding.reviewSummaryGroup.visibility = View.GONE
+                                binding.noReviewSummary.visibility = View.VISIBLE
+                                binding.nonExistProduct.visibility = View.GONE
+
+                                CustomToast.show(binding.root, "ml 서버가 응답하지 않습니다")
+                                Log.d("API_DEBUG", "ml 서버가 응답하지 않습니다")
+                                return@executeWithHandler
+                            }
+
+                            binding.reviewSummaryGroup.visibility = View.VISIBLE
+                            binding.noReviewSummary.visibility = View.GONE
+                            binding.nonExistProduct.visibility = View.GONE
+
                             // 긍정/부정 키워드 설정
                             addKeywordItems(binding.llPositiveItems, data.keywords.positive)
                             addKeywordItems(binding.llNegativeItems, data.keywords.negative)
@@ -360,6 +452,20 @@ class ProductDetailActivity : BaseActivity() {
                             // 트렌드 설정
                             addTrendItems(binding.llTrendsItems, data.trendHighlights)
                             Log.d("API_DEBUG", "trends: ${data.trendHighlights}")
+                        }
+                    }
+                },
+                onError = { errorResponse ->
+                    when (errorResponse?.code) {
+                        "ML_REVIEW_INSUFFICIENT" -> { // 리뷰 개수가 10개 미만일 경우
+                            binding.reviewSummaryGroup.visibility = View.GONE
+                            binding.noReviewSummary.visibility = View.VISIBLE
+                            binding.nonExistProduct.visibility = View.GONE
+                        }
+                        "PRODUCT_INVALID" -> { // 존재하지 않는 상품일 경우
+                            binding.reviewSummaryGroup.visibility = View.GONE
+                            binding.noReviewSummary.visibility = View.GONE
+                            binding.nonExistProduct.visibility = View.VISIBLE
                         }
                     }
                 }
@@ -614,28 +720,6 @@ class ProductDetailActivity : BaseActivity() {
                 )
         }
     }
-
-    // 리뷰 카드의 좋아요 클릭 시 (좋아요 하거나 취소) -> 어댑터에 추가?? linearLayout도 어댑터 적용 되나. 이거 전체 리뷰에도 같이 써야할 것 같은디
-    private fun setLikeReview(reviewId: Int) {
-        reviewsService.likeReview(reviewId)
-            .executeWithHandler(
-                context = this,
-                onSuccess = { body ->
-                    if (body.success == true) {
-                        body.data?.let { data ->
-                            if (data.liked) { // true : 좋아요
-                                // 리뷰 아이템 카드의 좋아요 하트 변경 (selected로)
-                            } else { // false : 취소
-                                // 리뷰 아이템 카드의 좋아요 하트 변경 (unselected로)
-                            }
-                        }
-                    }
-                }
-            )
-
-    }
-
-
 
 
 
