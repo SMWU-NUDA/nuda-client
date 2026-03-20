@@ -9,7 +9,7 @@ import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetAllResponse
 import com.nuda.nudaclient.databinding.ItemIngredientCardBinding
 
 // 성분 아이템 목록 어댑터
-class IngredientItemAdapter(
+class  IngredientItemAdapter(
     private val ingredientList: List<IngredientsGetAllResponse.Ingredient>,
     private val onItemClick: (Int) -> Unit)
     : RecyclerView.Adapter<IngredientItemAdapter.IngredientItemViewHolder>() {
