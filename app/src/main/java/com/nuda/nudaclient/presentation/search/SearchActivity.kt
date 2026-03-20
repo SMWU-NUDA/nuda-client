@@ -69,7 +69,6 @@ class SearchActivity : BaseActivity() {
         setupAutoComplete()
         setupSearchBar()
         setupSearchButton()
-
     }
 
     override fun onDestroy() {
@@ -256,6 +255,7 @@ class SearchActivity : BaseActivity() {
     private fun navigateToSearchResult(query: String) {
         val intent = Intent(this, SearchResultActivity::class.java)
         intent.putExtra("query", query)
+        intent.putExtra("PAGEMODE", pageMode)
         startActivity(intent)
     }
 

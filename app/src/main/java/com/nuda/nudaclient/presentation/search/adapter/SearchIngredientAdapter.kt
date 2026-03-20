@@ -1,4 +1,4 @@
-package com.nuda.nudaclient.presentation.ingredient.adapter
+package com.nuda.nudaclient.presentation.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,16 +8,31 @@ import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.dto.common.Ingredient
 import com.nuda.nudaclient.databinding.ItemIngredientCardBinding
 
-// 성분 아이템 목록 어댑터
-class  IngredientItemAdapter(
-    private val ingredientList: List<Ingredient>,
-    private val onItemClick: (Int) -> Unit)
-    : RecyclerView.Adapter<IngredientItemAdapter.IngredientItemViewHolder>() {
+class SearchIngredientAdapter(
+    private val onItemClick: (Int) -> Unit
+) : RecyclerView.Adapter<SearchIngredientAdapter.IngredientItemViewHolder>() {
+
+    private val items = mutableListOf<Ingredient>()
+
+    // 처음 로드 or 필터 변경 시 전체 교체
+    fun submitList(newItems: List<Ingredient>) {
+        items.clear() // 전체 리스트 제거
+        items.addAll(newItems) // 새로운 리스트로 교체
+        notifyDataSetChanged() // 리스트 전체 갱신
+    }
+
+    // 무한 스크롤 추가 로드 시
+    fun appendItems(newItems: List<Ingredient>) {
+        val startPosition = items.size
+        items.addAll(newItems)
+        notifyItemRangeInserted(startPosition, newItems.size)
+    }
+
 
     // 뷰 홀더 만드는 함수
     override fun onCreateViewHolder(
-    parent: ViewGroup,
-    viewType: Int): IngredientItemViewHolder {
+        parent: ViewGroup,
+        viewType: Int): IngredientItemViewHolder {
         val binding = ItemIngredientCardBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -31,22 +46,21 @@ class  IngredientItemAdapter(
         holder: IngredientItemViewHolder,
         position: Int
     ) {
-        val ingredientItem = ingredientList[position]
+        val item = items[position]
 
         // 성분 아이템 카드에 데이터 바인딩
-        holder.bind(ingredientItem)
+        holder.bind(item)
         // 성분 아이템 카드 클릭 이벤트
         holder.ingredientItemCard.setOnClickListener {
-            onItemClick(ingredientItem.ingredientId)
+            onItemClick(item.ingredientId)
         }
     }
 
     override fun getItemCount(): Int {
-        return ingredientList.size
+        return items.size
     }
 
-    // 중첩 클래스 뷰 홀더
-    class IngredientItemViewHolder(
+    inner class IngredientItemViewHolder(
         private val binding: ItemIngredientCardBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
