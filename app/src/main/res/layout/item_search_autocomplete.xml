@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--자동 완성 키워드 텍스트-->
+    <TextView
+        android:id="@+id/tv_autocomplete_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="폴리에스테르"
+        android:fontFamily="@font/pretendard_regular"
+        android:textSize="14sp"
+        android:textColor="@color/gray1"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        />
+
+    <!--자동 완성 구분선-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray5"
+        android:layout_marginHorizontal="14dp"
+        />
+
+</LinearLayout>

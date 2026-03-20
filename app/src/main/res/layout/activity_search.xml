@@ -82,6 +82,30 @@
         app:layout_constraintBottom_toBottomOf="@id/et_searchbar"
         />
 
+    <!--자동완성 드롭다운-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_autocomplete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/et_searchbar"
+        app:layout_constraintStart_toStartOf="@id/et_searchbar"
+        app:layout_constraintEnd_toEndOf="@id/et_searchbar"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_autocomplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            />
+
+    </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/tv_search_keyword"
         android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 package com.nuda.nudaclient.presentation.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
@@ -97,6 +98,7 @@ class SearchActivity : BaseActivity() {
                             if (body.success == true) {
                                 body.data?.let { data ->
                                     setPopularKeywords(data.stringList)
+                                    Log.d("API_DEBUG", "상품 인기 검색어 조회 성공")
                                 }
                             }
                         }
@@ -110,6 +112,7 @@ class SearchActivity : BaseActivity() {
                             if (body.success == true) {
                                 body.data?.let { data ->
                                     setPopularKeywords(data.stringList)
+                                    Log.d("API_DEBUG", "성분 인기 검색어 조회 성공")
                                 }
                             }
                         }
