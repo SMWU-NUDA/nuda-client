@@ -10,7 +10,6 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 
 class SearchActivity : BaseActivity() {
 
-    // TODO 제품, 상품 검색 버튼 클릭에 따라 UI 업데이트
     // TODO 제품 검색일 떄, 상품 검색일 때 나눠서 처리 필요 (API 호출도 따로 관리)
     // TODO 제품 검색 결과, 상품 검색 결과 둘 다 같은 액티비티지만 intent에 상태 변수 담아서 함께 전달
 

@@ -6,6 +6,7 @@ import com.nuda.nudaclient.data.remote.api.IngredientsService
 import com.nuda.nudaclient.data.remote.api.MembersService
 import com.nuda.nudaclient.data.remote.api.ProductsService
 import com.nuda.nudaclient.data.remote.api.ReviewsService
+import com.nuda.nudaclient.data.remote.api.SearchService
 import com.nuda.nudaclient.data.remote.api.ShoppingService
 import com.nuda.nudaclient.data.remote.api.SignupService
 import okhttp3.OkHttpClient
@@ -82,5 +83,10 @@ object RetrofitClient {
     // 장바구니, 결제
     val shoppingService : ShoppingService by lazy {
         retrofit.create(ShoppingService::class.java)
+    }
+
+    // 검색
+    val searchService : SearchService by lazy {
+        retrofit.create(SearchService::class.java)
     }
 }
