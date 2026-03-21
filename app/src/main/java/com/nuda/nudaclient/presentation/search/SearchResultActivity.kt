@@ -19,7 +19,7 @@ import retrofit2.http.Query
 // intent에 검색 텍스트, 화면 모드 함께 전달 필요!!
 class SearchResultActivity : BaseActivity() {
     // 검색 결과 화면으로 이동할 때 intent에 검색 상태 변수 전달 필요!!
-    
+
     // TODO 상품 검색, 성분 검색 API 호출 및 응답 UI 업데이트
 
     private lateinit var binding: ActivitySearchResultBinding
@@ -57,7 +57,6 @@ class SearchResultActivity : BaseActivity() {
     private fun setToolbar() {
         setToolbarTitle("") // 타이틀
         setBackButton() // 뒤로가기 버튼
-        setCartButton() // 장바구니 버튼만 추가
         setToolbarShadow(false) // 툴바 그림자 제거
     }
 

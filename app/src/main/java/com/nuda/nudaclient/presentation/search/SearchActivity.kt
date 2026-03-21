@@ -20,10 +20,6 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.search.adapter.AutoCompleteAdapter
 
 class SearchActivity : BaseActivity() {
-
-    // TODO 제품 검색일 떄, 상품 검색일 때 나눠서 처리 필요 (API 호출도 따로 관리)
-    // TODO 제품 검색 결과, 상품 검색 결과 둘 다 같은 액티비티지만 intent에 상태 변수 담아서 함께 전달
-
     private lateinit var binding : ActivitySearchBinding
     private lateinit var autoCompleteAdapter: AutoCompleteAdapter
 
@@ -91,18 +87,21 @@ class SearchActivity : BaseActivity() {
         setSearchModeButton(true)
         pageMode = "PRODUCT"
         setUIByMode()
+        binding.etSearchbar.setHint("제품, 성분으로 검색하세요")
 
         // 제품 검색 버튼
         binding.btnSearchProduct.setOnClickListener {
             setSearchModeButton(true)
             pageMode = "PRODUCT"
             setUIByMode()
+            binding.etSearchbar.setHint("제품, 성분으로 검색하세요")
         }
         // 상품 검색 버튼
         binding.btnSearchIngredient.setOnClickListener {
             setSearchModeButton(false)
             pageMode = "INGREDIENT"
             setUIByMode()
+            binding.etSearchbar.setHint("성분을 검색하세요")
         }
     }
 

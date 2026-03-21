@@ -248,8 +248,15 @@ class SignupSurveyActivity : AppCompatActivity() {
         setupPrevPage()
         setupRegister()
         setupBack()
+        setSearchUsedProduct()
     }
 
+    // 사용한 제품 선택 버튼
+    private fun setSearchUsedProduct() {
+        binding.btnAddProduct.setOnClickListener {
+            
+        }
+    }
 
     // 이전 페이지 이동 버튼
     private fun setupPrevPage() {
@@ -267,9 +274,6 @@ class SignupSurveyActivity : AppCompatActivity() {
     // 회원가입 버튼
     private fun setupRegister() {
         binding.btnRegister.setOnClickListener {
-            // 상품 목록 mock 데이터 전달
-            productIds = listOf(1, 201)
-
             // 설문 조사 데이터 수집
             getSurveyResults()
 
