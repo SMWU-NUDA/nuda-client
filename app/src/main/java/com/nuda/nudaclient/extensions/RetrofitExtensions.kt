@@ -1,23 +1,28 @@
 package com.nuda.nudaclient.extensions
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson
+import com.nuda.nudaclient.data.local.TokenManager
 import com.nuda.nudaclient.data.remote.dto.common.ErrorResponse
+import com.nuda.nudaclient.presentation.login.LoginActivity
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
 import retrofit2.Response
-
 // API 호출 확장 함수
+
+private val gson = Gson()
 
 // 제네릭 확장 함수
 // <T> : 어떤 타입이든 올 수 있음 (BaseResponse, AuthLoginResponse 등)
 fun <T> Call<T>.executeWithHandler(
     context: Context, // Toast를 띄울 때 필요
     onSuccess: (T) -> Unit, // 성공했을 때 실행할 코드 묶음
-    onError: ((ErrorResponse?) -> Unit)? = null // 실패했을 때 실행할 코드 묶음
+    onError: ((ErrorResponse?) -> Unit)? = null, // 실패했을 때 실행할 코드 묶음
+    skipGlobalTokenHandler: Boolean = false
 ) {
     // this : authService.getNickname() 같은 Call 객체. API 호출의 응답으로 오는 Call 객체
     this.enqueue(object : Callback<T>{
@@ -28,7 +33,6 @@ fun <T> Call<T>.executeWithHandler(
                 // 에러 바디 파싱
                 val errorResponse = try {
                     val errorBody = response.errorBody()?.string()
-                    val gson = Gson()
 
                     Log.e("API_ERROR", "에러 코드: ${response.code()}")
                     Log.e("API_ERROR", "에러 메세지: ${response.message()}")
@@ -39,6 +43,19 @@ fun <T> Call<T>.executeWithHandler(
                 } catch (e: Exception) {
                     Log.e("API_ERROR", "에러 파싱 실패", e)
                     null
+                }
+
+                if (!skipGlobalTokenHandler) { // 스킵이 없을 경우 공통 실행
+                    when (errorResponse?.code) {
+                        "AUTH_EXPIRED_TOKEN", "AUTH_INVALID_ACCESS_TOKEN" -> {
+                            TokenManager.clearAuthToken(context)
+                            val intent = Intent(context, LoginActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            }
+                            context.startActivity(intent)
+                            return // onError 콜백 호출 안 함
+                        }
+                    }
                 }
 
                 onError?.invoke(errorResponse) ?:

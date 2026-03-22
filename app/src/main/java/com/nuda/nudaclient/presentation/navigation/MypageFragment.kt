@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.local.TokenManager
-import com.nuda.nudaclient.data.local.UserPreferences
 import com.nuda.nudaclient.data.remote.RetrofitClient.authService
 import com.nuda.nudaclient.data.remote.RetrofitClient.membersService
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
@@ -26,7 +25,7 @@ import com.nuda.nudaclient.presentation.shopping.ShoppingOrderHistoryActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MyPageFragment : Fragment() {
-    
+
     // 프래그먼트 생명 주기의 onDestroyView() 콜백에서 뷰는 삭제되지만 프래그먼트는 유지
     private var _binding: FragmentMypageBinding? = null // nullabel, 뷰가 없을 때는 null로 초기화
     private val binding get() = _binding!! // non-null, 뷰가 있는 시점(onViewCreate~onDestoryView)에만 사용
@@ -181,13 +180,14 @@ class MyPageFragment : Fragment() {
                     onSuccess = { body ->
                         if (body.success == true) {
                             // 토큰 전체 삭제
-                            TokenManager.clearAllTokens(requireContext())
-                            // 회원 정보 pref 삭제
-                            UserPreferences.clearUserInfo(requireContext())
+                            TokenManager.clearAuthToken(requireContext())
+
                             // 로그인 화면으로 이동
-                            val intent = Intent(requireContext(), LoginActivity::class.java)
+                            val intent = Intent(requireContext(), LoginActivity::class.java).apply {
+                                // 모든 화면 흐름 clear
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            }
                             startActivity(intent)
-                            requireActivity().finish() // 프래그먼트가 속한 액티비티 종료
                         }
                     }
                 )
@@ -209,12 +209,12 @@ class MyPageFragment : Fragment() {
                         if (body.success == true) {
                             // 토큰 전체 삭제
                             TokenManager.clearAllTokens(requireContext())
-                            // 회원 정보 pref 삭제
-                            UserPreferences.clearUserInfo(requireContext())
+
                             // 로그인 화면으로 이동
-                            val intent = Intent(requireContext(), LoginActivity::class.java)
+                            val intent = Intent(requireContext(), LoginActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            }
                             startActivity(intent)
-                            requireActivity().finish() // 프래그먼트가 속한 액티비티 종료
                         }
                     }
                 )

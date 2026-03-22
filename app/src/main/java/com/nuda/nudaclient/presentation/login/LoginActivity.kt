@@ -8,11 +8,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.nuda.nudaclient.presentation.common.activity.MainActivity
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.local.SignupDataManager
 import com.nuda.nudaclient.data.local.TokenManager
-import com.nuda.nudaclient.data.local.UserPreferences
 import com.nuda.nudaclient.data.remote.RetrofitClient.authService
 import com.nuda.nudaclient.data.remote.RetrofitClient.signupService
 import com.nuda.nudaclient.data.remote.dto.auth.AuthLoginRequest
@@ -20,6 +18,7 @@ import com.nuda.nudaclient.databinding.ActivityLoginBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.highlightInvalidField
 import com.nuda.nudaclient.extensions.setupPasswordVisible
+import com.nuda.nudaclient.presentation.navigation.NavigationActivity
 import com.nuda.nudaclient.presentation.signup.SignupAccountActivity
 import com.nuda.nudaclient.utils.CustomToast
 
@@ -128,11 +127,9 @@ class LoginActivity : AppCompatActivity() {
                     CustomToast.show(binding.root, "로그인 성공")
                     // 로그인 응답 토큰 저장
                     TokenManager.saveTokens(this, body.data?.accessToken, body.data?.refreshToken)
-                    // 로그인 응답 회원 정보 저장
-                    UserPreferences.saveUserInfo(this, body.data?.meResponse!!)
 
                     // 홈화면으로 이동
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, NavigationActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
@@ -160,7 +157,7 @@ class LoginActivity : AppCompatActivity() {
                         // 회원가입 화면 이동
                         when(body.data?.currentStep) {
                             "COMPLETED" -> Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show()
-                            else -> navigateToAccount() // 무조건 첫 번째 계정정보 페이지로 이동
+                            else ->  navigateToAccount() // 무조건 첫 번째 계정정보 페이지로 이동
                         }
                     } else {
                         // 서버 실패 응답

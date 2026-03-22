@@ -3,6 +3,7 @@ package com.nuda.nudaclient.data.remote.api
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
 import com.nuda.nudaclient.data.remote.dto.common.Ingredient
 import com.nuda.nudaclient.data.remote.dto.search.SearchProductResponse
+import com.nuda.nudaclient.data.remote.dto.search.SearchIngredientResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
