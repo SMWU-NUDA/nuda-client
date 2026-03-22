@@ -27,10 +27,6 @@ import com.nuda.nudaclient.presentation.product.ProductDetailActivity
 
 class WishlistFragment : Fragment() {
 
-    // TODO 찜한 상품 조회 API 연동 및 데이터 바인딩
-    // TODO 찜한 브랜드 조회 API 연동 및 데이터 바인딩
-    // TODO 성분 즐겨찾기 조회 API 연동 및 데이터 바인딩
-
     private var _binding: FragmentWishlistBinding? = null
     private val binding get() = _binding!!
 

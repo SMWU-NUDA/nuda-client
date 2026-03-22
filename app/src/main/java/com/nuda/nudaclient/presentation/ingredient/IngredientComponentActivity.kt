@@ -2,7 +2,9 @@ package com.nuda.nudaclient.presentation.ingredient
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -23,6 +25,7 @@ import com.nuda.nudaclient.utils.setupBarGraph
 
 class IngredientComponentActivity : BaseActivity() {
     // 상품 구성 성분 화면으로 이동할 때 Intent에 productId 담아서 전달 필요 !!!
+    private val TAG = "IngredientComponentActivity"
 
     private lateinit var binding: ActivityIngredientComponentBinding
 
@@ -30,6 +33,23 @@ class IngredientComponentActivity : BaseActivity() {
     private var selectedSortTypeIdx = 0 // 필터링 기본값 인덱스 0
 
     private lateinit var ingredientAdapter: IngredientItemAdapter
+
+    // 성분 상세페이지 이동 시 사용할 런처
+    private val ingredientDetailLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val currentFilter = when (selectedSortTypeIdx) {
+                1 -> "WARN"
+                2 -> "DANGER"
+                3 -> "INTEREST"
+                4 -> "AVOID"
+                else -> "ALL"
+            }
+            loadIngredientInfo() // 성분 구성 조회
+            loadIngredientItems(currentFilter) // 전성분 아이템 목록 로드
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +66,7 @@ class IngredientComponentActivity : BaseActivity() {
 
         // Intent에서 productId 받기
         productId = intent.getIntExtra("PRODUCT_ID", -1)
+        Log.d("API_DEBUG", "[$TAG] productId: $productId")
 
         setToolbar() // 툴바 설정
 
@@ -113,6 +134,7 @@ class IngredientComponentActivity : BaseActivity() {
             binding.tvIngredientsCautionCount.text = "${data.globalRiskCounts.warn}개"
             binding.tvIngredientsDangerCount.text = "${data.globalRiskCounts.danger}개"
             binding.tvIngredientsHighlightCount.text = "${data.myIngredientCounts.prefer}개"
+            binding.tvIngredientsAvoidCount.text = "${data.myIngredientCounts.avoided}개"
         }
     }
 
@@ -129,6 +151,8 @@ class IngredientComponentActivity : BaseActivity() {
                     body.data?.let { data ->
                         binding.tvTotalCount.text = "${data.totalCount.toString()}개"
                         setupIngredientAdapter(data.ingredients)
+
+                        Log.d("API_DEBUG", "[$TAG] filter: $filter totalCount: ${data.totalCount}, ingredients: ${data.ingredients}")
                     }
                 }
             }

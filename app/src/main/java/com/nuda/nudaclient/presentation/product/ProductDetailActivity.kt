@@ -334,6 +334,7 @@ class ProductDetailActivity : BaseActivity() {
             binding.tvIngredientsCautionCount.text = "${data.globalRiskCounts.warn}개"
             binding.tvIngredientsDangerCount.text = "${data.globalRiskCounts.danger}개"
             binding.tvIngredientsHighlightCount.text = "${data.myIngredientCounts.prefer}개"
+            binding.tvIngredientsAvoidCount.text = "${data.myIngredientCounts.avoided}개"
         }
     }
 

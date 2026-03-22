@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -29,7 +30,6 @@ class IngredientDetailActivity : BaseActivity() {
     // lazy로 지연 초기화 (변수가 처음 사용될 때 초기화)
     private val typefaceUnclicked by lazy {ResourcesCompat.getFont(this, R.font.pretendard_medium)}
     private val typefaceClicked by lazy { ResourcesCompat.getFont(this, R.font.pretendard_bold)}
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -225,10 +225,6 @@ class IngredientDetailActivity : BaseActivity() {
                                     Log.d("API_DEBUG", "관심 버튼 - 성분 즐겨찾기 해제")
                                     Log.d("API_DEBUG", "data.preference = ${data.preference}")
                                 }
-                                else ->  {
-                                    Log.d("API_DEBUG", "관심 버튼 - 성분 관심 등록 실패")
-                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
-                                }
                             }
                         }
                     }
@@ -263,10 +259,6 @@ class IngredientDetailActivity : BaseActivity() {
                                 null -> { // 둘 다 취소
                                     resetButtons()
                                     Log.d("API_DEBUG", "피하기 버튼 - 성분 즐겨찾기 해제")
-                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
-                                }
-                                else -> {
-                                    Log.d("API_DEBUG", "피하기 버튼 - 성분 피하기 등록 실패")
                                     Log.d("API_DEBUG", "data.preference = ${data.preference}")
                                 }
                             }
