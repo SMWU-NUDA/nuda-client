@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -66,6 +67,16 @@ class ProductDetailActivity : BaseActivity() {
 
     private var productId: Int = -1
     private var brandId: Int = -1
+
+    // 성분 화면에서 돌아올 때 결과를 받는 런처
+    private val ingredientComponentLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            loadIngredientInfo() // 관심,피하기 개수 텍스트 갱신
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -648,7 +659,7 @@ class ProductDetailActivity : BaseActivity() {
         binding.subtitleAndButton.setOnClickListener {
             val intent = Intent(this, IngredientComponentActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
-            startActivity(intent)
+            ingredientComponentLauncher.launch(intent)
         }
     }
 

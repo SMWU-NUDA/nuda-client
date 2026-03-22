@@ -48,6 +48,7 @@ class IngredientComponentActivity : BaseActivity() {
             }
             loadIngredientInfo() // 성분 구성 조회
             loadIngredientItems(currentFilter) // 전성분 아이템 목록 로드
+            setResult(RESULT_OK) // 즐겨찾기 변경을 ProductDetailActivity까지 전파
         }
     }
 
@@ -168,7 +169,7 @@ class IngredientComponentActivity : BaseActivity() {
                 // 성분 상세페이지로 이동, ingredientId 전달
                 val intent = Intent(this, IngredientDetailActivity::class.java)
                 intent.putExtra("INGREDIENT_ID", ingredientId)
-                startActivity(intent)
+                ingredientDetailLauncher.launch(intent)
             })
         binding.rvIngredientList.apply {
             adapter = ingredientAdapter // 리사이클러뷰에 어댑터 연결

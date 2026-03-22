@@ -226,6 +226,7 @@ class IngredientDetailActivity : BaseActivity() {
                                     Log.d("API_DEBUG", "data.preference = ${data.preference}")
                                 }
                             }
+                            setResult(RESULT_OK) // 즐겨찾기 변경을 이전 화면에 전파
                         }
                     }
                 }
@@ -262,6 +263,7 @@ class IngredientDetailActivity : BaseActivity() {
                                     Log.d("API_DEBUG", "data.preference = ${data.preference}")
                                 }
                             }
+                            setResult(RESULT_OK) // 즐겨찾기 변경을 이전 화면에 전파
                         }
                     }
                 }
