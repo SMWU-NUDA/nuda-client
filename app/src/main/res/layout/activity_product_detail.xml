@@ -226,16 +226,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tab_original"
                 >
-                <!--축약된 이미지-->
-                <ImageView
-                    android:id="@+id/iv_product_detail_preview"
+                <!--상품 정보 이미지 리스트 (동적 추가)-->
+                <LinearLayout
+                    android:id="@+id/ll_detail_images"
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:src="@drawable/image_product_info"
-                    android:scaleType="centerCrop"
-                    android:visibility="visible"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintBottom_toBottomOf="parent"/>
                 <!--그라데이션 뷰-->
                 <View
                     android:id="@+id/view_gradient_overlay"
@@ -243,7 +241,7 @@
                     android:layout_height="200dp"
                     android:background="@drawable/shadow_gradient_white"
                     android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_product_detail_preview" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <!--상품 정보 더보기 버튼-->
                 <androidx.appcompat.widget.AppCompatButton
@@ -255,26 +253,15 @@
                     android:textSize="16sp"
                     android:textColor="@color/gray2"
                     android:background="@drawable/btn_more_info"
-                    android:layout_marginBottom="20dp"
                     android:visibility="visible"
+                    android:layout_marginBottom="20dp"
                     app:layout_constraintStart_toStartOf="@id/guideline_start2"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end2"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_product_detail_preview"
+                    app:layout_constraintBottom_toBottomOf="@id/ll_detail_images"
                     android:elevation="0dp"
                     android:stateListAnimator="@null"
                     />
 
-                <!--전체 상품 정보 이미지(기본값 gone)-->
-                <ImageView
-                    android:id="@+id/iv_product_detail_full"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/image_product_info"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitStart"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone"
-                    />
                 <!--본문 가이드라인-->
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start2"

@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.ingredientsService
@@ -274,7 +275,7 @@ class ProductDetailActivity : BaseActivity() {
                             setupIndicator(data.mainImageUrls.size)
 
                             // 상품 정보 이미지 (크롤링 후 수정)
-                            data.detailImageUrls
+                            setupDetailImages(data.detailImageUrls)
 
                             // 찜하기
                             if (data.productLikedByMe) { // 상품 찜하기 여부
@@ -292,6 +293,51 @@ class ProductDetailActivity : BaseActivity() {
                     }
                 }
             )
+    }
+
+    // 상품 정보 이미지 동적 로드 함수
+    private fun setupDetailImages(imageUrls: List<String>) {
+        val container = binding.llDetailImages
+
+        container.removeAllViews() // 중복 방지
+
+        if (imageUrls.isEmpty()) {
+            // 이미지 없으면 더보기 버튼과 그라데이션 숨김
+            binding.btnProductInfo.visibility = View.GONE
+            binding.viewGradientOverlay.visibility = View.GONE
+            return
+        }
+
+        // URL 리스트 순서대로 ImageView 추가
+        imageUrls.forEach { imageUrl ->
+            val imageView = ImageView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                adjustViewBounds = true // 비율 유지
+                scaleType = ImageView.ScaleType.FIT_CENTER
+            }
+            Glide.with(this)
+                .load(imageUrl)
+                .into(imageView)
+            container.addView(imageView)
+        }
+
+        // 초기 상태: 이미지 높이 400dp로 제한
+        container.layoutParams = container.layoutParams.apply {
+            height = (350 * resources.displayMetrics.density).toInt()
+        }
+        container.clipChildren = true // 넘치는 부분 잘라냄
+
+        // 더보기 버튼 클릭 이벤트
+        binding.btnProductInfo.setOnClickListener {
+            container.layoutParams = container.layoutParams.apply {
+                height = ViewGroup.LayoutParams.WRAP_CONTENT
+            }
+            binding.viewGradientOverlay.visibility = View.GONE // 그라데이션 숨김
+            binding.btnProductInfo.visibility = View.GONE      // 버튼 숨김
+        }
     }
 
     // 성분 정보 로드
