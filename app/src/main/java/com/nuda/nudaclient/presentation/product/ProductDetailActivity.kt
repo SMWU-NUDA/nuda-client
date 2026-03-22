@@ -77,7 +77,6 @@ class ProductDetailActivity : BaseActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -275,7 +274,7 @@ class ProductDetailActivity : BaseActivity() {
                             setupIndicator(data.mainImageUrls.size)
 
                             // 상품 정보 이미지 (크롤링 후 수정)
-//                            data.
+                            data.detailImageUrls
 
                             // 찜하기
                             if (data.productLikedByMe) { // 상품 찜하기 여부
@@ -538,11 +537,16 @@ class ProductDetailActivity : BaseActivity() {
 
     // 상품 이미지 리스트 인디케이터 점 생성
     private fun setupIndicator(imageCount: Int) {
+        layoutIndicator.removeAllViews()
+
+        // 8dp를 px로 변환 후 고정 크기 지정
+        val dotSize = (8 * resources.displayMetrics.density).toInt()
+
         repeat(imageCount) { // 이미지 개수만큼 반복
             val indicator = View(this).apply { // View 객체 생성 및 설정
                 layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    dotSize,
+                    dotSize
                 ).apply {
                     setMargins(8, 0, 8, 0)
                 }

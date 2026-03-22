@@ -238,6 +238,7 @@
                     />
                 <!--그라데이션 뷰-->
                 <View
+                    android:id="@+id/view_gradient_overlay"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:background="@drawable/shadow_gradient_white"
