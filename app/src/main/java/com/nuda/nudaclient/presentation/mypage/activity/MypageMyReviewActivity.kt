@@ -66,8 +66,8 @@ class MypageMyReviewActivity : BaseActivity() {
         // 3. 스크롤 리스너 등록 (무한 스크롤 감지)
         setScrollListner()
         // 4. 리뷰 삭제 버튼 클릭 시 실행될 로직 설정
-        myreviewAdapter.onDeleteClickListner = { reviewId, position ->
-            deleteReview(reviewId, position)
+        myreviewAdapter.onDeleteClickListner = { reviewId, _ ->
+            deleteReview(reviewId)
         }
     }
 
@@ -82,14 +82,14 @@ class MypageMyReviewActivity : BaseActivity() {
     }
 
     // 리뷰 삭제 (API 호출)
-    private fun deleteReview(reviewId: Int, position: Int) {
+    private fun deleteReview(reviewId: Int) {
         reviewsService.deleteMyReview(reviewId)
             .executeWithHandler(
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
                         // 리뷰 삭제 성공 시 어댑터에서 아이템 제거
-                        myreviewAdapter.removeItem(position)
+                        myreviewAdapter.removeItemById(reviewId)
                         CustomToast.show(binding.root, "리뷰가 삭제되었습니다")
                         Log.d("API_DEBUG", "리뷰 삭제 성공")
                     } else {
