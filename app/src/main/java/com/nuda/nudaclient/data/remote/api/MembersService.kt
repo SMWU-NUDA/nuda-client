@@ -1,6 +1,7 @@
 package com.nuda.nudaclient.data.remote.api
 
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
+import com.nuda.nudaclient.data.remote.dto.common.BaseResponse
 import com.nuda.nudaclient.data.remote.dto.common.Me
 import com.nuda.nudaclient.data.remote.dto.members.MembersChangeKeywordRequest
 import com.nuda.nudaclient.data.remote.dto.members.MembersDeliveryInfoResponse
@@ -11,9 +12,14 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.PUT
 
 interface MembersService {
+
+    // POST /members/withdraw : 회원 탈퇴 요청
+    @POST("members/withdraw")
+    fun withdrawAccount() : Call<BaseResponse>
 
     // GET /members/me : 마이페이지 조회
     @GET("members/me")

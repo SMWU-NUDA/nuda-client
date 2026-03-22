@@ -26,9 +26,7 @@ import com.nuda.nudaclient.presentation.shopping.ShoppingOrderHistoryActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MyPageFragment : Fragment() {
-
-    // TODO: feat(members): (mypage) 회원 탈퇴 기능 구현
-
+    
     // 프래그먼트 생명 주기의 onDestroyView() 콜백에서 뷰는 삭제되지만 프래그먼트는 유지
     private var _binding: FragmentMypageBinding? = null // nullabel, 뷰가 없을 때는 null로 초기화
     private val binding get() = _binding!! // non-null, 뷰가 있는 시점(onViewCreate~onDestoryView)에만 사용
@@ -204,6 +202,22 @@ class MyPageFragment : Fragment() {
              * 로그인 화면으로 이동
              */
 
+            membersService.withdrawAccount()
+                .executeWithHandler(
+                    context = requireContext(),
+                    onSuccess = { body ->
+                        if (body.success == true) {
+                            // 토큰 전체 삭제
+                            TokenManager.clearAllTokens(requireContext())
+                            // 회원 정보 pref 삭제
+                            UserPreferences.clearUserInfo(requireContext())
+                            // 로그인 화면으로 이동
+                            val intent = Intent(requireContext(), LoginActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish() // 프래그먼트가 속한 액티비티 종료
+                        }
+                    }
+                )
 
 
 
