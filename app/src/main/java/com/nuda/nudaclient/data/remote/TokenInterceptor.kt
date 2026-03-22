@@ -100,6 +100,7 @@ class TokenInterceptor(private val context: Context) : Interceptor {
                 path.contains("/auth/emails/verification-requests") ||
                 path.contains("/auth/search?username={username}") ||
                 path.contains("/auth/search?nickname={nickname}") ||
-                path.contains("/signup") // 회원가입 전체
+                path.contains("/signup") || // 회원가입 전체
+                path.contains("/products/search/name") // 회원가입 설문의 상품 검색
     }
 }

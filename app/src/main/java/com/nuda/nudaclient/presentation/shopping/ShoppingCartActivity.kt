@@ -23,8 +23,6 @@ import com.nuda.nudaclient.presentation.shopping.convertData.CartItem
 
 class ShoppingCartActivity : BaseActivity() {
 
-    // TODO 주문하기 로직 구현
-
     private lateinit var binding: ActivityShoppingCartBinding
     private lateinit var cartAdapter: CartAdapter
 

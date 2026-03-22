@@ -143,7 +143,7 @@ class SearchResultActivity : BaseActivity() {
             "PRODUCT_SIGNUP" -> {
                 binding.rvSearchResult.adapter = productSignupAdapter // 회원가입 상품 어댑터 연결
                 binding.etSearchbar.setHint("제품을 검색하세요")
-                setScrollListner() // 무한 스크롤 설정
+                if (query.isNotEmpty()) loadProductSignupSearch() // 검색어가 있을 때만 상품 검색 결과 로드 (전체)
             }
             "PRODUCT_NEW_REVIEW" -> {
                 binding.rvSearchResult.adapter = productNewReviewAdapter // 마이페이지 상품 어댑터 연결
@@ -181,7 +181,6 @@ class SearchResultActivity : BaseActivity() {
                             // 현재 모드에 맞는 어댑터 선택
                             val currentAdapter = when(pageMode) {
                                 "PRODUCT" -> productAdapter
-                                "PRODUCT_SIGNUP" -> productSignupAdapter
                                 "PRODUCT_NEW_REVIEW" -> productNewReviewAdapter
                                 else -> productAdapter
                             }
@@ -218,6 +217,27 @@ class SearchResultActivity : BaseActivity() {
                         body.data?.let { data ->
                             ingredientAdapter.submitList(data)
                         }
+                    }
+
+                }
+            )
+    }
+
+    // 회원가입 설문 단계의 상품 검색 결과 API 호출
+    private fun loadProductSignupSearch() {
+        searchService.searchProductSignup(query)
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        body.data?.let { data ->
+                            productSignupAdapter.submitList(data)
+                        }
+                    }
+                },
+                onError = { errorResponse ->
+                    if (errorResponse?.code == "SEARCH_KEYWORD_TOO_SHORT") {
+
                     }
 
                 }
@@ -327,11 +347,10 @@ class SearchResultActivity : BaseActivity() {
         productIsLoading = false
         // 모드에 따라 재검색
         when(pageMode) {
-            "PRODUCT", "PRODUCT_SIGNUP", "PRODUCT_NEW_REVIEW" -> loadProductSearch()
+            "PRODUCT", "PRODUCT_NEW_REVIEW" -> loadProductSearch()
             "INGREDIENT" -> loadIngredientSearch()
+            "PRODUCT_SIGNUP" -> loadProductSignupSearch()
         }
     }
-
-
 
 }

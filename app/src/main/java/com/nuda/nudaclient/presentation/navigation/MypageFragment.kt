@@ -188,6 +188,8 @@ class MyPageFragment : Fragment() {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             }
                             startActivity(intent)
+
+                            CustomToast.show(binding.root, "로그아웃되었습니다")
                         }
                     }
                 )
@@ -215,6 +217,8 @@ class MyPageFragment : Fragment() {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             }
                             startActivity(intent)
+
+                            CustomToast.show(binding.root, "회원 탈퇴가 되었습니다")
                         }
                     }
                 )

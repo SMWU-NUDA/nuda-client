@@ -30,11 +30,7 @@ class MypageMyReviewAdapter
     class MyReviewViewholder(
         private val binding: ItemMyReviewCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        // 리뷰 카드 아이템 뷰를 변수에 저장
         val btn_deleteReview = binding.btnDeleteReview
-        val iv_productImage = binding.ivProductImage
-        val ll_review_photo = binding.llReviewPhoto
 
         fun bind(review: ReviewsGetMyReviewsResponse.Content) {
             binding.ratingBar.rating = review.rating.toFloat()
@@ -52,53 +48,53 @@ class MypageMyReviewAdapter
                 .into(binding.ivProductImage)
 
             // 리뷰 상품 이미지 리스트
-//            binding.llReviewPhoto.removeAllViews() // 기존 뷰 제거
-//
-//            if (review.imageUrls.isNotEmpty()) { // 리뷰 이미지가 있다면
-//                review.imageUrls.forEach { imageUrl ->
-//                    // 리뷰 이미지 아이템 바인딩
-//                    val itemBinding = ItemReviewImageBinding.inflate(
-//                        LayoutInflater.from(binding.root.context),
-//                        binding.llReviewPhoto,
-//                        false
-//                    )
-//                    // 문자열 리뷰 이미지 로드
-//                    Glide.with(itemBinding.root.context)
-//                        .load(imageUrl)
-//                        .placeholder(R.drawable.image_product2)
-//                        .error(R.drawable.image_product)
-//                        .centerCrop()
-//                        .into(itemBinding.root as ImageView)
-//
-//                    binding.llReviewPhoto.addView(itemBinding.root) // 컨테이너에 뷰 추가
-//
-//                    // 이미지 클릭 시 확대
-//                    itemBinding.root.setOnClickListener {
-//                        val dialog = Dialog(binding.root.context)
-//
-//                        val density = binding.root.context.resources.displayMetrics.density
-//                        val size = (300 * density).toInt() // 300dp를 px로 변환
-//
-//                        val imageView = ImageView(binding.root.context).apply {
-//                            layoutParams = ViewGroup.LayoutParams(size, size)
-//                            scaleType = ImageView.ScaleType.FIT_CENTER
-//                        }
-//
-//                        Glide.with(binding.root.context)
-//                            .load(imageUrl)
-//                            .into(imageView)
-//
-//                        dialog.setContentView(imageView)
-//                        dialog.window?.apply {
-//                            setLayout(size, size)
-//                            setBackgroundDrawableResource(android.R.color.transparent)
-//                        }
-//                        dialog.show()
-//                    }
-//                }
-//            } else { // 리뷰 이미지가 없을 때
-//                binding.llReviewPhoto.visibility = View.GONE
-//            }
+            binding.llReviewPhoto.removeAllViews() // 기존 뷰 제거
+
+            if (review.imageUrls.isNotEmpty()) { // 리뷰 이미지가 있다면
+                review.imageUrls.forEach { imageUrl ->
+                    // 리뷰 이미지 아이템 바인딩
+                    val itemBinding = ItemReviewImageBinding.inflate(
+                        LayoutInflater.from(binding.root.context),
+                        binding.llReviewPhoto,
+                        false
+                    )
+                    // 문자열 리뷰 이미지 로드
+                    Glide.with(itemBinding.root.context)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.image_product2)
+                        .error(R.drawable.image_product)
+                        .centerCrop()
+                        .into(itemBinding.root as ImageView)
+
+                    binding.llReviewPhoto.addView(itemBinding.root) // 컨테이너에 뷰 추가
+
+                    // 이미지 클릭 시 확대
+                    itemBinding.root.setOnClickListener {
+                        val dialog = Dialog(binding.root.context)
+
+                        val density = binding.root.context.resources.displayMetrics.density
+                        val size = (300 * density).toInt() // 300dp를 px로 변환
+
+                        val imageView = ImageView(binding.root.context).apply {
+                            layoutParams = ViewGroup.LayoutParams(size, size)
+                            scaleType = ImageView.ScaleType.FIT_CENTER
+                        }
+
+                        Glide.with(binding.root.context)
+                            .load(imageUrl)
+                            .into(imageView)
+
+                        dialog.setContentView(imageView)
+                        dialog.window?.apply {
+                            setLayout(size, size)
+                            setBackgroundDrawableResource(android.R.color.transparent)
+                        }
+                        dialog.show()
+                    }
+                }
+            } else { // 리뷰 이미지가 없을 때
+                binding.llReviewPhoto.visibility = View.GONE
+            }
 
         }
     }

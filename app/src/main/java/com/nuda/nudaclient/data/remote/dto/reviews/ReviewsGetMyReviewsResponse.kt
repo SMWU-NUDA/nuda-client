@@ -13,6 +13,7 @@ data class ReviewsGetMyReviewsResponse(
         val reviewId: Int,
         val rating: Double,
         val content: String,
+        val imageUrls: List<String>,
         val createdAt: String
     )
 }

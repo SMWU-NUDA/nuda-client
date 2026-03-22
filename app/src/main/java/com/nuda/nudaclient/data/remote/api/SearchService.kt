@@ -2,6 +2,7 @@ package com.nuda.nudaclient.data.remote.api
 
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
 import com.nuda.nudaclient.data.remote.dto.common.Ingredient
+import com.nuda.nudaclient.data.remote.dto.common.Product
 import com.nuda.nudaclient.data.remote.dto.search.SearchProductResponse
 import com.nuda.nudaclient.data.remote.dto.search.SearchIngredientResponse
 import retrofit2.Call
@@ -41,4 +42,8 @@ interface SearchService {
         @Query("keyword") keyword: String,
         @Query("type") type: String = "INGREDIENT")
     : Call<ApiResponse<List<String>>>
+
+    // GET /products/search/name : 상품 이름 검색 (회원가입 설문 단계)
+    @GET("products/search/name")
+    fun searchProductSignup(@Query("keyword") keyword: String) : Call<ApiResponse<List<Product>>>
 }
