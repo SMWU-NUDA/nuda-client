@@ -1,14 +1,18 @@
 package com.nuda.nudaclient.presentation.signup
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.local.SignupDataManager
 import com.nuda.nudaclient.data.local.TokenManager
@@ -17,6 +21,7 @@ import com.nuda.nudaclient.data.remote.dto.signup.SignupSurveyRequest
 import com.nuda.nudaclient.databinding.ActivitySignupSurveyBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.login.LoginActivity
+import com.nuda.nudaclient.presentation.search.SearchResultActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class SignupSurveyActivity : AppCompatActivity() {
@@ -35,8 +40,6 @@ class SignupSurveyActivity : AppCompatActivity() {
     private var answerChangeFrequency = "NULL"
     private var answerThickness = "NULL"
     private var answerAdhesion = "NULL"
-    private var productIds : List<Int> = emptyList()
-
 
     // 뷰 참조 선언
     // RadioGroup
@@ -48,6 +51,29 @@ class SignupSurveyActivity : AppCompatActivity() {
 
     private lateinit var iv_back : ImageView
 
+    // 선택한 사용 제품 아이디 리스트
+    private var selectedProductIds = mutableListOf<Int>()
+    // 선택한 사용 제품 썸네일 리스트
+    private var selectedThumnails = mutableListOf<String>()
+
+    // launcher 등록 (onCreate 전에 선언)
+    private val  searchProductLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val productId = result.data?.getIntExtra("PRODUCT_ID", -1)
+            val thumbnail = result.data?.getStringExtra("PRODUCT_THUMBNAIL")
+
+            if (productId == -1) return@registerForActivityResult
+
+            // 중복 체크 후 추가
+            if (selectedProductIds.none { it == productId }) {
+                selectedProductIds.add(productId ?: -1) // 상품 아이디 리스트에 추가
+                selectedThumnails.add(thumbnail ?: "") // 썸네일 리스트에 추가
+                updateProductThumbnail(selectedThumnails) // 썸네일 리스트 업데이트
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -105,7 +131,7 @@ class SignupSurveyActivity : AppCompatActivity() {
         answerChangeFrequency = SignupDataManager.changeFrequency ?: "NULL"
         answerThickness = SignupDataManager.thickness ?: "NULL"
         answerAdhesion = SignupDataManager.adhesion ?: "NULL"
-        productIds = SignupDataManager.productIds
+        selectedProductIds = SignupDataManager.productIds as MutableList<Int>
 
         // UI 복원
         if(answerIrritationLevel != "NULL") {
@@ -254,7 +280,34 @@ class SignupSurveyActivity : AppCompatActivity() {
     // 사용한 제품 선택 버튼
     private fun setSearchUsedProduct() {
         binding.btnAddProduct.setOnClickListener {
-            
+            val intent = Intent(this, SearchResultActivity::class.java)
+            intent.putExtra("PAGEMODE", "PRODUCT_SIGNUP")
+            searchProductLauncher.launch(intent)
+        }
+    }
+
+    // 썸네일 이미지 동적 추가
+    private fun updateProductThumbnail(thumbnails: List<String>) {
+        val container = binding.llImageContainer
+        container.removeAllViews() // 기존 뷰 제거 후 다시 그림
+
+        // 선택된 이미지마다 아이템 뷰 추가
+        thumbnails.forEachIndexed { index, thumbnail ->
+            val itemView = layoutInflater.inflate(R.layout.item_review_upload_image, container, false)
+            val ivPreview = itemView.findViewById<ImageView>(R.id.ivPreview)
+            val btnDelete = itemView.findViewById<ImageView>(R.id.btnDelete)
+
+            // 이미지 로드 (Glide 사용)
+            Glide.with(this).load(thumbnail).into(ivPreview)
+
+            // x 버튼 클릭 시 해당 이미지 삭제
+            btnDelete.setOnClickListener {
+                selectedProductIds.removeAt(index) // 상품 아이디 리스트에서 삭제
+                selectedThumnails.removeAt(index) // 썸네일 리스트에서 삭제
+                updateProductThumbnail(selectedThumnails) // 미리보기 갱신
+            }
+
+            container.addView(itemView) // 화면 이미지 리스트에 추가
         }
     }
 
@@ -309,7 +362,7 @@ class SignupSurveyActivity : AppCompatActivity() {
                 answerChangeFrequency == "NULL" ||
                 answerThickness == "NULL" ||
                 answerAdhesion == "NULL" ||
-                productIds.isEmpty()
+                selectedProductIds.isEmpty()
     }
 
     // 유효성 검사 통과 시 설문 결과 데이터 업데이트
@@ -320,7 +373,7 @@ class SignupSurveyActivity : AppCompatActivity() {
             adhesion = answerAdhesion,
             scent = answerScent,
             thickness = answerThickness,
-            productIds = productIds
+            productIds = selectedProductIds
         )
 
         // 설문 데이터 draft에 업데이트 API 호출
@@ -391,7 +444,7 @@ class SignupSurveyActivity : AppCompatActivity() {
         SignupDataManager.changeFrequency = answerChangeFrequency
         SignupDataManager.thickness = answerThickness
         SignupDataManager.adhesion = answerAdhesion
-        SignupDataManager.productIds = productIds
+        SignupDataManager.productIds = selectedProductIds
     }
 }
 

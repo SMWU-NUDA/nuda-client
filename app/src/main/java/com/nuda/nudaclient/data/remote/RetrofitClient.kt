@@ -10,14 +10,15 @@ import com.nuda.nudaclient.data.remote.api.SearchService
 import com.nuda.nudaclient.data.remote.api.ShoppingService
 import com.nuda.nudaclient.data.remote.api.SignupService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 // Retrofit 싱글턴
 object RetrofitClient {
-    // BASE URL (나중에 도메인 주소로 변경)
-    private const val BASE_URL = "http://3.39.59.98:8080/"
+    // BASE URL
+    private const val BASE_URL = "https://sm-nuda.site/"
 
     // 앱 전체 context를 받아올 변수 생성
     private lateinit var appContext : Context
@@ -29,10 +30,13 @@ object RetrofitClient {
 
     // OkHTTPClient 설정 (한글 인코딩 + 로깅 + 타임아웃)
     private val okHttpClient : OkHttpClient by lazy {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
         OkHttpClient.Builder()
-            // interceptor 추가 및 context 전달
+            .addInterceptor(logging)  // 제일 먼저 추가
             .addInterceptor(TokenInterceptor(appContext))
-            // 타임아웃 설정
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)

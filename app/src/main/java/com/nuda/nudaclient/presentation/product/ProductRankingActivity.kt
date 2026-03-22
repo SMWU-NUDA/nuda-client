@@ -107,7 +107,7 @@ class ProductRankingActivity : BaseActivity() {
     private fun setupRecyclerView() {
         productAdapter = ProductAdapter(
             showRank = true // 순위 있음 (전체 랭킹)
-        ) { productId ->
+        ) { productId, thumbnail ->
             val intent = Intent(this, ProductDetailActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)

@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -87,20 +88,23 @@ class SearchActivity : BaseActivity() {
         setSearchModeButton(true)
         pageMode = "PRODUCT"
         setUIByMode()
-        binding.etSearchbar.setHint("제품, 성분으로 검색하세요")
+        binding.etSearchbar.setText("")
+        binding.etSearchbar.setHint("제품을 검색하세요")
 
         // 제품 검색 버튼
         binding.btnSearchProduct.setOnClickListener {
             setSearchModeButton(true)
             pageMode = "PRODUCT"
             setUIByMode()
-            binding.etSearchbar.setHint("제품, 성분으로 검색하세요")
+            binding.etSearchbar.setText("")
+            binding.etSearchbar.setHint("제품을 검색하세요")
         }
         // 상품 검색 버튼
         binding.btnSearchIngredient.setOnClickListener {
             setSearchModeButton(false)
             pageMode = "INGREDIENT"
             setUIByMode()
+            binding.etSearchbar.setText("")
             binding.etSearchbar.setHint("성분을 검색하세요")
         }
     }
@@ -121,7 +125,7 @@ class SearchActivity : BaseActivity() {
                         onSuccess = { body ->
                             if (body.success == true) {
                                 body.data?.let { data ->
-                                    setPopularKeywords(data.stringList)
+                                    setPopularKeywords(data)
                                     Log.d("API_DEBUG", "상품 인기 검색어 조회 성공")
                                 }
                             }
@@ -135,7 +139,7 @@ class SearchActivity : BaseActivity() {
                         onSuccess = { body ->
                             if (body.success == true) {
                                 body.data?.let { data ->
-                                    setPopularKeywords(data.stringList)
+                                    setPopularKeywords(data)
                                     Log.d("API_DEBUG", "성분 인기 검색어 조회 성공")
                                 }
                             }
@@ -192,7 +196,7 @@ class SearchActivity : BaseActivity() {
 
                 // 0.5초 뒤에 API 호출
                 debounceRunnable = Runnable {
-                    fetchAutoComplete(query)
+                    fetchAutoComplete(query) // 검색어 자동 완성 API 호출
                 }.also {
                     debounceHandler.postDelayed(it, 500L)
                 }
@@ -205,9 +209,22 @@ class SearchActivity : BaseActivity() {
         binding.btnSearch.setOnClickListener {
             val query = binding.etSearchbar.text.toString().trim()
             if (query.isNotEmpty()) {
+                debounceRunnable?.let { debounceHandler.removeCallbacks(it) }
                 hideAutoComplete()
                 navigateToSearchResult(query)
             }
+        }
+
+        binding.etSearchbar.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val query = binding.etSearchbar.text.toString().trim()
+                if (query.isNotEmpty()) {
+                    debounceRunnable?.let { debounceHandler.removeCallbacks(it) }
+                    hideAutoComplete()
+                    navigateToSearchResult(query)
+                }
+                true
+            } else false
         }
     }
 
@@ -218,26 +235,13 @@ class SearchActivity : BaseActivity() {
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
-                        body.data?.let { data ->
-                            val resultKeywords = data.stringList
+                        body.data?.let { resultKeywords ->
                             if (resultKeywords.isEmpty()) {
                                 hideAutoComplete()
                                 return@let
                             }
-                            // TODO API 완성 후 수정 필요할지도.?
                             autoCompleteAdapter.submitList(resultKeywords)
-
-                            // 최대 5개 높이로 동적 조절
-                            // 리사이클러뷰 아이템이 그려진 후 실제 높이 측정
-                            binding.rvAutocomplete.post {
-                                val itemHeight = binding.rvAutocomplete.getChildAt(0)?.height ?: 0
-                                val count = minOf(resultKeywords.size, 5)
-                                binding.rvAutocomplete.layoutParams =
-                                    binding.rvAutocomplete.layoutParams.apply {
-                                        height = itemHeight * count
-                                    }
-                                binding.cardAutocomplete.visibility = View.VISIBLE
-                            }
+                            binding.cardAutocomplete.visibility = View.VISIBLE
                         }
                     }
                 }

@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.ingredientsService
+import com.nuda.nudaclient.data.remote.dto.common.Ingredient
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetAllResponse
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetSummaryResponse
 import com.nuda.nudaclient.databinding.ActivityIngredientComponentBinding
@@ -135,7 +136,7 @@ class IngredientComponentActivity : BaseActivity() {
     }
 
     // 성분 목록 어댑터 설정
-    private fun setupIngredientAdapter(ingredientList: List<IngredientsGetAllResponse.Ingredient>) {
+    private fun setupIngredientAdapter(ingredientList: List<Ingredient>) {
         // 어댑터 설정
         ingredientAdapter = IngredientItemAdapter(
             ingredientList = ingredientList,

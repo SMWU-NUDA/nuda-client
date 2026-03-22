@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.presentation.search.SearchActivity
 import com.nuda.nudaclient.presentation.shopping.ShoppingCartActivity
 
 open class BaseActivity : AppCompatActivity() {
@@ -101,6 +102,7 @@ open class BaseActivity : AppCompatActivity() {
 
     // 검색 화면으로 이동 (오버라이딩 가능)
     protected open fun navigationToSearch() {
+        startActivity(Intent(this, SearchActivity::class.java))
 
     }
 

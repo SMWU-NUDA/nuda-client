@@ -152,7 +152,7 @@ class RecommendFragment : Fragment() {
         // 어댑터 생성
         productAdapter = ProductAdapter(
             showRank = true // 순위 있음
-        ) { productId -> // 상품 카드 클릭 시 해당 상품으로 이동
+        ) { productId, thumbnail -> // 상품 카드 클릭 시 해당 상품으로 이동
             val intent = Intent(requireContext(), ProductDetailActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)

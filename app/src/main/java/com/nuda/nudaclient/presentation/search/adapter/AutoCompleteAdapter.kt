@@ -13,7 +13,7 @@ class AutoCompleteAdapter(
 
     private var items = mutableListOf<String>()
 
-    // 처음 로드 시 새로운 아이템 추가
+    // 아이템 리스트에 새로운 아이템 추가
     fun submitList(newItems: List<String>) {
         items.clear() // 전체 리스트 제거
         items.addAll(newItems) // 새로운 리스트로 교체

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.HorizontalScrollView
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -83,11 +84,14 @@ class WishlistFragment : Fragment() {
     }
 
     // 뷰 파괴 (프래그먼트 객체는 유지)
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.llWishProducts.viewTreeObserver.takeIf { it.isAlive }?.removeOnScrollChangedListener(productScrollListener)
+        binding.llWishBrands.viewTreeObserver.takeIf { it.isAlive }?.removeOnScrollChangedListener(brandScrollListener)
+        binding.llHighlightIngredients.viewTreeObserver.takeIf { it.isAlive }?.removeOnScrollChangedListener(highlightScrollListener)
+        binding.llAvoidIngredients.viewTreeObserver.takeIf { it.isAlive }?.removeOnScrollChangedListener(avoidScrollListener)
         _binding = null
     }
-
     // 상태 초기화
     private fun resetState() {
         // 찜한 상품 상태 초기화
@@ -139,84 +143,73 @@ class WishlistFragment : Fragment() {
      * 무한 스크롤 설정
      */
 
+    // 클래스 멤버 변수로 설정 (스크롤 리스너)
+    private val productScrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val b = _binding ?: return@OnScrollChangedListener  // _binding null이면 즉시 종료
+        val scrollView = binding?.llWishProducts?.parent as? HorizontalScrollView ?: return@OnScrollChangedListener
+        val scrollX = scrollView.scrollX
+        val width = scrollView.width
+        val contentWidth = binding?.llWishProducts?.width ?: return@OnScrollChangedListener
+        val threshold = 200 * resources.displayMetrics.density
+        if (scrollX + width >= contentWidth - threshold) {
+            if (hasNextProduct && !IsLoadingProduct) loadWishProducts()
+        }
+    }
+
+    private val brandScrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val b = _binding ?: return@OnScrollChangedListener  // _binding null이면 즉시 종료
+        val scrollView = binding?.llWishBrands?.parent as? HorizontalScrollView ?: return@OnScrollChangedListener
+        val scrollX = scrollView.scrollX
+        val width = scrollView.width
+        val contentWidth = binding?.llWishBrands?.width ?: return@OnScrollChangedListener
+        val threshold = 200 * resources.displayMetrics.density
+        if (scrollX + width >= contentWidth - threshold) {
+            if (hasNextBrand && !IsLoadingBrand) loadWishBrands()
+        }
+    }
+
+    private val highlightScrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val b = _binding ?: return@OnScrollChangedListener  // _binding null이면 즉시 종료
+        val scrollView = binding?.llHighlightIngredients?.parent as? HorizontalScrollView ?: return@OnScrollChangedListener
+        val scrollX = scrollView.scrollX
+        val width = scrollView.width
+        val contentWidth = binding?.llHighlightIngredients?.width ?: return@OnScrollChangedListener
+        val threshold = 200 * resources.displayMetrics.density
+        if (scrollX + width >= contentWidth - threshold) {
+            if (hasNexthighlight && !IsLoadinghighlight) loadHighlightIngredients()
+        }
+    }
+
+    private val avoidScrollListener = ViewTreeObserver.OnScrollChangedListener {
+        val b = _binding ?: return@OnScrollChangedListener  // _binding null이면 즉시 종료
+        val scrollView = binding?.llAvoidIngredients?.parent as? HorizontalScrollView ?: return@OnScrollChangedListener
+        val scrollX = scrollView.scrollX
+        val width = scrollView.width
+        val contentWidth = binding?.llAvoidIngredients?.width ?: return@OnScrollChangedListener
+        val threshold = 200 * resources.displayMetrics.density
+        if (scrollX + width >= contentWidth - threshold) {
+            if (hasNextAvoid && !IsLoadingAvoid) loadAvoidIngredients()
+        }
+    }
+
     // 상품 무한 스크롤
     private fun setupProductScroll() {
-        binding.llWishProducts.viewTreeObserver.addOnScrollChangedListener {
-            val scrollView = binding.llWishProducts.parent as? HorizontalScrollView ?: return@addOnScrollChangedListener
-
-            val scrollX = scrollView.scrollX // 현재 스크롤 위치
-            val width = scrollView.width // 스크롤뷰의 보이는 너비
-            val contentWidth = binding.llWishProducts.width // 전체 상품 리스트의 너비
-
-            // 끝에서 200dp 전에 다음 데이터 로드 시작
-            val thredshold = 200 * resources.displayMetrics.density
-
-            if (scrollX + width >= contentWidth - thredshold) {
-                if (hasNextProduct && !IsLoadingProduct) { // 다음 페이지가 있고 로딩 중이 아니라면
-                    loadWishProducts() // 다음 페이지 상품 리스트 로드
-                }
-            }
-        }
+        binding.llWishProducts.viewTreeObserver.addOnScrollChangedListener(productScrollListener)
     }
 
     // 브랜드 무한 스크롤
     private fun setupBrandScroll() {
-        binding.llWishBrands.viewTreeObserver.addOnScrollChangedListener {
-            val scrollView = binding.llWishBrands.parent as? HorizontalScrollView ?: return@addOnScrollChangedListener
-
-            val scrollX = scrollView.scrollX // 현재 스크롤 위치
-            val width = scrollView.width // 스크롤뷰의 보이는 너비
-            val contentWidth = binding.llWishBrands.width // 전체 상품 리스트의 너비
-
-            // 끝에서 200dp 전에 다음 데이터 로드 시작
-            val thredshold = 200 * resources.displayMetrics.density
-
-            if (scrollX + width >= contentWidth - thredshold) {
-                if (hasNextBrand && !IsLoadingBrand) {// 다음 페이지가 있고 로딩 중이 아니라면
-                    loadWishBrands() // 다음 페이지 상품 리스트 로드
-                }
-            }
-        }
+        binding.llWishBrands.viewTreeObserver.addOnScrollChangedListener(brandScrollListener)
     }
 
    // 관심 성분 무한 스크롤
     private fun setupHighlightScroll() {
-        binding.llHighlightIngredients.viewTreeObserver.addOnScrollChangedListener {
-            val scrollView = binding.llHighlightIngredients.parent as? HorizontalScrollView ?: return@addOnScrollChangedListener
-
-            val scrollX = scrollView.scrollX // 현재 스크롤 위치
-            val width = scrollView.width // 스크롤뷰의 보이는 너비
-            val contentWidth = binding.llHighlightIngredients.width // 전체 상품 리스트의 너비
-
-            // 끝에서 200dp 전에 다음 데이터 로드 시작
-            val thredshold = 200 * resources.displayMetrics.density
-
-            if (scrollX + width >= contentWidth - thredshold) {
-                if (hasNexthighlight && !IsLoadinghighlight) { // 다음 페이지가 있고 로딩 중이 아니라면
-                    loadHighlightIngredients() // 다음 페이지 상품 리스트 로드
-                }
-            }
-        }
+        binding.llHighlightIngredients.viewTreeObserver.addOnScrollChangedListener(highlightScrollListener)
     }
 
    // 피할 성분 무한 스크롤
     private fun setupAvoidScroll() {
-        binding.llAvoidIngredients.viewTreeObserver.addOnScrollChangedListener {
-            val scrollView = binding.llAvoidIngredients.parent as? HorizontalScrollView ?: return@addOnScrollChangedListener
-
-            val scrollX = scrollView.scrollX // 현재 스크롤 위치
-            val width = scrollView.width // 스크롤뷰의 보이는 너비
-            val contentWidth = binding.llAvoidIngredients.width // 전체 상품 리스트의 너비
-
-            // 끝에서 200dp 전에 다음 데이터 로드 시작
-            val thredshold = 200 * resources.displayMetrics.density
-
-            if (scrollX + width >= contentWidth - thredshold) {
-                if (hasNextAvoid && !IsLoadingAvoid) { // 다음 페이지가 있고 로딩 중이 아니라면
-                    loadAvoidIngredients() // 다음 페이지 상품 리스트 로드
-                }
-            }
-        }
+        binding.llAvoidIngredients.viewTreeObserver.addOnScrollChangedListener(avoidScrollListener)
     }
 
 

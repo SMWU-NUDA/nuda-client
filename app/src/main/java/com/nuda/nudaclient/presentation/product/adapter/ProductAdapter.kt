@@ -14,7 +14,7 @@ import com.nuda.nudaclient.extensions.toFormattedPrice
 
 class ProductAdapter (
     private val showRank: Boolean = false, // 랭킹 표시(true: 랭킹o, fals: 랭킹x)
-    private val onItemClick: (Int) -> Unit
+    private val onItemClick: (Int, String) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     private val items = mutableListOf<Product>()
@@ -55,7 +55,7 @@ class ProductAdapter (
 
         // 상품 카드 클릭 시 상품 상세페이지로 이동하는 이벤트 처리
         holder.productCard.setOnClickListener {
-            onItemClick(item.productId) // 상품 ID 전달 
+            onItemClick(item.productId, item.thumbnailImg) // 상품 ID 전달
         }
     }
 

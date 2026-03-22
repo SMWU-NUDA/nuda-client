@@ -7,6 +7,7 @@ data class ProductsInfoResponse(
     val brandName: String,
     val brandLikedByMe: Boolean,
     val name: String,
+    val ingredientLabels: List<String>,
     val averageRating: Double,
     val reviewCount: Int,
     val productLikedByMe: Boolean,

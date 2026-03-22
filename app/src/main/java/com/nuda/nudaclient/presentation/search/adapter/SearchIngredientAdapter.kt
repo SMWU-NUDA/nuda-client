@@ -21,14 +21,6 @@ class SearchIngredientAdapter(
         notifyDataSetChanged() // 리스트 전체 갱신
     }
 
-    // 무한 스크롤 추가 로드 시
-    fun appendItems(newItems: List<Ingredient>) {
-        val startPosition = items.size
-        items.addAll(newItems)
-        notifyItemRangeInserted(startPosition, newItems.size)
-    }
-
-
     // 뷰 홀더 만드는 함수
     override fun onCreateViewHolder(
         parent: ViewGroup,

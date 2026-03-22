@@ -1,10 +1,16 @@
 package com.nuda.nudaclient.presentation.review
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.OpenableColumns
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
@@ -12,10 +18,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
+import com.nuda.nudaclient.data.remote.RetrofitClient.searchService
 import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsCreateReviewRequest
 import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsUploadImageRequest
 import com.nuda.nudaclient.data.remote.dto.reviews.UriWithFile
@@ -23,6 +31,8 @@ import com.nuda.nudaclient.databinding.ActivityReviewCreateBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.toFormattedPrice
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
+import com.nuda.nudaclient.presentation.search.SearchResultActivity
+import com.nuda.nudaclient.presentation.search.adapter.AutoCompleteAdapter
 import com.nuda.nudaclient.utils.CustomToast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -37,6 +47,12 @@ class ReviewCreateActivity : BaseActivity() {
     // TODO 검색바 클릭 후? 입력 후? 엔터 혹은 검색 아이콘 클릭 시 검색 목록으로 이동
 
     private lateinit var binding: ActivityReviewCreateBinding
+
+    private lateinit var autoCompleteAdapter: AutoCompleteAdapter
+
+    // Debounce용 Handler
+    private val debounceHandler = Handler(Looper.getMainLooper())
+    private var debounceRunnable: Runnable? = null
 
     // 액티비티 중복 사용을 위한 상태 변수
     private lateinit var state: String // product, mypage
@@ -60,6 +76,22 @@ class ReviewCreateActivity : BaseActivity() {
         }
     }
 
+    // launcher 등록 (onCreate 전에 선언)
+    private val  searchProductLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val selectedProductId = result.data?.getIntExtra("PRODUCT_ID", -1) ?: return@registerForActivityResult
+
+            if (selectedProductId == -1) return@registerForActivityResult
+
+            // 선택한 상품 아이디 저장
+            productId = selectedProductId
+            // 상태 변경 및 화면 재로드
+            state = "product"
+            loadScreen()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,9 +118,7 @@ class ReviewCreateActivity : BaseActivity() {
         setToolbar() // 툴바 설정
 
         loadScreen() // 상태 변수에 따른 화면 로드
-
         setAddImages() // 사진 등록 버튼
-
         setSaveReview() // 리뷰 등록 버튼
     }
 
@@ -113,6 +143,11 @@ class ReviewCreateActivity : BaseActivity() {
                 binding.clSearch.visibility = View.VISIBLE // 검색바 설정
                 binding.itemProductCard.root.visibility = View.GONE // 상품 아이템 카드 설정
                 binding.viewOverlay.visibility = View.VISIBLE // 오버레이 설정
+
+                // 검색어 자동 완성 세팅
+                setupAutoComplete()
+                setupSearchBar()
+                setupSearchButton()
             }
             "product" -> { // 상품 상세 페이지의 리뷰 작성일 때 - 상품 선택 필요 없음
                 binding.clSearch.visibility = View.GONE // 검색바 설정
@@ -137,12 +172,12 @@ class ReviewCreateActivity : BaseActivity() {
                             binding.itemProductCard.tvProductPrice.text = data.price.toFormattedPrice()
 
                             // 성분 바인딩 (최대 3개)
-//                            val ingredients =  // List<String>
-//                            binding.itemProductCard.tvProductIngredient.text = when {
-//                                ingredients.isNullOrEmpty() -> "키워드 없음"
-//                                ingredients.size <= 3 -> ingredients.joinToString(", ")
-//                                else -> ingredients.take(3).joinToString(", ") + " ..."
-//                            }
+                            val ingredients = data.ingredientLabels // List<String>
+                            binding.itemProductCard.tvProductIngredient.text = when {
+                                ingredients.isNullOrEmpty() -> "키워드 없음"
+                                ingredients.size <= 3 -> ingredients.joinToString(", ")
+                                else -> ingredients.take(3).joinToString(", ") + " ..."
+                            }
 
                             // 상품 이미지
                             Glide.with(this)
@@ -319,7 +354,7 @@ class ReviewCreateActivity : BaseActivity() {
             // 리뷰 작성 API 호출
             reviewsService.createReview(
                 ReviewsCreateReviewRequest(
-                    productId = productId,
+                    productId = productId ?: -1,
                     rating = rating,
                     content = reviewText,
                     imageUrls = imageUrls
@@ -337,6 +372,107 @@ class ReviewCreateActivity : BaseActivity() {
             )
         }
 
+    }
+
+    // 검색어 자동 완성
+    // 자동완성 리사이클러뷰 세팅
+    private fun setupAutoComplete() {
+        autoCompleteAdapter = AutoCompleteAdapter { keyword ->
+            // 드롭다운 항목 클릭 시: 검색바 채우고 바로 검색
+            binding.etSearchbar.setText(keyword)
+            hideAutoComplete()
+            navigateToSearchResult(keyword)
+        }
+
+        binding.rvAutocomplete.apply {
+            layoutManager = LinearLayoutManager(this@ReviewCreateActivity)
+            adapter = autoCompleteAdapter
+        }
+    }
+
+    // 검색바 입력 감지 + Debounce
+    private fun setupSearchBar() {
+        binding.etSearchbar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val query = s?.toString()?.trim() ?: ""
+
+                // 이전 Debounce 취소
+                debounceRunnable?.let { debounceHandler.removeCallbacks(it) }
+
+                if (query.length < 2) {
+                    hideAutoComplete()
+                    return
+                }
+
+                // 0.5초 뒤에 API 호출
+                debounceRunnable = Runnable {
+                    fetchAutoComplete(query) // 검색어 자동 완성 API 호출
+                }.also {
+                    debounceHandler.postDelayed(it, 500L)
+                }
+            }
+        })
+    }
+
+    // 검색 버튼 클릭
+    private fun setupSearchButton() {
+        binding.btnSearch.setOnClickListener {
+            val query = binding.etSearchbar.text.toString().trim()
+            if (query.isNotEmpty()) {
+                debounceRunnable?.let { debounceHandler.removeCallbacks(it) }
+                hideAutoComplete()
+                navigateToSearchResult(query)
+            }
+        }
+
+        binding.etSearchbar.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val query = binding.etSearchbar.text.toString().trim()
+                if (query.isNotEmpty()) {
+                    debounceRunnable?.let { debounceHandler.removeCallbacks(it) }
+                    hideAutoComplete()
+                    navigateToSearchResult(query)
+                }
+                true
+            } else false
+        }
+    }
+
+    // 자동 완성 API 호출
+    private fun fetchAutoComplete(query: String) {
+        searchService.searchAutoComplete(query, "PRODUCT")
+            .executeWithHandler(
+                context = this,
+                onSuccess = { body ->
+                    if (body.success == true) {
+                        body.data?.let { resultKeywords ->
+                            if (resultKeywords.isEmpty()) {
+                                hideAutoComplete()
+                                return@let
+                            }
+                            autoCompleteAdapter.submitList(resultKeywords)
+                            binding.cardAutocomplete.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            )
+    }
+
+    // 드롭다운 숨기기
+    private fun hideAutoComplete() {
+        binding.cardAutocomplete.visibility = View.GONE
+        autoCompleteAdapter.submitList(emptyList())
+    }
+
+    // 검색 결과 화면으로 이동
+    private fun navigateToSearchResult(query: String) {
+        val intent = Intent(this, SearchResultActivity::class.java)
+        intent.putExtra("query", query)
+        intent.putExtra("PAGEMODE", "PRODUCT_NEW_REVIEW")
+        searchProductLauncher.launch(intent)
     }
 
 
