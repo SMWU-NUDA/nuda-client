@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:paddingHorizontal="18dp"
     android:paddingVertical="20dp"
     android:layout_marginBottom="10dp"
@@ -17,18 +16,29 @@
         android:layout_height="13dp"
         android:src="@drawable/img_circle"
         app:tint="@color/riskLevel_mint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
     <!--성분 이름-->
     <TextView
         android:id="@+id/tv_ingredientName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="폴리에틸렌"
+        android:text="폴리에틸렌폴리에틸렌폴리에틸렌폴리에틸렌폴리에틸렌"
         android:fontFamily="@font/pretendard_regular"
         android:textSize="16sp"
         android:textColor="@color/gray1"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:lineSpacingExtra="4dp"
         android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        app:layout_constraintStart_toEndOf="@id/iv_riskLevel"
+        app:layout_constraintEnd_toStartOf="@id/tv_component"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
     <!--구성요소-->
@@ -42,13 +52,10 @@
         android:textColor="@color/gray2"
         android:gravity="center"
         android:background="@drawable/bg_mini_component"
-        android:layout_marginLeft="14dp"
-        />
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_weight="1"
+        android:layout_marginRight="15dp"
+        app:layout_constraintEnd_toStartOf="@id/iv_moveToIngredientDetail"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
     <ImageView
@@ -56,8 +63,9 @@
         android:layout_width="7dp"
         android:layout_height="13dp"
         android:src="@drawable/img_right_arrow"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/gray3" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
