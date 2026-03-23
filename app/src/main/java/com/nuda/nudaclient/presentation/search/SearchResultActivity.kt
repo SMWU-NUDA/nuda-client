@@ -25,6 +25,7 @@ import com.nuda.nudaclient.presentation.product.ProductDetailActivity
 import com.nuda.nudaclient.presentation.product.adapter.ProductAdapter
 import com.nuda.nudaclient.presentation.search.adapter.AutoCompleteAdapter
 import com.nuda.nudaclient.presentation.search.adapter.SearchIngredientAdapter
+import com.nuda.nudaclient.utils.CustomToast
 import retrofit2.http.Query
 
 // intent에 검색 텍스트, 화면 모드 함께 전달 필요!!
@@ -201,8 +202,12 @@ class SearchResultActivity : BaseActivity() {
                     }
                     productIsLoading = false
                 },
-                onError = {
+                onError = { errorResponse ->
                     productIsLoading = false
+
+                    if (errorResponse?.code == "SEARCH_KEYWORD_TOO_SHORT") {
+                        CustomToast.show(binding.root, "검색어를 2글자 이상 입력해주세요")
+                    }
                 }
             )
     }
@@ -218,7 +223,11 @@ class SearchResultActivity : BaseActivity() {
                             ingredientAdapter.submitList(data)
                         }
                     }
-
+                },
+                onError = { errorResponse ->
+                    if (errorResponse?.code == "SEARCH_KEYWORD_TOO_SHORT") {
+                        CustomToast.show(binding.root, "검색어를 2글자 이상 입력해주세요")
+                    }
                 }
             )
     }
@@ -237,9 +246,8 @@ class SearchResultActivity : BaseActivity() {
                 },
                 onError = { errorResponse ->
                     if (errorResponse?.code == "SEARCH_KEYWORD_TOO_SHORT") {
-
+                        CustomToast.show(binding.root, "검색어를 2글자 이상 입력해주세요")
                     }
-
                 }
             )
     }
