@@ -2,6 +2,7 @@ package com.nuda.nudaclient.presentation.navigation
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -50,18 +51,25 @@ class RecommendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setToolbar() // 툴바 설정
-
         setFilterButton()// 필터링 버튼 설정
         loadKeywords() // 키워드 조회
         setupRecyclerView() // 리사이클러뷰 설정
-
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        setToolbar() // 툴바 설정
+    }
+
     // 툴바 설정
     private fun setToolbar() {
-        (activity as? BaseActivity)?.setToolbarTitle("맞춤 제품 추천") // 타이틀 설정
-        (activity as? BaseActivity)?.setBackButton() // 뒤로가기 버튼 설정
-        (activity as? BaseActivity)?.setToolbarButtons() // 툴바 버튼들 설정
+        val base = activity as? BaseActivity
+        Log.d("API_DEBUG", "baseActivity: $base")  // null인지 확인
+
+        base?.setToolbarTitle("맞춤 제품 추천") // 타이틀 설정
+        base?.setToolbarBackBtn(false) // 뒤로가기 버튼 숨김
+        base?.setToolbarButtons() // 툴바 버튼들 설정
     }
 
     // 키워드 조회 API 호출 및 키워드 설정

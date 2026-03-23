@@ -8,8 +8,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.nuda.nudaclient.R
+import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 
-class NavigationActivity : AppCompatActivity() {
+class NavigationActivity : BaseActivity() {
 
     private lateinit var menuHome : LinearLayout
     private lateinit var menuRecommend : LinearLayout
@@ -61,7 +62,6 @@ class NavigationActivity : AppCompatActivity() {
             selectMenu(menuRecommend)
         }
 
-
         // 관심 메뉴 클릭
         menuWishlist.setOnClickListener {
             replaceFragment(WishlistFragment(), "WISHLIST")
@@ -97,5 +97,11 @@ class NavigationActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
         .replace(R.id.fragment_container, fragment, tag)
         .commit()
+    }
+
+    // 맞춤 추천 화면으로 이동 (마이페이지 -> 맞춤 추천)
+    fun navigateToRecommend() {
+        replaceFragment(RecommendFragment(), "RECOMMEND")
+        selectMenu(menuRecommend)
     }
 }

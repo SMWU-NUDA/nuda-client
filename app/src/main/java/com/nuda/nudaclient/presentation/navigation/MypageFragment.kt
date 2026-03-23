@@ -104,6 +104,7 @@ class MyPageFragment : Fragment() {
     private fun setupButtons() {
         setupEditAccount()
         setupEditDelivery()
+        setupNavigateRecommend()
         setupManageKeyword()
         setupOrderHistory()
         setupCreateNewReview()
@@ -127,6 +128,13 @@ class MyPageFragment : Fragment() {
             // 배송정보 관리 액티비티로 이동
             val intent = Intent(requireContext(), MypageEditDeliveryActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    // 맞춤 추천 화면으로 이동
+    private fun setupNavigateRecommend() {
+        binding.btnGoToRecommend.setOnClickListener {
+            (requireActivity() as NavigationActivity).navigateToRecommend()
         }
     }
 
