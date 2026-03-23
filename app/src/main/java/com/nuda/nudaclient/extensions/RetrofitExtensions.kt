@@ -47,8 +47,12 @@ fun <T> Call<T>.executeWithHandler(
 
                 if (!skipGlobalTokenHandler) { // 스킵이 없을 경우 공통 실행
                     when (errorResponse?.code) {
-                        "AUTH_EXPIRED_TOKEN", "AUTH_INVALID_ACCESS_TOKEN" -> {
-                            TokenManager.clearAuthToken(context)
+                        "AUTH_EXPIRED_TOKEN",
+                        "AUTH_INVALID_ACCESS_TOKEN",
+                        "AUTH_INVALID_REFRESH_TOKEN",
+                        "AUTH_REQUIRED" -> {
+                            TokenManager.clearAuthToken(context) // 토큰 삭제
+                            // 로그인 화면으로 이동
                             val intent = Intent(context, LoginActivity::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             }

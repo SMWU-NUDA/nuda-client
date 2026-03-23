@@ -47,10 +47,6 @@ import com.nuda.nudaclient.utils.setupBarGraph
 class ProductDetailActivity : BaseActivity() {
     // 상품 상세페이지로 이동할 때 Intent에 productId 담아서 전달 필요 !!!
 
-    // TODO 리뷰 작성 후 상품 상세 업데이트 반영 테스트
-    // TODO 상품 설명 이미지, 상품 정보 이미지 넣고 테스트까지
-    // TODO 리뷰 이미지 출력
-
     private lateinit var binding: ActivityProductDetailBinding
 
     private lateinit var viewPagerProductImages: ViewPager2
@@ -199,8 +195,12 @@ class ProductDetailActivity : BaseActivity() {
     private fun setupScrollListener() {
         binding.nestedScrollView.setOnScrollChangeListener(
             NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
-                // scrollY: 현재 스크롤된 Y 픽셀값 (위에서 얼마나 내려왔는지)
+                // 이미지 비동기 로드로 높이가 바뀔 수 있으므로 스크롤마다 섹션 위치 재계산
+                productInfoSectionTop = getRelativeTop(binding.constraintProductInfo, binding.nestedScrollView)
+                ingredientSectionTop = getRelativeTop(binding.line3, binding.nestedScrollView)
+                reviewSectionTop = getRelativeTop(binding.line4, binding.nestedScrollView)
 
+                // scrollY: 현재 스크롤된 Y 픽셀값 (위에서 얼마나 내려왔는지)
                 updateTabByScrollPosition(scrollY)
 
                 // tab_original의 하단이 화면 밖으로 나갔으면 sticky 탭 표시
@@ -715,12 +715,12 @@ class ProductDetailActivity : BaseActivity() {
 
     // 전체 리뷰 화면으로 이동
     private fun setMoveToReviewAllPage() {
-        binding.btnMoveToAllReviewsTop.setOnClickListener {
+        binding.llMoveToReviewPage.setOnClickListener {
             val intent = Intent(this, ReviewAllActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
         }
-        binding.btnMoveToAllReviewsMedium.setOnClickListener {
+        binding.btnMoveToAllReviewsClickArea.setOnClickListener {
             val intent = Intent(this, ReviewAllActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)

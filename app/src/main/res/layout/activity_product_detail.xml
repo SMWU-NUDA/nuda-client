@@ -667,6 +667,17 @@
                     android:minWidth="50dp"
                     android:minHeight="50dp"/>
 
+
+                <!-- 클릭 영역 확장용 투명 View -->
+                <View
+                    android:id="@+id/btn_moveToAllReviews_clickArea"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_review_ratingScoreAndCount"
+                    app:layout_constraintTop_toTopOf="@id/tv_titleReview"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_titleReview"/>
+
                 <!--리뷰 쓰기 버튼-->
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_writeReview"
