@@ -108,6 +108,8 @@ class ReviewAdapter(
             binding.llReviewPhoto.removeAllViews() // 기존 뷰 제거
 
             if (review.imageUrls.isNotEmpty()) { // 리뷰 이미지가 있다면
+                binding.llReviewPhoto.visibility = View.VISIBLE
+                
                 review.imageUrls.forEach { imageUrl ->
                     // 리뷰 이미지 아이템 바인딩
                     val itemBinding = ItemReviewImageBinding.inflate(
@@ -150,6 +152,7 @@ class ReviewAdapter(
                     }
                 }
             } else { // 리뷰 이미지가 없을 때
+                binding.llReviewPhoto.removeAllViews() // 뷰 제거
                 binding.llReviewPhoto.visibility = View.GONE
             }
         }

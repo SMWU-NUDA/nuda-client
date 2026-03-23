@@ -29,7 +29,6 @@ import com.nuda.nudaclient.utils.CustomToast
 class ReviewAllActivity : BaseActivity() {
 
     // TODO 리뷰 작성 후 상품 상세 업데이트 반영 테스트
-    // TODO 리뷰 이미지 출력
 
     private lateinit var binding: ActivityReviewAllBinding
     private var productId = -1
@@ -72,6 +71,8 @@ class ReviewAllActivity : BaseActivity() {
 
         loadProductInfo() // 별점, 리뷰 수
         loadReviewKeyword() // 긍정, 부정 키워드
+
+        currentCursor = null
         loadReviews() // 리뷰 목록
     }
 
@@ -192,7 +193,6 @@ class ReviewAllActivity : BaseActivity() {
             layoutManager = LinearLayoutManager(this@ReviewAllActivity)
         }
 
-        loadReviews() // 첫 로드
         setScrollListner()  // 무한 스크롤 설정
     }
 
