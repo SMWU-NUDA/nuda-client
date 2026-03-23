@@ -2,8 +2,8 @@ package com.nuda.nudaclient.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,6 +23,8 @@ import com.nuda.nudaclient.presentation.signup.SignupAccountActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class LoginActivity : AppCompatActivity() {
+
+    private val TAG = "LoginActivity"
 
     // 뷰 바인딩
     private lateinit var binding: ActivityLoginBinding
@@ -123,8 +125,6 @@ class LoginActivity : AppCompatActivity() {
             context = this,
             onSuccess = { body->
                 if(body.success == true) {
-                    // 임시 토스트 메세지
-                    CustomToast.show(binding.root, "로그인 성공")
                     // 로그인 응답 토큰 저장
                     TokenManager.saveTokens(this, body.data?.accessToken, body.data?.refreshToken)
 
@@ -132,8 +132,16 @@ class LoginActivity : AppCompatActivity() {
                     val intent = Intent(this, NavigationActivity::class.java)
                     startActivity(intent)
                     finish()
-                } else {
-                    CustomToast.show(binding.root, body.message)
+
+                    Log.d("API_DEBUG", "[$TAG] 로그인 성공")
+                    CustomToast.show(binding.root, "로그인되었습니다")
+                }
+            },
+            onError = { errorResponse ->
+                // 이메일, 비밀번호가 틀렸을 경우
+                if (errorResponse?.code == "MEMBER_INVALID_CREDENTIALS") {
+                    Log.e("API_ERROR", "[$TAG] 로그인 실패: 아이디 또는 비밀번호 틀림")
+                    CustomToast.show(binding.root, "아이디 또는 비밀번호가 올바르지 않습니다")
                 }
             }
         )
@@ -156,18 +164,17 @@ class LoginActivity : AppCompatActivity() {
 
                         // 회원가입 화면 이동
                         when(body.data?.currentStep) {
-                            "COMPLETED" -> Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show()
+                            "COMPLETED" -> CustomToast.show(binding.root, "이미 회원가입이 완료되었습니다")
                             else ->  navigateToAccount() // 무조건 첫 번째 계정정보 페이지로 이동
                         }
                     } else {
                         // 서버 실패 응답
                         createDraft() // draft 및 토큰 재생성
-                        Toast.makeText(this, "응답 성공 / 서버 fail - Draft 조회 실패", Toast.LENGTH_LONG).show()
+                        Log.e("API_ERROR", "[$TAG] draft 조회 실패")
                     }
                 },
                 onError = { _ ->
                     createDraft()
-                    Toast.makeText(this, "서버 오류", Toast.LENGTH_LONG).show()
                 }
             )
     }
@@ -181,12 +188,11 @@ class LoginActivity : AppCompatActivity() {
                     if(body.success == true) {
                         // 회원가입 토큰 저장
                         TokenManager.saveSignupToken(this, body.data?.signupToken)
-                        
                         // 생성된 draft 유효기간 pref에 저장 및 회원가입 화면 이동
                         getDraft()
                     } else {
                         // 서버 실패 응답
-                        Toast.makeText(this, "Draft 생성 실패", Toast.LENGTH_LONG).show()
+                        Log.e("API_ERROR", "[$TAG] draft 생성 실패")
                     }
                 }
             )
@@ -196,7 +202,8 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToAccount() {
         val intent = Intent(this, SignupAccountActivity::class.java)
         startActivity(intent)
-        finish()
+
+        Log.d("API_DEBUG", "[$TAG] 회원가입 화면으로 이동")
     }
 
 }

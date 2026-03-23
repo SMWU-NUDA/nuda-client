@@ -1,5 +1,7 @@
 package com.nuda.nudaclient.extensions
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -48,8 +50,33 @@ fun EditText.setupValidation(
     }
 }
 
+// editText 유효성 검사
 fun EditText.highlightInvalidField(isValid: Boolean) {
+    // 유효하지 않은 경우 빨간색으로 표시
     if (!isValid) {
         this.setBackgroundResource(R.drawable.et_input_empty)
     }
+
+    // 포커스 받으면 즉시 복구
+    this.setOnFocusChangeListener { _, hasFocus ->
+        if (hasFocus) {
+            this.setBackgroundResource(R.drawable.et_input_default) // 원래 drawable
+            this.onFocusChangeListener = null // 리스너 해제
+        }
+    }
+
+    // 타이핑 시작해도 복구 (포커스 없이 바로 입력하는 케이스 대비)
+    val watcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            this@highlightInvalidField.setBackgroundResource(R.drawable.et_input_default)
+            // 순회 중 제거 금지 → post로 다음 프레임에 제거
+            this@highlightInvalidField.post {
+                this@highlightInvalidField.removeTextChangedListener(this)
+            }
+        }
+        override fun afterTextChanged(s: Editable?) {}
+    }
+
+    this.addTextChangedListener(watcher)
 }

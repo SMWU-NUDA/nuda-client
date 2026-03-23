@@ -136,8 +136,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    private fun validateAccessToken() {
-//        authService.validateAccessToken()
-//    }
-
 }
