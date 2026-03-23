@@ -2,10 +2,10 @@ package com.nuda.nudaclient.presentation.signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +24,8 @@ import com.nuda.nudaclient.extensions.highlightInvalidField
 import com.nuda.nudaclient.presentation.login.LoginActivity
 
 class SignupDeliveryActivity : AppCompatActivity() {
+
+    private val TAG = "SignupDeliveryActivity"
 
     // 뷰 바인딩 객체 선언
     lateinit var binding : ActivitySignupDeliveryBinding
@@ -378,21 +380,17 @@ class SignupDeliveryActivity : AppCompatActivity() {
                 context = this,
                 onSuccess = { body ->
                     if(body.success == true) {
-                        // 임시 토스트 메세지
-                        Toast.makeText(this, body.data, Toast.LENGTH_LONG).show()
                         // 최신 draft 조회 및 pref 백업
                         backupDelivery()
                         // 회원가입 3단계 페이지로 이동 (SignupSurveyActivity)
                         val intent = Intent(this, SignupSurveyActivity::class.java)
                         startActivity(intent)
-                    } else {
-                        // 임시 토스트 메세지
-                        Toast.makeText(this, body.message, Toast.LENGTH_LONG).show()
+
+                        Log.d("API_DEBUG", "[$TAG] 회원가입 2단계 성공, 3단계로 이동")
                     }
                 }
             )
     }
-
 
     // 최신 draft 조회 및 pref 백업
     private fun backupDelivery() {

@@ -3,14 +3,12 @@ package com.nuda.nudaclient.presentation.signup
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -33,6 +31,8 @@ import com.nuda.nudaclient.extensions.setupValidation
 import com.nuda.nudaclient.presentation.login.LoginActivity
 
 class SignupAccountActivity : AppCompatActivity() {
+
+    private val TAG = "SignupAccountActivity"
 
     // TODO: security(auth): (signup) SharedPreferences에서 비밀번호 저장 제거 (회원가입 시 비밀번호는 서버 전송 후 즉시 폐기)
 
@@ -342,7 +342,14 @@ class SignupAccountActivity : AppCompatActivity() {
                 isEmailValid = isValid
                 if (!isRestoringData) {
                     isEmailSendSuccess = false
+                    isEmailVerified = false
                     tv_validEmail.text = ""
+
+                    et_emailCertify.text?.clear()
+                    tv_emailCertify.text = ""
+                    isEmailCertifyValid = false
+                    countDownTimer?.cancel()
+                    tv_timer.text = ""
                 }
             }
         )
@@ -427,13 +434,22 @@ class SignupAccountActivity : AppCompatActivity() {
                     onSuccess = { body ->
                         if (body.success == true) { // 서버의 success 필드
                             tv_duplicateNickname.text = getString(R.string.btnValid_nickname_true)
-                            tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
+                            tv_duplicateNickname.setTextColor(
+                                ContextCompat.getColor(
+                                    this@SignupAccountActivity,
+                                    R.color.green
+                                )
+                            )
                             isNicknameAvailable = true // 중복 확인 상태 저장
-                        } else { // HTTP 200인데 서버에서 실패 응답
-                            tv_duplicateNickname.text = body?.data ?: body?.message
-                                    ?: getString(R.string.btnValid_nickname_false)
+                        }
+                    },
+                    onError = { errorResponse ->
+                        if (errorResponse?.code == "NICKNAME_DUPLICATED") {
+                            tv_duplicateNickname.text = getString(R.string.btnValid_nickname_false)
                             tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.red))
                             isNicknameAvailable = false
+
+                            Log.e("API_ERROR", "[$TAG] 닉네임 중복")
                         }
                     }
                 )
@@ -462,17 +478,15 @@ class SignupAccountActivity : AppCompatActivity() {
                             tv_duplicateUsername.text = getString(R.string.btnValid_id_true)
                             tv_duplicateUsername.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
                             isUsernameAvailable = true // 중복 확인 상태 저장
-                        } else { // HTTP 200인데 서버에서 실패 응답
-                            // body?.success == false 이거나 null일 수 있음.
-                            tv_duplicateUsername.text =
-                                body?.data ?: body?.message ?: getString(R.string.btnValid_id_false)
-                            tv_duplicateUsername.setTextColor(
-                                ContextCompat.getColor(
-                                    this@SignupAccountActivity,
-                                    R.color.red
-                                )
-                            )
+                        }
+                    },
+                    onError = { errorResponse ->
+                        if (errorResponse?.code == "USERNAME_DUPLICATED") {
+                            tv_duplicateUsername.text = getString(R.string.btnValid_id_false)
+                            tv_duplicateUsername.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.red))
                             isUsernameAvailable = false
+
+                            Log.e("API_ERROR", "[$TAG] 아이디 중복")
                         }
                     }
                 )
@@ -484,6 +498,11 @@ class SignupAccountActivity : AppCompatActivity() {
         btn_sendEmail.setOnClickListener {
             et_email.setBackgroundResource(R.drawable.et_input_default)
             et_emailCertify.setBackgroundResource(R.drawable.et_input_default)
+
+            isEmailVerified = false
+            tv_emailCertify.text = ""
+            et_emailCertify.text?.clear()
+            isEmailCertifyValid = false
 
             if(!isEmailValid) { // 이메일 유효성 검사 실패
                 tv_validEmail.text = getString(R.string.btnValid_email_false)
@@ -511,6 +530,21 @@ class SignupAccountActivity : AppCompatActivity() {
                             tv_validEmail.text = body.data ?: body.message ?: getString(R.string.btnValid_email_fail)
                             tv_validEmail.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
                             isEmailSendSuccess = false
+                        }
+                    },
+                    onError = { errorResponse ->
+                        if (errorResponse?.code == "MEMBER_EMAIL_DUPLICATED") {
+                            tv_validEmail.text = getString(R.string.btnValid_email_duplicate)
+                            tv_validEmail.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.red))
+                            isEmailSendSuccess = false
+
+                            Log.e("API_ERROR", "[$TAG] 가입된 이메일")
+                        } else {
+                            tv_validEmail.text = getString(R.string.btnValid_email_fail)
+                            tv_validEmail.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
+                            isEmailSendSuccess = false
+
+                            Log.e("API_ERROR", "[$TAG] 인증번호 전송 실패")
                         }
                     }
                 )
@@ -549,16 +583,25 @@ class SignupAccountActivity : AppCompatActivity() {
                             tv_emailCertify.text = getString(R.string.btnValid_email_certify_true)
                             tv_emailCertify.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.green))
                             isEmailVerified = true // 중복 확인 상태 저장
+
+                            countDownTimer?.cancel()
+                            tv_timer.text = ""
                         } else { // HTTP 200인데 서버에서 실패 응답
                             // body?.success == false 이거나 null일 수 있음.
                             tv_emailCertify.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
                             isEmailVerified = false
                         }
                     },
-                    onError = { _ ->
-                        tv_emailCertify.text = getString(R.string.btnValid_email_certify_false)
-                        tv_emailCertify.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
-                        isEmailVerified = false
+                    onError = { errorResponse ->
+                        if (errorResponse?.code == "MEMBER_EMAIL_VERIFICATION_TOO_MANY_ATTEMPTS") {
+                            tv_emailCertify.text = getString(R.string.btnValid_email_certify_fail)
+                            tv_emailCertify.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
+                            isEmailVerified = false
+                            } else {
+                                tv_emailCertify.text = getString(R.string.btnValid_email_certify_false)
+                                tv_emailCertify.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
+                                isEmailVerified = false
+                        }
                     }
                 )
         }
@@ -658,18 +701,13 @@ class SignupAccountActivity : AppCompatActivity() {
                 context = this,
                 onSuccess = { body ->
                     if(body.success == true) {
-                        // 임시 토스트 메세지
-                        Toast.makeText(this, body.data, Toast.LENGTH_LONG).show()
-
                         // 최신 draft 조회 및 pref 백업
                         backupAccount()
-
                         // 회원가입 2단계 페이지로 이동 (SignupDeliveryActivity)
                         val intent = Intent(this, SignupDeliveryActivity::class.java)
                         startActivity(intent)
-                    } else {
-                        // 임시 토스트 메세지
-                        Toast.makeText(this, body.message, Toast.LENGTH_LONG).show()
+
+                        Log.d("API_DEBUG", "[$TAG] 회원가입 1단계 성공, 2단계로 이동")
                     }
                 }
             )
