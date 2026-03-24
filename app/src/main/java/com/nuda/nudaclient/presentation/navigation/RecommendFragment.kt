@@ -23,6 +23,7 @@ import com.nuda.nudaclient.presentation.product.adapter.ProductAdapter
 
 
 class RecommendFragment : Fragment() {
+    private val TAG = "RecommendFragment"
 
     private var _binding: FragmentRecommendBinding? = null
     private val binding get() = _binding!!
@@ -65,7 +66,6 @@ class RecommendFragment : Fragment() {
     // 툴바 설정
     private fun setToolbar() {
         val base = activity as? BaseActivity
-        Log.d("API_DEBUG", "baseActivity: $base")  // null인지 확인
 
         base?.setToolbarTitle("맞춤 제품 추천") // 타이틀 설정
         base?.setToolbarBackBtn(false) // 뒤로가기 버튼 숨김
@@ -164,6 +164,7 @@ class RecommendFragment : Fragment() {
             val intent = Intent(requireContext(), ProductDetailActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 상품 상세로 화면 이동")
         }
         // 어댑터 연결
         binding.rvRecommendRanking.apply {
@@ -177,12 +178,25 @@ class RecommendFragment : Fragment() {
 
     // 무힌 스크롤 리스너 설정
     private fun setScrollListner() {
-        binding.rvRecommendRanking.setInfiniteScrollListener {
-            if (!isLoading // 로딩 중이 아니고
-                && currentCursor != null) { // 다음 페이지가 있으면
-                loadKeywordRanking() // 다음 페이지 로드
+        binding.scrollView.setOnScrollChangeListener { v, _, scrollY, _, _ ->
+            val nestedScrollView = v as androidx.core.widget.NestedScrollView
+            val totalHeight = nestedScrollView.getChildAt(0).measuredHeight
+            val visibleHeight = nestedScrollView.measuredHeight
+
+            // 끝에서 300px 이내면 로드
+            if (scrollY >= totalHeight - visibleHeight - 300) {
+                if (!isLoading && currentCursor != null) {
+                    loadKeywordRanking()
+                }
             }
         }
+//        binding.rvRecommendRanking.setInfiniteScrollListener {
+//            Log.d("SCROLL", "dy 통과 / isLoading=$isLoading / cursor=$currentCursor")
+//            if (!isLoading // 로딩 중이 아니고
+//                && currentCursor != null) { // 다음 페이지가 있으면
+//                loadKeywordRanking() // 다음 페이지 로드
+//            }
+//        }
     }
 
     // 키워드별 맞춤 상품 랭킹 조회 API 요청 및 응답 저장
@@ -197,6 +211,7 @@ class RecommendFragment : Fragment() {
             context = requireContext(),
             onSuccess = { body ->
                 if (body.success == true) {
+                    Log.d("API_DEBUG", "[$TAG] ${selectedSortType} 추천 랭킹 조회 성공")
                     body.data?.let { data ->
                         if (currentCursor == null) { // 첫 로드이거나 필터 변경 후 첫 로드인 경우
                             productAdapter.submitList(data.content)

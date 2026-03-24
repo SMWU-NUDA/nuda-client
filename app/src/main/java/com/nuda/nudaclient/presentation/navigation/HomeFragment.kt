@@ -5,6 +5,7 @@ import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,16 +16,19 @@ import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
 import com.nuda.nudaclient.data.remote.dto.common.Product
 import com.nuda.nudaclient.databinding.FragmentHomeBinding
-import com.nuda.nudaclient.databinding.FragmentMypageBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.setInfiniteScrollListener
 import com.nuda.nudaclient.presentation.navigation.adapter.HomeKeywordRankingAdapter
 import com.nuda.nudaclient.presentation.navigation.adapter.HomeRankingAdapter
 import com.nuda.nudaclient.presentation.product.ProductDetailActivity
 import com.nuda.nudaclient.presentation.product.ProductRankingActivity
+import com.nuda.nudaclient.presentation.search.SearchActivity
+import com.nuda.nudaclient.presentation.shopping.ShoppingCartActivity
 
 
 class HomeFragment : Fragment() {
+
+    private val TAG = "HomeFragment"
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -59,12 +63,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupNavigation()
+        setupButtons()
 
-        // 전체 랭킹 ViewPager 설정
-        setRankingViewPager()
-
-        // 키워드별 상품 목록 리사이클러뷰 설정
-        setKeywordRankingRecyclerView()
+        setRankingViewPager() // 전체 랭킹 ViewPager 설정
+        setKeywordRankingRecyclerView() // 키워드별 상품 목록 리사이클러뷰 설정
     }
 
     // 뷰 파괴 (프래그먼트 객체는 유지)
@@ -78,6 +80,19 @@ class HomeFragment : Fragment() {
         // 전체 상품 랭킹 화면으로 이동
         binding.tvGoToRanking.setOnClickListener {
             startActivity(Intent(requireContext(), ProductRankingActivity::class.java))
+            Log.d("API_DEBUG", "[$TAG] 제품 랭킹으로 화면 이동")
+        }
+    }
+
+    // 전체 버튼 설정
+    private fun setupButtons() {
+        binding.ivBtnSearch.setOnClickListener {
+            startActivity(Intent(requireContext(), SearchActivity::class.java))
+            Log.d("API_DEBUG", "[$TAG] 검색 화면으로 이동")
+        }
+        binding.ivBtnCart.setOnClickListener {
+            startActivity(Intent(requireContext(), ShoppingCartActivity::class.java))
+            Log.d("API_DEBUG", "[$TAG] 장바구니 화면으로 이동")
         }
     }
 
@@ -90,6 +105,8 @@ class HomeFragment : Fragment() {
             val intent = Intent(requireContext(), ProductDetailActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+
+            Log.d("API_DEBUG", "[$TAG] 상품 상세로 화면 이동")
         }
 
         // 랭킹 상품 목록 로드
@@ -131,6 +148,19 @@ class HomeFragment : Fragment() {
             }
         }
 
+        // 무한 루프: 양 끝 도달 시 반대쪽으로 조용히 점프
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                val itemCount = homeRankingAdapter.itemCount
+                if (itemCount <= 2) return
+
+                when (position) {
+                    0 -> viewPager2.setCurrentItem(itemCount - 2, false) // 가짜 10위 → 진짜 10위
+                    itemCount - 1 -> viewPager2.setCurrentItem(1, false) // 가짜 1위 → 진짜 1위
+                }
+            }
+        })
+
     }
 
     // 전체 상품 랭킹 조회 API 호출 및 상품 목록 저장 (10위까지)
@@ -143,12 +173,30 @@ class HomeFragment : Fragment() {
             onSuccess = { body ->
                 if (body.success == true) {
                     body.data?.let { data ->
-                        homeRankingAdapter.submitList(data.content.take(10)) // 어댑터에 랭킹 아이템 10개 추가
+                        // 상위 10개 제품 저장 후 리스트에 추가
+                        setupInfiniteLoop(data.content.take(10))
                     }
                 }
             }
         )
+    }
 
+    // 무한 루프용 리스트 구성 및 초기 위치 설정
+    private fun setupInfiniteLoop(products: List<Product>) {
+        if (products.isEmpty()) return
+
+        // 실제 랭킹 번호를 index+1로 고정해서 RankingItem에 담음
+        val ranked = products.mapIndexed { index, product ->
+            HomeRankingAdapter.RankingItem(product, rank = index + 1)
+        }
+
+        // [10위, 1위, 2위, ..., 10위, 1위] 구조로 앞뒤 복제
+        val loopList = listOf(ranked.last()) + ranked + listOf(ranked.first())
+
+        homeRankingAdapter.submitList(loopList)
+        binding.viewPager2.post {
+            binding.viewPager2.setCurrentItem(1, false) // 초기 위치를 진짜 1위(index 1)로 설정
+        }
     }
 
     private fun setKeywordRankingRecyclerView() {
@@ -157,6 +205,8 @@ class HomeFragment : Fragment() {
             val intent = Intent(requireContext(), ProductDetailActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+
+            Log.d("API_DEBUG", "[$TAG] 상품 상세로 화면 이동")
         }
 
         // 어댑터 생성

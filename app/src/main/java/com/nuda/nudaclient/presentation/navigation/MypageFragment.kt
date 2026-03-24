@@ -71,9 +71,6 @@ class MyPageFragment : Fragment() {
                 onSuccess = { body ->
                     if (body.success == true) {
                         updateUserInfo(body)
-                        CustomToast.show(binding.root, body?.message ?: "마이페이지 프로필 업데이트 완료")
-                    } else {
-                        CustomToast.show(binding.root, body.message ?: "서버 요청 실패")
                     }
                 }
             )

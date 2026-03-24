@@ -37,13 +37,6 @@ class HomeKeywordRankingAdapter(
             parent,
             false)
 
-//        // 높이 강제 wrap_content
-//        binding.root.layoutParams = RecyclerView.LayoutParams(
-//            binding.root.layoutParams.width,
-//            RecyclerView.LayoutParams.WRAP_CONTENT
-//        )
-//
-
         return KeywordRankingViewHolder(binding)
     }
 

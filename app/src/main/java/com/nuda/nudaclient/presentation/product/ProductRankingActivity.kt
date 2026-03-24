@@ -2,17 +2,13 @@ package com.nuda.nudaclient.presentation.product
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
-import com.nuda.nudaclient.data.remote.dto.common.Product
 import com.nuda.nudaclient.databinding.ActivityProductRankingBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.setInfiniteScrollListener
@@ -21,6 +17,8 @@ import com.nuda.nudaclient.presentation.common.fragment.SortBottomSheet
 import com.nuda.nudaclient.presentation.product.adapter.ProductAdapter
 
 class ProductRankingActivity : BaseActivity() {
+
+    private val TAG = "ProductRankingActivity"
 
     private lateinit var binding: ActivityProductRankingBinding
     private var selectedSortTypeIdx = 0 // 필터링 기본값 인덱스 0, 이후 선택 필터 인덱스 전달로 상태 유지
@@ -111,6 +109,7 @@ class ProductRankingActivity : BaseActivity() {
             val intent = Intent(this, ProductDetailActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 상품 상세로 화면 이동")
         }
 
         binding.rvAllRanking.apply {
@@ -144,6 +143,7 @@ class ProductRankingActivity : BaseActivity() {
             context = this,
             onSuccess = { body ->
                 if (body.success == true) {
+                    Log.d("API_DEBUG", "[$TAG] ${selectedSortType} 제품 랭킹 조회 성공")
                     body.data?.let { data ->
                         if (currentCursor == null) { // 첫 로드이거나 필터 변경 후 첫 로드인 경우
                             productAdapter.submitList(data.content)

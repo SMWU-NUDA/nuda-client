@@ -69,7 +69,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        tools:listitem="@layout/item_product_card"
         />
 
     <!--가이드라인-->

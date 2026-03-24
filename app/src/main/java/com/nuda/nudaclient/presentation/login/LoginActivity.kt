@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        // 회원가입 후 로그인으로 돌아왔을 때 회원가입 완료 메세지 띄우기
+        // 로그인으로 진입 시 토스트 메세지 띄우기
         val msg = intent.getStringExtra("SHOW_TOAST")
         if (!msg.isNullOrEmpty()) CustomToast.show(binding.root, msg)
 
@@ -135,11 +135,11 @@ class LoginActivity : AppCompatActivity() {
                     // 홈화면으로 이동
                     val intent = Intent(this, NavigationActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.putExtra("SHOW_TOAST", "로그인되었습니다")
                     startActivity(intent)
                     finish()
 
                     Log.d("API_DEBUG", "[$TAG] 로그인 성공")
-                    CustomToast.show(binding.root, "로그인되었습니다")
                 }
             },
             onError = { errorResponse ->

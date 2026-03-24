@@ -46,7 +46,7 @@
                 android:id="@+id/tv_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="클리나"
+                android:text="테스트"
                 android:fontFamily="@font/pretendard_semibold"
                 android:textSize="22sp"
                 android:textColor="@color/gray1"
@@ -350,7 +350,7 @@
                 android:id="@+id/tv_nickname2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="클리나"
+                android:text="테스트"
                 android:fontFamily="@font/pretendard_semibold"
                 android:textSize="22sp"
                 android:textColor="@color/gray1"
@@ -383,21 +383,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextSecondaryGreen"
-                    android:text="민감도 높음"
+                    android:text="민감도 NN"
                     />
                 <TextView
                     android:id="@+id/tv_scent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextSecondaryGreen"
-                    android:text="보통 향"
+                    android:text="NN 향"
                     />
                 <TextView
                     android:id="@+id/tv_adhesion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextSecondaryGreen"
-                    android:text="접착력 중시"
+                    android:text="접착력 NN"
                     />
             </LinearLayout>
 
@@ -406,7 +406,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextSecondaryGreen"
-                android:text="약한 흡수력"
+                android:text="NN 흡수력"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ll_keywords"
                 />

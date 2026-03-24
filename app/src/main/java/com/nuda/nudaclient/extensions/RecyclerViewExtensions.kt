@@ -10,6 +10,8 @@ fun RecyclerView.setInfiniteScrollListener(
         // onScrolled(): 스크롤이 발생하면 자동 호출되는 함수
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
+            if (dy <= 0 && dx <= 0) return
+
             // 1. 레이아웃 메니저 가져오기
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
 

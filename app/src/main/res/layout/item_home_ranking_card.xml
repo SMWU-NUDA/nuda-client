@@ -33,7 +33,7 @@
             android:id="@+id/iv_rank_number"
             android:layout_width="50dp"
             android:layout_height="75dp"
-            android:src="@drawable/img_number_1"
+            android:src="@drawable/img_number_0"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -42,7 +42,7 @@
             android:id="@+id/tv_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="나트라케어"
+            android:text="테스트 브랜드"
             android:fontFamily="@font/pretendard_semibold"
             android:textSize="18sp"
             android:textColor="@color/gray6"
@@ -57,7 +57,7 @@
             android:id="@+id/tv_productName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="나트라케어 울트라패드 3종 택 1"
+            android:text="테스트 상품명"
             android:fontFamily="@font/pretendard_bold"
             android:textSize="22sp"
             android:textColor="@color/gray6"
