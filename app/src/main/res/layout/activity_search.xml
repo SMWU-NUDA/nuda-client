@@ -139,36 +139,118 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:layout_marginRight="10dp"
             >
-            <TextView
-                android:id="@+id/tv_search"
-                style="@style/TextSearch_popular_keywords"
-                android:text="1 쏘피 쿨링프레쉬"
-                />
-
-            <TextView
-                android:id="@+id/tv_search2"
-                style="@style/TextSearch_popular_keywords"
-                android:text="2 좋은느낌 수퍼소프트"
-                />
-
-            <TextView
-                android:id="@+id/tv_search3"
-                style="@style/TextSearch_popular_keywords"
-                android:text="3 쿨만 유기농 순면"
-                />
-
-            <TextView
-                android:id="@+id/tv_search4"
-                style="@style/TextSearch_popular_keywords"
-                android:text="4 쏘피 쿨링프레쉬"
-                />
-
-            <TextView
-                android:id="@+id/tv_search5"
-                style="@style/TextSearch_popular_keywords"
-                android:text="5 콜만 유기농 순면"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="1"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="2"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search2"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="3"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search3"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="4"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search4"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="5"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search5"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
         </LinearLayout>
         <!--6~10순위-->
         <LinearLayout
@@ -177,35 +259,116 @@
             android:layout_weight="1"
             android:orientation="vertical"
             >
-            <TextView
-                android:id="@+id/tv_search6"
-                style="@style/TextSearch_popular_keywords"
-                android:text="6 쏘피 쿨링프레쉬"
-                />
-
-            <TextView
-                android:id="@+id/tv_search7"
-                style="@style/TextSearch_popular_keywords"
-                android:text="7 좋은느낌 수퍼소프트"
-                />
-
-            <TextView
-                android:id="@+id/tv_search8"
-                style="@style/TextSearch_popular_keywords"
-                android:text="8 쿨만 유기농 순면"
-                />
-
-            <TextView
-                android:id="@+id/tv_search9"
-                style="@style/TextSearch_popular_keywords"
-                android:text="9 쏘피 쿨링프레쉬"
-                />
-
-            <TextView
-                android:id="@+id/tv_search10"
-                style="@style/TextSearch_popular_keywords"
-                android:text="10 콜만 유기농 순면"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="6"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search6"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="7"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search7"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="8"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search8"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="9"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search9"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_rank10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSearch_popular_keywords"
+                    android:textSize="14sp"
+                    android:text="10"
+                    android:layout_marginRight="4dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_search10"
+                    style="@style/TextSearch_popular_keywords"
+                    android:text="nn nnnn"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

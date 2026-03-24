@@ -24,12 +24,14 @@ import com.nuda.nudaclient.databinding.ItemWishProductBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.ingredient.IngredientDetailActivity
 import com.nuda.nudaclient.presentation.product.ProductDetailActivity
+import com.nuda.nudaclient.presentation.search.SearchActivity
+import com.nuda.nudaclient.presentation.shopping.ShoppingCartActivity
 
 class WishlistFragment : Fragment() {
+    private val TAG = "WishlistFragment"
 
     private var _binding: FragmentWishlistBinding? = null
     private val binding get() = _binding!!
-
 
     // 상태 관리 변수
     // 찜한 상품 관련
@@ -62,6 +64,9 @@ class WishlistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 전체 버튼 설정
+        setupButtons()
+
         // 무한 스크롤 설정 (4개 모두 설정)
         setupInfiniteScrolls()
     }
@@ -88,6 +93,19 @@ class WishlistFragment : Fragment() {
         binding.llAvoidIngredients.viewTreeObserver.takeIf { it.isAlive }?.removeOnScrollChangedListener(avoidScrollListener)
         _binding = null
     }
+
+    // 전체 버튼 설정
+    private fun setupButtons() {
+        binding.ivBtnSearch.setOnClickListener {
+            startActivity(Intent(requireContext(), SearchActivity::class.java))
+            Log.d("API_DEBUG", "[$TAG] 검색으로 화면 이동")
+        }
+        binding.ivBtnCart.setOnClickListener {
+            startActivity(Intent(requireContext(), ShoppingCartActivity::class.java))
+            Log.d("API_DEBUG", "[$TAG] 장바구니로 화면 이동")
+        }
+    }
+
     // 상태 초기화
     private fun resetState() {
         // 찜한 상품 상태 초기화
@@ -224,6 +242,7 @@ class WishlistFragment : Fragment() {
                 context = requireContext(),
                 onSuccess = { body ->
                     if (body.success == true) {
+                        Log.d("API_DEBUG", "[$TAG] 찜한 상품 조회 성공")
                         body.data?.let { data ->
                             // 다음 페이지 정보 저장
                             productCursor = data.nextCursor
@@ -239,7 +258,7 @@ class WishlistFragment : Fragment() {
                 },
                 onError = {
                     IsLoadingProduct = false
-                    Log.d("API_DEBUG", "찜한 상품 로드 실패")
+                    Log.e("API_ERROR", "[$TAG] 찜한 상품 조회 실패")
                 }
             )
 
@@ -255,6 +274,7 @@ class WishlistFragment : Fragment() {
                 context = requireContext(),
                 onSuccess = { body ->
                     if (body.success == true) {
+                        Log.d("API_DEBUG", "[$TAG] 찜한 브랜드 조회 성공")
                         body.data?.let { data ->
                             // 다음 페이지 정보 저장
                             brandCursor = data.nextCursor
@@ -270,7 +290,7 @@ class WishlistFragment : Fragment() {
                 },
                 onError = {
                     IsLoadingBrand = false
-                    Log.e("API_DEBUG", "찜한 브랜드 로드 실패")
+                    Log.e("API_ERROR", "[$TAG] 찜한 브랜드 조회 실패")
                 }
             )
     }
@@ -285,6 +305,7 @@ class WishlistFragment : Fragment() {
                 context = requireContext(),
                 onSuccess = { body ->
                     if (body.success == true) {
+                        Log.d("API_DEBUG", "[$TAG] 관심 성분 조회 성공")
                         body.data?.let { data ->
                             // 다음 페이지 정보 저장
                             highlightCursor = data.nextCursor
@@ -300,7 +321,7 @@ class WishlistFragment : Fragment() {
                 },
                 onError = {
                     IsLoadinghighlight = false
-                    Log.e("API_DEBUG", "관심 성분 로드 실패")
+                    Log.e("API_ERROR", "[$TAG] 관심 성분 조회 실패")
                 }
             )
     }
@@ -315,6 +336,7 @@ class WishlistFragment : Fragment() {
                 context = requireContext(),
                 onSuccess = { body ->
                     if (body.success == true) {
+                        Log.d("API_DEBUG", "[$TAG] 피할 성분 조회 성공")
                         body.data?.let { data ->
                             // 다음 페이지 정보 저장
                             avoidCursor = data.nextCursor
@@ -330,7 +352,7 @@ class WishlistFragment : Fragment() {
                 },
                 onError = {
                     IsLoadingAvoid = false
-                    Log.e("API_DEBUG", "피할 성분 로드 실패")
+                    Log.e("API_ERROR", "[$TAG] 피할 성분 조회 실패")
                 }
             )
     }
@@ -364,6 +386,7 @@ class WishlistFragment : Fragment() {
             val intent = Intent(requireContext(), ProductDetailActivity::class.java)
             intent.putExtra("PRODUCT_ID", product.productId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 상품 상세로 화면 이동")
         }
 
         // root 뷰를 추가
@@ -436,6 +459,7 @@ class WishlistFragment : Fragment() {
             val intent = Intent(requireContext(), IngredientDetailActivity::class.java)
             intent.putExtra("INGREDIENT_ID", highlightIngredient.ingredientId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 성분 상세로 화면 이동")
         }
         // root 뷰를 추가
         binding.llHighlightIngredients.addView(itemBinding.root)
@@ -487,6 +511,7 @@ class WishlistFragment : Fragment() {
             val intent = Intent(requireContext(), IngredientDetailActivity::class.java)
             intent.putExtra("INGREDIENT_ID", avoidIngredient.ingredientId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 성분 상세로 화면 이동")
         }
         // root 뷰를 추가
         binding.llAvoidIngredients.addView(itemBinding.root)

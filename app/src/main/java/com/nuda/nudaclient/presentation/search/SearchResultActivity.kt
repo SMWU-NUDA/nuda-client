@@ -41,7 +41,6 @@ class SearchResultActivity : BaseActivity() {
     private val debounceHandler = Handler(Looper.getMainLooper())
     private var debounceRunnable: Runnable? = null
 
-
     // 검색 결과 리사이클러뷰 어댑터
     private lateinit var productAdapter: ProductAdapter
     private lateinit var ingredientAdapter: SearchIngredientAdapter
@@ -53,6 +52,9 @@ class SearchResultActivity : BaseActivity() {
 
     private lateinit var pageMode: String
     private lateinit var query: String
+
+    // 자동완성의 textWatcher 무시 플래그
+    private var isSettingText = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +104,7 @@ class SearchResultActivity : BaseActivity() {
             val intent = Intent(this, ProductDetailActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 상품 상세로 화면 이동")
         }
         // 성분 검색
         ingredientAdapter = SearchIngredientAdapter() { ingredientId -> // 성분 아이템 클릭 이벤트 설정
@@ -109,6 +112,7 @@ class SearchResultActivity : BaseActivity() {
             val intent = Intent(this, IngredientDetailActivity::class.java)
             intent.putExtra("INGREDIENT_ID", ingredientId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 성분 상세로 화면 이동")
         }
         // 회원가입 - 설문 - 사용 상품 검색
         productSignupAdapter = ProductAdapter() { productId, thumbnail ->
@@ -136,10 +140,12 @@ class SearchResultActivity : BaseActivity() {
                 binding.rvSearchResult.adapter = productAdapter // 상품 어댑터 연결
                 loadProductSearch() // 상품 검색 결과 첫 로드
                 setScrollListner() // 무한 스크롤 설정
+                binding.etSearchbar.setHint("제품을 검색하세요")
             }
             "INGREDIENT" -> {
                 binding.rvSearchResult.adapter = ingredientAdapter // 성분 어댑터 연결
                 loadIngredientSearch() // 성분 검색 결과 로드 (전체)
+                binding.etSearchbar.setHint("성분을 검색하세요")
             }
             "PRODUCT_SIGNUP" -> {
                 binding.rvSearchResult.adapter = productSignupAdapter // 회원가입 상품 어댑터 연결
@@ -150,6 +156,7 @@ class SearchResultActivity : BaseActivity() {
                 binding.rvSearchResult.adapter = productNewReviewAdapter // 마이페이지 상품 어댑터 연결
                 loadProductSearch() // 상품 검색 결과 첫 로드
                 setScrollListner() // 무한 스크롤 설정
+                binding.etSearchbar.setHint("제품을 검색하세요")
             }
             else -> {
                 Log.e("API_ERROR", "[$TAG] 검색 결과 화면 모드 오류")
@@ -188,10 +195,10 @@ class SearchResultActivity : BaseActivity() {
 
                             if (productCurrentCursor == null) { // 첫 로드인 경우
                                 currentAdapter.submitList(data.content)
-                                Log.d("API_DEBUG", "[$TAG] 상품 첫 검색 성공")
+                                Log.d("API_DEBUG", "[$TAG] 상품 검색 성공")
                             } else { // 첫 로드가 아닌 경우
                                 currentAdapter.appendItems(data.content)
-                                Log.d("API_DEBUG", "[$TAG] 상품 추가 검색 성공")
+                                Log.d("API_DEBUG", "[$TAG] 상품 검색 성공")
                             }
 
                             // 다음 커서 업데이트
@@ -229,7 +236,7 @@ class SearchResultActivity : BaseActivity() {
                     }
                 },
                 onError = { errorResponse ->
-                    if (errorResponse?.code == "SEARCH_KEYWORD_TOO_SHORT") {
+                    if (errorResponse?.code == "INGREDIENT_KEYWORD_TOO_SHORT") {
                         CustomToast.show(binding.root, "검색어를 2글자 이상 입력해주세요")
                         Log.e("API_ERROR", "[$TAG] 검색 실패: 검색어 2글자 미만")
                     }
@@ -246,8 +253,7 @@ class SearchResultActivity : BaseActivity() {
                     if (body.success == true) {
                         body.data?.let { data ->
                             productSignupAdapter.submitList(data)
-
-                            Log.d("API_DEBUG", "[$TAG] 검색 성공")
+                            Log.d("API_DEBUG", "[$TAG] 회원가입 상품 검색 성공")
                         }
                     }
                 },
@@ -264,10 +270,17 @@ class SearchResultActivity : BaseActivity() {
     // 검색어 자동 완성
     // 자동완성 리사이클러뷰 세팅
     private fun setupAutoComplete() {
-        autoCompleteAdapter = AutoCompleteAdapter { keyword ->
-            // 드롭다운 항목 클릭 시: 검색바 채우고 바로 검색
-            binding.etSearchbar.setText(keyword)
+        autoCompleteAdapter = AutoCompleteAdapter { keyword -> // 드롭다운 항목 클릭 시
+            // debounce 취소
+            debounceRunnable?.let { debounceHandler.removeCallbacks(it) }
+            // 드롭다운 숨기기
             hideAutoComplete()
+
+            isSettingText = true // TextWatcher 무시 플래그 ON
+            binding.etSearchbar.setText(keyword) // 검색바 채우고 바로 검색
+            binding.etSearchbar.setSelection(keyword.length) // 커서를 맨 끝으로
+            isSettingText = false // 플래그 OFF
+
             updateSearchResult(keyword)
         }
 
@@ -284,8 +297,9 @@ class SearchResultActivity : BaseActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                val query = s?.toString()?.trim() ?: ""
+                if (isSettingText) return // 플래그 on이면 무시
 
+                val query = s?.toString()?.trim() ?: ""
                 // 이전 Debounce 취소
                 debounceRunnable?.let { debounceHandler.removeCallbacks(it) }
 
@@ -293,7 +307,6 @@ class SearchResultActivity : BaseActivity() {
                     hideAutoComplete()
                     return
                 }
-
                 // 0.5초 뒤에 API 호출
                 debounceRunnable = Runnable {
                     fetchAutoComplete(query) // 검색어 자동 완성 API 호출
@@ -330,7 +343,6 @@ class SearchResultActivity : BaseActivity() {
 
     // 자동 완성 API 호출
     private fun fetchAutoComplete(query: String) {
-        Log.d("API_DEBUG", "[$TAG] 자동완성 호출: $query")
         val PAGEMODE = when(pageMode) {
             "PRODUCT", "PRODUCT_SIGNUP" ,"PRODUCT_NEW_REVIEW" -> "PRODUCT"
             "INGREDIENT" -> "INGREDIENT"
@@ -342,7 +354,7 @@ class SearchResultActivity : BaseActivity() {
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
-                        Log.d("API_DEBUG", "[$TAG] 자동완성 호출 성공")
+                        Log.d("API_DEBUG", "[$TAG] 자동완성 호출 성공: 검색어 $query")
                         body.data?.let { resultKeywords ->
                             if (resultKeywords.isEmpty()) {
                                 hideAutoComplete()

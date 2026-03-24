@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
@@ -17,10 +15,10 @@ import com.nuda.nudaclient.data.remote.RetrofitClient.ingredientsService
 import com.nuda.nudaclient.databinding.ActivityIngredientDetailBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
-import org.w3c.dom.Text
 
 class IngredientDetailActivity : BaseActivity() {
     // 성분 상세페이지 진입 시 intent에 ingredientId 함께 전달 필요!!
+    private val TAG = "IngredientDetailActivity"
 
     private lateinit var binding: ActivityIngredientDetailBinding
 
@@ -79,6 +77,7 @@ class IngredientDetailActivity : BaseActivity() {
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
+                        Log.d("API_DEBUG", "[$TAG] 성분 상세 정보 조회 성공")
                         body.data?.let { data ->
                             // 텍스트 UI 업데이트
                             binding.tvIngredientName.text = data.name
@@ -133,7 +132,6 @@ class IngredientDetailActivity : BaseActivity() {
                                     binding.tvComponent2.text = "UNKNOWN"
                                 }
                             }
-
 
                             // 구성요소 설명
                             binding.tvComponentInfo.text = when (data.layerType) {
@@ -210,20 +208,17 @@ class IngredientDetailActivity : BaseActivity() {
                                     resetButtons() // 둘 다 취소
                                     btnHighlight.isSelected = true
                                     btnHighlight.typeface = typefaceClicked // 버튼 폰트 변경
-                                    Log.d("API_DEBUG", "관심 버튼 - 성분 관심")
-                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                    Log.d("API_DEBUG", "[$TAG] 성분 관심")
                                 }
                                 false -> { // 피하기
                                     resetButtons() // 둘 다 취소
                                     btnAvoid.isSelected = true
                                     btnAvoid.typeface = typefaceClicked
-                                    Log.d("API_DEBUG", "관심 버튼 - 성분 피하기")
-                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                    Log.d("API_DEBUG", "[$TAG] 성분 피하기")
                                 }
                                 null -> { // 둘 다 취소
                                     resetButtons()
-                                    Log.d("API_DEBUG", "관심 버튼 - 성분 즐겨찾기 해제")
-                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                    Log.d("API_DEBUG", "[$TAG] 성분 즐겨찾기 해제")
                                 }
                             }
                             setResult(RESULT_OK) // 즐겨찾기 변경을 이전 화면에 전파
@@ -247,20 +242,17 @@ class IngredientDetailActivity : BaseActivity() {
                                     resetButtons() // 둘 다 취소
                                     btnHighlight.isSelected = true
                                     btnHighlight.typeface = typefaceClicked // 버튼 폰트 변경
-                                    Log.d("API_DEBUG", "피하기 버튼 - 성분 관심")
-                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                    Log.d("API_DEBUG", "[$TAG] 성분 관심")
                                 }
                                 false -> { // 피하기
                                     resetButtons() // 둘 다 취소
                                     btnAvoid.isSelected = true
                                     btnAvoid.typeface = typefaceClicked
-                                    Log.d("API_DEBUG", "피하기 버튼 - 성분 피하기")
-                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                    Log.d("API_DEBUG", "[$TAG] 성분 피하기")
                                 }
                                 null -> { // 둘 다 취소
                                     resetButtons()
-                                    Log.d("API_DEBUG", "피하기 버튼 - 성분 즐겨찾기 해제")
-                                    Log.d("API_DEBUG", "data.preference = ${data.preference}")
+                                    Log.d("API_DEBUG", "[$TAG] 성분 즐겨찾기 해제")
                                 }
                             }
                             setResult(RESULT_OK) // 즐겨찾기 변경을 이전 화면에 전파

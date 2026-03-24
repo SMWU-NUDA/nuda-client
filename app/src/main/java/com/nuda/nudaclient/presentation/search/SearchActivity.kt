@@ -21,6 +21,8 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.search.adapter.AutoCompleteAdapter
 
 class SearchActivity : BaseActivity() {
+    private val TAG = "SearchActivity"
+
     private lateinit var binding : ActivitySearchBinding
     private lateinit var autoCompleteAdapter: AutoCompleteAdapter
 
@@ -29,6 +31,25 @@ class SearchActivity : BaseActivity() {
     private var debounceRunnable: Runnable? = null
 
     private lateinit var pageMode: String
+
+    // 자동완성의 textWatcher 무시 플래그
+    private var isSettingText = false
+
+    // 인기 검색어 순위 리스트 객체 생성
+    private val popular_keywords_rank by lazy {
+        listOf(
+            binding.tvRank1,
+            binding.tvRank2,
+            binding.tvRank3,
+            binding.tvRank4,
+            binding.tvRank5,
+            binding.tvRank6,
+            binding.tvRank7,
+            binding.tvRank8,
+            binding.tvRank9,
+            binding.tvRank10
+        )
+    }
 
     // 인기 검색어 리스트 객체 생성
     private val popular_keywords by lazy {
@@ -90,6 +111,7 @@ class SearchActivity : BaseActivity() {
         setUIByMode()
         binding.etSearchbar.setText("")
         binding.etSearchbar.setHint("제품을 검색하세요")
+        Log.d("API_DEBUG", "[$TAG] 상품 검색 모드")
 
         // 제품 검색 버튼
         binding.btnSearchProduct.setOnClickListener {
@@ -98,6 +120,7 @@ class SearchActivity : BaseActivity() {
             setUIByMode()
             binding.etSearchbar.setText("")
             binding.etSearchbar.setHint("제품을 검색하세요")
+            Log.d("API_DEBUG", "[$TAG] 상품 검색 모드")
         }
         // 상품 검색 버튼
         binding.btnSearchIngredient.setOnClickListener {
@@ -106,6 +129,7 @@ class SearchActivity : BaseActivity() {
             setUIByMode()
             binding.etSearchbar.setText("")
             binding.etSearchbar.setHint("성분을 검색하세요")
+            Log.d("API_DEBUG", "[$TAG] 성분 검색 모드")
         }
     }
 
@@ -126,7 +150,6 @@ class SearchActivity : BaseActivity() {
                             if (body.success == true) {
                                 body.data?.let { data ->
                                     setPopularKeywords(data)
-                                    Log.d("API_DEBUG", "상품 인기 검색어 조회 성공")
                                 }
                             }
                         }
@@ -140,7 +163,6 @@ class SearchActivity : BaseActivity() {
                             if (body.success == true) {
                                 body.data?.let { data ->
                                     setPopularKeywords(data)
-                                    Log.d("API_DEBUG", "성분 인기 검색어 조회 성공")
                                 }
                             }
                         }
@@ -151,10 +173,18 @@ class SearchActivity : BaseActivity() {
 
     // 인기 검색어 업데이트
     private fun setPopularKeywords(keywords: List<String>) {
+        popular_keywords_rank.forEachIndexed { index, textView ->
+            if (index < keywords.size) {
+                textView.visibility = View.VISIBLE
+            } else {
+                textView.visibility = View.GONE
+            }
+        }
+
         popular_keywords.forEachIndexed { index, textView ->
             if (index < keywords.size) {
                 textView.visibility = View.VISIBLE
-                textView.text = "${index + 1} ${keywords[index]}"
+                textView.text = "${keywords[index]}"
             } else {
                 textView.visibility = View.GONE
             }
@@ -165,9 +195,16 @@ class SearchActivity : BaseActivity() {
     // 자동완성 리사이클러뷰 세팅
     private fun setupAutoComplete() {
         autoCompleteAdapter = AutoCompleteAdapter { keyword ->
-            // 드롭다운 항목 클릭 시: 검색바 채우고 바로 검색
-            binding.etSearchbar.setText(keyword)
+            // debounce 취소
+            debounceRunnable?.let { debounceHandler.removeCallbacks(it) }
+            // 드롭다운 숨기기
             hideAutoComplete()
+
+            isSettingText = true // TextWatcher 무시 플래그 ON
+            binding.etSearchbar.setText(keyword) // 검색바 채우고 바로 검색
+            binding.etSearchbar.setSelection(keyword.length) // 커서를 맨 끝으로
+            isSettingText = false // 플래그 OFF
+
             navigateToSearchResult(keyword)
         }
 
@@ -184,6 +221,8 @@ class SearchActivity : BaseActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
+                if (isSettingText) return // 플래그 on이면 무시
+
                 val query = s?.toString()?.trim() ?: ""
 
                 // 이전 Debounce 취소
@@ -260,6 +299,7 @@ class SearchActivity : BaseActivity() {
         intent.putExtra("query", query)
         intent.putExtra("PAGEMODE", pageMode)
         startActivity(intent)
+        Log.d("API_DEBUG", "[$TAG] 검색 결과로 화면 이동")
     }
 
 }

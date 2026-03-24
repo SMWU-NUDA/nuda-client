@@ -39,7 +39,7 @@
                 android:id="@+id/tv_ingredientName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="순면섬유"
+                android:text="테스트성분명"
                 android:fontFamily="@font/pretendard_medium"
                 android:textSize="22sp"
                 android:textColor="@color/gray1"
@@ -52,7 +52,7 @@
                 android:id="@+id/tv_component"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="표지"
+                android:text="테스트구성요소"
                 android:fontFamily="@font/pretendard_light"
                 android:textSize="20sp"
                 android:textColor="@color/gray3"
@@ -128,7 +128,7 @@
                         <TextView
                             android:id="@+id/tv_riskLevel"
                             style="@style/TextIngredient_detail_info"
-                            android:text="안전"
+                            android:text="테스트"
                             android:fontFamily="@font/pretendard_bold"
                             android:textColor="@color/riskLevel_mint"
                             android:layout_marginStart="5dp"
@@ -176,7 +176,7 @@
                     <TextView
                         android:id="@+id/tv_ingredient_info"
                         style="@style/TextIngredient_detail_info"
-                        android:text="목화 섬유를 주재료로 하여, 직조 없이 시트 형태로 만든 소재. 천연 재료의 장점과 부직포의 가공 용이성을 결합한 것"
+                        android:text="테스트 성분설명"
                         android:visibility="visible"
                         />
                 </LinearLayout>
@@ -214,7 +214,7 @@
                     <TextView
                         android:id="@+id/tv_caution_info"
                         style="@style/TextIngredient_detail_info"
-                        android:text="발암 가능성이 의심되는 성분이 포함되어 있습니다. 장기간·반복 사용 시 건강에 위험을 줄 수 있어 주의가 필요합니다."
+                        android:text="테스트 주의 사항"
                         />
                 </LinearLayout>
 
@@ -250,7 +250,7 @@
                         android:id="@+id/tv_component2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/component_coverLayer"
+                        android:text="테스트 구성요소"
                         android:fontFamily="@font/pretendard_regular"
                         android:textSize="18sp"
                         android:textColor="@color/gray3"
@@ -259,7 +259,7 @@
                     <TextView
                         android:id="@+id/tv_component_info"
                         style="@style/TextIngredient_detail_info"
-                        android:text="@string/component_coverLayerInfo"
+                        android:text="테스트 구성요소 설명"
                         android:visibility="visible"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="30dp"
