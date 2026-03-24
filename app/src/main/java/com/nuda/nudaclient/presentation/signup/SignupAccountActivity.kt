@@ -165,7 +165,7 @@ class SignupAccountActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        countDownTimer?.cancel() // 타이머 정리
+//        countDownTimer?.cancel() // 타이머 정리
     }
 
     // 진행상황 복원
@@ -527,7 +527,7 @@ class SignupAccountActivity : AppCompatActivity() {
                             // 이메일 인증번호 타이머 시작
                             startEmailTimer()
                         } else { // HTTP 200인데 서버에서 실패 응답
-                            tv_validEmail.text = body.data ?: body.message ?: getString(R.string.btnValid_email_fail)
+                            tv_validEmail.text = getString(R.string.btnValid_email_fail)
                             tv_validEmail.setTextColor(ContextCompat.getColor(this@SignupAccountActivity,R.color.red))
                             isEmailSendSuccess = false
                         }

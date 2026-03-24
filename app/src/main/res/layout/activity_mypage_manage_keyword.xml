@@ -42,9 +42,10 @@
 
                 <!--키워드 목록 타이틀-->
                 <TextView
+                    android:id="@+id/tv_nickname"
                     style="@style/TextToolbar"
                     android:textSize="22sp"
-                    android:text="클리나"
+                    android:text="테스트"
                     />
                 <TextView
                     style="@style/TextMypageBasic"
@@ -66,21 +67,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextSecondaryGreen"
-                    android:text="민감도 높음"
+                    android:text="민감도 nn"
                     />
                 <TextView
                     android:id="@+id/tv_scent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextSecondaryGreen"
-                    android:text="보통 향"
+                    android:text="nn 향"
                     />
                 <TextView
                     android:id="@+id/tv_adhesion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/TextSecondaryGreen"
-                    android:text="접착력 중시"
+                    android:text="접착력 nn"
                     />
             </LinearLayout>
 
@@ -89,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextSecondaryGreen"
-                android:text="약한 흡수력"
+                android:text="nn 흡수력"
                 />
 
             <!--            -->

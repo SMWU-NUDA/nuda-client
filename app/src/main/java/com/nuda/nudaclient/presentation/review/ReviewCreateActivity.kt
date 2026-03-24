@@ -52,6 +52,9 @@ class ReviewCreateActivity : BaseActivity() {
     private val debounceHandler = Handler(Looper.getMainLooper())
     private var debounceRunnable: Runnable? = null
 
+    // 자동완성의 textWatcher 무시 플래그
+    private var isSettingText = false
+
     // 액티비티 중복 사용을 위한 상태 변수
     private lateinit var state: String // product, mypage
 
@@ -389,9 +392,16 @@ class ReviewCreateActivity : BaseActivity() {
     // 자동완성 리사이클러뷰 세팅
     private fun setupAutoComplete() {
         autoCompleteAdapter = AutoCompleteAdapter { keyword ->
-            // 드롭다운 항목 클릭 시: 검색바 채우고 바로 검색
-            binding.etSearchbar.setText(keyword)
+            // debounce 취소
+            debounceRunnable?.let { debounceHandler.removeCallbacks(it) }
+            // 드롭다운 숨기기
             hideAutoComplete()
+
+            isSettingText = true // TextWatcher 무시 플래그 ON
+            binding.etSearchbar.setText(keyword) // 검색바 채우고 바로 검색
+            binding.etSearchbar.setSelection(keyword.length) // 커서를 맨 끝으로
+            isSettingText = false // 플래그 OFF
+
             navigateToSearchResult(keyword)
         }
 
@@ -408,6 +418,7 @@ class ReviewCreateActivity : BaseActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
+                if (isSettingText) return // 플래그 on이면 무시
                 val query = s?.toString()?.trim() ?: ""
 
                 // 이전 Debounce 취소
@@ -484,6 +495,8 @@ class ReviewCreateActivity : BaseActivity() {
         intent.putExtra("query", query)
         intent.putExtra("PAGEMODE", "PRODUCT_NEW_REVIEW")
         searchProductLauncher.launch(intent)
+
+        Log.d("API_DEBUG", "[$TAG] 상품 검색 결과로 화면 이동")
     }
 
 

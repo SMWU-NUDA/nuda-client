@@ -163,7 +163,7 @@
                     android:id="@+id/tv_keywords"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(예시)민감도 높음, 향 약함, 안전성 중시 ..."
+                    android:text="민감도 nn, 향 nn, 안전성 nn ..."
                     android:fontFamily="@font/pretendard_extralight"
                     android:textSize="12sp"
                     android:textColor="@color/gray3"

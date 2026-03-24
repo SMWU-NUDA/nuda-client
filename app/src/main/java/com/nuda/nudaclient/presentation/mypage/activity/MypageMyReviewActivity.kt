@@ -16,6 +16,7 @@ import com.nuda.nudaclient.presentation.mypage.adapter.MypageMyReviewAdapter
 import com.nuda.nudaclient.utils.CustomToast
 
 class MypageMyReviewActivity : BaseActivity() {
+    private val TAG = "MypageMyReviewActivity"
 
     private lateinit var binding: ActivityMypageMyreviewBinding
 
@@ -91,9 +92,6 @@ class MypageMyReviewActivity : BaseActivity() {
                         // 리뷰 삭제 성공 시 어댑터에서 아이템 제거
                         myreviewAdapter.removeItemById(reviewId)
                         CustomToast.show(binding.root, "리뷰가 삭제되었습니다")
-                        Log.d("API_DEBUG", "리뷰 삭제 성공")
-                    } else {
-                        Log.d("API_DEBUG", "리뷰 삭제 실패")
                     }
                 }
             )
@@ -110,6 +108,7 @@ class MypageMyReviewActivity : BaseActivity() {
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
+                        Log.d("API_DEBUG", "[$TAG] 내 리뷰 목록 조회 성공")
                         val data = body.data
                         if (data != null) { // 리뷰 데이터가 null이 아닐 때
                             // 어댑터에 새 데이터 추가

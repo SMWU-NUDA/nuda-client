@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient
+import com.nuda.nudaclient.data.remote.RetrofitClient.authService
 import com.nuda.nudaclient.data.remote.dto.auth.AuthEmailVerificationRequest
 import com.nuda.nudaclient.data.remote.dto.auth.AuthVerifyEmailRequest
 import com.nuda.nudaclient.data.remote.dto.common.ApiResponse
@@ -24,6 +25,7 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MypageEditAccountActivity : BaseActivity() {
+    private val TAG = "MypageEditAccountActivity"
 
     private lateinit var binding: ActivityMypageEditAccountBinding
 
@@ -106,10 +108,6 @@ class MypageEditAccountActivity : BaseActivity() {
                         saveAndSetUserInfo(body)
                         // 유효성 검사 UI 복원
                         setupProcess()
-
-                        Log.d("API_DEBUG", "회원 정보 로드 성공")
-                    } else {
-                        Log.e("API_ERROR", "회원 정보 로드 실패")
                     }
                 }
             )
@@ -298,7 +296,13 @@ class MypageEditAccountActivity : BaseActivity() {
                 isEmailValid = isValid
                 if (!isRestoringData) {
                     isEmailSendSuccess = false
+                    isEmailVerified = false
                     binding.tvValidEmail.text = ""
+                    binding.etEmailCertify.text?.clear()
+                    binding.tvValidEmailCertify.text = ""
+                    isEmailCertifyValid = false
+                    countDownTimer?.cancel()
+                    binding.tvTimer.text = ""
                 }
             }
         )
@@ -384,10 +388,18 @@ class MypageEditAccountActivity : BaseActivity() {
                             binding.tvDuplicateNickname.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity, R.color.green))
                             isNicknameAvailable = true // 중복 확인 상태 저장
                         } else { // HTTP 200인데 서버에서 실패 응답
-                            binding.tvDuplicateNickname.text = body?.data ?: body?.message
-                                    ?: getString(R.string.btnValid_nickname_false)
+                            binding.tvDuplicateNickname.text = getString(R.string.btnValid_nickname_false)
                             binding.tvDuplicateNickname.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity, R.color.red))
                             isNicknameAvailable = false
+                        }
+                    },
+                    onError = { errorResponse ->
+                        if (errorResponse?.code == "MEMBER_NICKNAME_DUPLICATED") {
+                            binding.tvDuplicateNickname.text = getString(R.string.btnValid_nickname_false)
+                            binding.tvDuplicateNickname.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity, R.color.red))
+                            isNicknameAvailable = false
+
+                            Log.e("API_ERROR", "[$TAG] 닉네임 중복")
                         }
                     }
                 )
@@ -418,8 +430,7 @@ class MypageEditAccountActivity : BaseActivity() {
                             isUsernameAvailable = true // 중복 확인 상태 저장
                         } else { // HTTP 200인데 서버에서 실패 응답
                             // body?.success == false 이거나 null일 수 있음.
-                            binding.tvDuplicateId.text =
-                                body?.data ?: body?.message ?: getString(R.string.btnValid_id_false)
+                            binding.tvDuplicateId.text = getString(R.string.btnValid_id_false)
                             binding.tvDuplicateId.setTextColor(
                                 ContextCompat.getColor(
                                     this@MypageEditAccountActivity,
@@ -427,6 +438,15 @@ class MypageEditAccountActivity : BaseActivity() {
                                 )
                             )
                             isUsernameAvailable = false
+                        }
+                    },
+                    onError = { errorResponse ->
+                        if (errorResponse?.code == "MEMBER_USERNAME_DUPLICATED") {
+                            binding.tvDuplicateId.text = getString(R.string.btnValid_id_false)
+                            binding.tvDuplicateId.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity, R.color.red))
+                            isUsernameAvailable = false
+
+                            Log.e("API_ERROR", "[$TAG] 아이디 중복")
                         }
                     }
                 )
@@ -439,6 +459,11 @@ class MypageEditAccountActivity : BaseActivity() {
             binding.etEmail.setBackgroundResource(R.drawable.et_input_default)
             binding.etEmailCertify.setBackgroundResource(R.drawable.et_input_default)
 
+            isEmailVerified = false
+            binding.tvValidEmailCertify.text = ""
+            binding.etEmailCertify.text?.clear()
+            isEmailCertifyValid = false
+
             if(!isEmailValid) { // 이메일 유효성 검사 실패
                 binding.tvValidEmail.text = getString(R.string.btnValid_email_false)
                 binding.tvValidEmail.setTextColor(ContextCompat.getColor(this, R.color.red))
@@ -449,7 +474,7 @@ class MypageEditAccountActivity : BaseActivity() {
             // 요청 객체 생성
             val request = AuthEmailVerificationRequest(email = binding.etEmail.text.toString())
             // API 호출
-            RetrofitClient.authService.requestEmailVerification(request)
+            authService.requestEmailVerification(request)
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->
@@ -464,11 +489,26 @@ class MypageEditAccountActivity : BaseActivity() {
                             // 이메일 인증번호 타이머 시작
                             startEmailTimer()
                         } else { // HTTP 200인데 서버에서 실패 응답
-                            binding.tvValidEmail.text = body.data ?: body.message ?: getString(R.string.btnValid_email_fail)
+                            binding.tvValidEmail.text = getString(R.string.btnValid_email_fail)
                             binding.tvValidEmail.setTextColor(
                                 ContextCompat.getColor(this@MypageEditAccountActivity,
                                     R.color.red))
                             isEmailSendSuccess = false
+                        }
+                    },
+                    onError = { errorResponse ->
+                        if (errorResponse?.code == "MEMBER_EMAIL_DUPLICATED") {
+                            binding.tvValidEmail.text = getString(R.string.btnValid_email_duplicate)
+                            binding.tvValidEmail.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity, R.color.red))
+                            isEmailSendSuccess = false
+
+                            Log.e("API_ERROR", "[$TAG] 가입된 이메일")
+                        } else {
+                            binding.tvValidEmail.text = getString(R.string.btnValid_email_fail)
+                            binding.tvValidEmail.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.red))
+                            isEmailSendSuccess = false
+
+                            Log.e("API_ERROR", "[$TAG] 인증번호 전송 실패")
                         }
                     }
                 )
@@ -499,7 +539,7 @@ class MypageEditAccountActivity : BaseActivity() {
                 code = binding.etEmailCertify.text.toString(),
                 email = binding.etEmail.text.toString()
             )
-            RetrofitClient.authService.verifyEmail(request)
+            authService.verifyEmail(request)
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->
@@ -509,6 +549,9 @@ class MypageEditAccountActivity : BaseActivity() {
                                 ContextCompat.getColor(this@MypageEditAccountActivity,
                                     R.color.green))
                             isEmailVerified = true // 중복 확인 상태 저장
+
+                            countDownTimer?.cancel()
+                            binding.tvTimer.text = ""
                         } else { // HTTP 200인데 서버에서 실패 응답
                             // body?.success == false 이거나 null일 수 있음.
                             binding.tvValidEmailCertify.setTextColor(
@@ -517,12 +560,16 @@ class MypageEditAccountActivity : BaseActivity() {
                             isEmailVerified = false
                         }
                     },
-                    onError = { _ ->
-                        binding.tvValidEmailCertify.text = getString(R.string.btnValid_email_certify_false)
-                        binding.tvValidEmailCertify.setTextColor(
-                            ContextCompat.getColor(this@MypageEditAccountActivity,
-                                R.color.red))
-                        isEmailVerified = false
+                    onError = {  errorResponse ->
+                        if (errorResponse?.code == "MEMBER_EMAIL_VERIFICATION_TOO_MANY_ATTEMPTS") {
+                            binding.tvValidEmailCertify.text = getString(R.string.btnValid_email_certify_fail)
+                            binding.tvValidEmailCertify.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.red))
+                            isEmailVerified = false
+                        } else {
+                            binding.tvValidEmailCertify.text = getString(R.string.btnValid_email_certify_false)
+                            binding.tvValidEmailCertify.setTextColor(ContextCompat.getColor(this@MypageEditAccountActivity,R.color.red))
+                            isEmailVerified = false
+                        }
                     }
                 )
         }
@@ -531,11 +578,6 @@ class MypageEditAccountActivity : BaseActivity() {
     // 현재 비밀번호 확인 버튼
     private fun setupCurrentPasswordCheck() {
         binding.btnCheckPw.setOnClickListener {
-            binding.etPwNow.setBackgroundResource(R.drawable.et_input_default)
-            binding.etPw.setBackgroundResource(R.drawable.et_input_default)
-            binding.etPwCheck.setBackgroundResource(R.drawable.et_input_default)
-
-
             // 1. 현재 비밀번호 입력 확인
             if (binding.etPwNow.text.isNullOrEmpty()) { // 입력이 없는 경우
                 binding.tvCheckedPwNow.text = getString(R.string.valid_pw_check_noPW)
@@ -549,6 +591,11 @@ class MypageEditAccountActivity : BaseActivity() {
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
+                        // 비밀번호 입력창 배경 초기화
+                        binding.etPwNow.setBackgroundResource(R.drawable.et_input_default)
+                        binding.etPw.setBackgroundResource(R.drawable.et_input_default)
+                        binding.etPwCheck.setBackgroundResource(R.drawable.et_input_default)
+
                         // 새 비밀번호, 새 비밀번호 검증 입력창 enabled  설정
                         binding.etPw.isEnabled = true
                         binding.etPwCheck.isEnabled = true
@@ -559,10 +606,6 @@ class MypageEditAccountActivity : BaseActivity() {
                         binding.tvCheckedPwNow.text = getString(R.string.valid_pw_check_true)
                         binding.tvCheckedPwNow.setTextColor(ContextCompat.getColor(this, R.color.green))
                         isPwNowValid = true
-
-                        Log.d("API_DEBUG", "비밀번호 검증 성공")
-                    } else {
-                        Log.e("API_ERROR","비밀번호 검증 실패")
                     }
                 },
                 onError = { errorResponse ->
@@ -570,8 +613,6 @@ class MypageEditAccountActivity : BaseActivity() {
                         binding.tvCheckedPwNow.text = getString(R.string.valid_pw_check_false)
                         binding.tvCheckedPwNow.setTextColor(ContextCompat.getColor(this, R.color.red))
                         isPwNowValid = false
-                    } else {
-                        CustomToast.show(binding.root, "액티비티 - 서버 오류")
                     }
                 }
             )
@@ -619,6 +660,7 @@ class MypageEditAccountActivity : BaseActivity() {
     // 수정된 프로필 정보 저장
     private fun updateProfile() {
         binding.btnSavePage.setOnClickListener {
+            currentFocus?.clearFocus() // 포커스 해제
             // 유효성 검사 실패 시
             if (!validationAccount()) {
                 highlightInvalidFields()
@@ -633,10 +675,8 @@ class MypageEditAccountActivity : BaseActivity() {
                     context = this,
                     onSuccess = { body ->
                         if (body.success == true) {
-                            Log.d("API_DEBUG", "프로필 수정 성공")
-                            finish()
-                        } else {
-                            Log.e("API_ERROR", "프로필 수정 실패")
+                            CustomToast.show(binding.root, "프로필 정보가 수정되었습니다")
+                            Log.d("API_DEBUG", "[$TAG] 프로필 수정 성공")
                         }
                     }
                 )

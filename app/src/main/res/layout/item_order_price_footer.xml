@@ -10,7 +10,7 @@
         android:id="@+id/tv_total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10,450원"
+        android:text="NN,NNN원"
         android:fontFamily="@font/pretendard_semibold"
         android:textSize="18sp"
         android:textColor="@color/gray1"

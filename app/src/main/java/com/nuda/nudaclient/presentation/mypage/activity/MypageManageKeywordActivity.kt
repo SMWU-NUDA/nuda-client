@@ -17,6 +17,7 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class MypageManageKeywordActivity : BaseActivity() {
+    private val TAG = "MypageManageKeywordActivity"
 
     private lateinit var binding : ActivityMypageManageKeywordBinding
 
@@ -62,6 +63,10 @@ class MypageManageKeywordActivity : BaseActivity() {
                 onSuccess = { body ->
                     if (body.success == true) {
                         body.data?.let { data ->
+                            // 닉네임 업데이트
+                            binding.tvNickname.text = data.me.nickname
+
+                            // 키워드 업데이트
                             when (data.irritationLevel) {
                                 "NONE" -> {
                                     irritationLevel = "NONE"
@@ -211,9 +216,7 @@ class MypageManageKeywordActivity : BaseActivity() {
                     if (body.success == true) {
                         CustomToast.show(binding.root, "키워드 수정이 완료되었습니다")
                         loadKeywords() // 수정한 키워드 화면 로드
-                        Log.d("API_DEBUG", "키워드 수정에 성공했습니다")
-                    } else {
-                        Log.d("API_DEBUG", "키워드 수정에 실패했습니다")
+                        Log.d("API_DEBUG", "[$TAG] 키워드 수정 성공")
                     }
                 }
             )

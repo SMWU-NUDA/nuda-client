@@ -8,17 +8,16 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
-import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingGetCartItemsResponse
 import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingGetOrderHistoryResponse
 import com.nuda.nudaclient.databinding.ActivityShoppingOrderHistoryBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.setInfiniteScrollListener
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.shopping.adapter.OrderHistoryAdapter
-import com.nuda.nudaclient.presentation.shopping.convertData.CartItem
 import com.nuda.nudaclient.presentation.shopping.convertData.OrderHistoryItem
 
 class ShoppingOrderHistoryActivity : BaseActivity() {
+    private val TAG = "ShoppingOrderHistoryActivity"
 
     private lateinit var binding: ActivityShoppingOrderHistoryBinding
     private lateinit var orderHistoryAdapter: OrderHistoryAdapter
@@ -89,9 +88,14 @@ class ShoppingOrderHistoryActivity : BaseActivity() {
                 onSuccess = { body ->
                     if (body.success == true) {
                         body.data?.let { data ->
-                            orderHistoryItems.clear()
-                            orderHistoryItems.addAll(convertToOrderHistoryItems(data))
-                            orderHistoryAdapter.notifyDataSetChanged() // 리스트 전체 갱신
+                            Log.d("API_DEBUG", "[$TAG] 주문 내역 조회 성공")
+
+                            val newItems = convertToOrderHistoryItems(data)
+                            val insertPosition = orderHistoryItems.size
+
+                            orderHistoryItems.addAll(newItems)
+                            orderHistoryAdapter.notifyItemRangeInserted(insertPosition,
+                                newItems.size) // 리스트 전체 갱신
 
                             // 다음 커서 업데이트
                             currentCursor = if (data.hasNext) { // 다음 페이지가 있으면
@@ -99,7 +103,6 @@ class ShoppingOrderHistoryActivity : BaseActivity() {
                             } else { // 마지막 페이지면
                                 null
                             }
-                            Log.d("API_DEBUG", "주문 내역 로드 성공")
                         }
                     }
                     // 로딩 종료

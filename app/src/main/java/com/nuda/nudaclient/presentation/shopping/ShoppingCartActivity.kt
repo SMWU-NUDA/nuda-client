@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +21,7 @@ import com.nuda.nudaclient.presentation.shopping.adapter.CartAdapter
 import com.nuda.nudaclient.presentation.shopping.convertData.CartItem
 
 class ShoppingCartActivity : BaseActivity() {
+    private val TAG = "ShoppingCartActivity"
 
     private lateinit var binding: ActivityShoppingCartBinding
     private lateinit var cartAdapter: CartAdapter
@@ -93,6 +93,7 @@ class ShoppingCartActivity : BaseActivity() {
                 onSuccess = { body ->
                     if (body.success == true) {
                         body.data?.let { data ->
+                            Log.d("API_DEBUG", "[$TAG] 장바구니 목록 조회 성공")
                             cartItems.clear() // 기존 카트 아이템 제거
                             cartItems.addAll(convertToCartItems(data)) // 중첩 구조의 응답을 1차원 리스트로 변환 후 추가
                             cartAdapter.notifyDataSetChanged() // 리스트 전체 갱신
@@ -100,8 +101,6 @@ class ShoppingCartActivity : BaseActivity() {
                             updateTotalQuantity() // 총 상품 개수 업데이트
                             updateTotalPrice() // 총 가격 업데이트
                             syncAllCheckState() // 전체 선택 체크 상태 동기화
-
-                            Log.d("API_DEBUG", "cartItems: $cartItems, totalQuantity: ${data.totalQuantity}, totalPrice: ${data.totalPrice}")
                         }
                     }
                 }
@@ -405,7 +404,7 @@ class ShoppingCartActivity : BaseActivity() {
                     onSuccess = { body ->
                         if (body.success == true) {
                             body.data?.let { data ->
-                                Log.d("API_DEBUG", "주문 1. 주문 등록 API 호출 성공")
+                                Log.d("API_DEBUG", "[$TAG] 주문 1. 주문 등록 API 호출 성공")
                                 // 2. 결제 요청 API 호출
                                 shoppingService.createPayment(data.orderId)
                                     .executeWithHandler(
@@ -413,13 +412,14 @@ class ShoppingCartActivity : BaseActivity() {
                                         onSuccess = { body ->
                                             if (body.success == true) {
                                                 body.data?.let { data ->
-                                                    Log.d("API_DEBUG", "주문 2. 결제 요청 API 호출 성공")
+                                                    Log.d("API_DEBUG", "[$TAG] 주문 2. 결제 요청 API 호출 성공")
                                                     // 결제 완료 화면으로 이동
                                                     val intent = Intent(this,
                                                         ShoppingOrderCompleteActivity::class.java)
                                                     intent.putExtra("PAYMENT_ID", data.paymentId) // 결제 고유 식별자 전달
                                                     startActivity(intent)
                                                     finish()
+                                                    Log.d("API_DEBUG", "[$TAG] 주문 완료로 화면 이동")
                                                 }
                                             }
                                         }

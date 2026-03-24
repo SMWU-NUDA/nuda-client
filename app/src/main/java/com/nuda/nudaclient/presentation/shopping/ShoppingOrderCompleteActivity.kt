@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
 import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingPaymentCompleteResponse
@@ -21,6 +20,7 @@ import com.nuda.nudaclient.presentation.shopping.convertData.OrderProduct
 
 class ShoppingOrderCompleteActivity : BaseActivity() {
     // 결제 완료 화면으로 이동할 때 Intent에 paymentId 담아서 전달 필요 !!!
+    private val TAG = "ShoppingOrderCompleteActivity"
 
     private lateinit var binding: ActivityShoppingOrderCompleteBinding
     private lateinit var orderAdapter: OrderAdapter

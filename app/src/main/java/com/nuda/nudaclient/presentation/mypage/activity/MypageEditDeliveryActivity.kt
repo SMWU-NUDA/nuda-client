@@ -20,8 +20,10 @@ import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.highlightInvalidField
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.signup.AddressSearchActivity
+import com.nuda.nudaclient.utils.CustomToast
 
 class MypageEditDeliveryActivity : BaseActivity() {
+    private val TAG = "MypageEditDeliveryActivity"
 
     private lateinit var binding: ActivityMypageEditDeliveryBinding
 
@@ -119,10 +121,6 @@ class MypageEditDeliveryActivity : BaseActivity() {
                         saveAndSetDeliveryInfo(body)
                         // 기존 진행 상황 복원
                         setupProcess()
-
-                        Log.d("API_DEBUG", "배송정보 로드 성공")
-                    } else {
-                        Log.e("API_ERROR", "배송정보 로드 실패")
                     }
                 }
             )
@@ -287,6 +285,8 @@ class MypageEditDeliveryActivity : BaseActivity() {
     // 배송 정보 저장
     private fun updateDeliveryInfo() {
         binding.btnSavePage.setOnClickListener {
+            currentFocus?.clearFocus() // 포커스 해제
+
             // 유효성 검사 실패 시
             if(!validationDelivery()) {
                 highlightInvalidFields()
@@ -305,10 +305,8 @@ class MypageEditDeliveryActivity : BaseActivity() {
                 context = this,
                 onSuccess = { body ->
                     if(body.success == true) {
-                        finish()
-                        Log.d("API_DEBUG", "배송 정보 수정 성공")
-                    } else {
-                        Log.e("API_ERROR", "배송 정보 수정 실패")
+                        CustomToast.show(binding.root, "배송정보가 수정되었습니다")
+                        Log.d("API_DEBUG", "[$TAG] 배송정보 수정 성공")
                     }
                 }
             )
