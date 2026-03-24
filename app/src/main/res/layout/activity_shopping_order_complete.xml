@@ -23,6 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
+        android:fillViewport="true"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/toolBar"
@@ -75,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="2025112314523"
+                    android:text="nnnnnnnnnnnnn"
                     android:fontFamily="@font/pretendard_regular"
                     android:textSize="18sp"
                     android:textColor="@color/riskLevel_red"
@@ -98,14 +99,12 @@
                 android:background="@color/gray1"
                 />
 
-            <!--주문 상품 목록 리사이클러뷰-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_order_product"
+            <!--주문 상품 목록-->
+            <LinearLayout
+                android:id="@+id/ll_order_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_order_product"
-                tools:itemCount="2"
+                android:orientation="vertical"
                 />
 
             <!--총 가격-->
@@ -114,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="10,450원"
+                android:text="NN,NNN원"
                 android:fontFamily="@font/pretendard_semibold"
                 android:textSize="18sp"
                 android:textColor="@color/gray1"
@@ -161,7 +160,7 @@
                 <TextView
                     android:id="@+id/tv_name"
                     style="@style/TextOrder_delivery_info"
-                    android:text="눈송이"
+                    android:text="NNN"
                     app:layout_constraintStart_toStartOf="@id/guideline_vertical"
                     app:layout_constraintTop_toTopOf="parent"
                     />
@@ -178,7 +177,7 @@
                 <TextView
                     android:id="@+id/tv_phone"
                     style="@style/TextOrder_delivery_info"
-                    android:text="010-4856-3617"
+                    android:text="nnn-nnnn-nnnn"
                     app:layout_constraintStart_toStartOf="@id/guideline_vertical"
                     app:layout_constraintTop_toTopOf="@id/tv_title_phone"
                     />
@@ -196,7 +195,7 @@
                     android:id="@+id/tv_address"
                     style="@style/TextOrder_delivery_info"
                     android:layout_width="0dp"
-                    android:text="서울특별시 용산구 청파로47길 100 (04310)"
+                    android:text="NNNNNNN (nnnnn)"
                     app:layout_constraintStart_toStartOf="@id/guideline_vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_title_address"

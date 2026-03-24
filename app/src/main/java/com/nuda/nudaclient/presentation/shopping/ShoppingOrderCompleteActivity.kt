@@ -6,16 +6,16 @@ import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
 import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingPaymentCompleteResponse
 import com.nuda.nudaclient.databinding.ActivityShoppingOrderCompleteBinding
+import com.nuda.nudaclient.databinding.ItemOrderProductBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.toFormattedPrice
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.navigation.NavigationActivity
-import com.nuda.nudaclient.presentation.shopping.adapter.OrderAdapter
 import com.nuda.nudaclient.presentation.shopping.convertData.OrderProduct
 
 class ShoppingOrderCompleteActivity : BaseActivity() {
@@ -23,10 +23,6 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
     private val TAG = "ShoppingOrderCompleteActivity"
 
     private lateinit var binding: ActivityShoppingOrderCompleteBinding
-    private lateinit var orderAdapter: OrderAdapter
-
-    // 리사이클러뷰에 출력할 리스트 (1차원 변환)
-    private val orderItems = mutableListOf<OrderProduct>()
 
     var paymentId: Int = -1
 
@@ -48,7 +44,6 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
 
         setToolbar()
 
-        setupRecyclerView() // 리사이클러뷰 설정
         loadPaymentInfo() // 결제 정보 화면 로드
 
         setHomeButton() // 홈 이동 버튼
@@ -61,18 +56,6 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
         setToolbarTitle("주문 완료") // 타이틀
         setToolbarBackBtn(false) // 뒤로가기 버튼 숨김
         setToolbarShadow(false) // 툴바 그림자 숨김
-    }
-
-    // 리사이클러뷰 설정
-    private fun setupRecyclerView() {
-        // 어댑터 설정
-        orderAdapter = OrderAdapter(
-            items = orderItems
-        )
-        binding.rvOrderProduct.apply {
-            adapter = orderAdapter
-            layoutManager = LinearLayoutManager(this@ShoppingOrderCompleteActivity)
-        }
     }
 
     // 결제 완료 정보 로드
@@ -91,12 +74,23 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
                             val address = "${data.deliveryResponse.address1} ${data.deliveryResponse.address2} (${data.deliveryResponse.postalCode})"
                             binding.tvAddress.text = address
 
-                            // 주문 상품 목록
-                            orderItems.clear()
-                            orderItems.addAll(convertToOrderItems(data))
-                            orderAdapter.notifyDataSetChanged() // 리스트 전체 갱신
-
-                            Log.d("API_DEBUG", "주문 3. 결제 테스트용 완료 API 호출 성공")
+                            val container = binding.llOrderProduct
+                            container.removeAllViews()
+                            convertToOrderItems(data).forEach { item ->
+                                val itemBinding = ItemOrderProductBinding.inflate(layoutInflater, container, false)
+                                itemBinding.tvBrand.text = item.brandName
+                                itemBinding.tvProductName.text = item.productName
+                                itemBinding.tvProductCount.text = "${item.quantity}개"
+                                itemBinding.tvPrice.text = item.totalPrice.toFormattedPrice()
+                                Glide.with(this)
+                                    .load(item.thumbnailImg)
+                                    .placeholder(R.drawable.image_product2)
+                                    .error(R.drawable.image_product)
+                                    .centerCrop()
+                                    .into(itemBinding.ivProduct)
+                                container.addView(itemBinding.root) // 아이템 추가
+                            }
+                            Log.d("API_DEBUG", "[$TAG] 주문 3. 결제 테스트용 완료 API 호출 성공")
                         }
 
 
@@ -133,6 +127,7 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
         binding.btnGoToHome.setOnClickListener {
             startActivity(Intent(this, NavigationActivity::class.java))
             finish()
+            Log.d("API_DEBUG", "[$TAG] 홈으로 화면 이동")
         }
     }
 
