@@ -1,9 +1,8 @@
 package com.nuda.nudaclient.presentation.signup
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -25,6 +24,8 @@ import com.nuda.nudaclient.presentation.search.SearchResultActivity
 import com.nuda.nudaclient.utils.CustomToast
 
 class SignupSurveyActivity : AppCompatActivity() {
+
+    private val TAG = "SignupSurveyActivity"
 
     // 뷰 바인딩 객체 선언
     lateinit var binding : ActivitySignupSurveyBinding
@@ -72,6 +73,7 @@ class SignupSurveyActivity : AppCompatActivity() {
                 selectedThumnails.add(thumbnail ?: "") // 썸네일 리스트에 추가
                 updateProductThumbnail(selectedThumnails) // 썸네일 리스트 업데이트
             }
+            Log.d("API_DEBUG", "[$TAG] 사용 상품 추가 완료")
         }
     }
 
@@ -283,6 +285,8 @@ class SignupSurveyActivity : AppCompatActivity() {
             val intent = Intent(this, SearchResultActivity::class.java)
             intent.putExtra("PAGEMODE", "PRODUCT_SIGNUP")
             searchProductLauncher.launch(intent)
+
+            Log.d("API_DEBUG", "[$TAG] 사용 상품 검색으로 이동")
         }
     }
 
@@ -349,6 +353,7 @@ class SignupSurveyActivity : AppCompatActivity() {
 
             // 로그인 화면으로 이동
             val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
         }
@@ -382,14 +387,10 @@ class SignupSurveyActivity : AppCompatActivity() {
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
-                        // 임시 토스트 메세지
-                        CustomToast.show(binding.root, body.data)
                         // 최신 draft 조회 및 pref 백업
                         backupSurvey()
                         // 회원가입 API 호출
                         signupCommit()
-                    } else {
-                        CustomToast.show(binding.root, body.message)
                     }
                 }
             )
@@ -403,16 +404,17 @@ class SignupSurveyActivity : AppCompatActivity() {
                 context = this,
                 onSuccess = { body ->
                     if(body.success == true) {
-                        CustomToast.show(binding.root, body.data)
+                        Log.d("API_DEBUG", "[$TAG] 회원가입 성공, 로그인으로 이동")
+
                         // 회원가입 데이터 pref 삭제 clear
                         SignupDataManager.clearAllData(this)
                         // 로그인 페이지로 이동 (LoginActivity)
                         val intent = Intent(this, LoginActivity::class.java)
+                        // 모든 회원가입 액티비티 종료
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.putExtra("SHOW_TOAST", "회원가입되었습니다")
                         startActivity(intent)
                         finish()
-                        // 모든 회원가입 액티비티 종료
-                    } else {
-                        CustomToast.show(binding.root, body.message)
                     }
                 }
             )

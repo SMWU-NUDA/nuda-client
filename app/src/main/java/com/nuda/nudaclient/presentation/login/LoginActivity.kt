@@ -51,6 +51,10 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        // 회원가입 후 로그인으로 돌아왔을 때 회원가입 완료 메세지 띄우기
+        val msg = intent.getStringExtra("SHOW_TOAST")
+        if (!msg.isNullOrEmpty()) CustomToast.show(binding.root, msg)
+
         // Draft 만료 체크 및 삭제 (회원가입 토큰 포함)
         SignupDataManager.clearExpiredData(this)
 
@@ -130,6 +134,7 @@ class LoginActivity : AppCompatActivity() {
 
                     // 홈화면으로 이동
                     val intent = Intent(this, NavigationActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish()
 
@@ -138,10 +143,18 @@ class LoginActivity : AppCompatActivity() {
                 }
             },
             onError = { errorResponse ->
-                // 이메일, 비밀번호가 틀렸을 경우
-                if (errorResponse?.code == "MEMBER_INVALID_CREDENTIALS") {
-                    Log.e("API_ERROR", "[$TAG] 로그인 실패: 아이디 또는 비밀번호 틀림")
-                    CustomToast.show(binding.root, "아이디 또는 비밀번호가 올바르지 않습니다")
+                when (errorResponse?.code) {
+                    "MEMBER_INVALID_CREDENTIALS" -> { // 이메일, 비밀번호가 틀렸을 경우
+                        Log.e("API_ERROR", "[$TAG] 로그인 실패: 아이디 또는 비밀번호 틀림")
+                        CustomToast.show(binding.root, "아이디 또는 비밀번호가 올바르지 않습니다")
+                    }
+                    "MEMBER_NOT_ACTIVE" -> { // 회원가입이 완료되지 않은 회원
+                        Log.e("API_ERROR", "[$TAG] 로그인 실패: 회원가입 미완료")
+                        CustomToast.show(binding.root, "회원가입이 완료되지 않은 회원입니다")
+                    } else -> {
+                    Log.e("API_ERROR", "[$TAG] 로그인 실패: 예기치 못한 오류 ${errorResponse?.code}")
+                    CustomToast.show(binding.root, "로그인 실패")
+                    }
                 }
             }
         )

@@ -20,17 +20,17 @@ import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.extensions.setInfiniteScrollListener
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.ingredient.IngredientDetailActivity
-import com.nuda.nudaclient.presentation.ingredient.adapter.IngredientItemAdapter
 import com.nuda.nudaclient.presentation.product.ProductDetailActivity
 import com.nuda.nudaclient.presentation.product.adapter.ProductAdapter
 import com.nuda.nudaclient.presentation.search.adapter.AutoCompleteAdapter
 import com.nuda.nudaclient.presentation.search.adapter.SearchIngredientAdapter
 import com.nuda.nudaclient.utils.CustomToast
-import retrofit2.http.Query
 
 // intent에 검색 텍스트, 화면 모드 함께 전달 필요!!
 class SearchResultActivity : BaseActivity() {
     // 검색 결과 화면으로 이동할 때 intent에 검색 상태 변수 전달 필요!!
+
+    private val TAG = "SearchResultActivity"
 
     private lateinit var binding: ActivitySearchResultBinding
 
@@ -152,7 +152,7 @@ class SearchResultActivity : BaseActivity() {
                 setScrollListner() // 무한 스크롤 설정
             }
             else -> {
-                Log.d("API_DEBUG", "검색 결과 화면 모드 오류")
+                Log.e("API_ERROR", "[$TAG] 검색 결과 화면 모드 오류")
             }
         }
         binding.rvSearchResult.layoutManager = LinearLayoutManager(this)
@@ -188,8 +188,10 @@ class SearchResultActivity : BaseActivity() {
 
                             if (productCurrentCursor == null) { // 첫 로드인 경우
                                 currentAdapter.submitList(data.content)
+                                Log.d("API_DEBUG", "[$TAG] 상품 첫 검색 성공")
                             } else { // 첫 로드가 아닌 경우
                                 currentAdapter.appendItems(data.content)
+                                Log.d("API_DEBUG", "[$TAG] 상품 추가 검색 성공")
                             }
 
                             // 다음 커서 업데이트
@@ -207,6 +209,7 @@ class SearchResultActivity : BaseActivity() {
 
                     if (errorResponse?.code == "SEARCH_KEYWORD_TOO_SHORT") {
                         CustomToast.show(binding.root, "검색어를 2글자 이상 입력해주세요")
+                        Log.e("API_ERROR", "[$TAG] 검색 실패: 검색어 2글자 미만")
                     }
                 }
             )
@@ -221,12 +224,14 @@ class SearchResultActivity : BaseActivity() {
                     if (body.success == true) {
                         body.data?.let { data ->
                             ingredientAdapter.submitList(data)
+                            Log.d("API_DEBUG", "[$TAG] 성분 검색 성공")
                         }
                     }
                 },
                 onError = { errorResponse ->
                     if (errorResponse?.code == "SEARCH_KEYWORD_TOO_SHORT") {
                         CustomToast.show(binding.root, "검색어를 2글자 이상 입력해주세요")
+                        Log.e("API_ERROR", "[$TAG] 검색 실패: 검색어 2글자 미만")
                     }
                 }
             )
@@ -241,12 +246,15 @@ class SearchResultActivity : BaseActivity() {
                     if (body.success == true) {
                         body.data?.let { data ->
                             productSignupAdapter.submitList(data)
+
+                            Log.d("API_DEBUG", "[$TAG] 검색 성공")
                         }
                     }
                 },
                 onError = { errorResponse ->
-                    if (errorResponse?.code == "SEARCH_KEYWORD_TOO_SHORT") {
+                    if (errorResponse?.code == "PRODUCT_KEYWORD_TOO_SHORT") {
                         CustomToast.show(binding.root, "검색어를 2글자 이상 입력해주세요")
+                        Log.e("API_ERROR", "[$TAG] 검색 실패: 검색어 2글자 미만")
                     }
                 }
             )
@@ -322,11 +330,19 @@ class SearchResultActivity : BaseActivity() {
 
     // 자동 완성 API 호출
     private fun fetchAutoComplete(query: String) {
-        searchService.searchAutoComplete(query, pageMode)
+        Log.d("API_DEBUG", "[$TAG] 자동완성 호출: $query")
+        val PAGEMODE = when(pageMode) {
+            "PRODUCT", "PRODUCT_SIGNUP" ,"PRODUCT_NEW_REVIEW" -> "PRODUCT"
+            "INGREDIENT" -> "INGREDIENT"
+            else -> "PRODUCT"
+        }
+
+        searchService.searchAutoComplete(query, PAGEMODE)
             .executeWithHandler(
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
+                        Log.d("API_DEBUG", "[$TAG] 자동완성 호출 성공")
                         body.data?.let { resultKeywords ->
                             if (resultKeywords.isEmpty()) {
                                 hideAutoComplete()

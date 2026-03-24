@@ -444,7 +444,7 @@ class SignupAccountActivity : AppCompatActivity() {
                         }
                     },
                     onError = { errorResponse ->
-                        if (errorResponse?.code == "NICKNAME_DUPLICATED") {
+                        if (errorResponse?.code == "MEMBER_NICKNAME_DUPLICATED") {
                             tv_duplicateNickname.text = getString(R.string.btnValid_nickname_false)
                             tv_duplicateNickname.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.red))
                             isNicknameAvailable = false
@@ -481,7 +481,7 @@ class SignupAccountActivity : AppCompatActivity() {
                         }
                     },
                     onError = { errorResponse ->
-                        if (errorResponse?.code == "USERNAME_DUPLICATED") {
+                        if (errorResponse?.code == "MEMBER_USERNAME_DUPLICATED") {
                             tv_duplicateUsername.text = getString(R.string.btnValid_id_false)
                             tv_duplicateUsername.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.red))
                             isUsernameAvailable = false
@@ -641,6 +641,7 @@ class SignupAccountActivity : AppCompatActivity() {
             
             // 로그인 화면으로 이동
             val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
         }

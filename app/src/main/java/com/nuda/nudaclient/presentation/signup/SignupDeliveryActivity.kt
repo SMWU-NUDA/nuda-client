@@ -342,6 +342,7 @@ class SignupDeliveryActivity : AppCompatActivity() {
 
             // 로그인 화면으로 이동
             val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
         }

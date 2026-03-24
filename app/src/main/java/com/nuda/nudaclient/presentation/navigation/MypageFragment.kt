@@ -195,9 +195,8 @@ class MyPageFragment : Fragment() {
                                 // 모든 화면 흐름 clear
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             }
+                            intent.putExtra("SHOW_TOAST", "로그아웃되었습니다")
                             startActivity(intent)
-
-                            CustomToast.show(binding.root, "로그아웃되었습니다")
                         }
                     }
                 )
@@ -224,9 +223,8 @@ class MyPageFragment : Fragment() {
                             val intent = Intent(requireContext(), LoginActivity::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             }
+                            intent.putExtra("SHOW_TOAST", "회원 탈퇴 되었습니다")
                             startActivity(intent)
-
-                            CustomToast.show(binding.root, "회원 탈퇴가 되었습니다")
                         }
                     }
                 )
