@@ -9,6 +9,7 @@ import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
@@ -34,8 +35,6 @@ import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.search.SearchResultActivity
 import com.nuda.nudaclient.presentation.search.adapter.AutoCompleteAdapter
 import com.nuda.nudaclient.utils.CustomToast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -43,8 +42,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 class ReviewCreateActivity : BaseActivity() {
     // 리뷰 작성 화면으로 이동할 때 Intent에 상태 변수 담아서 전달 필요 !!! (state : product / mypage)
-
-    // TODO 검색바 클릭 후? 입력 후? 엔터 혹은 검색 아이콘 클릭 시 검색 목록으로 이동
+    private val TAG = "ReviewCreateActivity"
 
     private lateinit var binding: ActivityReviewCreateBinding
 
@@ -118,14 +116,27 @@ class ReviewCreateActivity : BaseActivity() {
         setToolbar() // 툴바 설정
 
         loadScreen() // 상태 변수에 따른 화면 로드
+
         setAddImages() // 사진 등록 버튼
         setSaveReview() // 리뷰 등록 버튼
+        setDetailReview() // 상세 리뷰 입력창 설정
     }
 
     // 툴바 설정
     private fun setToolbar() {
         setToolbarTitle("새 리뷰 쓰기") // 타이틀
         setBackButton() // 뒤로가기 버튼
+    }
+
+    // 상세 리뷰 입력창 설정
+    private fun setDetailReview() {
+        binding.etReviewDetail.setOnTouchListener { v, event ->
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            if (event.action == MotionEvent.ACTION_UP) {
+                v.parent.requestDisallowInterceptTouchEvent(false)
+            }
+            false
+        }
     }
 
     // 상태 변수에 따른 화면 로드
@@ -343,11 +354,13 @@ class ReviewCreateActivity : BaseActivity() {
             // 유효성 검사
             if (rating == 0.0) { // 별점 입력이 없을 때
                 CustomToast.show(binding.root, "별점을 입력해주세요")
+                Log.e("API_ERROR", "[$TAG] 별점 미입력")
                 return@setOnClickListener
             }
 
             if (reviewText.isBlank()) { // 상세 리뷰 입력이 없을 때
                 CustomToast.show(binding.root, "상세 리뷰를 입력해주세요")
+                Log.e("API_ERROR", "[$TAG] 상세 리뷰 미입력")
                 return@setOnClickListener
             }
 
@@ -363,9 +376,7 @@ class ReviewCreateActivity : BaseActivity() {
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
-                        Log.d("API_DEBUG", "productId: $productId rating: $rating content: $reviewText imageUrls: $imageUrls")
-                        Log.d("API_DEBUG", "리뷰가 등록되었습니다")
-                        CustomToast.show(binding.root, "리뷰가 등록되었습니다")
+                        Log.d("API_DEBUG", "[$TAG] 리뷰 등록 성공")
                         finish() // 액티비티 종료, 이전 화면으로 이동
                     }
                 }

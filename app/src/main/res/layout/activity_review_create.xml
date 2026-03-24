@@ -174,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:numStars="5"
-                    android:rating="3.5"
+                    android:rating="0"
                     android:stepSize="0.5" />
 
                 <View
@@ -226,6 +226,8 @@
                     android:textSize="14sp"
                     android:padding="12dp"
                     android:imeOptions="actionDone"
+                    android:overScrollMode="always"
+                    android:nestedScrollingEnabled="false"
                     />
 
                 <LinearLayout

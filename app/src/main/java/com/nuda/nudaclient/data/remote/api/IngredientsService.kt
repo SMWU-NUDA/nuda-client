@@ -18,9 +18,6 @@ interface IngredientsService {
     @GET("ingredients/{ingredientId}")
     fun getIngredientDetail(@Path("ingredientId") ingredientId: Int) : Call<ApiResponse<IngredientsGetDetailResponse>>
 
-    // GET /ingredients/search?ingredient={ingredient} : 성분 검색
-//    @GET("ingredients/search")
-
     // PUT /ingredients/{ingredientId}/likes : 성분 즐겨찾기
     @POST("ingredients/{ingredientId}/likes")
     fun createIngredientLike(@Path("ingredientId") ingredientId: Int, @Query("preference") preference: Boolean) : Call<ApiResponse<IngredientsCreateLikeResponse>>

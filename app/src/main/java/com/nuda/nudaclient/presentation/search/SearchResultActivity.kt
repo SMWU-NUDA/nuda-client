@@ -72,6 +72,8 @@ class SearchResultActivity : BaseActivity() {
         pageMode = intent.getStringExtra("PAGEMODE") ?: ""
         query = intent.getStringExtra("query") ?: ""
 
+        Log.d("API_DEBUG", "[$TAG] $pageMode 검색 결과 진입")
+
         binding.etSearchbar.setText(query)
 
         setToolbar() // 툴바 설정

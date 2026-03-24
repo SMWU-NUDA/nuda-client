@@ -189,35 +189,35 @@
                 <TextView
                     android:id="@+id/tv_topSheet_count"
                     style="@style/TextIngredient_componentCount"
-                    android:text="2개"
+                    android:text="n개"
                     android:layout_marginEnd="6dp"
                     />
                 <!--흡수체-->
                 <TextView
                     android:id="@+id/tv_absorber_count"
                     style="@style/TextIngredient_componentCount"
-                    android:text="3개"
+                    android:text="n개"
                     android:layout_marginHorizontal="6dp"
                     />
                 <!--방수층-->
                 <TextView
                     android:id="@+id/tv_backSheet_count"
                     style="@style/TextIngredient_componentCount"
-                    android:text="1개"
+                    android:text="n개"
                     android:layout_marginHorizontal="6dp"
                     />
                 <!--접착제-->
                 <TextView
                     android:id="@+id/tv_adhesive_count"
                     style="@style/TextIngredient_componentCount"
-                    android:text="1개"
+                    android:text="n개"
                     android:layout_marginHorizontal="6dp"
                     />
                 <!--기타-->
                 <TextView
                     android:id="@+id/tv_additive_count"
                     style="@style/TextIngredient_componentCount"
-                    android:text="1개"
+                    android:text="n개"
                     android:layout_marginStart="6dp"
                     />
             </LinearLayout>

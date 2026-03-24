@@ -5,18 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.ingredientsService
 import com.nuda.nudaclient.data.remote.dto.common.Ingredient
-import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetAllResponse
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetSummaryResponse
 import com.nuda.nudaclient.databinding.ActivityIngredientComponentBinding
-import com.nuda.nudaclient.databinding.ActivityIngredientDetailBinding
-import com.nuda.nudaclient.databinding.ActivityReviewAllBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.common.fragment.SortBottomSheet
@@ -67,7 +63,7 @@ class IngredientComponentActivity : BaseActivity() {
 
         // Intent에서 productId 받기
         productId = intent.getIntExtra("PRODUCT_ID", -1)
-        Log.d("API_DEBUG", "[$TAG] productId: $productId")
+        Log.d("API_DEBUG", "[$TAG] 상품 구성 성분 진입, productId: $productId")
 
         setToolbar() // 툴바 설정
 
@@ -153,7 +149,7 @@ class IngredientComponentActivity : BaseActivity() {
                         binding.tvTotalCount.text = "${data.totalCount.toString()}개"
                         setupIngredientAdapter(data.ingredients)
 
-                        Log.d("API_DEBUG", "[$TAG] filter: $filter totalCount: ${data.totalCount}, ingredients: ${data.ingredients}")
+                        Log.d("API_DEBUG", "[$TAG] $filter 성분 목록 조회 성공")
                     }
                 }
             }
@@ -170,6 +166,7 @@ class IngredientComponentActivity : BaseActivity() {
                 val intent = Intent(this, IngredientDetailActivity::class.java)
                 intent.putExtra("INGREDIENT_ID", ingredientId)
                 ingredientDetailLauncher.launch(intent)
+                Log.d("API_DEBUG", "[$TAG] 성분 상세로 화면 이동")
             })
         binding.rvIngredientList.apply {
             adapter = ingredientAdapter // 리사이클러뷰에 어댑터 연결

@@ -2,6 +2,7 @@ package com.nuda.nudaclient.presentation.navigation
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,9 +23,9 @@ import com.nuda.nudaclient.presentation.mypage.activity.MypageManageKeywordActiv
 import com.nuda.nudaclient.presentation.mypage.activity.MypageMyReviewActivity
 import com.nuda.nudaclient.presentation.review.ReviewCreateActivity
 import com.nuda.nudaclient.presentation.shopping.ShoppingOrderHistoryActivity
-import com.nuda.nudaclient.utils.CustomToast
 
 class MyPageFragment : Fragment() {
+    private val TAG = "MyPageFragment"
 
     // 프래그먼트 생명 주기의 onDestroyView() 콜백에서 뷰는 삭제되지만 프래그먼트는 유지
     private var _binding: FragmentMypageBinding? = null // nullabel, 뷰가 없을 때는 null로 초기화
@@ -116,6 +117,7 @@ class MyPageFragment : Fragment() {
             // 프로필 수정 액티비티로 이동
             val intent = Intent(requireContext(), MypageEditAccountActivity::class.java)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 프로필 수정으로 화면 이동")
         }
     }
 
@@ -125,6 +127,7 @@ class MyPageFragment : Fragment() {
             // 배송정보 관리 액티비티로 이동
             val intent = Intent(requireContext(), MypageEditDeliveryActivity::class.java)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 배송정보 관리로 화면 이동")
         }
     }
 
@@ -132,6 +135,7 @@ class MyPageFragment : Fragment() {
     private fun setupNavigateRecommend() {
         binding.btnGoToRecommend.setOnClickListener {
             (requireActivity() as NavigationActivity).navigateToRecommend()
+            Log.d("API_DEBUG", "[$TAG] 맞춤 추천으로 화면 이동")
         }
     }
 
@@ -141,6 +145,7 @@ class MyPageFragment : Fragment() {
             // 키워드 관리 액티비티로 이동
             val intent = Intent(requireContext(), MypageManageKeywordActivity::class.java)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 키워드 관리로 화면 이동")
         }
     }
 
@@ -149,6 +154,7 @@ class MyPageFragment : Fragment() {
         binding.groupOrderHistory.setOnClickListener {
             // 주문 내역 액티비티로 이동
             startActivity(Intent(requireContext(), ShoppingOrderHistoryActivity::class.java))
+            Log.d("API_DEBUG", "[$TAG] 주문 내역으로 화면 이동")
         }
     }
 
@@ -159,6 +165,7 @@ class MyPageFragment : Fragment() {
             val intent = Intent(requireContext(), ReviewCreateActivity::class.java)
             intent.putExtra("STATE", "mypage")
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 리뷰 작성으로 화면 이동")
         }
     }
 
@@ -168,6 +175,7 @@ class MyPageFragment : Fragment() {
             // 내 리뷰 액티비티로 이동
             val intent = Intent(requireContext(), MypageMyReviewActivity::class.java)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 내 리뷰로 화면 이동")
         }
     }
 
@@ -194,6 +202,7 @@ class MyPageFragment : Fragment() {
                             }
                             intent.putExtra("SHOW_TOAST", "로그아웃되었습니다")
                             startActivity(intent)
+                            Log.d("API_DEBUG", "[$TAG] 로그아웃 성공")
                         }
                     }
                 )
@@ -222,6 +231,7 @@ class MyPageFragment : Fragment() {
                             }
                             intent.putExtra("SHOW_TOAST", "회원 탈퇴 되었습니다")
                             startActivity(intent)
+                            Log.d("API_DEBUG", "[$TAG] 회원 탈퇴 성공")
                         }
                     }
                 )

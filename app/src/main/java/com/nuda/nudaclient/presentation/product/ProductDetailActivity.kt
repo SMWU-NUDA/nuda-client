@@ -25,7 +25,6 @@ import com.nuda.nudaclient.data.remote.RetrofitClient.ingredientsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.shoppingService
-import com.nuda.nudaclient.data.remote.api.IngredientsService
 import com.nuda.nudaclient.data.remote.dto.ingredients.IngredientsGetSummaryResponse
 import com.nuda.nudaclient.data.remote.dto.shopping.ShoppingCreateOrderRequest
 import com.nuda.nudaclient.databinding.ActivityProductDetailBinding
@@ -46,6 +45,7 @@ import com.nuda.nudaclient.utils.setupBarGraph
 
 class ProductDetailActivity : BaseActivity() {
     // 상품 상세페이지로 이동할 때 Intent에 productId 담아서 전달 필요 !!!
+    private val TAG = "ProductDetailActivity"
 
     private lateinit var binding: ActivityProductDetailBinding
 
@@ -89,7 +89,7 @@ class ProductDetailActivity : BaseActivity() {
 
         // Intent에서 productId 받기
         productId = intent.getIntExtra("PRODUCT_ID", -1)
-        Log.d("API_DEBUG", "productId: $productId")
+        Log.d("API_DEBUG", "[$TAG] 상품 상세 진입, productId: $productId")
 
         // ViewPager 객체 초기화
         viewPagerProductImages = binding.viewPagerProductImages
@@ -442,11 +442,8 @@ class ProductDetailActivity : BaseActivity() {
         ).executeWithHandler(
             context = this,
             onSuccess = { body ->
-                Log.d("API_DEBUG", "리뷰 목록 응답: ${body.success}")
                 if (body.success == true) {
                     body.data?.let { data ->
-                        Log.d("API_DEBUG", "(상품 상세페이지) 리뷰 개수: ${data.content.size}")
-
                         if (data.content.isEmpty()) { // 값이 비었을 때
                             binding.tvNoReview.visibility = View.VISIBLE
                             binding.rvReviews.visibility = View.GONE
@@ -470,7 +467,7 @@ class ProductDetailActivity : BaseActivity() {
                 context = this,
                 onSuccess = { body ->
                     if (body.success == true) {
-                        Log.d("API_DEBUG", "리뷰 AI 요약 조회 성공")
+                        Log.d("API_DEBUG", "[$TAG] 리뷰 AI 요약 조회 성공")
                         body.data?.let { data ->
                             // ml 서버가 죽었을 경우
                             if (data.keywords.positive.isEmpty()
@@ -482,7 +479,7 @@ class ProductDetailActivity : BaseActivity() {
                                 binding.nonExistProduct.visibility = View.GONE
 
                                 CustomToast.show(binding.root, "ml 서버가 응답하지 않습니다")
-                                Log.d("API_DEBUG", "ml 서버가 응답하지 않습니다")
+                                Log.e("API_ERROR", "[$TAG] ml 서버가 응답하지 않습니다")
                                 return@executeWithHandler
                             }
 
@@ -493,9 +490,6 @@ class ProductDetailActivity : BaseActivity() {
                             // 긍정/부정 키워드 설정
                             addKeywordItems(binding.llPositiveItems, data.keywords.positive)
                             addKeywordItems(binding.llNegativeItems, data.keywords.negative)
-
-                            Log.d("API_DEBUG", "positive: ${data.keywords.positive}")
-                            Log.d("API_DEBUG", "negative: ${data.keywords.negative}")
 
                             // 만족도 설정
                             binding.tvUserSatisfying.text = "사용자 만족도 ${data.satisfactionRate}%"
@@ -511,7 +505,6 @@ class ProductDetailActivity : BaseActivity() {
 
                             // 트렌드 설정
                             addTrendItems(binding.llTrendsItems, data.trendHighlights)
-                            Log.d("API_DEBUG", "trends: ${data.trendHighlights}")
                         }
                     }
                 },
@@ -645,59 +638,58 @@ class ProductDetailActivity : BaseActivity() {
                                 .setTitle("장바구니에 담겼습니다")
                                 .setPositiveButton("장바구니 이동") { _, _ ->
                                     startActivity(Intent(this, ShoppingCartActivity::class.java))
+                                    Log.d("API_DEBUG", "[$TAG] 장바구니로 화면 이동")
                                 }
                                 .setNegativeButton("계속 쇼핑하기", null) // 팝업 닫기
                                 .show()
-
-                            Log.d("API_DEBUG", "productId: ${body.data?.productId}, quantity: ${body.data?.quantity}")
                         }
                     }
                 )
         }
         // 바로 구매 버튼 설정
         binding.btnOrder.setOnClickListener {
-            // 장바구니에 상품 추가 API 호출
-            shoppingService.addToCart(productId)
+            val items = listOf(
+                ShoppingCreateOrderRequest.Item(
+                    productId = productId,
+                    quantity = 1
+                ))
+            // 1. 주문 등록 API 호출
+            shoppingService.createOrder(ShoppingCreateOrderRequest(items))
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->
                         if (body.success == true) {
-                            val items = listOf(
-                                ShoppingCreateOrderRequest.Item(
-                                    productId = productId,
-                                    quantity = 1
-                                )
-                            )
-                            // 1. 주문 등록 API 호출
-                            shoppingService.createOrder(ShoppingCreateOrderRequest(items))
-                                .executeWithHandler(
-                                    context = this,
-                                    onSuccess = { body ->
-                                        if (body.success == true) {
-                                            body.data?.let { data ->
-                                                Log.d("API_DEBUG", "주문 1. 주문 등록 API 호출 성공")
-                                                // 2. 결제 요청 API 호출
-                                                shoppingService.createPayment(data.orderId)
-                                                    .executeWithHandler(
-                                                        context = this,
-                                                        onSuccess = { body ->
-                                                            if (body.success == true) {
-                                                                body.data?.let { data ->
-                                                                    Log.d("API_DEBUG", "주문 2. 결제 요청 API 호출 성공")
-                                                                    // 결제 완료 화면으로 이동
-                                                                    val intent = Intent(this,
-                                                                        ShoppingOrderCompleteActivity::class.java)
-                                                                    intent.putExtra("PAYMENT_ID", data.paymentId) // 결제 고유 식별자 전달
-                                                                    startActivity(intent)
-                                                                    finish()
-                                                                }
-                                                            }
-                                                        }
-                                                    )
+                            body.data?.let { data ->
+                                // 2. 결제 요청 API 호출
+                                shoppingService.createPayment(data.orderId)
+                                    .executeWithHandler(
+                                        context = this,
+                                        onSuccess = { body ->
+                                            if (body.success == true) {
+                                                body.data?.let { data ->
+                                                    // 결제 완료 화면으로 이동
+                                                    val intent = Intent(this,
+                                                        ShoppingOrderCompleteActivity::class.java)
+                                                    intent.putExtra("PAYMENT_ID", data.paymentId) // 결제 고유 식별자 전달
+                                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                    startActivity(intent)
+                                                    finish()
+                                                    Log.d("API_DEBUG", "[$TAG] 주문 완료로 화면 이동")
+                                                }
+                                            }
+                                        },
+                                        onError = { errorResponse ->
+                                            if (errorResponse?.code == "CART_ORDER_QUANTITY_MISMATCH") {
+                                                Log.e("API_ERROR", "[$TAG] 결제 요청 API 에러")
                                             }
                                         }
-                                    }
-                                )
+                                    )
+                            }
+                        }
+                    },
+                    onError = { errorResponse ->
+                        if (errorResponse?.code == "CART_ORDER_QUANTITY_MISMATCH") {
+                            Log.e("API_ERROR", "[$TAG] 주문 등록 API 에러")
                         }
                     }
                 )
@@ -710,6 +702,7 @@ class ProductDetailActivity : BaseActivity() {
             val intent = Intent(this, IngredientComponentActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             ingredientComponentLauncher.launch(intent)
+            Log.d("API_DEBUG", "[$TAG] 상품 구성 성분으로 화면 이동")
         }
     }
 
@@ -719,16 +712,19 @@ class ProductDetailActivity : BaseActivity() {
             val intent = Intent(this, ReviewAllActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 전체 리뷰로 화면 이동")
         }
         binding.btnMoveToAllReviewsClickArea.setOnClickListener {
             val intent = Intent(this, ReviewAllActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 전체 리뷰로 화면 이동")
         }
         binding.btnMoveToAllReviewsBottom.setOnClickListener {
             val intent = Intent(this, ReviewAllActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 전체 리뷰로 화면 이동")
         }
     }
 
@@ -739,6 +735,7 @@ class ProductDetailActivity : BaseActivity() {
             intent.putExtra("STATE", "product")
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 리뷰 작성으로 화면 이동")
         }
     }
 

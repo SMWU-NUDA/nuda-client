@@ -6,29 +6,21 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.animation.Positioning
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
 import com.nuda.nudaclient.data.remote.RetrofitClient.reviewsService
-import com.nuda.nudaclient.data.remote.dto.reviews.ReviewsGetRankingByKeywordResponse
 import com.nuda.nudaclient.databinding.ActivityReviewAllBinding
 import com.nuda.nudaclient.databinding.ItemReviewKeywordsBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
-import com.nuda.nudaclient.extensions.setInfiniteScrollListener
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
-import com.nuda.nudaclient.presentation.product.ProductDetailActivity
-import com.nuda.nudaclient.presentation.product.adapter.ProductAdapter
 import com.nuda.nudaclient.presentation.review.adapter.ReviewAdapter
-import com.nuda.nudaclient.utils.CustomToast
 
 class ReviewAllActivity : BaseActivity() {
-
-    // TODO 리뷰 작성 후 상품 상세 업데이트 반영 테스트
+    private val TAG = "ReviewAllActivity"
 
     private lateinit var binding: ActivityReviewAllBinding
     private var productId = -1
@@ -90,6 +82,7 @@ class ReviewAllActivity : BaseActivity() {
             intent.putExtra("STATE", "product")
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
+            Log.d("API_DEBUG", "[$TAG] 리뷰 작성으로 화면 이동")
         }
     }
 
@@ -103,8 +96,6 @@ class ReviewAllActivity : BaseActivity() {
                         body.data?.let { data ->
                             binding.tvStar.text = data.averageRating.toString()
                             binding.tvReviewCount.text = "(${data.reviewCount})"
-
-                            Log.d("API_DEBUG", "평점: ${data.averageRating}, 리뷰수: ${data.reviewCount}")
                         }
                     }
                 })
@@ -118,27 +109,24 @@ class ReviewAllActivity : BaseActivity() {
                 onSuccess = { body ->
                     if (body.success == true) {
                         body.data?.let { data ->
+                            Log.d("API_DEBUG", "[$TAG] 긍정/부정 키워드 조회 성공")
                             // 긍정 키워드
                             if (data.positive.isEmpty()) { // 긍정 키워드가 없는 경우
                                 binding.llPositiveItems.visibility = View.GONE
                                 binding.tvNoPositiveKeyword.visibility = View.VISIBLE
-                                Log.d("API_DEBUG", "긍정키워드가 없습니다")
                             } else { // 긍정 키워드가 있는 경우
                                 binding.llPositiveItems.visibility = View.VISIBLE
                                 binding.tvNoPositiveKeyword.visibility = View.GONE
                                 addKeywordItems(binding.llPositiveItems, data.positive)
-                                Log.d("API_DEBUG", "positive: ${data.positive}")
                             }
                             // 부정 키워드
                             if (data.negative.isEmpty()) { // 부정 키워드가 없는 경우
                                 binding.llNegativeItems.visibility = View.GONE
                                 binding.tvNoNegativeKeyword.visibility = View.VISIBLE
-                                Log.d("API_DEBUG", "긍정키워드가 없습니다")
                             } else { // 부정 키워드가 있는 경우
                                 binding.llNegativeItems.visibility = View.VISIBLE
                                 binding.tvNoNegativeKeyword.visibility = View.GONE
                                 addKeywordItems(binding.llNegativeItems, data.negative)
-                                Log.d("API_DEBUG", "negative: ${data.negative}")
                             }
                         }
                     }
@@ -150,14 +138,12 @@ class ReviewAllActivity : BaseActivity() {
                             binding.tvNoPositiveKeyword.visibility = View.VISIBLE
                             binding.llNegativeItems.visibility = View.GONE
                             binding.tvNoNegativeKeyword.visibility = View.VISIBLE
-                            Log.d("API_DEBUG", "리뷰 개수가 10개 미만입니다")
                         }
                         "PRODUCT_INVALID" -> { // 존재하지 않는 상품일 경우
                             binding.llPositiveItems.visibility = View.GONE
                             binding.tvNoPositiveKeyword.visibility = View.VISIBLE
                             binding.llNegativeItems.visibility = View.GONE
                             binding.tvNoNegativeKeyword.visibility = View.VISIBLE
-                            Log.d("API_DEBUG", "존재하지 않는 상품입니다")
                         }
                     }
                 }
@@ -210,12 +196,6 @@ class ReviewAllActivity : BaseActivity() {
                 }
             }
         }
-//        binding.rvAllReviews.setInfiniteScrollListener {
-//            if (!isLoading // 로딩 중이 아니고
-//                && currentCursor != null) { // 다음 페이지가 있으면
-//                loadReviews() // 다음 페이지 로드
-//            }
-//        }
     }
 
     // 리뷰 좋아요 버튼 설정
@@ -248,7 +228,7 @@ class ReviewAllActivity : BaseActivity() {
             onSuccess = { body ->
                 if (body.success == true) {
                     body.data?.let { data ->
-                        Log.d("API_DEBUG", "(전체 리뷰 로드) 리뷰 개수: ${data.content.size}")
+                        Log.d("API_DEBUG", "[$TAG] $selectedSortType 리뷰 목록 조회 성공")
                         if (currentCursor == null) { // 첫 로드이거나 필터 변경 후 첫 로드인 경우
                             reviewAdapter.submitList(data.content) // 아이템 초기화
 

@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pretendard_regular"
-        android:text="물류 및 배송 카테고리에서 40% 언급 발생"
+        android:text="NNN"
         android:textSize="16sp"
         android:textColor="@color/gray2"
         android:letterSpacing="0.02"
