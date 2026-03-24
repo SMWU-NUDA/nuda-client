@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NudaClient</string>
+    <string name="app_name">NUDA</string>
 
     <!--인증(로그인, 회원가입)-->
     <string name="id">아이디</string>
