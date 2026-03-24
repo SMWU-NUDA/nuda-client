@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.nuda.nudaclient.R
 import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
@@ -258,25 +259,38 @@ class HomeFragment : Fragment() {
 
     // 무힌 스크롤 리스너 설정
     private fun setScrollListner() {
-        binding.rvIrritationLevel.setInfiniteScrollListener { // 민감도
+        fun RecyclerView.setHorizontalInfiniteScroll(onLoadMore: () -> Unit) {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dx <= 0) return // [수정] 오른쪽 스크롤할 때만 체크 (dx=0 레이아웃 갱신 트리거 방지)
+                    val lm = recyclerView.layoutManager as LinearLayoutManager
+                    if (lm.findLastVisibleItemPosition() >= lm.itemCount - 3) {
+                        onLoadMore()
+                    }
+                }
+            })
+        }
+
+        binding.rvIrritationLevel.setHorizontalInfiniteScroll { // 민감도
             if (!getLoadingState("IRRITATION_LEVEL") // 로딩 중이 아니고
                 && currentIrritationLevelCursor != null) { // 다음 페이지가 있으면
                 loadKeywordProductRanking("IRRITATION_LEVEL") // 다음 페이지 로드
             }
         }
-        binding.rvScent.setInfiniteScrollListener { // 향
+        binding.rvScent.setHorizontalInfiniteScroll { // 향
             if (!getLoadingState("SCENT") // 로딩 중이 아니고
                 && currentScentCursor != null) { // 다음 페이지가 있으면
                 loadKeywordProductRanking("SCENT") // 다음 페이지 로드
             }
         }
-        binding.rvAdhesion.setInfiniteScrollListener { // 접착력
+        binding.rvAdhesion.setHorizontalInfiniteScroll { // 접착력
             if (!getLoadingState("ADHESION") // 로딩 중이 아니고
                 && currentAdhesionCursor != null) { // 다음 페이지가 있으면
                 loadKeywordProductRanking("ADHESION") // 다음 페이지 로드
             }
         }
-        binding.rvAbsorption.setInfiniteScrollListener { // 흡수력
+        binding.rvAbsorption.setHorizontalInfiniteScroll { // 흡수력
             if (!getLoadingState("ABSORBENCY") // 로딩 중이 아니고
                 && currentAbsorbencyCursor != null) { // 다음 페이지가 있으면
                 loadKeywordProductRanking("ABSORBENCY") // 다음 페이지 로드

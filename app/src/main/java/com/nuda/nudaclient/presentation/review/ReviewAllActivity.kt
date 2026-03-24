@@ -198,12 +198,24 @@ class ReviewAllActivity : BaseActivity() {
 
     // 무힌 스크롤 리스너 설정
     private fun setScrollListner() {
-        binding.rvAllReviews.setInfiniteScrollListener {
-            if (!isLoading // 로딩 중이 아니고
-                && currentCursor != null) { // 다음 페이지가 있으면
-                loadReviews() // 다음 페이지 로드
+        binding.nsvContent.setOnScrollChangeListener { v, _, scrollY, _, _ ->
+            val nestedScrollView = v as androidx.core.widget.NestedScrollView
+            val totalHeight = nestedScrollView.getChildAt(0).measuredHeight
+            val visibleHeight = nestedScrollView.measuredHeight
+
+            // 끝에서 300px 이내면 로드
+            if (scrollY >= totalHeight - visibleHeight - 300) {
+                if (!isLoading && currentCursor != null) {
+                    loadReviews()
+                }
             }
         }
+//        binding.rvAllReviews.setInfiniteScrollListener {
+//            if (!isLoading // 로딩 중이 아니고
+//                && currentCursor != null) { // 다음 페이지가 있으면
+//                loadReviews() // 다음 페이지 로드
+//            }
+//        }
     }
 
     // 리뷰 좋아요 버튼 설정

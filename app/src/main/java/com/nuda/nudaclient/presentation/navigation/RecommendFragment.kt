@@ -15,7 +15,6 @@ import com.nuda.nudaclient.data.remote.RetrofitClient.productsService
 import com.nuda.nudaclient.data.remote.dto.common.Product
 import com.nuda.nudaclient.databinding.FragmentRecommendBinding
 import com.nuda.nudaclient.extensions.executeWithHandler
-import com.nuda.nudaclient.extensions.setInfiniteScrollListener
 import com.nuda.nudaclient.presentation.common.activity.BaseActivity
 import com.nuda.nudaclient.presentation.common.fragment.SortBottomSheet
 import com.nuda.nudaclient.presentation.product.ProductDetailActivity
@@ -190,13 +189,6 @@ class RecommendFragment : Fragment() {
                 }
             }
         }
-//        binding.rvRecommendRanking.setInfiniteScrollListener {
-//            Log.d("SCROLL", "dy 통과 / isLoading=$isLoading / cursor=$currentCursor")
-//            if (!isLoading // 로딩 중이 아니고
-//                && currentCursor != null) { // 다음 페이지가 있으면
-//                loadKeywordRanking() // 다음 페이지 로드
-//            }
-//        }
     }
 
     // 키워드별 맞춤 상품 랭킹 조회 API 요청 및 응답 저장
