@@ -3,6 +3,7 @@ package com.nuda.nudaclient.presentation.shopping
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -38,6 +39,12 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 아무것도 안 함 → 뒤로가기 막힘
+            }
+        })
 
         // paymentId 전달 받기
         paymentId = intent.getIntExtra("PAYMENT_ID", -1)
