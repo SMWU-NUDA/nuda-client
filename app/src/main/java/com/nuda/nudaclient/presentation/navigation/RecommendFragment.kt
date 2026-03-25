@@ -207,7 +207,12 @@ class RecommendFragment : Fragment() {
                     body.data?.let { data ->
                         if (currentCursor == null) { // 첫 로드이거나 필터 변경 후 첫 로드인 경우
                             productAdapter.submitList(data.content)
-                            setTop3Product(data.content.take(3)) // 상위 3개 제품 데이터 바인딩
+                            if (data.content.size >= 3) {
+                                binding.clTop3.visibility = View.VISIBLE
+                                setTop3Product(data.content.take(3))
+                            } else {
+                                binding.clTop3.visibility = View.GONE // top3 영역 숨김
+                            }
                         } else { // 첫 로드가 아닌 경우
                             productAdapter.appendItems(data.content) // 무한 스크롤 추가
                         }
