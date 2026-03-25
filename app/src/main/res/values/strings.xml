@@ -78,7 +78,7 @@
     <string name="survey_scent_low">무향</string>
     <string name="survey_scent_middle">은은한 향</string>
     <string name="survey_scent_high">강한 향</string>
-    <string name="survey_flow">월결 기간 중 하루 평균 교체 횟수는?</string>
+    <string name="survey_flow">월경 기간 중 하루 평균 교체 횟수는?</string>
     <string name="survey_flow_low">2-3회 이하</string>
     <string name="survey_flow_middle">4-5회</string>
     <string name="survey_flow_high">6회 이상</string>

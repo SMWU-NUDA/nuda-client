@@ -8,10 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".presentation.signup.SignupSurveyActivity">
 
-    <!--툴바-->
-
-    <!--스크롤뷰-->
-
     <!--툴바 높이 가이드라인-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolBar"
