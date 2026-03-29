@@ -59,6 +59,11 @@ interface ShoppingService {
     @POST("orders")
     fun createOrder(@Body request: ShoppingCreateOrderRequest) : Call<ApiResponse<ShoppingCreateOrderResponse>>
 
+    // 주문 1
+    // POST /orders/direct : 바로 결제 주문 등록
+    @POST("orders/direct")
+    fun createDirectOrder(@Body request: ShoppingCreateOrderRequest.Item) : Call<ApiResponse<ShoppingCreateOrderResponse>>
+
     // GET /orders : 나의 주문 목록 조회
     @GET("orders")
     fun getOrderHistory(@Query("cursor") cursor: Int?, @Query("size") size: Int = 20) : Call<ApiResponse<ShoppingGetOrderHistoryResponse>>

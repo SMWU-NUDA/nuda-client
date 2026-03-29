@@ -648,13 +648,11 @@ class ProductDetailActivity : BaseActivity() {
         }
         // 바로 구매 버튼 설정
         binding.btnOrder.setOnClickListener {
-            val items = listOf(
-                ShoppingCreateOrderRequest.Item(
-                    productId = productId,
-                    quantity = 1
-                ))
-            // 1. 주문 등록 API 호출
-            shoppingService.createOrder(ShoppingCreateOrderRequest(items))
+            // 1. 바로 결제 주문 등록 API 호출
+            shoppingService.createDirectOrder(request = ShoppingCreateOrderRequest.Item(
+                productId = productId,
+                quantity = 1 // 바로 결제는 해당 상품 1개만 주문 가능
+            ))
                 .executeWithHandler(
                     context = this,
                     onSuccess = { body ->
