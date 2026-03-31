@@ -200,7 +200,10 @@
                 app:tabIndicatorHeight="2dp"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/gray1"
-                app:tabTextColor="@color/gray2">
+                app:tabTextColor="@color/gray2"
+                android:background="@color/white"
+                android:elevation="8dp"
+                >
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
@@ -1055,6 +1058,8 @@
         app:tabSelectedTextColor="@color/gray1"
         app:tabTextColor="@color/gray2"
         android:visibility="gone"
+        android:background="@color/white"
+        android:elevation="8dp"
         >
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
