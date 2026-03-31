@@ -50,7 +50,7 @@ class ProductImagesAdapter(
         fun bind(imageUrl: String) {
             Glide.with(binding.root.context)
                 .load(imageUrl)
-                .placeholder(R.drawable.image_product2)
+                .placeholder(R.drawable.loading)
                 .error(R.drawable.image_product2)
                 .centerCrop()
                 .into(binding.ivProduct)
