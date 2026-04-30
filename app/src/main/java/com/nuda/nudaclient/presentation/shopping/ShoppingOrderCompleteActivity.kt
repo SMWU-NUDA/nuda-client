@@ -91,7 +91,7 @@ class ShoppingOrderCompleteActivity : BaseActivity() {
                                 itemBinding.tvPrice.text = item.totalPrice.toFormattedPrice()
                                 Glide.with(this)
                                     .load(item.thumbnailImg)
-                                    .placeholder(R.drawable.image_product2)
+                                    .placeholder(R.drawable.loading)
                                     .error(R.drawable.image_product)
                                     .centerCrop()
                                     .into(itemBinding.ivProduct)

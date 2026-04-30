@@ -1,6 +1,5 @@
 package com.nuda.nudaclient.utils
 
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat

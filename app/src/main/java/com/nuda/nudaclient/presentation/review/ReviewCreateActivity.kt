@@ -196,7 +196,7 @@ class ReviewCreateActivity : BaseActivity() {
                             // 상품 이미지
                             Glide.with(this)
                                 .load(data.mainImageUrls[0])
-                                .placeholder(R.drawable.image_product2)
+                                .placeholder(R.drawable.loading)
                                 .error(R.drawable.image_product)
                                 .centerCrop()
                                 .into(binding.itemProductCard.ivProduct)

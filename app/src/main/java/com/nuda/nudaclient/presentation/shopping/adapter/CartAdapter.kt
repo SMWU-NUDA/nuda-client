@@ -116,7 +116,7 @@ class CartAdapter(
             // 상품 이미지 : URL 문자열 이미지로 로드 및 업데이트
             Glide.with(binding.root.context)
                 .load(productItem.thumbnailImg)
-                .placeholder(R.drawable.image_product2)
+                .placeholder(R.drawable.loading)
                 .error(R.drawable.image_product)
                 .centerCrop()
                 .into(binding.ivProduct)

@@ -372,7 +372,7 @@ class WishlistFragment : Fragment() {
         // 상품 이미지 UI 업데이트
         Glide.with(this)
             .load(product.thumbnailImg)
-            .placeholder(R.drawable.image_product2)
+            .placeholder(R.drawable.loading)
             .error(R.drawable.image_product)
             .into(itemBinding.ivProduct)
 
@@ -403,7 +403,7 @@ class WishlistFragment : Fragment() {
         // 상품 이미지 UI 업데이트
         Glide.with(this)
             .load(brand.logoImg)
-            .placeholder(R.drawable.image_product2)
+            .placeholder(R.drawable.loading)
             .error(R.drawable.image_brand)
             .into(itemBinding.ivBrand)
 

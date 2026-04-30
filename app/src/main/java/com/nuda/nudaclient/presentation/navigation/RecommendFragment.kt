@@ -247,7 +247,7 @@ class RecommendFragment : Fragment() {
             binding.tvProductNameRank1.text = product.productName
             Glide.with(this)
                 .load(product.thumbnailImg)
-                .placeholder(R.drawable.image_product2)
+                .placeholder(R.drawable.loading)
                 .error(R.drawable.image_product)
                 .centerCrop()
                 .into(binding.ivProductRank1)
@@ -257,7 +257,7 @@ class RecommendFragment : Fragment() {
             binding.tvProductNameRank2.text = product.productName
             Glide.with(this)
                 .load(product.thumbnailImg)
-                .placeholder(R.drawable.image_product2)
+                .placeholder(R.drawable.loading)
                 .error(R.drawable.image_product)
                 .centerCrop()
                 .into(binding.ivProductRank2)
@@ -267,7 +267,7 @@ class RecommendFragment : Fragment() {
             binding.tvProductNameRank3.text = product.productName
             Glide.with(this)
                 .load(product.thumbnailImg)
-                .placeholder(R.drawable.image_product2)
+                .placeholder(R.drawable.loading)
                 .error(R.drawable.image_product)
                 .centerCrop()
                 .into(binding.ivProductRank3)

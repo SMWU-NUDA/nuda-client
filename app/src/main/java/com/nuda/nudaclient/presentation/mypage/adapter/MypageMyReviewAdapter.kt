@@ -42,7 +42,7 @@ class MypageMyReviewAdapter
             // URL 문자열 이미지로 로드 및 업데이트
             Glide.with(binding.root.context)
                 .load(review.productThumbnail)
-                .placeholder(R.drawable.image_product2)
+                .placeholder(R.drawable.loading)
                 .error(R.drawable.image_product)
                 .centerCrop()
                 .into(binding.ivProductImage)
@@ -61,7 +61,7 @@ class MypageMyReviewAdapter
                     // 문자열 리뷰 이미지 로드
                     Glide.with(itemBinding.root.context)
                         .load(imageUrl)
-                        .placeholder(R.drawable.image_product2)
+                        .placeholder(R.drawable.loading)
                         .error(R.drawable.image_product)
                         .centerCrop()
                         .into(itemBinding.root as ImageView)

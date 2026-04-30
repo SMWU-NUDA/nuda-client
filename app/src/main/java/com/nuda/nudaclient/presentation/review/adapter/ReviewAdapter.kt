@@ -99,7 +99,7 @@ class ReviewAdapter(
             // 프로필 이미지
             Glide.with(binding.root.context)
                 .load(review.me.profileImg)
-                .placeholder(R.drawable.image_product2)
+                .placeholder(R.drawable.loading)
                 .error(R.drawable.image_product)
                 .centerCrop()
                 .into(binding.ivProfile)
@@ -120,7 +120,7 @@ class ReviewAdapter(
                     // 문자열 리뷰 이미지 로드
                     Glide.with(itemBinding.root.context)
                         .load(imageUrl)
-                        .placeholder(R.drawable.image_product2)
+                        .placeholder(R.drawable.loading)
                         .error(R.drawable.image_product)
                         .centerCrop()
                         .into(itemBinding.root as ImageView)
