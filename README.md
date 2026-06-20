@@ -24,3 +24,5 @@
 - 커서 기반 무한 스크롤, S3 이미지 업로드, 성분 바 그래프 시각화 구현
 - QA 문서 작성 및 APK 릴리즈 빌드
 
+<img width="1587" height="2245" alt="클리나_2026 졸업 포스터" src="https://github.com/user-attachments/assets/b459a584-a002-4806-82d5-eb0ff4b92659" />
+
