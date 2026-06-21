@@ -34,8 +34,6 @@ class SignupAccountActivity : AppCompatActivity() {
 
     private val TAG = "SignupAccountActivity"
 
-    // TODO: security(auth): (signup) SharedPreferences에서 비밀번호 저장 제거 (회원가입 시 비밀번호는 서버 전송 후 즉시 폐기)
-
     // 뷰 바인딩 객체 선언
     lateinit var binding : ActivitySignupAccountBinding
 
@@ -175,8 +173,6 @@ class SignupAccountActivity : AppCompatActivity() {
         // 상태 복원
         isNicknameValid = SignupDataManager.isNicknameValid
         isUsernameValid = SignupDataManager.isUsernameValid
-        isPwValid = SignupDataManager.isPwValid
-        isPwCheckValid = SignupDataManager.isPwCheckValid
         isEmailValid = SignupDataManager.isEmailValid
         isEmailCertifyValid = SignupDataManager.isEmailCertifyValid
         isNicknameAvailable = SignupDataManager.isNicknameAvailable
@@ -187,8 +183,6 @@ class SignupAccountActivity : AppCompatActivity() {
         // 텍스트 복원
         et_nickname.setText(SignupDataManager.nickname ?: "")
         et_username.setText(SignupDataManager.username ?: "")
-        et_pw.setText(SignupDataManager.password ?: "")
-        et_pwCheck.setText(SignupDataManager.passwordCheck ?: "")
         et_email.setText(SignupDataManager.email ?: "")
 
         // UI 복원
@@ -209,15 +203,6 @@ class SignupAccountActivity : AppCompatActivity() {
         if (isUsernameAvailable) {
             tv_duplicateUsername.text = getString(R.string.btnValid_id_true)
             tv_duplicateUsername.setTextColor(ContextCompat.getColor(this@SignupAccountActivity, R.color.green))
-        }
-        // 비밀번호
-        if (isPwValid) {
-            setPasswordValidationColor(R.color.green, R.color.green)
-        }
-        // 비밀번호 확인
-        if (isPwCheckValid) {
-            tv_validPwCheck.text = getString(R.string.valid_pw_check_true)
-            tv_validPwCheck.setTextColor(ContextCompat.getColor(this, R.color.green))
         }
         // 이메일 코드 전송 완료
         if (isEmailSendSuccess) {
@@ -739,15 +724,11 @@ class SignupAccountActivity : AppCompatActivity() {
         // 입력한 계정 정보
         SignupDataManager.nickname = et_nickname.text.toString().trim()
         SignupDataManager.username = et_username.text.toString().trim()
-        SignupDataManager.password = et_pw.text.toString().trim()
-        SignupDataManager.passwordCheck = et_pwCheck.text.toString().trim()
         SignupDataManager.email = et_email.text.toString().trim()
 
         // 유효성 검사 상태
         SignupDataManager.isNicknameValid = isNicknameValid
         SignupDataManager.isUsernameValid = isUsernameValid
-        SignupDataManager.isPwValid = isPwValid
-        SignupDataManager.isPwCheckValid = isPwCheckValid
         SignupDataManager.isEmailValid = isEmailValid
         SignupDataManager.isEmailCertifyValid = isEmailCertifyValid
         SignupDataManager.isNicknameAvailable = isNicknameAvailable

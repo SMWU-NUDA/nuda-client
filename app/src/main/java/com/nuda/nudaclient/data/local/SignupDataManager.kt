@@ -11,16 +11,12 @@ import java.util.Locale
 
 object SignupDataManager {
 
-    // TODO: clearExpiredData(), isDraftExpired() 사용되는 액티비티에서 expiredAt 유효기간이 잘 전달되었는지 흐름 확인하기
-
     private const val PREF_NAME = "signup_data"
     private const val KEY_EXPIRES_AT = "expires_at"
 
     private const val KEY_NICKNAME = "nickname"
     private const val KEY_USERNAME = "username"
     private const val KEY_EMAIL = "email"
-    private const val KEY_PASSWORD = "password"
-    private const val KEY_PASSWORD_CHECK = "password_check"
 
     private const val KEY_RECIPIENT = "recipient"
     private const val KEY_PHONE_NUM = "phone_num"
@@ -37,8 +33,6 @@ object SignupDataManager {
 
     private const val KEY_IS_NICKNAME_VALID = "is_nickname_valid"
     private const val KEY_IS_USERNAME_VALID = "is_username_valid"
-    private const val KEY_IS_PW_VALID = "is_pw_valid"
-    private const val KEY_IS_PW_CHECK_VALID = "is_pw_check_valid"
     private const val KEY_IS_EMAIL_VALID = "is_email_valid"
     private const val KEY_IS_EMAIL_CERTIFY_VALID = "is_email_certify_valid"
     private const val KEY_IS_NICKNAME_AVAILABLE = "is_nickname_available"
@@ -108,8 +102,6 @@ object SignupDataManager {
                 putString(KEY_NICKNAME, nickname)
                 putString(KEY_USERNAME, username)
                 putString(KEY_EMAIL, email)
-                putString(KEY_PASSWORD, password)
-                putString(KEY_PASSWORD_CHECK, passwordCheck)
                 // 배송 정보 저장
                 putString(KEY_RECIPIENT, recipient)
                 putString(KEY_PHONE_NUM, phoneNum)
@@ -127,8 +119,6 @@ object SignupDataManager {
                 //계정 정보 상태 저장
                 putBoolean(KEY_IS_NICKNAME_VALID, isNicknameValid)
                 putBoolean(KEY_IS_USERNAME_VALID, isUsernameValid)
-                putBoolean(KEY_IS_PW_VALID, isPwValid)
-                putBoolean(KEY_IS_PW_CHECK_VALID, isPwCheckValid)
                 putBoolean(KEY_IS_EMAIL_VALID, isEmailValid)
                 putBoolean(KEY_IS_EMAIL_CERTIFY_VALID, isEmailCertifyValid)
                 putBoolean(KEY_IS_NICKNAME_AVAILABLE, isNicknameAvailable)
@@ -152,8 +142,6 @@ object SignupDataManager {
         nickname = pref.getString(KEY_NICKNAME, null)
         username = pref.getString(KEY_USERNAME, null)
         email = pref.getString(KEY_EMAIL, null)
-        password = pref.getString(KEY_PASSWORD, null)
-        passwordCheck = pref.getString(KEY_PASSWORD_CHECK, null)
 
         recipient = pref.getString(KEY_RECIPIENT, null)
         phoneNum = pref.getString(KEY_PHONE_NUM, null)
@@ -177,8 +165,6 @@ object SignupDataManager {
 
         isNicknameValid = pref.getBoolean(KEY_IS_NICKNAME_VALID, false)
         isUsernameValid = pref.getBoolean(KEY_IS_USERNAME_VALID, false)
-        isPwValid = pref.getBoolean(KEY_IS_PW_VALID, false)
-        isPwCheckValid = pref.getBoolean(KEY_IS_PW_CHECK_VALID, false)
         isEmailValid = pref.getBoolean(KEY_IS_EMAIL_VALID, false)
         isEmailCertifyValid = pref.getBoolean(KEY_IS_EMAIL_CERTIFY_VALID, false)
         isNicknameAvailable = pref.getBoolean(KEY_IS_NICKNAME_AVAILABLE, false)
