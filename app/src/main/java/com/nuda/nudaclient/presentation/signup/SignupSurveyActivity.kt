@@ -389,8 +389,6 @@ class SignupSurveyActivity : AppCompatActivity() {
                     if (body.success == true) {
                         // 최신 draft 조회 및 pref 백업
                         backupSurvey()
-                        // 회원가입 API 호출
-                        signupCommit()
                     }
                 }
             )
@@ -434,6 +432,9 @@ class SignupSurveyActivity : AppCompatActivity() {
                         saveSurveyData()
                         // pref 백업
                         SignupDataManager.backupPrefData(this)
+
+                        // 회원가입 API 호출
+                        signupCommit()
                     }
                 }
             )

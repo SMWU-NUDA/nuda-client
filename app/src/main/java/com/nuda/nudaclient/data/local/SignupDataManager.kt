@@ -147,6 +147,8 @@ object SignupDataManager {
     fun loadPrefData(context: Context) {
         val pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
+        expiresAt = pref.getString(KEY_EXPIRES_AT, null)
+
         nickname = pref.getString(KEY_NICKNAME, null)
         username = pref.getString(KEY_USERNAME, null)
         email = pref.getString(KEY_EMAIL, null)

@@ -383,11 +383,6 @@ class SignupDeliveryActivity : AppCompatActivity() {
                     if(body.success == true) {
                         // 최신 draft 조회 및 pref 백업
                         backupDelivery()
-                        // 회원가입 3단계 페이지로 이동 (SignupSurveyActivity)
-                        val intent = Intent(this, SignupSurveyActivity::class.java)
-                        startActivity(intent)
-
-                        Log.d("API_DEBUG", "[$TAG] 회원가입 2단계 성공, 3단계로 이동")
                     }
                 }
             )
@@ -407,6 +402,12 @@ class SignupDeliveryActivity : AppCompatActivity() {
                         saveDeliveryData()
                         // pref에 전체 백업
                         SignupDataManager.backupPrefData(this)
+
+                        // 회원가입 3단계 페이지로 이동 (SignupSurveyActivity)
+                        val intent = Intent(this, SignupSurveyActivity::class.java)
+                        startActivity(intent)
+
+                        Log.d("API_DEBUG", "[$TAG] 회원가입 2단계 성공, 3단계로 이동")
                     }
                 }
             )
